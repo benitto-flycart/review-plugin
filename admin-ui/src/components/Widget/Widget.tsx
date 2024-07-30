@@ -19,7 +19,8 @@ const Widget = () => {
                     <CardDescription>Customize your new project in one-click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts</p>
+                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from
+                        multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
                     <NavLink
@@ -36,11 +37,12 @@ const Widget = () => {
                     <CardDescription>Customize your new project in one-click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts</p>
+                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from
+                        multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
                     <NavLink
-                        to={"/widgets/product-review-widget"}>
+                        to={"/widgets/popup-widget"}>
                         <Button>Configure</Button>
                     </NavLink>
                 </CardFooter>
@@ -52,11 +54,12 @@ const Widget = () => {
                     <CardDescription>Customize your new project in one-click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts</p>
+                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from
+                        multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
                     <NavLink
-                        to={"/widgets/product-review-widget"}>
+                        to={"/widgets/review-sidebar-widget"}>
                         <Button>Configure</Button>
                     </NavLink>
                 </CardFooter>
@@ -69,11 +72,12 @@ const Widget = () => {
                     <CardDescription>Customize your new project in one-click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts</p>
+                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from
+                        multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
                     <NavLink
-                        to={"/widgets/product-review-widget"}>
+                        to={"/widgets/floting-product-widget"}>
                         <Button>Configure</Button>
                     </NavLink>
                 </CardFooter>
