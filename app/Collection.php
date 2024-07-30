@@ -2,7 +2,8 @@
 
 namespace Flycart\Review\App;
 
-use Cartrabbit\Request\Response;
+
+use Flycart\Review\Package\Request\Response;
 
 abstract class Collection
 {
