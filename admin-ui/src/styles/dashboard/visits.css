@@ -1,0 +1,25 @@
+.visits {
+    & tr,td {
+       
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue", "sans-serif";
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-align: left;
+    }
+
+    & tr{
+
+        margin-top:15px;
+        width:95%;
+
+    }
+
+
+    & thead {
+        width: 98%;
+        height: 44px;
+        border-radius: 10px;
+        background: #F3F4F6;
+
+    }
+}

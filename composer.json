@@ -1,0 +1,15 @@
+{
+  "name": "flycart/reviews",
+  "autoload": {
+    "psr-4": {
+      "Flycart\\Review\\App\\": "app/",
+      "Flycart\\Review\\Core\\": "Core/",
+      "Flycart\\Review\\Pro\\": "Pro/",
+      "Flycart\\Review\\Package\\Request\\": "package/Request/src/"
+    }
+  },
+  "require": {
+    "vlucas/valitron": "^1.4",
+    "yahnis-elsts/plugin-update-checker": "v4.9"
+  }
+}

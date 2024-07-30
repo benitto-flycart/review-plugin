@@ -1,0 +1,63 @@
+# Copyright (C) 2024 FlycartReviews
+# This file is distributed under the GPL v3 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Flycart Reviews 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flycart-reviews\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-07-29T11:43:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: flycart-review\n"
+
+#. Plugin Name of the plugin
+#: flycart-reviews.php
+msgid "Flycart Reviews"
+msgstr ""
+
+#. Description of the plugin
+#: flycart-reviews.php
+msgid "Reviews for Woo Commerce"
+msgstr ""
+
+#. Author of the plugin
+#: flycart-reviews.php
+msgid "FlycartReviews"
+msgstr ""
+
+#. Author URI of the plugin
+#: flycart-reviews.php
+msgid "https://www.wprelay.com"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:45
+msgid "Review Request Body"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:46
+msgid "Review Request Subject"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:47
+msgid "Review Request Button Text"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:68
+msgid "Review Remainder Body"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:69
+msgid "Review Remainder Subject"
+msgstr ""
+
+#: Core/Models/EmailSetting.php:70
+msgid "Review Remainder Button Text"
+msgstr ""
+
+#: flycart-reviews.php:49
+msgid "benitto"
+msgstr ""
