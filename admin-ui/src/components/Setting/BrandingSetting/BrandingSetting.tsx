@@ -11,15 +11,14 @@ import {Switch} from "../../ui/switch";
 import {Popover, PopoverContent, PopoverTrigger} from "../../ui/popover";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
+import {axiosClient} from "../../../helpers/axios";
+import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {useLocalState} from "../../zustand/localState";
 
 const BrandingSetting = () => {
     const [loading, setLoading] = useState(true);
     const [saveChangesLoading, setSaveChangesLoading] = useState(false);
-
-
-    useEffect(() => {
-        setLoading(true);
-    }, []);
+    const {localState} = useLocalState();
 
     let frame: any;
     const runUploader = (event: any) => {
@@ -47,13 +46,13 @@ const BrandingSetting = () => {
 
     const schema = yup.object().shape({
         enable_logo: yup.boolean().required("Enable logo is required"),
-        logo: yup.string().required("Logo is required"),
+        logo: yup.string().optional(),
         corner_radius: yup.string().required("Corner Radius is required"),
         rating_icon_style: yup.string().required("Rating Icon Style is required"),
         rating_rgb_color: yup.string().required("Rating color is required"),
         enable_review_branding: yup.boolean().required("Enable Review Branding is required"),
         enable_email_banners: yup.boolean().required("Enable email Banners is required"),
-        banner_src: yup.string().required("Banner src is required"),
+        banner_src: yup.string().optional(),
         appearance: yup.string().required("Appearance is required"),
         appearance_options: yup.object().shape({
             email_background_color: yup.string().required('Email Background color is required'),
@@ -88,7 +87,7 @@ const BrandingSetting = () => {
             button_border_color: '#fffff',
             button_title_color: '#fffff',
             font_type: 'arial',
-            font_size: 0,
+            font_size: 10,
         },
     };
 
@@ -99,14 +98,51 @@ const BrandingSetting = () => {
 
     const onSubmit = (data: any) => {
         // Handle form data here
-
         console.log(data);
-        console.log('Logging data')
+        saveBrandSettings(data)
+
+    };
+
+    const getBrandSettings = () => {
+        axiosClient.post('', {
+            method: 'get_brand_settings',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    };
+
+    const saveBrandSettings = (data: any) => {
+        axiosClient.post('', {
+            method: 'save_brand_settings',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            ...data
+        }).then((response: any) => {
+            let data = response.data.data
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        });
     };
 
     const values = form.watch();
+
     console.log('printing errors');
     console.log(form.formState.errors);
+
+    useEffect(() => {
+        setLoading(true);
+        getBrandSettings();
+
+    }, []);
 
     return (
         <Card>

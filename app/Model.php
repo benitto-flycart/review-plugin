@@ -2,10 +2,9 @@
 
 namespace Flycart\Review\App;
 
-use RelayWp\Affiliate\App\Services\Database;
-use Cartrabbit\Request\Response;
-use RelayWp\Affiliate\App\Traits\Conditionable;
-use RelayWp\Affiliate\App\Traits\ForwardCalls;
+use Flycart\Review\App\Services\Database;
+use Flycart\Review\App\Traits\Conditionable;
+use Flycart\Review\App\Traits\ForwardCalls;
 
 abstract class Model
 {

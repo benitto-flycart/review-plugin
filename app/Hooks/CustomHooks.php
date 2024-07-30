@@ -9,7 +9,7 @@ class CustomHooks extends RegisterHooks
     {
         static::registerCoreHooks('custom-hooks.php');
 
-        if (rwp_app()->get('is_pro_plugin')) {
+        if (flycart_review_app()->get('is_pro_plugin')) {
             static::registerProHooks('custom-hooks.php');
         }
     }

@@ -9,6 +9,8 @@ class ReviewSetting extends Model
 {
     protected static $table = 'review_setting';
 
+    public const BRAND_SETTINGS = 'brand_settings';
+
     public function createTable()
     {
         $charset = static::getCharSetCollate();

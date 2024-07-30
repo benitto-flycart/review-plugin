@@ -22,7 +22,7 @@ class PluginHelper
 
         $routes = [];
         if ($is_pro) {
-            $routes = require(F_Review_PLUGIN_PATH . '../wprelay-pro/Pro/routes/auth-api.php');
+            $routes = require(F_Review_PLUGIN_PATH . '../flycart-reviews/Pro/routes/auth-api.php');
         }
 
         $core_routes = require(F_Review_PLUGIN_PATH . 'Core/routes/auth-api.php');
@@ -35,7 +35,7 @@ class PluginHelper
     public static function pluginRoutePath($pro = false)
     {
         if ($pro) {
-            return F_Review_PLUGIN_PATH . '../wprelay-pro/Pro/routes';
+            return F_Review_PLUGIN_PATH . '../flycart-reviews/Pro/routes';
         }
 
         return F_Review_PLUGIN_PATH . 'Core/routes';

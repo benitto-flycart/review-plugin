@@ -7,7 +7,7 @@ class WooCommerceHooks extends RegisterHooks
     {
         static::registerCoreHooks('woocommerce-hooks.php');
 
-        if (rwp_app()->get('is_pro_plugin')) {
+        if (flycart_review_app()->get('is_pro_plugin')) {
             static::registerProHooks('woocommerce-hooks.php');
         }
     }
