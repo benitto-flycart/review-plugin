@@ -43,6 +43,7 @@ class LocalDataController
                 'version' => F_Review_VERSION,
                 'available_languages' => WordpressHelper::getAvailableLanguages(),
                 'current_locale' => get_locale(),
+                'order_statuses' => wc_get_order_statuses(),
             ];
 
             $localize = apply_filters('flycart_review_pro_local_data', $localData);

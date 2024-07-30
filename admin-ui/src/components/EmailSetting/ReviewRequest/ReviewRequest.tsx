@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useForm, useWatch} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {Card, CardContent} from "@/src/components/ui/card";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
@@ -14,7 +14,7 @@ import {Button} from "../../ui/button";
 import {axiosClient} from "../../../helpers/axios";
 import {useLocalState} from "../../zustand/localState";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
-import {Simulate} from "react-dom/test-utils";
+import EmailSettingEmpty from "../EmailSettingEmpty";
 
 type FormValues = {
     language: string;
@@ -24,6 +24,7 @@ type FormValues = {
 };
 const ReviewRequest = () => {
     const [savedReviewRequests, setSavedReviewRequests] = useState<any>([])
+    const [listLoading, setListLoading] = useState<boolean>(true)
 
     const {localState} = useLocalState();
 
@@ -86,6 +87,7 @@ const ReviewRequest = () => {
     };
 
     const fetchReviewRequestEmailSettings = () => {
+        setListLoading(true)
         axiosClient.post('', {
             method: 'get_review_request_email_settings_list',
             _wp_nonce_key: 'flycart_review_nonce',
@@ -95,9 +97,10 @@ const ReviewRequest = () => {
             setSavedReviewRequests(data.list);
         }).catch((error: any) => {
             toastrError("Server Error Occurred");
+        }).finally(() => {
+            setListLoading(false)
         });
     }
-
 
 
     const values = form.watch();
@@ -112,14 +115,14 @@ const ReviewRequest = () => {
     }, [values.language]);
 
     return (
-        <div className="frt-w-3/4 frt-mx-auto frt-my-4">
-            <Tabs defaultValue={'add'} className="frt-w-full  frt-gap-3">
+        <div className="frt-my-4 frt-p-4">
+            <Tabs defaultValue={'list'} className="frt-w-full  frt-gap-3">
                 <TabsList className="frt-space-x-0">
-                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
-                        Add
-                    </TabsTrigger>
                     <TabsTrigger className="tabs-trigger frt-w-full" value="list">
                         List
+                    </TabsTrigger>
+                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
+                        Add
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="add" className="!frt-w-full frt-px-4">
@@ -134,9 +137,9 @@ const ReviewRequest = () => {
                                 <span>&rarr;	</span>
                             </CardContent>
                         </Card>
-                        <Card className="frt-p-4">
-                            <Form {...form} >
-                                <form onSubmit={form.handleSubmit(saveReviewRequest)}>
+                        <Form {...form} >
+                            <form onSubmit={form.handleSubmit(saveReviewRequest)}>
+                                <Card className="frt-p-4 frt-my-4">
                                     <FormField
                                         control={form.control}
                                         name="language"
@@ -170,9 +173,10 @@ const ReviewRequest = () => {
                                             </FormItem>
                                         )}
                                     />
+                                </Card>
 
+                                <Card className="frt-p-4">
                                     <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
-
                                     <FormField
                                         control={form.control}
                                         name="subject"
@@ -193,9 +197,11 @@ const ReviewRequest = () => {
                                                         </FormControl>
                                                         <FormDescription>
                                                             Notes:
-                                                            <p>Use [order_number] for the customer's order number
+                                                            <p>Use [order_number] for the customer's order
+                                                                number
                                                             </p>
-                                                            <p>Use [name] or [last_name] as a placeholder for the user's
+                                                            <p>Use [name] or [last_name] as a placeholder for
+                                                                the user's
                                                                 first or last name</p>
                                                         </FormDescription>
                                                         <FormMessage/>
@@ -252,12 +258,15 @@ const ReviewRequest = () => {
                                         )}
                                     />
                                     <Button type={"submit"}>
-                                        <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>
+                                                <span className="frt-mx-2"><ClipLoader color="white"
+                                                                                       size={"20px"}/></span>
                                         <span>Save Changes</span>
                                     </Button>
-                                </form>
-                            </Form>
-                        </Card>
+
+                                </Card>
+                            </form>
+                        </Form>
+
                     </div>
                 </TabsContent>
                 <TabsContent value="list" className="!frt-w-full frt-py-4">
@@ -281,36 +290,41 @@ const ReviewRequest = () => {
                                     className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Preview
                                 </div>
                             </div>
-                            <div className='frt-flex frt-flex-col frt-gap-4'>
-                                {
-                                    savedReviewRequests?.map((item: any, index: any) => {
-                                        return (
-                                            <Card key={index}
-                                                  className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
-                                                <div
-                                                    className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.button_text}</div>
-                                                <div
-                                                    className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
-                                                </div>
-                                            </Card>
+                            {listLoading ? (
+                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                                    <ClipLoader
+                                        color="black"
+                                        size={"20px"}
+                                    />
+                                </div>) : (
+                                <div className='frt-flex frt-flex-col frt-gap-4'>
+                                    {savedReviewRequests?.length > 0 ? (
+                                        savedReviewRequests?.map((item: any, index: any) => {
+                                            return (
+                                                <Card key={index}
+                                                      className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.button_text}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
+                                                    </div>
+                                                </Card>
+                                            )
+                                        })
+                                    ) : <EmailSettingEmpty/>}
+                                </div>
+                            )}
 
-                                        )
-                                    })
-                                }
-
-                            </div>
                         </div>
                     </div>
                 </TabsContent>
             </Tabs>
-
-
         </div>
     );
 };

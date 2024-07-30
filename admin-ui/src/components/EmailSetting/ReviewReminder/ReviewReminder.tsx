@@ -23,6 +23,9 @@ type FormValues = {
 };
 const ReviewReminder = () => {
     const [savedReviewReminders, setSavedReviewReminders] = useState<any>([])
+
+    const [listLoading, setListLoading] = useState<boolean>(true)
+
     const {localState} = useLocalState();
 
     const defaultValues: FormValues = {
@@ -88,6 +91,7 @@ const ReviewReminder = () => {
     };
 
     const fetchReviewRemainderEmailSettings = () => {
+        setListLoading(true)
         axiosClient.post('', {
             method: 'get_review_remainder_email_settings_list',
             _wp_nonce_key: 'flycart_review_nonce',
@@ -97,6 +101,8 @@ const ReviewReminder = () => {
             setSavedReviewReminders(data.list);
         }).catch((error: any) => {
             toastrError("Server Error Occurred");
+        }).finally(() => {
+            setListLoading(false)
         });
     }
 
@@ -111,8 +117,6 @@ const ReviewReminder = () => {
     useEffect(() => {
         fetchReviewRemainderRequest(values.language);
     }, [values.language]);
-
-    console.log(values);
 
     return (
         <div className="frt-w-3/4 frt-mx-auto frt-my-4">
@@ -137,9 +141,10 @@ const ReviewReminder = () => {
                                 <span>&rarr;	</span>
                             </CardContent>
                         </Card>
-                        <Card className="frt-p-4">
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)}>
+
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                <Card className="frt-p-4 frt-my-4">
                                     <FormField
                                         control={form.control}
                                         name="language"
@@ -173,7 +178,8 @@ const ReviewReminder = () => {
                                             </FormItem>
                                         )}
                                     />
-
+                                </Card>
+                                <Card className="frt-p-4">
                                     <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
                                     <FormField
                                         control={form.control}
@@ -255,17 +261,17 @@ const ReviewReminder = () => {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type={"submit"}>
+                                    <Button type={"submit"} className={"frt-my-2"}>
                                         <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>
                                         <span>Save Changes</span>
                                     </Button>
-                                </form>
-                            </Form>
-                        </Card>
+                                </Card>
+                            </form>
+                        </Form>
                     </div>
                 </TabsContent>
-                <TabsContent value="list" className="!frt-w-full frt-px-4">
 
+                <TabsContent value="list" className="!frt-w-full frt-px-4">
                     <div className="frt-h-full">
                         <div className='frt-flex frt-flex-col frt-gap-4'>
                             <div className='frt-flex frt-justify-between frt-mt-5 frt-w-full frt-px-4'>
@@ -312,10 +318,7 @@ const ReviewReminder = () => {
                             </div>
                         </div>
                     </div>
-
                 </TabsContent>
-
-
             </Tabs>
 
 

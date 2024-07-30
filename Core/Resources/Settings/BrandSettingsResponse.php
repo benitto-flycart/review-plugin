@@ -11,8 +11,6 @@ class BrandSettingsResponse extends Resource
     public function toArray($settings)
     {
         return [
-            'language' => $settings['language'],
-            'language_label' => WordpressHelper::getLanguageLabel($settings['language']),
             'settings' => [
                 'corner_radius' => $settings['corner_radius'] ?? '',
                 'enable_logo' => $settings['enable_logo'] ?? false,
@@ -22,7 +20,7 @@ class BrandSettingsResponse extends Resource
                 'rating_rgb_color' => $settings['rating_rgb_color'] ?? '',
                 'appearance' => $settings['appearance'] ?? '',
                 'appearance_options' => [
-                    'email_background_color' => $settings['appearance_options']['appearance_options'] ?? '',
+                    'email_background_color' => $settings['appearance_options']['email_background_color'] ?? '',
                     'content_background_color' => $settings['appearance_options']['content_background_color'] ?? '',
                     'email_text_color' => $settings['appearance_options']['email_text_color'] ?? '',
                     'button_bg_color' => $settings['appearance_options']['button_bg_color'] ?? '',

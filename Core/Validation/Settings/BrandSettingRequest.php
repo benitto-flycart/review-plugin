@@ -18,16 +18,15 @@ class BrandSettingRequest implements FormRequest
             'enable_email_banners' => ['required'],
             'rating_rgb_color' => ['required'],
             'appearance' => ['required'],
-            'appearance_options' => [
-                'email_background_color' => ['required'],
-                'content_background_color' => ['required'],
-                'email_text_color' => ['required'],
-                'button_bg_color' => ['required'],
-                'button_border_color' => ['required'],
-                'button_title_color' => ['required'],
-                'font_type' => ['required'],
-                'font_size' => ['required'],
-            ],
+            'appearance_options' => ['required'],
+            'appearance_options.email_background_color' => ['required'],
+            'appearance_options.content_background_color' => ['required'],
+            'appearance_options.email_text_color' => ['required'],
+            'appearance_options.button_bg_color' => ['required'],
+            'appearance_options.button_border_color' => ['required'],
+            'appearance_options.button_title_color' => ['required'],
+            'appearance_options.font_type' => ['required'],
+            'appearance_options.font_size' => ['required'],
         ];
 
         return $rules;

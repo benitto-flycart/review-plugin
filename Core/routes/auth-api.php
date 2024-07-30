@@ -21,5 +21,11 @@ return [
 
     //Settings
     'get_brand_settings' => ['callable' => [SettingsController::class, 'getBrandSettings']],
-    'save_brand_settings' => ['callable' => [SettingsController::class, 'saveBrandSettings']]
+    'save_brand_settings' => ['callable' => [SettingsController::class, 'saveBrandSettings']],
+
+    'get_general_settings' => ['callable' => [SettingsController::class, 'getGeneralSettings']],
+    'save_general_settings' => ['callable' => [SettingsController::class, 'saveGeneralSettings']],
+
+    'get_discount_settings' => ['callable' => [SettingsController::class, 'getDiscountSettings']],
+    'save_discount_settings' => ['callable' => [SettingsController::class, 'saveDiscountSettings']]
 ];

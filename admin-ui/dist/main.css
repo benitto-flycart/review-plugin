@@ -1407,6 +1407,10 @@ video {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.frt-my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 .frt-ml-2 {
   margin-left: 0.5rem;
 }
@@ -1467,6 +1471,12 @@ video {
 .frt-h-px {
   height: 1px;
 }
+.frt-h-\[60vh\] {
+  height: 60vh;
+}
+.frt-h-\[40vh\] {
+  height: 40vh;
+}
 .frt-max-h-96 {
   max-height: 24rem;
 }
@@ -1509,6 +1519,12 @@ video {
 .frt-w-max {
   width: -moz-max-content;
   width: max-content;
+}
+.\!frt-w-\[200px\] {
+  width: 200px !important;
+}
+.\!frt-w-\[50px\] {
+  width: 50px !important;
 }
 .frt-min-w-\[8rem\] {
   min-width: 8rem;
@@ -1580,6 +1596,9 @@ video {
 }
 .frt-gap-4 {
   gap: 1rem;
+}
+.frt-gap-5 {
+  gap: 1.25rem;
 }
 .frt-space-x-0 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -1716,6 +1735,9 @@ video {
 .frt-p-6 {
   padding: 1.5rem;
 }
+.frt-p-5 {
+  padding: 1.25rem;
+}
 .\!frt-px-6 {
   padding-left: 1.5rem !important;
   padding-right: 1.5rem !important;
@@ -1765,6 +1787,9 @@ video {
 .frt-pt-0 {
   padding-top: 0px;
 }
+.frt-text-center {
+  text-align: center;
+}
 .frt-text-2\.5 {
   font-size: 10px;
 }
@@ -1793,6 +1818,10 @@ video {
 .frt-text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.frt-text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
 }
 .frt-font-bold {
   font-weight: 700;
