@@ -10,6 +10,9 @@ import DiscountReminder from "../EmailSetting/DiscountReminder";
 import ReplyToEmail from "../EmailSetting/ReplyToReview";
 import Widget from "../Widget";
 import ProductReviewWidget from "../Widget/ProductReviewWidget";
+import PopupWidget from "../Widget/PopupWidget/PopupWidget";
+import {ReviewSidebarWidget} from "../Widget/ReviewSidebarWidget/ReviewSidebarWidget";
+import {FloatingProductReviewsWidget} from "../Widget/FloatingProductReviewsWidget/FloatingProductReviewsWidget";
 
 
 function Router() {
@@ -19,12 +22,15 @@ function Router() {
             <Route path="/settings" element={<Setting/>}></Route>
             <Route path="/widgets" element={<Widget/>}></Route>
             <Route path="/email-settings" element={<EmailSetting/>}></Route>
-            <Route  path="emails/review-request" element={<ReviewRequest/>}/>
-            <Route  path="emails/review-reminder" element={<ReviewReminder/>}/>
-            <Route  path="emails/photo-reminder" element={<PhotoReminder/>}/>
-            <Route  path="emails/discount-reminder" element={<DiscountReminder/>}/>
-            <Route  path="emails/reply-to-review" element={<ReplyToEmail/>}/>
-            <Route  path="widgets/product-review-widget" element={<ProductReviewWidget/>}/>
+            <Route path="emails/review-request" element={<ReviewRequest/>}/>
+            <Route path="emails/review-reminder" element={<ReviewReminder/>}/>
+            <Route path="emails/photo-reminder" element={<PhotoReminder/>}/>
+            <Route path="emails/discount-reminder" element={<DiscountReminder/>}/>
+            <Route path="emails/reply-to-review" element={<ReplyToEmail/>}/>
+            <Route path="widgets/product-review-widget" element={<ProductReviewWidget/>}/>
+            <Route path="widgets/popup-widget" element={<PopupWidget/>}/>
+            <Route path="widgets/review-sidebar-widget" element={<ReviewSidebarWidget/>}/>
+            <Route path="widgets/floting-product-widget" element={<FloatingProductReviewsWidget/>}/>
         </Routes>
     );
 }
