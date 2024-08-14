@@ -14,6 +14,7 @@ import {Button} from "../../ui/button";
 import {useLocalState} from "../../zustand/localState";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import EmailSettingEmpty from "../EmailSettingEmpty";
 
 type FormValues = {
     language: string;
@@ -25,6 +26,8 @@ const ReviewReminder = () => {
     const [savedReviewReminders, setSavedReviewReminders] = useState<any>([])
 
     const [listLoading, setListLoading] = useState<boolean>(true)
+
+    const [updating, setUpdating] = useState<boolean>(false)
 
     const {localState} = useLocalState();
 
@@ -74,6 +77,7 @@ const ReviewReminder = () => {
     }
 
     const saveReviewRemainderRequest = (data: any) => {
+        setUpdating(true)
         axiosClient.post('', {
             method: 'save_review_remainder',
             _wp_nonce_key: 'flycart_review_nonce',
@@ -87,6 +91,8 @@ const ReviewReminder = () => {
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrSuccess('Server Error Occurred');
+        }).finally(()=> {
+            setUpdating(false)
         });
     };
 
@@ -119,14 +125,14 @@ const ReviewReminder = () => {
     }, [values.language]);
 
     return (
-        <div className="frt-w-3/4 frt-mx-auto frt-my-4">
-            <Tabs defaultValue={'add'} className="frt-w-full  frt-gap-3">
+        <div className="frt-mx-auto frt-my-4 frt-p-4">
+            <Tabs defaultValue={'list'} className="frt-w-full  frt-gap-3">
                 <TabsList className="frt-space-x-0">
-                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
-                        Add
-                    </TabsTrigger>
                     <TabsTrigger className="tabs-trigger frt-w-full" value="list">
                         List
+                    </TabsTrigger>
+                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
+                        Add
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="add" className="!frt-w-full frt-px-4">
@@ -262,7 +268,7 @@ const ReviewReminder = () => {
                                         )}
                                     />
                                     <Button type={"submit"} className={"frt-my-2"}>
-                                        <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>
+                                        {updating ? (<span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>): null}
                                         <span>Save Changes</span>
                                     </Button>
                                 </Card>
@@ -292,36 +298,41 @@ const ReviewReminder = () => {
                                     className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Preview
                                 </div>
                             </div>
-                            <div className='frt-flex frt-flex-col frt-gap-4'>
-                                {
-                                    savedReviewReminders?.map((item: any, index: any) => {
-                                        return (
-                                            <Card key={index}
-                                                  className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
-                                                <div
-                                                    className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
-                                                <div
-                                                    className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.button_text}</div>
-                                                <div
-                                                    className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
-                                                </div>
-                                            </Card>
+                            {listLoading ? (
+                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                                    <ClipLoader
+                                        color="black"
+                                        size={"20px"}
+                                    />
+                                </div>) : (
+                                <div className='frt-flex frt-flex-col frt-gap-4'>
+                                    {savedReviewReminders?.length > 0 ? (
+                                        savedReviewReminders?.map((item: any, index: any) => {
+                                            return (
+                                                <Card key={index}
+                                                      className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.button_text}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
+                                                    </div>
+                                                </Card>
+                                            )
+                                        })
+                                    ) : <EmailSettingEmpty/>}
+                                </div>
+                            )}
 
-                                        )
-                                    })
-                                }
-
-                            </div>
                         </div>
                     </div>
                 </TabsContent>
             </Tabs>
-
-
         </div>
     );
 };

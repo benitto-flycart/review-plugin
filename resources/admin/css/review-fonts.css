@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'review';
+  src:  url('fonts/review.eot?tdwrif');
+  src:  url('fonts/review.eot?tdwrif#iefix') format('embedded-opentype'),
+    url('fonts/review.ttf?tdwrif') format('truetype'),
+    url('fonts/review.woff?tdwrif') format('woff'),
+    url('fonts/review.svg?tdwrif#review') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.review {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'review' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.review-Gem:before {
+  content: "\e900";
+}
+.review-Heart:before {
+  content: "\e901";
+}
+.review-Leaf:before {
+  content: "\e902";
+}
+.review-Rocket:before {
+  content: "\e903";
+}
+.review-Star-1:before {
+  content: "\e904";
+}
+.review-Star-2:before {
+  content: "\e905";
+}
+.review-Star-3:before {
+  content: "\e906";
+}
+.review-Star-4:before {
+  content: "\e907";
+}
+.review-Trophy:before {
+  content: "\e908";
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {Card, CardContent} from "@/src/components/ui/card";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
@@ -11,10 +11,24 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {ClipLoader} from "react-spinners";
 import {Button} from "../../ui/button";
+import EmailSettingEmpty from "../EmailSettingEmpty";
+import {axiosClient} from "../../../helpers/axios";
+import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {useLocalState} from "../../zustand/localState";
 
 const PhotoReminder = () => {
+    const [savedPhotoReminders, setSavedPhotoReminders] = useState<any>([])
+
+    const [updating, setUpdating] = useState<boolean>(false)
+
+    const {localState} = useLocalState();
+
+    const available_languages = localState.available_languages;
+
+    const [listLoading, setListLoading] = useState<boolean>(false)
+
     const defaultValues = {
-        language: 'english',
+        language: localState.current_locale,
         subject: '',
         minimum_star: '5_stars',
         body: '',
@@ -38,24 +52,91 @@ const PhotoReminder = () => {
 
     const onSubmit = (data: any) => {
         // Handle form data here
-        console.log("Validation Passed");
-        console.log(data);
+        saveReviewPhotoRequest(data)
     };
 
+    const fetchReviewPhotoRequest = (language: string) => {
+        axiosClient.post('', {
+            method: 'get_photo_request',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            language: language,
+        }).then((response: any) => {
+            let data = response.data.data
+            form.reset({
+                language: data.language,
+                subject: data.settings.subject,
+                body: data.settings.body,
+                minimum_star: data.settings.minimum_star,
+                button_text: data.settings.button_text,
+                discount_text: data.settings.discount_text
+            });
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        });
+    }
+
+    const saveReviewPhotoRequest = (data: any) => {
+        setUpdating(true)
+        axiosClient.post('', {
+            method: 'save_photo_request',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            language: data.language,
+            body: data.body,
+            minimum_star: data.minimum_star,
+            subject: data.subject,
+            discount_text: data.discount_text,
+            button_text: data.button_text
+        }).then((response: any) => {
+            let data = response.data.data
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrSuccess('Server Error Occurred');
+        }).finally(() => {
+            setUpdating(false)
+        });
+    };
+
+    const fetchReviewPhotoEmailSettings = () => {
+        setListLoading(true)
+        axiosClient.post('', {
+            method: 'get_photo_request_email_settings_list',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data;
+            setSavedPhotoReminders(data.list);
+        }).catch((error: any) => {
+            toastrError("Server Error Occurred");
+        }).finally(() => {
+            setListLoading(false)
+        });
+    }
+
     const values = form.watch();
-    console.log('printing errors');
-    console.log(form.formState.errors)
+
+    useEffect(() => {
+        fetchReviewPhotoRequest(values.language);
+        fetchReviewPhotoEmailSettings();
+    }, []);
+
+    useEffect(() => {
+        fetchReviewPhotoRequest(values.language);
+    }, [values.language]);
 
     return (
-        <div className="frt-w-3/4 frt-mx-auto frt-my-4">
-            <Tabs defaultValue={'add'} className="frt-w-full  frt-gap-3">
+        <div className="frt-mx-auto frt-my-4">
+            <Tabs defaultValue={'list'} className="frt-w-full  frt-gap-3">
                 <TabsList className="frt-space-x-0">
-                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
-                        Add
-                    </TabsTrigger>
                     <TabsTrigger className="tabs-trigger frt-w-full" value="list">
                         List
                     </TabsTrigger>
+                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
+                        Add
+                    </TabsTrigger>
+
                 </TabsList>
                 <TabsContent value="add" className="!frt-w-full frt-px-4">
                     <div>
@@ -69,9 +150,9 @@ const PhotoReminder = () => {
                                 <span>&rarr;	</span>
                             </CardContent>
                         </Card>
-                        <Card className="frt-p-4">
-                            <Form {...form} >
-                                <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <Form {...form} >
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                <Card className="frt-p-4 frt-my-4">
                                     <FormField
                                         control={form.control}
                                         name="language"
@@ -91,8 +172,10 @@ const PhotoReminder = () => {
                                                                 </SelectTrigger>
                                                                 <SelectContent>
                                                                     <SelectGroup>
-                                                                        <SelectItem value="english">English</SelectItem>
-                                                                        <SelectItem value="french">French</SelectItem>
+                                                                        {available_languages.map((item: any, index: number) => {
+                                                                            return <SelectItem key={index}
+                                                                                               value={item.value}>{item.label}</SelectItem>
+                                                                        })}
                                                                     </SelectGroup>
                                                                 </SelectContent>
                                                             </Select>
@@ -103,7 +186,9 @@ const PhotoReminder = () => {
                                             </FormItem>
                                         )}
                                     />
+                                </Card>
 
+                                <Card className={"frt-p-4"}>
                                     <FormField
                                         control={form.control}
                                         name="minimum_star"
@@ -158,12 +243,13 @@ const PhotoReminder = () => {
                                                                    placeholder={"Reminder: Order #{order_number}, how did it go?"}
                                                             />
                                                         </FormControl>
-                                                        <FormDescription>
+                                                        <FormDescription className={"frt-flex frt-flex-col"}>
+                                                            <span>
                                                             Notes:
-                                                            <p>Use [order_number] for the customer's order number
-                                                            </p>
-                                                            <p>Use [name] or [last_name] as a placeholder for the user's
-                                                                first or last name</p>
+                                                            Use [order_number] for the customer's order number
+                                                            </span>
+                                                            <span>Use [name] or [last_name] as a placeholder for the user's
+                                                                first or last name</span>
                                                         </FormDescription>
                                                         <FormMessage/>
                                                     </div>
@@ -184,9 +270,7 @@ const PhotoReminder = () => {
                                                         <FormControl>
                                                             <Textarea onChange={(e: any) => {
                                                                 form.setValue('body', e.target.value);
-                                                            }}>{"Hello {name}, " +
-                                                                "We would be grateful if you shared how things look and feel . Your reviews help us and the community that support us, and it only takes a few seconds" +
-                                                                ""}</Textarea>
+                                                            }} value={values.body}></Textarea>
                                                         </FormControl>
                                                         <FormMessage/>
                                                     </div>
@@ -207,13 +291,14 @@ const PhotoReminder = () => {
                                                         <FormControl>
                                                             <Input type="text"
                                                                    defaultValue={values.discount_text}
-                                                                   onChange={(e:any) => {
+                                                                   onChange={(e: any) => {
                                                                        form.setValue('discount_text', e.target.value)
                                                                    }}
                                                                    placeholder={"Add photo/Video review to get the discount off on next purchase"}
                                                             />
                                                         </FormControl>
-                                                        <FormDescription>Note: Added when a text review is eligible for a photo review discount</FormDescription>
+                                                        <FormDescription>Note: Added when a text review is eligible for
+                                                            a photo review discount</FormDescription>
                                                         <FormMessage/>
                                                     </div>
                                                 </div>
@@ -233,9 +318,9 @@ const PhotoReminder = () => {
                                                         <FormControl>
                                                             <Input
                                                                 type="text"
-                                                                   placeholder={"Write a Review"}
+                                                                placeholder={"Write a Review"}
                                                                 defaultValue={values.button_text}
-                                                                onChange={(e:any) => {
+                                                                onChange={(e: any) => {
                                                                     form.setValue('button_text', e.target.value)
                                                                 }}
                                                             />
@@ -247,16 +332,75 @@ const PhotoReminder = () => {
                                         )}
                                     />
                                     <Button type={"submit"}>
-                                        <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>
+                                        {updating ? (<span className="frt-mx-2"><ClipLoader color="white"
+                                                                                            size={"20px"}/></span>) : null}
                                         <span>Save Changes</span>
                                     </Button>
-                                </form>
-                            </Form>
-                        </Card>
+                                </Card>
+                            </form>
+                        </Form>
                     </div>
                 </TabsContent>
                 <TabsContent value="list" className="!frt-w-full frt-px-4">
-                    <p>Showing Previously Added List</p>
+
+                    <div className="frt-h-full">
+                        <div className='frt-flex frt-flex-col frt-gap-4'>
+                            <div className='frt-flex frt-justify-between frt-mt-5 frt-w-full frt-px-4'>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Language
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Subject
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Body
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Discount
+                                    Text
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Button
+                                    Text
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Preview
+                                </div>
+                            </div>
+                            {listLoading ? (
+                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                                    <ClipLoader
+                                        color="black"
+                                        size={"20px"}
+                                    />
+                                </div>) : (
+                                <div className='frt-flex frt-flex-col frt-gap-4'>
+                                    {savedPhotoReminders?.length > 0 ? (
+                                        savedPhotoReminders?.map((item: any, index: any) => {
+                                            return (
+                                                <Card key={index}
+                                                      className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.discount_text}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>{item.settings.button_text}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
+                                                    </div>
+                                                </Card>
+                                            )
+                                        })
+                                    ) : <EmailSettingEmpty/>}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>

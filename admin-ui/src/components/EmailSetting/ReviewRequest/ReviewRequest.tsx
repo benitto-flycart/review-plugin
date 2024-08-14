@@ -25,6 +25,7 @@ type FormValues = {
 const ReviewRequest = () => {
     const [savedReviewRequests, setSavedReviewRequests] = useState<any>([])
     const [listLoading, setListLoading] = useState<boolean>(true)
+    const [updating, setUpdating] = useState<boolean>(false)
 
     const {localState} = useLocalState();
 
@@ -70,6 +71,7 @@ const ReviewRequest = () => {
     }
 
     const saveReviewRequest = (data: any) => {
+        setUpdating(true)
         axiosClient.post('', {
             method: 'save_review_request',
             _wp_nonce_key: 'flycart_review_nonce',
@@ -83,6 +85,8 @@ const ReviewRequest = () => {
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrSuccess('Server Error Occurred');
+        }).finally(() => {
+            setUpdating(false)
         });
     };
 
@@ -258,8 +262,8 @@ const ReviewRequest = () => {
                                         )}
                                     />
                                     <Button type={"submit"}>
-                                                <span className="frt-mx-2"><ClipLoader color="white"
-                                                                                       size={"20px"}/></span>
+                                        {updating ? (<span className="frt-mx-2"><ClipLoader color="white"
+                                                                                            size={"20px"}/></span>) : null}
                                         <span>Save Changes</span>
                                     </Button>
 

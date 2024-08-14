@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {Card, CardContent} from "@/src/components/ui/card";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
@@ -11,25 +11,32 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {ClipLoader} from "react-spinners";
 import {Button} from "../../ui/button";
+import EmailSettingEmpty from "../EmailSettingEmpty";
+import {useLocalState} from "../../zustand/localState";
+import {axiosClient} from "../../../helpers/axios";
+import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 
 const ReplyToEmail = () => {
+    const [savedReplyToEmails, setSavedReplyToEmails] = useState<any>([])
+
+    const [listLoading, setListLoading] = useState<boolean>(false)
+
+    const [updating, setUpdating] = useState<boolean>(false)
+
+    const {localState} = useLocalState();
+
+    const available_languages = localState.available_languages;
 
     const defaultValues = {
-        language: 'english',
-        subject: '',
-        minimum_star: '5_star',
-        body: '',
-        button_text: '',
-        discount_text: '',
+        language: localState.current_locale,
+        subject: "",
+        body: "",
     };
 
     const schema = yup.object().shape({
         language: yup.string().required("Language is required"),
         subject: yup.string().required("Subject is required"),
-        minimum_star: yup.string().required("Subject is required"),
         body: yup.string().required("Body is required"),
-        button_text: yup.string().required("Button Text is required"),
-        discount_text: yup.string().required("Button Text is required"),
     });
 
     const form = useForm({
@@ -37,25 +44,85 @@ const ReplyToEmail = () => {
         defaultValues: defaultValues,
     });
 
+
     const onSubmit = (data: any) => {
-        // Handle form data here
-        console.log("Validation Passed");
-        console.log(data);
+        saveReviewReplyRequest(data);
     };
 
+    const fetchReviewReplyRequest = (language: string) => {
+        axiosClient.post('', {
+            method: 'get_review_reply_request',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            language: language,
+        }).then((response: any) => {
+            let data = response.data.data
+            form.reset({
+                language: data.language,
+                subject: data.settings.subject,
+                body: data.settings.body,
+            });
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        });
+    }
+
+    const saveReviewReplyRequest = (data: any) => {
+        setUpdating(true)
+        axiosClient.post('', {
+            method: 'save_review_reply_request',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            language: data.language,
+            body: data.body,
+            subject: data.subject,
+        }).then((response: any) => {
+            let data = response.data.data
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrSuccess('Server Error Occurred');
+        }).finally(()=> {
+            setUpdating(false)
+        });
+    };
+
+    const fetchReviewReplyEmailSettings = () => {
+        setListLoading(true)
+        axiosClient.post('', {
+            method: 'get_review_reply_review_email_settings_list',
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data;
+            setSavedReplyToEmails(data.list);
+        }).catch((error: any) => {
+            toastrError("Server Error Occurred");
+        }).finally(() => {
+            setListLoading(false)
+        });
+    }
+
     const values = form.watch();
-    console.log('printing errors');
-    console.log(form.formState.errors)
+
+    useEffect(() => {
+        fetchReviewReplyRequest(values.language);
+        fetchReviewReplyEmailSettings();
+    }, []);
+
+    useEffect(() => {
+        fetchReviewReplyRequest(values.language);
+    }, [values.language]);
 
     return (
-        <div className="frt-w-3/4 frt-mx-auto frt-my-4">
-            <Tabs defaultValue={'add'} className="frt-w-full frt-gap-3">
+        <div className="frt-mx-auto frt-my-4">
+            <Tabs defaultValue={'list'} className="frt-w-full frt-gap-3">
                 <TabsList className="frt-space-x-0">
-                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
-                        Add
-                    </TabsTrigger>
                     <TabsTrigger className="tabs-trigger frt-w-full" value="list">
                         List
+                    </TabsTrigger>
+                    <TabsTrigger className="tabs-trigger frt-w-full" value="add">
+                        Add
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="add" className="!frt-w-full frt-px-4">
@@ -64,15 +131,15 @@ const ReplyToEmail = () => {
                             <CardContent
                                 className="frt-my-4  !frt-p-2 frt-flex frt-flex-row frt-justify-between frt-cursor-pointer">
                                 <div className="frt-flex-1">
-                                    <h3>Discount Reminder</h3>
-                                    <span>Remind your customers to use their next-purchase discount if they haven't used it yet</span>
+                                    <h3>Reply To Email</h3>
+                                    <span>Reply To Emails</span>
                                 </div>
                                 <span>&rarr;	</span>
                             </CardContent>
                         </Card>
-                        <Card className="frt-p-4">
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                <Card className="frt-p-4">
                                     <FormField
                                         control={form.control}
                                         name="language"
@@ -83,8 +150,8 @@ const ReplyToEmail = () => {
                                                     <FormLabel>Language</FormLabel>
                                                     <div>
                                                         <FormControl>
-                                                            <Select defaultValue={values.language}
-                                                                    onValueChange={(value:string) => {
+                                                            <Select value={values.language}
+                                                                    onValueChange={(value: string) => {
                                                                         form.setValue('language', value);
                                                                     }}>
                                                                 <SelectTrigger className="w-[180px]">
@@ -92,9 +159,10 @@ const ReplyToEmail = () => {
                                                                 </SelectTrigger>
                                                                 <SelectContent>
                                                                     <SelectGroup>
-                                                                        <SelectItem
-                                                                            value="english">English</SelectItem>
-                                                                        <SelectItem value="french">French</SelectItem>
+                                                                        {available_languages.map((item: any, index: number) => {
+                                                                            return <SelectItem key={index}
+                                                                                               value={item.value}>{item.label}</SelectItem>
+                                                                        })}
                                                                     </SelectGroup>
                                                                 </SelectContent>
                                                             </Select>
@@ -105,7 +173,8 @@ const ReplyToEmail = () => {
                                             </FormItem>
                                         )}
                                     />
-
+                                </Card>
+                                <Card className="frt-p-4">
                                     <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
                                     <FormField
                                         control={form.control}
@@ -119,7 +188,7 @@ const ReplyToEmail = () => {
                                                         <FormControl>
                                                             <Input type="text"
                                                                    placeholder={"In response to your review of {product}"}
-                                                                   defaultValue={values.subject}
+                                                                   value={values.subject}
                                                                    onChange={(e: any) => {
                                                                        form.setValue('subject', e.target.value)
                                                                    }}
@@ -150,15 +219,12 @@ const ReplyToEmail = () => {
                                                                       onChange={(e: any) => {
                                                                           form.setValue('body', e.target.value)
                                                                       }}
-                                                            >{"Hello {name}, " +
-                                                                "A reply was added to your review of {product} \n" +
-                                                                "{reply_content} \n" +
-                                                                "To respond privately, reply to this email. \n"
-                                                            }</Textarea>
+                                                                      value={values.body}
+                                                            ></Textarea>
                                                         </FormControl>
                                                         <FormDescription>
                                                             Notes:
-                                                            <p>{"Use {reply_content} for your reply text"}</p>
+                                                            <span>{"Use {reply_content} for your reply text"}</span>
                                                         </FormDescription>
                                                         <FormMessage/>
                                                     </div>
@@ -167,16 +233,63 @@ const ReplyToEmail = () => {
                                         )}
                                     />
                                     <Button type={"submit"}>
-                                        <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>
+                                        {updating ? (<span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>): null}
                                         <span>Save Changes</span>
                                     </Button>
-                                </form>
-                            </Form>
-                        </Card>
+                                </Card>
+                            </form>
+                        </Form>
                     </div>
                 </TabsContent>
                 <TabsContent value="list" className="!frt-w-full frt-px-4">
-                    <p>Showing Previously Added List</p>
+
+
+                    <div className="frt-h-full">
+                        <div className='frt-flex frt-flex-col frt-gap-4'>
+                            <div className='frt-flex frt-justify-between frt-mt-5 frt-w-full frt-px-4'>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Language
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Subject
+                                </div>
+                                <div
+                                    className=' frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Body
+                                </div>
+                                <div
+                                    className='frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-2.5 frt-w-1/5 frt-text-2.5 frt-uppercase'>Preview
+                                </div>
+                            </div>
+                            {listLoading ? (
+                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                                    <ClipLoader
+                                        color="black"
+                                        size={"20px"}
+                                    />
+                                </div>) : (
+                                <div className='frt-flex frt-flex-col frt-gap-4'>
+                                    {savedReplyToEmails?.length > 0 ? (
+                                        savedReplyToEmails?.map((item: any, index: any) => {
+                                            return (
+                                                <Card key={index}
+                                                      className='frt-flex frt-justify-between frt-p-4 !frt-shadow-md frt-items-center'>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.language_label} </div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5 ">{item.settings.subject}</div>
+                                                    <div
+                                                        className="frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5">{item.settings.body}</div>
+                                                    <div
+                                                        className='frt-text-primary xl:frt-text-sm frt-font-bold lg:frt-text-xs md:frt-text-2.5  frt-text-2.5 frt-w-1/5'>Preview
+                                                    </div>
+                                                </Card>
+                                            )
+                                        })
+                                    ) : <EmailSettingEmpty/>}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </TabsContent>
             </Tabs>
 

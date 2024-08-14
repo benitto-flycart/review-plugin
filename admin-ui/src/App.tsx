@@ -45,18 +45,17 @@ const App: FC = (props) => {
     return (
         <div>
             {loading ? (
-                <BarLoader
-                    color={"#121212"}
-                    loading={loading}
-                    width="100%"
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                />
+                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[100vh]"}>
+                    <ClipLoader
+                        color="black"
+                        size={"20px"}
+                    />
+                </div>
             ) : (
                 <React.Suspense fallback={<ClipLoader/>}>
                     <HashRouter>
                         <ToastContainer/>
-                        <div>
+                        <div className={"flycart-review-admin-ui"}>
                             <AppHeader/>
                             <NavBar/>
                         </div>

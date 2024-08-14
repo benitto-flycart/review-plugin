@@ -99,175 +99,198 @@ const DiscountSetting = () => {
                 <CardContent className="frt-my-4 frt-grid !frt-p-2">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <FormField
-                                control={form.control}
-                                name="enable_photo_discount"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Enable Photo Discount</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Switch
-                                                        id="enable_photo_discount"
-                                                        checked={values.enable_photo_discount}
-                                                        onCheckedChange={(value: boolean) => {
-                                                            form.setValue('enable_photo_discount', value)
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription>Incentivize customers to leave a photo review by
-                                                    offering a
-                                                    discount for their next purchase</FormDescription>
-                                                <FormMessage/>
+                            <div className="frt-m-2 rwt-my-2">
+                                <FormField
+                                    control={form.control}
+                                    name="enable_photo_discount"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <div
+                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <FormLabel>Enable Photo Discount</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Switch
+                                                            id="enable_photo_discount"
+                                                            checked={values.enable_photo_discount}
+                                                            onCheckedChange={(value: boolean) => {
+                                                                form.setValue('enable_photo_discount', value)
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>Incentivize customers to leave a photo review by
+                                                        offering a
+                                                        discount for their next purchase</FormDescription>
+                                                    <FormMessage/>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
 
-                            <FormField
-                                control={form.control}
-                                name="photo_discount_type"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Photo Discount Type</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Select value={values.photo_discount_type}>
-                                                        <SelectTrigger className="w-[180px]">
-                                                            <SelectValue placeholder="Select Type"/>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectGroup>
-                                                                <SelectItem value="percentage">Percentage</SelectItem>
-                                                                <SelectItem value="fixed">Fixed</SelectItem>
-                                                            </SelectGroup>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                            {values.enable_photo_discount ? (
+                                <>
+                                    <div className="frt-m-2 rwt-my-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="photo_discount_type"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <div
+                                                        className="frt-grid frt-grid-cols-[30%_70%]">
+                                                        <FormLabel>Photo Discount Type</FormLabel>
+                                                        <div>
+                                                            <FormControl>
+                                                                <Select value={values.photo_discount_type}>
+                                                                    <SelectTrigger className="w-[180px]">
+                                                                        <SelectValue placeholder="Select Type"/>
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        <SelectGroup>
+                                                                            <SelectItem
+                                                                                value="percentage">Percentage</SelectItem>
+                                                                            <SelectItem value="fixed">Fixed</SelectItem>
+                                                                        </SelectGroup>
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            </FormControl>
+                                                            <FormMessage/>
+                                                        </div>
+                                                    </div>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
 
-                            <FormField
-                                control={form.control}
-                                name="photo_discount_value"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Value</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Input type="number" placeholder="Value"
-                                                           value={values.photo_discount_value}
-                                                           onChange={(e: any) => {
-                                                               form.setValue('photo_discount_value', e.target.value);
-                                                           }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                                    <div className="frt-m-2 rwt-my-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="photo_discount_value"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <div
+                                                        className="frt-grid frt-grid-cols-[30%_70%]">
+                                                        <FormLabel>Value</FormLabel>
+                                                        <div>
+                                                            <FormControl>
+                                                                <Input type="number" placeholder="Value"
+                                                                       value={values.photo_discount_value}
+                                                                       onChange={(e: any) => {
+                                                                           form.setValue('photo_discount_value', e.target.value);
+                                                                       }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage/>
+                                                        </div>
+                                                    </div>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                </>
+                            ) : null}
 
 
                             {/*//Video Discounts*/}
 
-                            <FormField
-                                control={form.control}
-                                name="enable_video_discount"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Enable Video Discount</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Switch id="enable_video_discount"
-                                                            checked={values.enable_video_discount}
-                                                            onCheckedChange={(value: boolean) => {
-                                                                form.setValue('enable_video_discount', value)
-                                                            }}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription>Incentivize customers to leave a Video review by
-                                                    offering a
-                                                    discount for their next purchase</FormDescription>
-                                                <FormMessage/>
+                            <div className="frt-m-2 rwt-my-2">
+                                <FormField
+                                    control={form.control}
+                                    name="enable_video_discount"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <div
+                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <FormLabel>Enable Video Discount</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Switch id="enable_video_discount"
+                                                                checked={values.enable_video_discount}
+                                                                onCheckedChange={(value: boolean) => {
+                                                                    form.setValue('enable_video_discount', value)
+                                                                }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>Incentivize customers to leave a Video review by
+                                                        offering a
+                                                        discount for their next purchase</FormDescription>
+                                                    <FormMessage/>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
 
-                            <FormField
-                                control={form.control}
-                                name="video_discount_type"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Video Discount Type</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Select
-                                                        value={values.video_discount_type}
-                                                        onValueChange={(value: string) => {
-                                                            form.setValue('video_discount_type', value);
-                                                        }}
-                                                    >
-                                                        <SelectTrigger className="w-[180px]">
-                                                            <SelectValue placeholder="Select Type"/>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectGroup>
-                                                                <SelectItem value="percentage">Percentage</SelectItem>
-                                                                <SelectItem value="fixed">Fixed</SelectItem>
-                                                            </SelectGroup>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                            {values.enable_video_discount ? (
+                                <>
+                                    <div className="frt-m-2 rwt-my-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="video_discount_type"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <div
+                                                        className="frt-grid frt-grid-cols-[30%_70%]">
+                                                        <FormLabel>Video Discount Type</FormLabel>
+                                                        <div>
+                                                            <FormControl>
+                                                                <Select
+                                                                    value={values.video_discount_type}
+                                                                    onValueChange={(value: string) => {
+                                                                        form.setValue('video_discount_type', value);
+                                                                    }}
+                                                                >
+                                                                    <SelectTrigger className="w-[180px]">
+                                                                        <SelectValue placeholder="Select Type"/>
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        <SelectGroup>
+                                                                            <SelectItem
+                                                                                value="percentage">Percentage</SelectItem>
+                                                                            <SelectItem value="fixed">Fixed</SelectItem>
+                                                                        </SelectGroup>
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            </FormControl>
+                                                            <FormMessage/>
+                                                        </div>
+                                                    </div>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
 
-                            <FormField
-                                control={form.control}
-                                name="video_discount_value"
-                                render={({field}) => (
-                                    <FormItem className="frt-m-2 rwt-my-2">
-                                        <div
-                                            className="frt-grid frt-grid-cols-[30%_70%]">
-                                            <FormLabel>Value</FormLabel>
-                                            <div>
-                                                <FormControl>
-                                                    <Input type="number"
-                                                           value={values.video_discount_value}
-                                                           placeholder="Value"
-                                                           onChange={(e: any) => {
-                                                               form.setValue('video_discount_value', e.target.value);
-                                                           }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage/>
-                                            </div>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
+                                    <div className="frt-m-2 rwt-my-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="video_discount_value"
+                                            render={({field}) => (
+                                                <FormItem>
+                                                    <div
+                                                        className="frt-grid frt-grid-cols-[30%_70%]">
+                                                        <FormLabel>Value</FormLabel>
+                                                        <div>
+                                                            <FormControl>
+                                                                <Input type="number"
+                                                                       value={values.video_discount_value}
+                                                                       placeholder="Value"
+                                                                       onChange={(e: any) => {
+                                                                           form.setValue('video_discount_value', e.target.value);
+                                                                       }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage/>
+                                                        </div>
+                                                    </div>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                </>
+                            ) : null}
+
                             <Button type={"submit"}>
                                 {saveChangesLoading && (
                                     <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>)}
