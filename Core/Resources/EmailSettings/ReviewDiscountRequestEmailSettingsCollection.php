@@ -6,7 +6,7 @@ use Flycart\Review\App\Collection;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\Core\Models\EmailSetting;
 
-class ReviewPhotoRequestEmailSettingsCollection extends  Collection
+class ReviewDiscountRequestEmailSettingsCollection extends  Collection
 {
     public function toArray($items)
     {

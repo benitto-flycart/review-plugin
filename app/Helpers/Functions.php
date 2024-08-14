@@ -225,4 +225,11 @@ class Functions
     {
         return preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html_text);
     }
+
+    public static function getServerErrorMessage()
+    {
+        return [
+            'message' => __('Server Error Occurred', 'wprelay'),
+        ];
+    }
 }

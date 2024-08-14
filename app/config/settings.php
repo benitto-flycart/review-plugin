@@ -21,4 +21,25 @@ return [
             'font_size' => '16',
         ],
     ],
+
+    'floating_review_widget_settings' => [
+        'is_active' => true,
+        'title' => 'Reviews',
+        'title_bg_color' => '#adb4ba',
+        'title_text_color' => '#adb4ba',
+        'product_thumbnail_enabled' => true,
+        'link_to_product_page_enabled' => false
+    ],
+    'sidebar_review_widget_settings' => [
+        'is_active' => true,
+        'position' => 'left',
+        'orientation' => 'top_to_bottom',
+        'button_text' => 'Reviews',
+        'button_bg_color' => '#adb4ba',
+        'button_text_color' => '#adb4ba',
+        'hide_on_mobile' => false,
+        'show_in_home_page' => true,
+        'show_in_product_page' => true,
+        'show_in_cart_page' => false
+    ]
 ];

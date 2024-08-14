@@ -49,7 +49,24 @@ module.exports = {
                 use: 'ts-loader',
             },
             {
+                test: /\.module\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName: '[name]__[local]___[hash:base64:5]',
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                    'postcss-loader'
+                ]
+            },
+            {
                 test: /\.css$/,
+                exclude: /\.module\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {

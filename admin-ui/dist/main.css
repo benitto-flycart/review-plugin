@@ -1,5 +1,5 @@
 /*!****************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/react-toastify/dist/ReactToastify.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/react-toastify/dist/ReactToastify.css ***!
   \****************************************************************************************************************************************************************************/
 :root {
   --toastify-color-light: #fff;
@@ -652,7 +652,7 @@
   }
 }
 /*!*************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/app-navbar.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/app-navbar.css ***!
   \*************************************************************************************************************************************************************/
 
 .relay-wp-nav-bar {
@@ -691,7 +691,7 @@
             color: white;
         }
 /*!*************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/app-header.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/app-header.css ***!
   \*************************************************************************************************************************************************************/
 .relay-wp-app-header {
   border-bottom: 1px solid #E5E4E7;
@@ -724,7 +724,7 @@
     }
 
 /*!************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/dashboard.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/dashboard/dashboard.css ***!
   \************************************************************************************************************************************************************/
 .relay-wp-dashboard-content {
     height: 696px;
@@ -821,7 +821,7 @@
 }
 
 /*!**************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/main.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/main.css ***!
   \**************************************************************************************************************************************/
 /*
 ! tailwindcss v3.4.6 | MIT License | https://tailwindcss.com
@@ -1430,20 +1430,17 @@ video {
 .frt-right-4 {
   right: 1rem;
 }
+.frt-right-\[15px\] {
+  right: 15px;
+}
 .frt-top-4 {
   top: 1rem;
 }
+.frt-top-\[15px\] {
+  top: 15px;
+}
 .frt-top-\[50\%\] {
   top: 50%;
-}
-.frt-right-\[10px\] {
-  right: 10px;
-}
-.frt-top-\[10px\] {
-  top: 10px;
-}
-.frt-left-\[10px\] {
-  left: 10px;
 }
 .\!frt-z-\[50000\] {
   z-index: 50000 !important;
@@ -1588,9 +1585,6 @@ video {
 .frt-min-h-\[90vh\] {
   min-height: 90vh;
 }
-.\!frt-w-\[200px\] {
-  width: 200px !important;
-}
 .\!frt-w-\[50px\] {
   width: 50px !important;
 }
@@ -1608,9 +1602,6 @@ video {
 }
 .frt-w-11 {
   width: 2.75rem;
-}
-.frt-w-2\/4 {
-  width: 50%;
 }
 .frt-w-3\.5 {
   width: 0.875rem;
@@ -1635,9 +1626,6 @@ video {
 }
 .frt-w-72 {
   width: 18rem;
-}
-.frt-w-\[200px\] {
-  width: 200px;
 }
 .frt-w-\[30px\] {
   width: 30px;
@@ -1847,9 +1835,6 @@ video {
 .frt-rounded {
   border-radius: 0.25rem;
 }
-.frt-rounded-2xl {
-  border-radius: 1rem;
-}
 .frt-rounded-full {
   border-radius: 9999px;
 }
@@ -1925,11 +1910,6 @@ video {
 }
 .frt-bg-black\/80 {
   background-color: rgba(0, 0, 0, 0.8);
-}
-.frt-bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(59, 130, 246, 1);
-  background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
 }
 .frt-bg-card {
   background-color: hsl(0, 0%, 100%);
@@ -2014,10 +1994,6 @@ video {
 .frt-px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
-}
-.frt-px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 .frt-px-2\.5 {
   padding-left: 0.625rem;
@@ -2132,6 +2108,11 @@ video {
   --tw-text-opacity: 1;
   color: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, var(--tw-text-opacity));
+}
+.frt-text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgba(29, 78, 216, 1);
+  color: rgba(29, 78, 216, var(--tw-text-opacity));
 }
 .frt-text-card-foreground {
   color: hsl(0, 0%, 4%);
@@ -2859,7 +2840,7 @@ div[data-radix-popper-content-wrapper] {
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/Preview/HeaderPreview/CompactHPreview/CHP.module.css ***!
   \************************************************************************************************************************************************************************************************************************/
-.TmslI2NO_mmsa3C0T2xI {
+.CHP-module__compact_header___TmslI {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2869,7 +2850,7 @@ div[data-radix-popper-content-wrapper] {
 
 }
 
-.vqy2xtBeNN5FVCFehPIy {
+.CHP-module__overall_rating_container___vqy2x {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2877,20 +2858,20 @@ div[data-radix-popper-content-wrapper] {
     gap: .5rem;
 }
 
-.Ky8ZudUpgF6ci_MOdqlB {
+.CHP-module__overall_rating___Ky8Zu {
     display: flex;
     justify-content: center;
     gap: .5rem;
 }
 
-.qdO9cz6klIJddOrzBxLP {
+.CHP-module__rating_details___qdO9c {
     display: flex;
     flex-direction: column;
     gap: .5rem;
     align-items: center;
 }
 
-.cZbjDs2hjB5oAVMaxH5t {
+.CHP-module__rating_row___cZbjD {
     display: flex;
     flex-direction: row;
     gap: .5rem;
@@ -2898,12 +2879,12 @@ div[data-radix-popper-content-wrapper] {
 }
 
 
-.HQnrxxC15NbQvq4JdfIQ {
+.CHP-module__progress_bar___HQnrx {
     width: 100px;
     height: 13px;
 }
 
-.XF3IsQq2FX3JRF4fMVDs {
+.CHP-module__actions___XF3Is {
     display: flex;
     flex-direction: row;
     gap: .5rem;
@@ -2913,7 +2894,7 @@ div[data-radix-popper-content-wrapper] {
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/Preview/HeaderPreview/ExpandedHPreview/EHP.module.css ***!
   \*************************************************************************************************************************************************************************************************************************/
-.itE0PtN_G7s6Fa60Api1 {
+.EHP-module__expanded_header___itE0P {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -2923,7 +2904,7 @@ div[data-radix-popper-content-wrapper] {
 }
 
 
-.itE0PtN_G7s6Fa60Api1 .ixpm943kVQYfmm9kwZcV {
+.EHP-module__expanded_header___itE0P .EHP-module__overall_rating_container___ixpm9 {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2932,14 +2913,14 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.itE0PtN_G7s6Fa60Api1 .AwgXQPl6VjruXDIYErA3 {
+.EHP-module__expanded_header___itE0P .EHP-module__overall_rating___AwgXQ {
         display: flex;
         justify-content: center;
         gap: .5rem;
     }
 
 
-.itE0PtN_G7s6Fa60Api1 .geWvclJcGsyv76WhjynK {
+.EHP-module__expanded_header___itE0P .EHP-module__rating_details___geWvc {
         display: flex;
         flex-direction: column;
         gap: .5rem;
@@ -2947,7 +2928,7 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.itE0PtN_G7s6Fa60Api1 .w4zWHaUGg2e6gU6x4ics {
+.EHP-module__expanded_header___itE0P .EHP-module__rating_row___w4zWH {
         display: flex;
         flex-direction: row;
         gap: .5rem;
@@ -2955,13 +2936,13 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.itE0PtN_G7s6Fa60Api1 .z5ejbZvFfw7H0rCD90yf {
+.EHP-module__expanded_header___itE0P .EHP-module__progress_bar___z5ejb {
         width: 100px;
         height: 13px;
     }
 
 
-.itE0PtN_G7s6Fa60Api1 .A_DsLxLDUKPP2TfLVbar {
+.EHP-module__expanded_header___itE0P .EHP-module__actions___A_DsL {
         display: flex;
         flex-direction: row;
         gap: .5rem;
@@ -2971,7 +2952,7 @@ div[data-radix-popper-content-wrapper] {
 
 
 @media screen and (min-width: 769px) {
-    .product-widget-preview-mobile .itE0PtN_G7s6Fa60Api1 {
+    .product-widget-preview-mobile .EHP-module__expanded_header___itE0P {
         flex-direction: column;
         justify-content: center;
     }
@@ -2979,7 +2960,7 @@ div[data-radix-popper-content-wrapper] {
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/Preview/HeaderPreview/MinimalHPreview/MHP.module.css ***!
   \************************************************************************************************************************************************************************************************************************/
-.eVuQVgN1VVR9wI6a7e09 {
+.MHP-module__minimal_header___eVuQV {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -2989,7 +2970,7 @@ div[data-radix-popper-content-wrapper] {
 }
 
 
-.eVuQVgN1VVR9wI6a7e09 .JApt0sapg3GAD0rc72gA {
+.MHP-module__minimal_header___eVuQV .MHP-module__overall_rating_container___JApt0 {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2998,14 +2979,14 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.eVuQVgN1VVR9wI6a7e09 .AnzUSbqffV6u_XvCwNpU {
+.MHP-module__minimal_header___eVuQV .MHP-module__overall_rating___AnzUS {
         display: flex;
         justify-content: center;
         gap: .5rem;
     }
 
 
-.eVuQVgN1VVR9wI6a7e09 .iPRUdqYRK9AjbYa2zuGC {
+.MHP-module__minimal_header___eVuQV .MHP-module__rating_details___iPRUd {
         display: flex;
         flex-direction: column;
         gap: .5rem;
@@ -3013,7 +2994,7 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.eVuQVgN1VVR9wI6a7e09 .yhgc8PTQT2sunkyXoNFw {
+.MHP-module__minimal_header___eVuQV .MHP-module__rating_row___yhgc8 {
         display: flex;
         flex-direction: row;
         gap: .5rem;
@@ -3021,13 +3002,13 @@ div[data-radix-popper-content-wrapper] {
     }
 
 
-.eVuQVgN1VVR9wI6a7e09 .ki6WJRVp0lDJY05n6Rq4 {
+.MHP-module__minimal_header___eVuQV .MHP-module__progress_bar___ki6WJ {
         width: 100px;
         height: 13px;
     }
 
 
-.eVuQVgN1VVR9wI6a7e09 .pvjBnHGAh0lbCJa5nRmV {
+.MHP-module__minimal_header___eVuQV .MHP-module__actions___pvjBn {
         display: flex;
         flex-direction: row;
         gap: .5rem;
@@ -3037,14 +3018,14 @@ div[data-radix-popper-content-wrapper] {
 
 
 @media screen and (min-width: 769px) {
-    .product-widget-preview-mobile .eVuQVgN1VVR9wI6a7e09 {
+    .product-widget-preview-mobile .MHP-module__minimal_header___eVuQV {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 }
 /*!*******************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/widgets/widget.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/styles/widgets/widget.css ***!
   \*******************************************************************************************************************************************************/
 
 .widget-header-title {
@@ -3083,7 +3064,7 @@ div[data-radix-popper-content-wrapper] {
 }
 
 /*!*********************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/styles/preview-mobile.css ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/styles/preview-mobile.css ***!
   \*********************************************************************************************************************************************************************************************/
 @media screen and (min-width: 769px) {
     .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile {
@@ -3116,7 +3097,7 @@ div[data-radix-popper-content-wrapper] {
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/PopupWidget/popup.module.css ***!
   \****************************************************************************************************************************************************************************/
 
-.C_hv64P6P7aoKZpJRDVy {
+.popup-module__popup_container_wrapper___C_hv6 {
     margin: .5rem;
     position: absolute;
     border-radius: .5rem;
@@ -3124,60 +3105,60 @@ div[data-radix-popper-content-wrapper] {
     width: 200px;
 }
 
-.XaUr1kANrajKSiuG9j8O {
+.popup-module__popup_review_wrapper___XaUr1 {
     border-radius: .5rem;
 }
 
 
-.hSn6NCO9mCMN_KrKtzG6 {
+.popup-module__popup_bottom_left___hSn6N {
     bottom: 1rem;
     left: 1rem;
 }
 
-.gh8jHpvnMmcOPaabp5dJ {
+.popup-module__popup_bottom_right___gh8jH {
     bottom: 1rem;
     right: 1rem;
 }
 
-.BmIr_NyUI3RPhhr6RSN9 {
+.popup-module__popup_top_right___BmIr_ {
     top: 1rem;
     right: 1rem;
 }
 
-.LGmIXRlCJOLiTlLHIphV {
+.popup-module__popup_top_left___LGmIX {
     top: 1rem;
     left: 1rem;
 }
 
-.MPdprxImX3cR5rvR9sxf {
+.popup-module__popup_sharp___MPdpr {
    border-radius: 2px;
 }
 
-.ORZYjzQDoJ3YHP_pD_g8 {
+.popup-module__popup_slightly_rounded___ORZYj {
     border-radius: 4px;
 }
 
-.q3SyQNpNSnXUPwDhibxA {
+.popup-module__popup_rounded___q3SyQ {
     border-radius: 8px;
 }
 
-.etvTlQZTroBejrPeBSDo {
+.popup-module__popup_extra_rounded___etvTl {
     border-radius: 16px;
 }
 
-.y2c4H3iANRnoossQS9H1 {
+.popup-module__popup_none___y2c4H {
     border-radius: 0px;
 }
 
-.rDd3THVK2d607uV6iISA {
+.popup-module__review_wrapper___rDd3T {
 
 }
 
-.vsRgTYP0P8f9ShEsQxTk {
+.popup-module__review_image_wrapper___vsRgT {
 
 }
 
-.YE2ODQWXbQllvt9a6d8a {
+.popup-module__review_image___YE2OD {
     min-height: 160px;
     max-height: 160px;
     min-width: 100%;
@@ -3185,36 +3166,36 @@ div[data-radix-popper-content-wrapper] {
        object-fit: cover;
 }
 
-.Pa8mjwrcqpwxI8IYTAZn {
+.popup-module__review_body___Pa8mj {
     padding: .5rem;
 }
 
-.z_OIBdm0yVSv6u_VwNa0 {
+.popup-module__reviewer_name___z_OIB {
 
 }
 
-.NaT0wIiP1L1dsSpocmuX {
+.popup-module__review_icon_wrapper___NaT0w {
 
 }
 
-.vgfjI739WsoalMQTlx2K {
+.popup-module__review_content___vgfjI {
 
 }
 
-.dsAU4DCRqGo5Ih6b4sUt {
+.popup-module__review_product_wrapper___dsAU4 {
     padding: .5rem;
 }
 
-.iF4b5IcRtGfoXg2oah8Q {
+.popup-module__review_product_image_wrapper___iF4b5 {
 
 }
 
-.weYtkjM0PS8Clh9bD9KN {
+.popup-module__review_product_image___weYtk {
     width: 50px;
     height: 50px;
 }
 
-.S3kOZvm1q9NbZXxmPxHL {
+.popup-module__review_product_title___S3kOZ {
 
 }
 

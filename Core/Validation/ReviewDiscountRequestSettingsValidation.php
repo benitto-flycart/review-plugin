@@ -12,9 +12,7 @@ class ReviewDiscountRequestSettingsValidation implements FormRequest
         $rules = [
             'language' => ['required'],
             'subject' => ['required'],
-            'minimum_star' => ['required'],
             'body' => ['required'],
-            'discount_text' => ['required'],
             'button_text' => ['required']
         ];
 

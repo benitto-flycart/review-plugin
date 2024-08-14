@@ -41,13 +41,16 @@ class SettingsController
         Database::beginTransaction();
 
         try {
+            $photo_discount_enabled = Functions::getBoolValue($request->get('enable_photo_discount'));
+            $video_discount_enabled = Functions::getBoolValue($request->get('enable_video_discount'));
+
             $data = [
-                'enable_photo_discount' => $request->get('enable_photo_discount'),
-                'photo_discount_type' => $request->get('photo_discount_type'),
-                'photo_discount_value' => $request->get('photo_discount_value'),
-                'enable_video_discount' => $request->get('enable_video_discount'),
-                'video_discount_type' => $request->get('video_discount_type'),
-                'video_discount_value' => $request->get('video_discount_value'),
+                'enable_photo_discount' => $photo_discount_enabled,
+                'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed',
+                'photo_discount_value' => $photo_discount_enabled ? $request->get('photo_discount_value') : 0,
+                'enable_video_discount' => $video_discount_enabled,
+                'video_discount_type' => $video_discount_enabled ? $request->get('video_discount_type') : 'fixed',
+                'video_discount_value' => $video_discount_enabled ? $request->get('video_discount_value') : 0,
             ];
 
             $data = wp_json_encode($data);
@@ -195,12 +198,12 @@ class SettingsController
         try {
             $data = [
                 'send_replies_to' => $request->get('send_replies_to'),
-                'enable_email_footer' => $request->get('enable_email_footer'),
-                'footer_text' => $request->get('footer_text'),
+                'enable_email_footer' => $enable_email_footer = Functions::getBoolValue($request->get('enable_email_footer')),
+                'footer_text' => $enable_email_footer ? $request->get('footer_text') : '',
                 'reviewers_name_format' => $request->get('reviewers_name_format'),
                 'auto_publish_new_reviews' => $request->get('auto_publish_new_reviews'),
-                'enable_review_notification' => $request->get('enable_review_notification'),
-                'review_notification_to' => $request->get('review_notification_to'),
+                'enable_review_notification' => $enable_review_notification = Functions::getBoolValue($request->get('enable_review_notification')),
+                'review_notification_to' => $enable_review_notification ? $request->get('review_notification_to'): '',
                 'review_request_timing' => $request->get('review_request_timing'),
                 'order_status' => $request->get('order_status'),
             ];
@@ -211,8 +214,6 @@ class SettingsController
                 ->first();
 
             if (empty($brand_setting)) {
-
-
                 ReviewSetting::query()->create([
                     'meta_key' => ReviewSetting::GENERAL_SETTINGS,
                     'meta_value' => $data,

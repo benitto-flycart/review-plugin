@@ -20,7 +20,7 @@ class Settings
 
     public static function getDefaultSettingsData($key = null)
     {
-        $data = require RWP_PLUGIN_PATH . "app/config/settings.php";
+        $data = require F_Review_PLUGIN_PATH . "app/config/settings.php";
 
         if (isset($data[$key])) {
             return $data[$key];
@@ -31,21 +31,11 @@ class Settings
 
     public static function fetchSettings()
     {
-
         $settings = [];
-
-        $rwp_settings = get_option('rwp_plugin_settings', '[]');
-
-        $rwp_settings = Functions::jsonDecode($rwp_settings);
 
         $default_settings = static::getDefaultSettingsData();
 
-        $settings['general_settings'] = isset($rwp_settings['general_settings']) ? $rwp_settings['general_settings'] : $default_settings['general_settings'];
-        $settings['affiliate_settings'] = isset($rwp_settings['affiliate_settings']) ? $rwp_settings['affiliate_settings'] : $default_settings['affiliate_settings'];
-        $settings['email_settings'] = isset($rwp_settings['email_settings']) ? $rwp_settings['email_settings'] : $default_settings['email_settings'];
-        $settings['payment_settings'] = isset($rwp_settings['payment_settings']) ? $rwp_settings['payment_settings'] : $default_settings['payment_settings'];
-
-        $settings = apply_filters('rwp_get_settings', $settings);
+        $settings = apply_filters('flycart_review_get_settings', $default_settings);
 
         return $settings;
     }

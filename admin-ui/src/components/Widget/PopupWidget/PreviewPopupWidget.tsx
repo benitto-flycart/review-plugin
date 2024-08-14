@@ -5,6 +5,8 @@ import {PopupWidgetContext} from "./PopupWidgetContextAPI";
 import GemIcon from "../../icon-components/GemIcon";
 import {Cross1Icon} from "@radix-ui/react-icons";
 
+console.log(styles);
+
 const PreviewPopupWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(PopupWidgetContext)
 
@@ -38,11 +40,10 @@ const PreviewPopupWidget = () => {
     return (
         <div
             className={"review-preview-wrap popup-widget frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative"}>
-            <div className={`${styles.popup_container_wrapper} ${getPopupPosition()} ${getCornerRadius()}`}
+            <div className={`  ${styles.popup_container_wrapper} ${getPopupPosition()} ${getCornerRadius()}`}
                  style={methods.getPopupPreviewStyles()}>
-                <span className={"frt-absolute frt-right-[10px] frt-top-[10px]"}><Cross1Icon/></span>
+                <span className={"frt-absolute frt-right-[15px] frt-top-[15px] frt-text-blue-700"} ><Cross1Icon/></span>
                 <div className={styles.review_wrapper}>
-
                     <div className={styles.review_image_wrapper}>
                         <div
                             className={`${styles.review_image}`}
