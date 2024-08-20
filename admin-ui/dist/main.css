@@ -1430,14 +1430,8 @@ video {
 .frt-right-4 {
   right: 1rem;
 }
-.frt-right-\[15px\] {
-  right: 15px;
-}
 .frt-top-4 {
   top: 1rem;
-}
-.frt-top-\[15px\] {
-  top: 15px;
 }
 .frt-top-\[50\%\] {
   top: 50%;
@@ -1579,6 +1573,9 @@ video {
 .frt-max-h-\[90vh\] {
   max-height: 90vh;
 }
+.frt-min-h-\[100vh\] {
+  min-height: 100vh;
+}
 .frt-min-h-\[60px\] {
   min-height: 60px;
 }
@@ -1637,6 +1634,9 @@ video {
   width: -moz-max-content;
   width: max-content;
 }
+.frt-w-\[50px\] {
+  width: 50px;
+}
 .frt-min-w-\[8rem\] {
   min-width: 8rem;
 }
@@ -1654,6 +1654,9 @@ video {
 }
 .frt-shrink-0 {
   flex-shrink: 0;
+}
+.frt-basis-1 {
+  flex-basis: 0.25rem;
 }
 .frt-border-collapse {
   border-collapse: collapse;
@@ -1696,6 +1699,9 @@ video {
 }
 .frt-grid-cols-\[85\%_15\%\] {
   grid-template-columns: 85% 15%;
+}
+.frt-grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 .frt-flex-row {
   flex-direction: row;
@@ -1894,6 +1900,11 @@ video {
   border-color: rgba(255, 255, 255, 1);
   border-color: rgba(255, 255, 255, var(--tw-border-opacity));
 }
+.frt-border-gray-700 {
+  --tw-border-opacity: 1;
+  border-color: rgba(55, 65, 81, 1);
+  border-color: rgba(55, 65, 81, var(--tw-border-opacity));
+}
 .frt-border-b-gray-500 {
   --tw-border-opacity: 1;
   border-bottom-color: rgba(107, 114, 128, 1);
@@ -1994,6 +2005,10 @@ video {
 .frt-px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
+}
+.frt-px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .frt-px-2\.5 {
   padding-left: 0.625rem;
@@ -2108,11 +2123,6 @@ video {
   --tw-text-opacity: 1;
   color: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, var(--tw-text-opacity));
-}
-.frt-text-blue-700 {
-  --tw-text-opacity: 1;
-  color: rgba(29, 78, 216, 1);
-  color: rgba(29, 78, 216, var(--tw-text-opacity));
 }
 .frt-text-card-foreground {
   color: hsl(0, 0%, 4%);
@@ -2353,6 +2363,8 @@ video {
     border-radius: 8px;
     border: 1px solid lightgray;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }
 
 .review-color-swatch {
@@ -2368,7 +2380,7 @@ video {
     z-index: 100;
 }
 
-.review-preview-product-widget {
+.preview-widget {
     background-image: linear-gradient(to bottom, transparent 98%, #e8ebee 50%), linear-gradient(to right, white 98%, #e8ebee 50%);
     background-size: 32px 32px;
     padding: 16px 32px;
@@ -3063,10 +3075,11 @@ div[data-radix-popper-content-wrapper] {
     animation: WidgetfadeIn 2s;;
 }
 
-/*!*********************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/ProductReviewWidget/styles/preview-mobile.css ***!
-  \*********************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/preview-mobile.css ***!
+  \******************************************************************************************************************************************************************/
 @media screen and (min-width: 769px) {
+    /*Product-Widget*/
     .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile {
         width: 386px;
         margin: auto auto;
@@ -3076,128 +3089,324 @@ div[data-radix-popper-content-wrapper] {
             min-width: 150px;
         }
 
-        .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile .hide-in-mobile {
-            display: none;
-        }
+    /*PopupWidget*/
+    .review-preview-popup-widget .review-preview-wrap.popup-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
 
-        .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile .show-in-mobile {
-            display: block;
-        }
-        .review-preview-product-widget .review-preview-wrap.product-widget-preview-desktop .hide-in-desktop {
-            display: none;
-        }
-
-        .review-preview-product-widget .review-preview-wrap.product-widget-preview-desktop .show-in-desktop {
-            display: block;
-        }
 
 
 }
-/*!****************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/PopupWidget/popup.module.css ***!
-  \****************************************************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/PopupWidget/popup.css ***!
+  \*********************************************************************************************************************************************************************/
 
-.popup-module__popup_container_wrapper___C_hv6 {
+.popup_container {
     margin: .5rem;
     position: absolute;
     border-radius: .5rem;
-    padding: 0.5rem 1rem;
     width: 200px;
 }
 
-.popup-module__popup_review_wrapper___XaUr1 {
+.review_wrapper {
     border-radius: .5rem;
 }
 
 
-.popup-module__popup_bottom_left___hSn6N {
+.bottom_left {
+    transition: bottom 0.5s ease, left 0.5s ease;
     bottom: 1rem;
     left: 1rem;
 }
 
-.popup-module__popup_bottom_right___gh8jH {
+.bottom_right {
+    transition: bottom 0.5s ease, right 0.5s ease;
     bottom: 1rem;
     right: 1rem;
 }
 
-.popup-module__popup_top_right___BmIr_ {
+.top_right {
+    transition: top 0.5s ease, right 0.5s ease;
     top: 1rem;
     right: 1rem;
 }
 
-.popup-module__popup_top_left___LGmIX {
+.top_left {
+    transition: top 0.5s ease, left 0.5s ease;
     top: 1rem;
     left: 1rem;
 }
 
-.popup-module__popup_sharp___MPdpr {
+.popup_sharp {
    border-radius: 2px;
 }
 
-.popup-module__popup_slightly_rounded___ORZYj {
+.popup_slightly_rounded {
     border-radius: 4px;
 }
 
-.popup-module__popup_rounded___q3SyQ {
+.popup_rounded {
     border-radius: 8px;
 }
 
-.popup-module__popup_extra_rounded___etvTl {
+.popup_extra_rounded {
     border-radius: 16px;
 }
 
-.popup-module__popup_none___y2c4H {
+.popup_none {
     border-radius: 0px;
 }
 
-.popup-module__review_wrapper___rDd3T {
+.review_wrapper {
 
 }
 
-.popup-module__review_image_wrapper___vsRgT {
+.review_image_wrapper {
 
 }
 
-.popup-module__review_image___YE2OD {
+.review_image {
     min-height: 160px;
-    max-height: 160px;
+    max-height: 250px;
     min-width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
+    overflow: hidden;
 }
 
-.popup-module__review_body___Pa8mj {
+.review_body {
     padding: .5rem;
 }
 
-.popup-module__reviewer_name___z_OIB {
+.reviewer_name {
 
 }
 
-.popup-module__review_icon_wrapper___NaT0w {
+.review_icon_wrapper {
 
 }
 
-.popup-module__review_content___vgfjI {
+.review_content {
 
 }
 
-.popup-module__review_product_wrapper___dsAU4 {
+.review_product_wrapper {
     padding: .5rem;
 }
 
-.popup-module__review_product_image_wrapper___iF4b5 {
+.review_product_image_wrapper {
 
 }
 
-.popup-module__review_product_image___weYtk {
+.review_product_image {
     width: 50px;
     height: 50px;
 }
 
-.popup-module__review_product_title___S3kOZ {
+.review_product_title {
 
 }
 
+.close_icon {
+    border-radius: 1em;
+    padding: .5em;
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    opacity: 0.2;
+    cursor: pointer;
+}
 
+.close_icon:hover {
+    opacity: 1;
+}
+/*!**************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/SnippetWidget/carosual.css ***!
+  \**************************************************************************************************************************************************************************/
+.wd_snippet__carousel {
+    max-width: 600px;
+    position: relative;
+    margin: 0 auto;
+}
 
+.wd_snippet__carousel .wd_snippet__carousel-item,
+.wd_snippet__carousel .wd_snippet__carousel-item-hidden {
+    display: none; /* hide all slide images not currently being viewed */
+}
+
+.wd_snippet__carousel .wd_snippet__carousel-item-visible {
+    display: flex; /* show current slide image */
+    animation: fadeVisibility 0.5s; /* for fading effect when switching between slides */
+    text-overflow: ellipsis;
+    padding: 1rem;
+    background-color: lightgray;
+    border-radius: 16px;
+    box-shadow: #E5E4E7;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.wd_snippet__carousel-item-visible .text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+/* Navigation control styles */
+.wd_snippet__carousel .wd_snippet__carousel-actions {
+    display: flex;
+    width: 100%;
+    justify-content: space-between; /* put space between the navigation buttons */
+    position: absolute; /* position navigation buttons on top */
+    top: 50%; /* center navigation buttons on the slide */
+    transform: translateY(-50%); /* align navigation buttons */
+}
+
+.wd_snippet__carousel .wd_snippet__carousel-actions button {
+    border: 0;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    width: 25px;
+    color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wd_snippet__carousel .wd_snippet__carousel-actions button svg {
+    width: 100px;
+}
+
+.wd_snippet__carousel .wd_snippet__carousel-actions button.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.wd_snippet__carousel-button-prev {
+    left: -12px;
+}
+
+.wd_snippet__carousel-button-next {
+    right: -12px;
+}
+
+.wd_snippet__carousel-dots {
+    text-align: center;
+}
+
+.dot {
+    opacity: 0.7; /* gray out dots for slides not being visted */
+}
+
+.dot:focus {
+    border: 1px solid black; /* dot for currently visited slide */
+}
+
+/* hanlde smooth transitions between slides */
+@keyframes fadeVisibility {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+/*!************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/SnippetWidget/mobile.css ***!
+  \************************************************************************************************************************************************************************/
+@media screen and (min-width: 769px) {
+    /*Snippet Widget*/
+
+    .wd_snippet_preview .review-preview-wrap.snippet-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
+
+    .wd_snippet_preview .review-preview-wrap.snippet-widget-preview-mobile .wd_snippet__product_wrapper {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/SnippetWidget/snippets-widget.css ***!
+  \*********************************************************************************************************************************************************************************/
+
+    .wd_snippet_preview .wd_snippet__product_wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+.wd_snippet_preview .wd_snippet__product_details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: start;
+    }
+.wd_snippet_preview .wd_snippet__product_title {
+        font-size: 2rem;
+    }
+.wd_snippet_preview .wd_snippet__product_price {
+        font-size: 1.5rem;
+    }
+.wd_snippet_preview .wd_snippet__product_description {
+        font-size: 1rem;
+    }
+.wd_snippet_preview .wd_snippet__add_to_cart_btn {
+        background-color: var(--primary) !important;
+    }
+
+/*!************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/RatingWidget/preview.css ***!
+  \************************************************************************************************************************************************************************/
+
+    .wd_rating_preview .wd_rating__product_wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+.wd_rating_preview .wd_rating__product_details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: start;
+    }
+.wd_rating_preview .wd_rating__product_title {
+        font-size: 2rem;
+    }
+.wd_rating_preview .wd_rating__product_price {
+        font-size: 1.5rem;
+    }
+.wd_rating_preview .wd_rating__product_description {
+        font-size: 1rem;
+    }
+.wd_rating_preview .wd_rating__add_to_cart_btn {
+        background-color: var(--primary) !important;
+    }
+.wd_rating_preview .wd_rating_preview_element {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+/*!***********************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/components/Widget/RatingWidget/mobile.css ***!
+  \***********************************************************************************************************************************************************************/
+@media screen and (min-width: 769px) {
+    /*Snippet Widget*/
+
+    .wd_snippet_preview .review-preview-wrap.rating-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
+
+    .wd_rating_preview .review-preview-wrap.rating-widget-preview-mobile .wd_rating__product_wrapper {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}

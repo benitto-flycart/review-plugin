@@ -422,6 +422,16 @@ const ProductWidgetColorSetting = () => {
                         }}/>
                     </div>
 
+                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                        <Label className={"frt-text-xs"} htmlFor="none">Shadow Color</Label>
+                        <PopOverColorPicker color={colors.reviews.shadow_color} onChange={(color: string) => {
+                            updateWidgetFields((draftState: any) => {
+                                draftState.colors.type = 'custom'
+                                draftState.colors.reviews.shadow_color = color;
+                            })
+                        }}/>
+                    </div>
+
                 </div>
             </div>
 

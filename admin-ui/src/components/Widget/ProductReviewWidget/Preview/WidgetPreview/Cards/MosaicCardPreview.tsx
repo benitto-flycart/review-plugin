@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import {getRepliesStyles, getReviewCardStyles} from "../../../helper";
 import {Badge} from "../../../../../ui/badge";
+import GemIcon from "../../../../../icon-components/GemIcon";
 
 const MosaicCardPreview = ({review}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
@@ -27,11 +28,11 @@ const MosaicCardPreview = ({review}: any) => {
                     {review.is_verified ? <span><Badge variant="outline">verified</Badge></span> : null}
                     <span>{review.date}</span>
                     <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"gray"} size={'small'}/>
+                        <GemIcon color={"gray"} size={'small'}/>
                     </div>
                     <p>{review.content}</p>
                 </div>

@@ -1,0 +1,12 @@
+@media screen and (min-width: 769px) {
+    /*Snippet Widget*/
+
+    .wd_snippet_preview .review-preview-wrap.snippet-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
+
+    .wd_snippet_preview .review-preview-wrap.snippet-widget-preview-mobile .wd_snippet__product_wrapper {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}

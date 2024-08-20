@@ -3,6 +3,7 @@ import {Label} from "../../ui/label";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 import {Switch} from "../../ui/switch";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
+import {Cross1Icon} from "@radix-ui/react-icons";
 
 const PopupWidgetConfigSetting = () => {
     const {widget, updateWidgetFields} = useContext<any>(PopupWidgetContext)
@@ -15,7 +16,7 @@ const PopupWidgetConfigSetting = () => {
                     updateWidgetFields((draftState: any) => {
                         draftState.show_setting = ''
                     })
-                }}>Close</span>
+                }}><Cross1Icon/></span>
             </div>
             <div className={"frt-flex frt-flex-col frt-gap-3 frt-px-4"}>
                 <div className={"frt-flex frt-flex-col frt-gap-2"}>

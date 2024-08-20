@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import {Label} from "../../ui/label";
 import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
+import {Cross1Icon} from "@radix-ui/react-icons";
 
 const PopupWidgetColorSetting = () => {
     const {widget, updateWidgetFields} = useContext<any>(PopupWidgetContext)
@@ -14,7 +15,7 @@ const PopupWidgetColorSetting = () => {
                     updateWidgetFields((draftState: any) => {
                         draftState.show_setting = ''
                     })
-                }}>Close</span>
+                }}><Cross1Icon/></span>
             </div>
 
             <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
@@ -53,6 +54,30 @@ const PopupWidgetColorSetting = () => {
                         <PopOverColorPicker color={widget.colors.product.text_color} onChange={(color: string) => {
                             updateWidgetFields((draftState: any) => {
                                 draftState.colors.product.text_color = color;
+                            })
+                        }}/>
+                    </div>
+                </div>
+            </div>
+
+            <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
+                <div>
+                    <span className={"frt-font-extrabold"}>Close Icon</span>
+                </div>
+                <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
+                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                        <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
+                        <PopOverColorPicker color={widget.colors.close_icon.text_color} onChange={(color: string) => {
+                            updateWidgetFields((draftState: any) => {
+                                draftState.colors.close_icon.text_color = color;
+                            })
+                        }}/>
+                    </div>
+                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                        <Label className={"frt-text-xs"} htmlFor="none">Background Color</Label>
+                        <PopOverColorPicker color={widget.colors.close_icon.bg_color} onChange={(color: string) => {
+                            updateWidgetFields((draftState: any) => {
+                                draftState.colors.close_icon.bg_color = color;
                             })
                         }}/>
                     </div>

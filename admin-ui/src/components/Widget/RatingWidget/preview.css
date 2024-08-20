@@ -1,0 +1,37 @@
+.wd_rating_preview {
+    .wd_rating__product_wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .wd_rating__product_details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: start;
+    }
+
+    .wd_rating__product_title {
+        font-size: 2rem;
+    }
+
+    .wd_rating__product_price {
+        font-size: 1.5rem;
+    }
+
+    .wd_rating__product_description {
+        font-size: 1rem;
+    }
+
+    .wd_rating__add_to_cart_btn {
+        background-color: var(--primary) !important;
+    }
+
+    .wd_rating_preview_element {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+}

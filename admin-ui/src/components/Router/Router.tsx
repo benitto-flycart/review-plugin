@@ -13,6 +13,8 @@ import ProductReviewWidget from "../Widget/ProductReviewWidget";
 import PopupWidget from "../Widget/PopupWidget/PopupWidget";
 import {ReviewSidebarWidget} from "../Widget/ReviewSidebarWidget/ReviewSidebarWidget";
 import {FloatingProductReviewsWidget} from "../Widget/FloatingProductReviewsWidget/FloatingProductReviewsWidget";
+import SnippetWidget from "../Widget/SnippetWidget/SnippetWidget";
+import RatingWidget from "../Widget/RatingWidget/RatingWidget";
 
 
 function Router() {
@@ -31,6 +33,8 @@ function Router() {
             <Route path="widgets/popup-widget" element={<PopupWidget/>}/>
             <Route path="widgets/review-sidebar-widget" element={<ReviewSidebarWidget/>}/>
             <Route path="widgets/floting-product-widget" element={<FloatingProductReviewsWidget/>}/>
+            <Route path="widgets/snippets-widget" element={<SnippetWidget/>}/>
+            <Route path="widgets/rating-widget" element={<RatingWidget/>}/>
         </Routes>
     );
 }

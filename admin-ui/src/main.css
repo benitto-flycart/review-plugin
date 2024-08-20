@@ -137,6 +137,8 @@
     border-radius: 8px;
     border: 1px solid lightgray;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }
 
 .review-color-swatch {
@@ -152,7 +154,7 @@
     z-index: 100;
 }
 
-.review-preview-product-widget {
+.preview-widget {
     background-image: linear-gradient(to bottom, transparent 98%, #e8ebee 50%), linear-gradient(to right, white 98%, #e8ebee 50%);
     background-size: 32px 32px;
     padding: 16px 32px;

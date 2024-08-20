@@ -1,0 +1,20 @@
+@media screen and (min-width: 769px) {
+    /*Product-Widget*/
+    .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+
+        .grid-product-review-preview {
+            min-width: 150px;
+        }
+    }
+
+    /*PopupWidget*/
+    .review-preview-popup-widget .review-preview-wrap.popup-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
+
+
+
+}

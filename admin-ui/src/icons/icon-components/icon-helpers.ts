@@ -20,7 +20,6 @@ const getWidthAndHeight = (size: string) => {
 export const getIconStyles = (size: string, color: string, filledColor: string = '') => {
     return {
         color: filledColor ? filledColor : color,
-        // ...getWidthAndHeight(size)
     }
 }
 

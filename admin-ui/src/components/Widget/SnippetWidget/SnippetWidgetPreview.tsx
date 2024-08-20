@@ -1,0 +1,186 @@
+import React, {useContext, useEffect, useState} from "react";
+
+import {SnippetWidgetContext} from "./SnippetWidgetContextAPI";
+import "./carosual.css";
+import GemIcon from "../../icon-components/GemIcon";
+
+const PreviewSnippetWidget = () => {
+    const {widget, updateWidgetFields, methods} = useContext<any>(SnippetWidgetContext)
+    const [index, setIndex] = useState<any>(0);
+
+    const reviews = [
+        {
+            review_title: 'First Title',
+            reviewer_name: 'BEnitto 1',
+            is_verified: false,
+            date: "31/03/2024",
+            content: "Item 15 with lots of content to create a taller item lorem  ipsu Item 6 with lots of content to create a taller item lorem   ipsu Item 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsu",
+            images: [
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                }
+            ],
+        },
+        {
+            review_title: 'First Title',
+            reviewer_name: 'Benitto 2',
+            is_verified: false,
+            date: "31/03/2024",
+            content: "Item 15 with lots of content to create a taller item lorem  ipsu Item 6 with lots of content to create a taller item lorem   ipsu Item 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsu",
+            images: [],
+        },
+        {
+            review_title: 'First Title',
+            reviewer_name: 'Benitto',
+            is_verified: false,
+            date: "31/03/2024",
+            content: "Item 15 with lots of content to create a taller item lorem  ipsu Item 6 with lots of content to create a taller item lorem   ipsu Item 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsu",
+            images: [
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                }
+            ],
+        },
+        {
+            review_title: 'First Title',
+            reviewer_name: 'Benitto 3',
+            is_verified: false,
+            date: "31/03/2024",
+            content: "Item 15 with lots of content to create a taller item lorem  ipsu Item 6 with lots of content to create a taller item lorem   ipsu Item 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsu",
+            images: [
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                },
+                {
+                    id: 1,
+                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                }
+            ],
+        },
+        {
+            review_title: 'First Title',
+            reviewer_name: 'Benitto 4',
+            is_verified: false,
+            date: "31/03/2024",
+            content: "Item 15 with lots of content to create a taller item lorem  ipsu Item 6 with lots of content to create a taller item lorem   ipsu Item 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsuItem 6 with lots of content to create a taller item lorem   ipsu",
+            images: [],
+        }
+    ]
+
+
+    const length = 3;
+    const handlePrevious = () => {
+        const newIndex = index - 1;
+        setIndex(newIndex < 0 ? length - 1 : newIndex);
+    };
+
+    const handleNext = () => {
+        const newIndex = index + 1;
+        setIndex(newIndex >= length ? 0 : newIndex);
+    };
+
+    const ratingIconColor = methods.getRatingIconColor()
+
+    return (
+        <div
+            className={`wd_preview_content review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'snippet-widget-preview-mobile' : 'snippet-widget-preview-desktop'}`}
+        >
+            <div className={'wd_snippet__product_wrapper'}>
+                <div>
+                    <img src="http://localhost:8004/wp-content/uploads/2023/11/album-1.jpg" alt=""/>
+                </div>
+                <div className={'wd_snippet__product_details'}>
+                    <h2 className={'wd_snippet__product_title'}>Album</h2>
+                    <h2 className={'wd_snippet__product_price'}>price</h2>
+                    <p className={'wd_snippet__product_description'}>This is a simple, Virtual Product</p>
+                    <button className={`wd_snippet__add_to_cart_button button wp-element-button`}>Add to Cart</button>
+                    <div>
+                        <div className="wd_snippet__carousel">
+                            {reviews.map((item: any, i: number) => {
+                                return (
+                                    <div
+                                        className={`wd_snippet__carousel-item ${i == index ? 'wd_snippet__carousel-item-visible' : ''}`}
+                                        style={methods.getStyles()}>
+                                        {widget.show_review_image && (item.images?.length > 0) ? (
+                                            <img
+                                                src={item.images[0].src}
+                                                alt="Alternative Text"
+                                                width={"50px"}
+                                            />
+                                        ) : null
+                                        }
+                                        <div className={"frt-px-2"}>
+                                            <div className={"frt-flex frt-flex-row frt-gap-2"}>
+                                                <div style={methods.getReviewerNameStyle()}>{item.reviewer_name}</div>
+                                                {widget.show_rating ? (
+                                                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
+                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                    </div>) : null}
+
+                                            </div>
+                                            <div className={"text"}
+                                                 style={methods.getReviewStyles()}>{item.content}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                            <div className="wd_snippet__carousel-actions">
+                                <button
+                                    className={`${index == 0 ? 'disabled' : ''} wd_snippet__carousel-button-prev`}
+                                    style={methods.getCarosualActionStyle()}
+                                    disabled={index == 0} onClick={(e: any) => {
+                                    setIndex(index - 1);
+                                }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M11.05 12 16 7.05l-1.414-1.414L8.222 12l6.364 6.364L16 16.95 11.05 12Z"></path>
+                                    </svg>
+                                </button>
+                                <button
+                                    className={`${index == (reviews.length - 1) ? 'disabled' : ''} wd_snippet__carousel-button-next`}
+                                    disabled={index == (reviews.length - 1)}
+                                    style={methods.getCarosualActionStyle()}
+                                    onClick={(e: any) => {
+                                        setIndex(index + 1)
+                                    }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="m13.172 12-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414 4.95-4.95Z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>)
+}
+
+export default PreviewSnippetWidget;

@@ -1,15 +1,15 @@
 export const REVIEW_SHADOWS: {[index: string]:any} = {
     classic : {
-        boxShadow: "0 0 8px #00000040"
+        boxShadow: "0 0 8px {{color}}"
     },
     dark: {
-        'boxShadow': "0 6px 14px #00000036"
+        'boxShadow': "0 6px 14px {{color}}"
     },
     light: {
-        boxShadow: "0 6px 14px -4px #00000024"
+        boxShadow: "0 6px 14px -4px {{color}}"
     },
     none: {
-        boxShadow: "none"
+        boxShadow: "0 0 0 0 {{color}}"
     }
 };
 
@@ -25,6 +25,9 @@ export const REVIEW_OPENERS: {[index: string]:any} = {
     },
     extra_rounded: {
         borderRadius: "16px"
+    },
+    none: {
+        borderRadius: "0px"
     }
 };
 
@@ -46,6 +49,7 @@ export const WIDGET_COLOR_DEFAULTS = {
             text_color: '#000000',
             bg_color: '#ffffff',
             bg_hover_color: '#f8f8f8',
+            shadow_color: '#f8f8f8',
         },
         replies: {
             text_color: '#000000',
@@ -72,6 +76,7 @@ export const WIDGET_COLOR_DEFAULTS = {
             text_color: '#000000',
             bg_color: '#ffffff',
             bg_hover_color: '#f8f8f8',
+            shadow_color: '#f8f8f8'
         },
         replies: {
             text_color: '#000000',
@@ -81,4 +86,10 @@ export const WIDGET_COLOR_DEFAULTS = {
             icon_color: '#282828'
         }
     }
+}
+
+export const getReviewShadow = (index: any, color: any) => {
+    let style = REVIEW_SHADOWS[index];
+
+    return style.boxShadow.replace("{{color}}", color)
 }

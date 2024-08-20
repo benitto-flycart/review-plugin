@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import {getReviewCardStyles} from "../../../helper";
+import GemIcon from "../../../../../icon-components/GemIcon";
 
 const ListCardPreview = ({review}: any) => {
 
@@ -27,12 +28,12 @@ const ListCardPreview = ({review}: any) => {
                 </div>
                 <div className={"frt-flex frt-flex-col"}>
                     <span>{review.date}</span>
-                    <div className={"frt-flex frt-flex-row frt-gap-2"}>
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
-                        <span>*</span>
+                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"inherit"} size={'small'}/>
+                        <GemIcon color={"gray"} size={'small'}/>
+                        <GemIcon color={"gray"} size={'small'}/>
                     </div>
                 </div>
             </div>

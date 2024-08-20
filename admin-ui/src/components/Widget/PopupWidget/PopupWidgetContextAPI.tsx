@@ -7,6 +7,7 @@ function PopupWidgetContextAPI({children}: { children: any }) {
 
     const [widget, setWidget] = useState({
         show_setting: '',
+        view:'mobile',
         position: 'top_left',
         corner_radius: 'sharp',
         minimum_rating: '3_stars',
@@ -27,6 +28,10 @@ function PopupWidgetContextAPI({children}: { children: any }) {
             },
             product: {
                 text_color: '#020202',
+            },
+            close_icon: {
+                text_color: '#000000',
+                bg_color: '#d3adad',
             }
         }
     })
@@ -46,6 +51,12 @@ function PopupWidgetContextAPI({children}: { children: any }) {
             return {
                 color: widget.colors.product.text_color,
             };
+        },
+        getCloseIconStyles: () => {
+            return {
+                color: widget.colors.close_icon.text_color,
+                backgroundColor: widget.colors.close_icon.bg_color,
+            }
         }
     }
 

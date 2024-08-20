@@ -34,6 +34,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
                 text_color: '#020202',
                 bg_color: '#f5c6c6',
                 bg_hover_color: '#b45e5e',
+                shadow_color: '#ebacac'
             },
             replies: {
                 text_color: '#000000',
