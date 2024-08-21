@@ -15,6 +15,10 @@
         margin: auto auto;
     }
 
+    .review-preview-sidebar-widget .review-preview-wrap.sidebar-widget-preview-mobile {
+        width: 386px;
+        margin: auto auto;
+    }
 
 
 }
