@@ -161,8 +161,6 @@
 }
 
 .review-preview-wrap {
-    border-radius: 8px;
-    margin-top: 16px;
     transition: .25s;
     overflow: hidden;
     width: 100%;
@@ -172,5 +170,5 @@
 }
 
 div[data-radix-popper-content-wrapper] {
-   z-index: 500000 !important;
+    z-index: 500000 !important;
 }

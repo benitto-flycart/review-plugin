@@ -1,0 +1,8 @@
+@media screen and (min-width: 769px) {
+    /*Snippet Widget*/
+
+    .floating_product_widget_preview_mobile  {
+        width: 386px;
+        margin: auto auto;
+    }
+}

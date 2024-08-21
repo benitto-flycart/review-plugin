@@ -14,7 +14,7 @@ import SnippetWidgetConfigSetting from "../SnippetWidget/SnippetWidgetConfigSett
 import SnippetWidgetColorSetting from "../SnippetWidget/SnippetWidgetColorSetting";
 import WidgetSidebar from "../WidgetSidebar";
 
-const ProductWidget = ({show, toggle}: any) => {
+const ProductWidget = ({toggle}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
 
     const settings = {
@@ -54,7 +54,7 @@ const ProductWidget = ({show, toggle}: any) => {
 
     return (
         <div>
-            <Dialog open={show} onOpenChange={toggle}>
+            <Dialog open={true} onOpenChange={toggle}>
                 <DialogContent
                     className={"review-widget-preview !frt-p-0 !frt-max-w-[98vw] frt-min-h-[90vh] frt-max-h-[90vh] !frt-z-[50000] frt-overflow-scroll"}>
                     <div className={"frt-grid frt-grid-cols-5 frt-border-collapse"}>

@@ -1,12 +1,25 @@
-import React from 'react';
-import {useLocalState} from "../zustand/localState";
+import React, {useState} from 'react';
 import '@/src/styles/dashboard/dashboard.css';
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Button} from "../ui/button";
 import {NavLink} from "react-router-dom";
+import ProductWidget from "./ProductReviewWidget/ProductWidget";
+import ProductWidgetContextAPI from "./ProductReviewWidget/ProductReviewContextAPI";
+import PopupWidgetContextAPI from "./PopupWidget/PopupWidgetContextAPI";
+import PopupWidgetDialog from "./PopupWidget/PopupWidgetDialog";
+import FloatingProductWidgetDialog from "./FloatingProductWidget/FloatingProductWidgetDialog";
+import FloatingProductWidgetContextAPI from "./FloatingProductWidget/FloatingProductWidgetContextAPI";
+import SnippetWidgetDialog from "./SnippetWidget/SnippetWidgetDialog";
+import SnippetWidgetContextAPI from "./SnippetWidget/SnippetWidgetContextAPI";
+import RatingWidgetDialog from "./RatingWidget/RatingWidgetDialog";
+import RatingWidgetContextAPI from "./RatingWidget/RatingWidgetContextAPI";
 
 const Widget = () => {
-    const {localState} = useLocalState();
+    const [activeDialog, setActiveDialog] = useState<string>('')
+
+    const reset = () => {
+        setActiveDialog('')
+    };
 
     return (<div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
         <div>
@@ -23,10 +36,16 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/product-review-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+                    <Button onClick={() => {
+                        setActiveDialog('product_widget')
+                    }}>
+                        Customize
+                    </Button>
+
+                    {activeDialog == 'product_widget' ? (<ProductWidgetContextAPI>
+                        <ProductWidget toggle={reset}/>
+                    </ProductWidgetContextAPI>) : null}
+
                 </CardFooter>
             </Card>
 
@@ -41,10 +60,15 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/popup-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+                    <Button onClick={() => {
+                        setActiveDialog('popup_widget')
+                    }}>
+                        Customize
+                    </Button>
+
+                    {activeDialog == 'popup_widget' ? (<PopupWidgetContextAPI>
+                        <PopupWidgetDialog show={true} toggle={reset}/>
+                    </PopupWidgetContextAPI>) : null}
                 </CardFooter>
             </Card>
 
@@ -76,10 +100,17 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/floting-product-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+                    <CardFooter className="frt-flex frt-justify-end">
+                        <Button onClick={() => {
+                            setActiveDialog('floating_product_widget')
+                        }}>
+                            Customize
+                        </Button>
+
+                        {activeDialog == 'floating_product_widget' ? (<FloatingProductWidgetContextAPI>
+                            <FloatingProductWidgetDialog show={true} toggle={reset}/>
+                        </FloatingProductWidgetContextAPI>) : null}
+                    </CardFooter>
                 </CardFooter>
             </Card>
             <Card>
@@ -92,10 +123,17 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/snippets-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+                    <CardFooter className="frt-flex frt-justify-end">
+                        <Button onClick={() => {
+                            setActiveDialog('snippets_widget')
+                        }}>
+                            Customize
+                        </Button>
+
+                        {activeDialog == 'snippets_widget' ? (<SnippetWidgetContextAPI>
+                            <SnippetWidgetDialog show={true} toggle={reset}/>
+                        </SnippetWidgetContextAPI>) : null}
+                    </CardFooter>
                 </CardFooter>
             </Card>
 
@@ -110,10 +148,17 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/rating-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+                    <CardFooter className="frt-flex frt-justify-end">
+                        <Button onClick={() => {
+                            setActiveDialog('rating_widget')
+                        }}>
+                            Customize
+                        </Button>
+
+                        {activeDialog == 'rating_widget' ? (<RatingWidgetContextAPI>
+                            <RatingWidgetDialog show={true} toggle={reset}/>
+                        </RatingWidgetContextAPI>) : null}
+                    </CardFooter>
                 </CardFooter>
             </Card>
         </div>

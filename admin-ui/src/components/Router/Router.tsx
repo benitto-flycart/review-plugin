@@ -12,9 +12,10 @@ import Widget from "../Widget";
 import ProductReviewWidget from "../Widget/ProductReviewWidget";
 import PopupWidget from "../Widget/PopupWidget/PopupWidget";
 import {ReviewSidebarWidget} from "../Widget/ReviewSidebarWidget/ReviewSidebarWidget";
-import {FloatingProductReviewsWidget} from "../Widget/FloatingProductReviewsWidget/FloatingProductReviewsWidget";
+import {FloatingProductReviewsWidget} from "../Widget/FloatingProductWidget/FloatingProductReviewsWidget";
 import SnippetWidget from "../Widget/SnippetWidget/SnippetWidget";
 import RatingWidget from "../Widget/RatingWidget/RatingWidget";
+import FloatingProductWidget from "../Widget/FloatingProductWidget/FloatingProductWidget";
 
 
 function Router() {
@@ -32,9 +33,9 @@ function Router() {
             <Route path="widgets/product-review-widget" element={<ProductReviewWidget/>}/>
             <Route path="widgets/popup-widget" element={<PopupWidget/>}/>
             <Route path="widgets/review-sidebar-widget" element={<ReviewSidebarWidget/>}/>
-            <Route path="widgets/floting-product-widget" element={<FloatingProductReviewsWidget/>}/>
             <Route path="widgets/snippets-widget" element={<SnippetWidget/>}/>
             <Route path="widgets/rating-widget" element={<RatingWidget/>}/>
+            <Route path="widgets/floating-product-widget" element={<FloatingProductWidget/>}/>
         </Routes>
     );
 }
