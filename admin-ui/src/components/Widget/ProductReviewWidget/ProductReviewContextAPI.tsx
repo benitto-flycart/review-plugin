@@ -9,7 +9,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         view: 'mobile',
         show_setting: '',
         layout: {
-            widget_layout: 'grid',
+            widget_layout: 'list',
             header_layout: 'compact',
         },
         style: {

@@ -10,9 +10,11 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         show_setting: '',
         layout: 'default',
         widget_alignment: 'left',
+        direction: 'icon_first',
         text_content: "{{rating}} - ({{count}})",
         hide_text_content: false,
-        font_size: 48,
+        font_size: 30,
+        rating_icon_size: 20,
         style: {},
         colors: {
             text_color: '#141010',
@@ -27,11 +29,13 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         },
         getTextStyles: () => {
             return {
-                color: widget.colors.text_color
+                color: widget.colors.text_color,
+                fontSize: widget.font_size + 'px'
             };
         },
-        getRatingStyles: () => {
+        getRatingContainerStyle: () => {
             let justifyContent = 'start';
+            let rowReverse = false;
             switch (widget.widget_alignment) {
                 case 'right':
                     justifyContent = 'end'
@@ -44,8 +48,19 @@ function RatingWidgetContextAPI({children}: { children: any }) {
                     break;
             }
 
+            if (widget.direction == 'text_first') {
+                rowReverse = true;
+            }
+
             return {
-                justifyContent: justifyContent
+                justifyContent: justifyContent,
+                flexDirection: rowReverse ? 'row-reverse' : 'row'
+            }
+        },
+        getRatingStyles: () => {
+            return {
+                fontSize: widget.rating_icon_size + 'px',
+                color: widget.colors.rating_icon_color,
             }
         }
     }

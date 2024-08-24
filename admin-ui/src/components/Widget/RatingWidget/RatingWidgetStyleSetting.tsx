@@ -1,33 +1,25 @@
 import React, {useContext} from "react";
 import {Label} from "../../ui/label";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
-import {Cross1Icon} from "@radix-ui/react-icons";
 import {RatingWidgetContext} from "./RatingWidgetContextAPI";
 import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
+import DetailHeading from "../Sidebar/DetailHeading";
+import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
+import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
+import SidebarDetailField from "../Sidebar/SidebarDetailField";
+import SidebarDetail from "../Sidebar/SidebarDetail";
+import InputFontSize from "../utils/InputFontSize";
 
-const RatingWidgetStyleSetting = () => {
+const RatingWidgetStyleSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(RatingWidgetContext)
 
     return (
-        <div className={"frt-flex frt-flex-col frt-divide-y frt-divide-black-400 frt-gap-2"}>
-            <div className={"frt-flex frt-justify-between frt-items-center widget-header-title"}>
-                <span>Settings</span>
-                <span className={"frt-cursor-pointer hover:frt-border-gray-100 frt-p-1"} onClick={() => {
-                    updateWidgetFields((draftState: any) => {
-                        draftState.show_setting = ''
-                    })
-                }}>
-                   <Cross1Icon/>
-                </span>
-            </div>
-            <div className={"frt-flex frt-flex-col frt-gap-3 frt-divide-y frt-divide-black-400"}>
-                <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
-                    <div>
-                        <span className={"frt-font-extrabold"}>General</span>
-                    </div>
-
-                    <div className={"frt-grid frt-grid-cols-1 frt-gap-2 frt-justify-center"}>
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
+        <SidebarDetailWrapper>
+            <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
+            <SidebarDetail>
+                <SidebarDetailSection title={"General"}>
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+                        <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Widget Alignment</Label>
                             <Select value={widget.widget_alignment} onValueChange={(value: string) => {
                                 updateWidgetFields((draftState: any) => {
@@ -45,9 +37,8 @@ const RatingWidgetStyleSetting = () => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        </div>
-
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Layout</Label>
                             <Select value={widget.layout} onValueChange={(value: string) => {
                                 updateWidgetFields((draftState: any) => {
@@ -64,32 +55,79 @@ const RatingWidgetStyleSetting = () => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        </div>
+                        </SidebarDetailField>
                     </div>
 
-                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                    <SidebarDetailField>
+                        <Label className={"frt-text-xs"} htmlFor="none">Direction</Label>
+                        <Select value={widget.direction} onValueChange={(value: string) => {
+                            updateWidgetFields((draftState: any) => {
+                                draftState.direction = value;
+                            })
+                        }}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Direction"/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="icon_first">Icon First</SelectItem>
+                                    <SelectItem value="text_first">Text First</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </SidebarDetailField>
+
+                    <SidebarDetailField>
+                        <Label className={"frt-text-xs"} htmlFor="none">Text Font Size</Label>
+                        <InputFontSize
+                            min={16}
+                            max={50}
+                            step={1}
+                            value={widget.font_size}
+                            onChange={(value: number) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.font_size = value;
+                                })
+                            }}
+                        />
+                    </SidebarDetailField>
+
+                    <SidebarDetailField>
+                        <Label className={"frt-text-xs"} htmlFor="none">Rating Size</Label>
+                        <InputFontSize
+                            min={16}
+                            max={50}
+                            step={1}
+                            value={widget.rating_icon_size}
+                            onChange={(value: number) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.rating_icon_size = value;
+                                })
+                            }}
+                        />
+                    </SidebarDetailField>
+
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+                        <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
                             <PopOverColorPicker color={widget.colors.text_color} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
                                     draftState.colors.text_color = color;
                                 })
                             }}/>
-                        </div>
-
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Rating Icon Color</Label>
                             <PopOverColorPicker color={widget.colors.rating_icon_color} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
                                     draftState.colors.rating_icon_color = color;
                                 })
                             }}/>
-                        </div>
+                        </SidebarDetailField>
                     </div>
-                </div>
-            </div>
-        </div>
-    )
+                </SidebarDetailSection>
+            </SidebarDetail>
+        </SidebarDetailWrapper>)
 }
 
 export default RatingWidgetStyleSetting;

@@ -12,6 +12,7 @@ import RatingWidgetPreview from "./RatingWidgetPreview";
 import "./preview.css"
 import "./mobile.css"
 import RatingWidgetStyleSetting from "./RatingWidgetStyleSetting";
+
 const RatingWidgetDialog = ({show, toggle}: any) => {
 
     const {widget, updateWidgetFields} = useContext<any>(RatingWidgetContext)
@@ -24,13 +25,13 @@ const RatingWidgetDialog = ({show, toggle}: any) => {
                 key: 'settings',
                 name: 'Settings',
                 icon: <LayoutIcon/>,
-                component: <RatingWidgetConfigSetting/>,
+                component: <RatingWidgetConfigSetting name={"Title"}/>,
             },
             {
                 key: 'styles',
                 name: 'Styles',
                 icon: <LayoutIcon/>,
-                component: <RatingWidgetStyleSetting/>,
+                component: <RatingWidgetStyleSetting name={"Styles"}/>,
             }
         ]
     }
@@ -39,19 +40,17 @@ const RatingWidgetDialog = ({show, toggle}: any) => {
         <div>
             <Dialog open={show} onOpenChange={toggle}>
                 <DialogContent
-                    className={"review-widget-preview wd_container widget_snippet review-widget-preview !frt-p-0 !frt-max-w-[98vw] frt-min-h-[90vh] frt-max-h-[90vh] !frt-z-[50000] frt-overflow-scroll"}>
-                    <div className={"frt-grid frt-grid-cols-5 frt-border-collapse"}>
+                    className={"wd_container widget_snippet review-widget-preview !frt-p-0"}>
                     <div
-                        className={"wd__sidebar widget_snippet__sidebar frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
+                        className={"wd__sidebar frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
                         <WidgetSidebar settings={settings} widget={widget} updateWidgetFields={updateWidgetFields}/>
                     </div>
                     <div
-                        className={"wd_preview wd_snippet_preview frt-col-span-4 frt-flex frt-flex-col frt-gap-2 frt-shadow-2xl"}>
+                        className={"wd_preview frt-col-span-4 frt-flex frt-flex-col frt-gap-2 frt-shadow-2xl"}>
                         <WidgetPreviewHeader widget={widget} updateWidgetFields={updateWidgetFields}/>
-                        <div className={"preview-widget  wd_rating_preview  frt-min-h-[100vh]"}>
+                        <div className={"wd_preview__main_content preview-widget wd_review_form_preview"}>
                             <RatingWidgetPreview/>
                         </div>
-                    </div>
                     </div>
                 </DialogContent>
             </Dialog>

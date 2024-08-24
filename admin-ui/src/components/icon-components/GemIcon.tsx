@@ -8,7 +8,7 @@ const GemIcon = ({size, color, filledColor = ''}: {
 }) => {
     return (
         <span style={getIconStyles(size, color, filledColor)} >
-            <i className={'review review-Gem'}></i>
+            <i className={'review-icon review review-Gem'}></i>
         </span>
     )
 }

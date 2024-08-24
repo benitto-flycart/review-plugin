@@ -1,8 +1,8 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 
 import {SnippetWidgetContext} from "./SnippetWidgetContextAPI";
 import "./carosual.css";
-import GemIcon from "../../icon-components/GemIcon";
+import ReviewIcon from "../../ReviewIcon";
 
 const PreviewSnippetWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(SnippetWidgetContext)
@@ -102,11 +102,9 @@ const PreviewSnippetWidget = () => {
         setIndex(newIndex >= length ? 0 : newIndex);
     };
 
-    const ratingIconColor = methods.getRatingIconColor()
-
     return (
         <div
-            className={`wd_preview_content review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'snippet-widget-preview-mobile' : 'snippet-widget-preview-desktop'}`}
+            className={`wd_snippet_preview wd_preview_content review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'snippet-widget-preview-mobile' : 'snippet-widget-preview-desktop'}`}
         >
             <div className={'wd_snippet__product_wrapper'}>
                 <div>
@@ -125,25 +123,30 @@ const PreviewSnippetWidget = () => {
                                         className={`wd_snippet__carousel-item ${i == index ? 'wd_snippet__carousel-item-visible' : ''}`}
                                         style={methods.getStyles()}>
                                         {widget.show_review_image && (item.images?.length > 0) ? (
-                                            <img
-                                                src={item.images[0].src}
-                                                alt="Alternative Text"
-                                                width={"50px"}
-                                            />
-                                        ) : null
-                                        }
+                                            <React.Fragment>
+                                                <img
+                                                    src={item.images[0].src}
+                                                    alt="Alternative Text"
+                                                    width={"50px"}
+                                                    onError={(e) => {
+                                                        //@ts-ignore
+                                                        e?.target?.remove();
+                                                    }}
+                                                />
+                                            </React.Fragment>
+                                        ) : null}
                                         <div className={"frt-px-2"}>
-                                            <div className={"frt-flex frt-flex-row frt-gap-2"}>
+                                            <div className={"frt-flex frt-flex-row frt-gap-2 frt-items-center"}>
                                                 <div style={methods.getReviewerNameStyle()}>{item.reviewer_name}</div>
                                                 {widget.show_rating ? (
-                                                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
-                                                        <GemIcon color={ratingIconColor} size={'small'}/>
-                                                        <GemIcon color={ratingIconColor} size={'small'}/>
-                                                        <GemIcon color={ratingIconColor} size={'small'}/>
-                                                        <GemIcon color={ratingIconColor} size={'small'}/>
-                                                        <GemIcon color={ratingIconColor} size={'small'}/>
+                                                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2"
+                                                         style={methods.getRatingIconStyles()}>
+                                                        <ReviewIcon/>
+                                                        <ReviewIcon/>
+                                                        <ReviewIcon/>
+                                                        <ReviewIcon/>
+                                                        <ReviewIcon/>
                                                     </div>) : null}
-
                                             </div>
                                             <div className={"text"}
                                                  style={methods.getReviewStyles()}>{item.content}</div>

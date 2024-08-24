@@ -1,0 +1,231 @@
+
+.wd_preview .review_form_widget {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    font-family: inherit;
+}
+
+.wd_review_form_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: ghostwhite;
+    overflow-x: hidden;
+}
+
+.wd_review_form_main_content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 80%;
+    margin: 0 auto;
+    flex: 1;
+    transition: transform 1s ease-in-out;
+}
+
+.wd_review_form_content {
+    min-width: 100% !important;
+    max-width: 100% !important;
+}
+
+.wd_review_form_content > div:first-child {
+    width: 480px;
+    max-width: 480px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wd_review_form_header {
+    height: 10%;
+}
+
+.wd_preview__rating {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.wd_preview__photos_addition {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.wd_preview__photos_addition .wd_add_photos_section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wd_preview__rating .wd_preview__rating_title {
+    text-align: center;
+    /*applied via user selected value*/
+}
+
+.wd_preview__rating .wd_preview__rating_icons {
+    font-size: 50px;
+    color: black;
+}
+
+.wd_preview__rating_icons .review-icon {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.wd_preview__rating_icons .review-icon:hover {
+    opacity: 1;
+}
+
+.review_form__hide_section {
+    display: none !important;
+}
+
+.wd_preview__photos_addition___text_container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.wd_add_photos_section .wd_add_photos_text {
+    text-align: center;
+}
+
+.wd_preview__photos_addition .wd_photos_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wd_preview__photos_addition .wd_images_list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    width: 100%;
+    height: 120px;
+}
+
+.wd_preview__photos_addition .wd_images_list .wd_review_image {
+}
+
+.wd_review_content {
+    width: 100%;
+}
+
+
+.wd_review_text_area {
+    font-size: 16px;
+}
+
+.wd_review_reviewer_info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wd_review_names_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.wd_review_names_info > * {
+    flex: 1;
+}
+
+.wd_review_input_field {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wd_review_input_field input {
+    border: 1px solid black;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+
+.wd_review_about_you {
+    text-align: center;
+}
+
+.wd_review_thank_you {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    width: 100%;
+    text-align: center;
+    gap: 1rem;
+}
+
+.wd_review_form_footer {
+    display: flex;
+    justify-content: space-between;
+    height: 10%;
+}
+
+.review_rating {
+    font-size: 25px;
+}
+
+.review_rating.review_rating_active {
+    opacity: 1;
+    animation: scale-animation 500ms;
+}
+
+@keyframes scale-animation {
+    10% {
+        transform: scale(.5);
+        opacity: .5;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: .7;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.wd_get_review_content_area {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    margin: auto auto;
+    text-align: center;
+    gap: 1rem;
+}
+
+.wd_photo_addition_description {
+    text-align: center;
+}
+
+.wd_photo_addition_title {
+    text-align: center;
+}
+
+.wd_review_form_footer .back_button {
+    opacity: 0.5;
+}
+
+.wd_review_form_footer .back_button:hover {
+    opacity: 0.8;
+}
+
+.wd_review_form_footer .forward_button {
+}

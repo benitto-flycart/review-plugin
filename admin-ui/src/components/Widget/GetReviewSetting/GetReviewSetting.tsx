@@ -89,7 +89,6 @@ const GetReviewSetting = () => {
                             <Label>Link To Product Page Button Title</Label>
                             <Input type={"text"}
                                    placeholder={"View Product"}></Input>
-
                         </div>
 
                         <Button type={"submit"} className="frt-w-36">

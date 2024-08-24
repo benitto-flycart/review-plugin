@@ -16,6 +16,8 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         show_review_image: true,
         hide_arrows_on_mobile: true,
         font_size: 16,
+        name_font_size: 16,
+        icon_font_size: 16,
         no_of_reviews_to_display: 10,
         style: {
             review_card_shadow: 'dark',
@@ -97,10 +99,14 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         getReviewerNameStyle: () => {
             return {
                 color: widget.colors.name_color,
+                fontSize: widget.name_font_size + 'px'
             }
         },
-        getRatingIconColor: () => {
-            return widget.colors.rating_icon_color;
+        getRatingIconStyles: () => {
+            return {
+               color:  widget.colors.rating_icon_color,
+                fontSize: widget.icon_font_size + 'px'
+            }
         },
         getCarosualActionStyle: () => {
             return {

@@ -3,6 +3,7 @@ import {Progress} from "../../../../../ui/progress";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import GemIcon from "../../../../../icon-components/GemIcon";
 import styles from './EHP.module.css';
+import ReviewIcon from "../../../../../ReviewIcon";
 
 const ExpandedHPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
@@ -11,7 +12,7 @@ const ExpandedHPreview = () => {
         <div className={styles.expanded_header}>
             <div className={styles.overall_rating_container}>
                 <div className={styles.overall_rating}>
-                    <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                    <ReviewIcon/>
                     <span>4.7</span>
                 </div>
                 <span>20 Reviews</span>
@@ -19,55 +20,55 @@ const ExpandedHPreview = () => {
             {methods.isRatingOptionsEnabled() ? (<div className={styles.rating_details}>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <Progress value={33} className={styles.progress_bar}/>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <Progress value={33} className={styles.progress_bar}/>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <Progress value={33} className={styles.progress_bar}/>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <Progress value={33} className={styles.progress_bar}/>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
-                        <GemIcon size={widget.preferences.icon_size} color={'inherit'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <Progress value={33} className={styles.progress_bar}/>
                     <div>14</div>

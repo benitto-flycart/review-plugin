@@ -4,6 +4,7 @@ import  "./popup.css";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
 import GemIcon from "../../icon-components/GemIcon";
 import {Cross1Icon} from "@radix-ui/react-icons";
+import ReviewIcon from "../../ReviewIcon";
 
 
 const PreviewPopupWidget = () => {
@@ -12,13 +13,13 @@ const PreviewPopupWidget = () => {
     const getPopupPosition = () => {
         switch (widget.position) {
             case 'top_right':
-                return 'top_right'
+                return 'top_right popup_right_slide_in'
             case 'top_left':
-                return 'top_left'
+                return 'top_left popup_left_slide_in'
             case 'bottom_right':
-                return 'bottom_right'
+                return 'bottom_right popup_right_slide_in'
             case 'bottom_left':
-                return 'bottom_left'
+                return 'bottom_left popup_left_slide_in'
         }
     }
 
@@ -40,7 +41,9 @@ const PreviewPopupWidget = () => {
         <div
             className={`review-preview-wrap popup-widget frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'popup-widget-preview-mobile' : 'popup-widget-preview-desktop'}`}>
             <div className={`popup_container ${getPopupPosition()} ${getCornerRadius()}`}
-                 style={methods.getPopupPreviewStyles()}>
+                 style={methods.getPopupPreviewStyles()}
+                 key={widget.position}
+            >
                 <span className="close_icon"
                       style={methods.getCloseIconStyles()}
                 ><Cross1Icon/></span>
@@ -61,11 +64,11 @@ const PreviewPopupWidget = () => {
                     <div className={'review_body'}>
                         <div className={'reviewer_name'}>Edward</div>
                         <div className={'review_icon_wrapper'}>
-                            <GemIcon size={'medium'} color={'inherit'}/>
-                            <GemIcon size={'medium'} color={'inherit'}/>
-                            <GemIcon size={'medium'} color={'inherit'}/>
-                            <GemIcon size={'medium'} color={'inherit'}/>
-                            <GemIcon size={'medium'} color={'inherit'}/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
                         </div>
                         <div title="nice snowboard, awesome" className={'review_content'}>
                             nice snowboard, awesome

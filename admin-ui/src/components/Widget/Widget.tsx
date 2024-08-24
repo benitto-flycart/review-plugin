@@ -13,9 +13,11 @@ import SnippetWidgetDialog from "./SnippetWidget/SnippetWidgetDialog";
 import SnippetWidgetContextAPI from "./SnippetWidget/SnippetWidgetContextAPI";
 import RatingWidgetDialog from "./RatingWidget/RatingWidgetDialog";
 import RatingWidgetContextAPI from "./RatingWidget/RatingWidgetContextAPI";
+import ReviewFormWidgetContextAPI from "./ReviewFormWidget/ReviewFormWidgetContextAPI";
+import ReviewFormWidgetDialog from "./ReviewFormWidget/ReviewFormDialogWidgetDialog";
 
 const Widget = () => {
-    const [activeDialog, setActiveDialog] = useState<string>('')
+    const [activeDialog, setActiveDialog] = useState<string>('product_widget')
 
     const reset = () => {
         setActiveDialog('')
@@ -158,6 +160,30 @@ const Widget = () => {
                         {activeDialog == 'rating_widget' ? (<RatingWidgetContextAPI>
                             <RatingWidgetDialog show={true} toggle={reset}/>
                         </RatingWidgetContextAPI>) : null}
+                    </CardFooter>
+                </CardFooter>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Review Form Widget</CardTitle>
+                    <CardDescription>Customize your new project in one-click.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p>Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from
+                        multiple layouts</p>
+                </CardContent>
+                <CardFooter className="frt-flex frt-justify-end">
+                    <CardFooter className="frt-flex frt-justify-end">
+                        <Button onClick={() => {
+                            setActiveDialog('review_form')
+                        }}>
+                            Customize
+                        </Button>
+
+                        {activeDialog == 'review_form' ? (<ReviewFormWidgetContextAPI>
+                            <ReviewFormWidgetDialog show={true} toggle={reset}/>
+                        </ReviewFormWidgetContextAPI>) : null}
                     </CardFooter>
                 </CardFooter>
             </Card>

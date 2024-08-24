@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import GemIcon from "../../../../../icon-components/GemIcon";
 import styles from './MHP.module.css';
+import ReviewIcon from "../../../../../ReviewIcon";
 
 const MinimalHPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
@@ -10,11 +11,11 @@ const MinimalHPreview = () => {
         <div className={styles.minimal_header}>
             <div className={"frt-flex frt-flex-row frt-flex-start frt-items-center frt-gap-2"}>
                 <div className={"frt-flex frt-flex-row frt-gap-3"}>
-                    <GemIcon size={'medium'} color={'inherit'}/>
-                    <GemIcon size={'medium'} color={'inherit'}/>
-                    <GemIcon size={'medium'} color={'inherit'}/>
-                    <GemIcon size={'medium'} color={'gray'}/>
-                    <GemIcon size={'medium'} color={'gray'}/>
+                    <ReviewIcon/>
+                    <ReviewIcon/>
+                    <ReviewIcon/>
+                    <ReviewIcon/>
+                    <ReviewIcon/>
                 </div>
                 <div className={"frt-flex frt-flex-row frt-gap-3 frt-items-center"}>
                     <span>20 Reviews</span>

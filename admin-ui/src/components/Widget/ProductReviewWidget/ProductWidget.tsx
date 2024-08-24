@@ -8,11 +8,10 @@ import ProductWidgetColorSetting from "./ProductWidgetColorSetting";
 import ProductWidgetPreferenceSetting from "./ProductWidgetPreferenceSetting";
 import "@/src/styles/widgets/widget.css";
 import "../preview-mobile.css";
-import {ArrowRightIcon, ColorWheelIcon, DashboardIcon, FontStyleIcon, LayoutIcon} from "@radix-ui/react-icons";
+import {ColorWheelIcon, DashboardIcon, FontStyleIcon, LayoutIcon} from "@radix-ui/react-icons";
 import WidgetPreviewHeader from "../WidgetPreviewHeader";
-import SnippetWidgetConfigSetting from "../SnippetWidget/SnippetWidgetConfigSetting";
-import SnippetWidgetColorSetting from "../SnippetWidget/SnippetWidgetColorSetting";
 import WidgetSidebar from "../WidgetSidebar";
+import ReviewFormWidgetPreview from "../ReviewFormWidget/ReviewFormWidgetPreview";
 
 const ProductWidget = ({toggle}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
@@ -25,25 +24,25 @@ const ProductWidget = ({toggle}: any) => {
                 key: 'layout',
                 name: 'Layout',
                 icon: <LayoutIcon/>,
-                component: <ProductWidgetLayoutSetting/>,
+                component: <ProductWidgetLayoutSetting name={'Layout'}/>,
             },
             {
                 key: 'style',
                 name: 'Style',
                 icon: <FontStyleIcon/>,
-                component: <ProductWidgetStyleSetting/>
+                component: <ProductWidgetStyleSetting name={'Style'}/>
             },
             {
                 key: 'color',
                 name: 'Color',
                 icon: <ColorWheelIcon/>,
-                component: <ProductWidgetColorSetting/>,
+                component: <ProductWidgetColorSetting name={'Color'}/>,
             },
             {
                 key: 'preferences',
                 name: 'Preferences',
                 icon: <DashboardIcon/>,
-                component: <ProductWidgetPreferenceSetting/>,
+                component: <ProductWidgetPreferenceSetting name={'Preferences'}/>,
             }
         ]
     }
@@ -56,18 +55,16 @@ const ProductWidget = ({toggle}: any) => {
         <div>
             <Dialog open={true} onOpenChange={toggle}>
                 <DialogContent
-                    className={"review-widget-preview !frt-p-0 !frt-max-w-[98vw] frt-min-h-[90vh] frt-max-h-[90vh] !frt-z-[50000] frt-overflow-scroll"}>
-                    <div className={"frt-grid frt-grid-cols-5 frt-border-collapse"}>
-                        <div
-                            className={"frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
-                            <WidgetSidebar settings={settings} widget={widget} updateWidgetFields={updateWidgetFields}/>
-                        </div>
-                        <div
-                            className={"frt-col-span-4 frt-flex frt-flex-col frt-gap-2 frt-shadow-2xl"}>
-                            <WidgetPreviewHeader widget={widget} updateWidgetFields={updateWidgetFields}/>
-                            <div className={"preview-widget review-preview-product-widget frt-min-h-[100vh]"}>
-                                <PreviewProductWidget/>
-                            </div>
+                    className={"wd_container widget_snippet review-widget-preview !frt-p-0"}>
+                    <div
+                        className={"wd__sidebar frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
+                        <WidgetSidebar settings={settings} widget={widget} updateWidgetFields={updateWidgetFields}/>
+                    </div>
+                    <div
+                        className={"wd_preview frt-col-span-4 frt-flex frt-flex-col frt-gap-2 frt-shadow-2xl"}>
+                        <WidgetPreviewHeader widget={widget} updateWidgetFields={updateWidgetFields}/>
+                        <div className={"wd_preview__main_content preview-widget wd_review_form_preview"}>
+                            <PreviewProductWidget/>
                         </div>
                     </div>
                 </DialogContent>

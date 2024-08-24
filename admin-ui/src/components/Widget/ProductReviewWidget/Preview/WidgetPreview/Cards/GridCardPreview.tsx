@@ -4,6 +4,7 @@ import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import {REVIEW_OPENERS, REVIEW_SHADOWS} from "../../preview-constants";
 import {getRepliesStyles, getReviewCardStyles} from "../../../helper";
 import GemIcon from "../../../../../icon-components/GemIcon";
+import ReviewIcon from "../../../../../ReviewIcon";
 
 const GridCardPreview = ({review}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
@@ -29,11 +30,11 @@ const GridCardPreview = ({review}: any) => {
                     {review.is_verified ? <span><Badge variant="outline">verified</Badge></span> : null}
                     <span>{review.date}</span>
                     <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
-                        <GemIcon color={"inherit"} size={'small'}/>
-                        <GemIcon color={"inherit"} size={'small'}/>
-                        <GemIcon color={"inherit"} size={'small'}/>
-                        <GemIcon color={"gray"} size={'small'}/>
-                        <GemIcon color={"gray"} size={'small'}/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
+                        <ReviewIcon/>
                     </div>
                     <p>{review.content}</p>
                 </div>

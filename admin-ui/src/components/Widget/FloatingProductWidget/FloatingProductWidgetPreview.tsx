@@ -21,12 +21,11 @@ const FloatingProductWidgetPreview = () => {
                     </span>
                 </div>
             </div>
-            <div>
-                <ProductWidgetContextAPI>
-                    <PreviewProductWidget/>
-                </ProductWidgetContextAPI>
-            </div>
-
+            {/*<div>*/}
+            {/*    <ProductWidgetContextAPI>*/}
+            {/*        <PreviewProductWidget/>*/}
+            {/*    </ProductWidgetContextAPI>*/}
+            {/*</div>*/}
         </div>
     )
 }

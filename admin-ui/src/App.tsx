@@ -43,7 +43,7 @@ const App: FC = (props) => {
 
     // @ts-ignore
     return (
-        <div>
+        <React.Fragment>
             {loading ? (
                 <div className={"frt-grid frt-justify-center frt-items-center frt-h-[100vh]"}>
                     <ClipLoader
@@ -63,7 +63,7 @@ const App: FC = (props) => {
                     </HashRouter>
                 </React.Suspense>
             )}
-        </div>
+        </React.Fragment>
     );
 };
 

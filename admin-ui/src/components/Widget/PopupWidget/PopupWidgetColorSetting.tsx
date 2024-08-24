@@ -2,89 +2,78 @@ import React, {useContext} from "react";
 import {Label} from "../../ui/label";
 import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
-import {Cross1Icon} from "@radix-ui/react-icons";
+import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
+import DetailHeading from "../Sidebar/DetailHeading";
+import SidebarDetail from "../Sidebar/SidebarDetail";
+import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
+import SidebarDetailField from "../Sidebar/SidebarDetailField";
 
-const PopupWidgetColorSetting = () => {
+const PopupWidgetColorSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(PopupWidgetContext)
 
     return (
-        <div className={"frt-flex frt-flex-col frt-divide-y frt-divide-gray-500 frt-gap-2 "}>
-            <div className={"frt-flex frt-justify-between frt-py-4"}>
-                <span>Colors</span>
-                <span className={"frt-cursor-pointer"} onClick={() => {
-                    updateWidgetFields((draftState: any) => {
-                        draftState.show_setting = ''
-                    })
-                }}><Cross1Icon/></span>
-            </div>
+        <SidebarDetailWrapper>
+            <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
+            <SidebarDetail>
+                <SidebarDetailSection title={"Review"}>
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Text </Label>
+                            <PopOverColorPicker color={widget.colors.review.text_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.review.text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Background</Label>
+                            <PopOverColorPicker color={widget.colors.review.bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.review.bg_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
 
-            <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
-                <div>
-                    <span className={"frt-font-extrabold"}>Review</span>
-                </div>
-                <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
-                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                        <Label className={"frt-text-xs"} htmlFor="none">Text </Label>
-                        <PopOverColorPicker color={widget.colors.review.text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.colors.review.text_color = color;
-                            })
-                        }}/>
                     </div>
+                </SidebarDetailSection>
 
-                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                        <Label className={"frt-text-xs"} htmlFor="none">Background</Label>
-                        <PopOverColorPicker color={widget.colors.review.bg_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.colors.review.bg_color = color;
-                            })
-                        }}/>
-                    </div>
-                </div>
-            </div>
-
-
-            <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
-                <div>
-                    <span className={"frt-font-extrabold"}>Product</span>
-                </div>
-                <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
-                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                <SidebarDetailSection title={"Product"}>
+                    <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Text</Label>
                         <PopOverColorPicker color={widget.colors.product.text_color} onChange={(color: string) => {
                             updateWidgetFields((draftState: any) => {
                                 draftState.colors.product.text_color = color;
                             })
                         }}/>
-                    </div>
-                </div>
-            </div>
 
-            <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-4"}>
-                <div>
-                    <span className={"frt-font-extrabold"}>Close Icon</span>
-                </div>
-                <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
-                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                        <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
-                        <PopOverColorPicker color={widget.colors.close_icon.text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.colors.close_icon.text_color = color;
-                            })
-                        }}/>
+                    </SidebarDetailField>
+                </SidebarDetailSection>
+                <SidebarDetailSection title={"Close Icon"}>
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
+                        <SidebarDetailField>
+
+                            <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
+                            <PopOverColorPicker color={widget.colors.close_icon.text_color}
+                                                onChange={(color: string) => {
+                                                    updateWidgetFields((draftState: any) => {
+                                                        draftState.colors.close_icon.text_color = color;
+                                                    })
+                                                }}/>
+
+                        </SidebarDetailField>
+
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Background Color</Label>
+                            <PopOverColorPicker color={widget.colors.close_icon.bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.close_icon.bg_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
                     </div>
-                    <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                        <Label className={"frt-text-xs"} htmlFor="none">Background Color</Label>
-                        <PopOverColorPicker color={widget.colors.close_icon.bg_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.colors.close_icon.bg_color = color;
-                            })
-                        }}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+                </SidebarDetailSection>
+            </SidebarDetail>
+        </SidebarDetailWrapper>)
 }
 
 export default PopupWidgetColorSetting;
