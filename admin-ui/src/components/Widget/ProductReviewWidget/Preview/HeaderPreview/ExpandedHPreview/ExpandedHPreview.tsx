@@ -1,23 +1,23 @@
 import React, {useContext} from "react";
 import {Progress} from "../../../../../ui/progress";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import GemIcon from "../../../../../icon-components/GemIcon";
 import styles from './EHP.module.css';
 import ReviewIcon from "../../../../../ReviewIcon";
+import ProgressBar from "../../../ProgressBar";
 
 const ExpandedHPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
 
     return (
         <div className={styles.expanded_header}>
-            <div className={styles.overall_rating_container}>
+            <div className={styles.overall_rating_container} style={methods.getHeaderTextColor()}>
                 <div className={styles.overall_rating}>
                     <ReviewIcon/>
                     <span>4.7</span>
                 </div>
                 <span>20 Reviews</span>
             </div>
-            {methods.isRatingOptionsEnabled() ? (<div className={styles.rating_details}>
+            {methods.isRatingOptionsEnabled() ? (<div className={styles.rating_details} style={methods.getHeaderTextColor()}>
                 <div className={styles.rating_row}>
                     <div className={"frt-flex frt-flex-row frt-gap-3"}>
                         <ReviewIcon/>
@@ -26,7 +26,9 @@ const ExpandedHPreview = () => {
                         <ReviewIcon/>
                         <ReviewIcon/>
                     </div>
-                    <Progress value={33} className={styles.progress_bar}/>
+                    <div className={styles.progress_bar}>
+                        <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()} completed="33"/>
+                    </div>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
@@ -37,7 +39,9 @@ const ExpandedHPreview = () => {
                         <ReviewIcon/>
                         <ReviewIcon/>
                     </div>
-                    <Progress value={33} className={styles.progress_bar}/>
+                    <div className={styles.progress_bar}>
+                        <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()} completed="33"/>
+                    </div>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
@@ -48,7 +52,9 @@ const ExpandedHPreview = () => {
                         <ReviewIcon/>
                         <ReviewIcon/>
                     </div>
-                    <Progress value={33} className={styles.progress_bar}/>
+                    <div className={styles.progress_bar}>
+                        <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()} completed="33"/>
+                    </div>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
@@ -59,7 +65,9 @@ const ExpandedHPreview = () => {
                         <ReviewIcon/>
                         <ReviewIcon/>
                     </div>
-                    <Progress value={33} className={styles.progress_bar}/>
+                    <div className={styles.progress_bar}>
+                        <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()} completed="33"/>
+                    </div>
                     <div>14</div>
                 </div>
                 <div className={styles.rating_row}>
@@ -70,7 +78,9 @@ const ExpandedHPreview = () => {
                         <ReviewIcon/>
                         <ReviewIcon/>
                     </div>
-                    <Progress value={33} className={styles.progress_bar}/>
+                    <div className={styles.progress_bar}>
+                        <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()} completed="33"/>
+                    </div>
                     <div>14</div>
                 </div>
 

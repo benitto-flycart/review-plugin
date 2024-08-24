@@ -1,34 +1,20 @@
-import {toast} from "react-toastify";
+import {toast} from "sonner"
+
 
 export const toastrSuccess = (message: any) => {
+    console.log(message)
     toast.success(message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        className: "toast-message",
+        position: 'top-right'
     });
 }
 
 export const toastrError = (message: any) => {
-
+    console.log(message)
     if (!message) {
-        message = 'Error Occurred';
+        message = 'Error';
     }
 
     toast.error(message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "light",
-        className: "toast-message",
+        position: 'top-right'
     });
 }

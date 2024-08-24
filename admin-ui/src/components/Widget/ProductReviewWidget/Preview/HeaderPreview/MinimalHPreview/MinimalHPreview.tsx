@@ -9,7 +9,7 @@ const MinimalHPreview = () => {
 
     return (
         <div className={styles.minimal_header}>
-            <div className={"frt-flex frt-flex-row frt-flex-start frt-items-center frt-gap-2"}>
+            <div className={"frt-flex frt-flex-row frt-flex-start frt-items-center frt-gap-2"} style={methods.getHeaderTextColor()}>
                 <div className={"frt-flex frt-flex-row frt-gap-3"}>
                     <ReviewIcon/>
                     <ReviewIcon/>

@@ -44,6 +44,7 @@ const WidgetPreviewHeader = ({widget, updateWidgetFields} : any) => {
                                             x="10" y="17" width="4" height="1" rx="0.5" fill="#091218"></rect></svg>
                                     </span>
             </div>
+            <span>Site Language: English</span>
         </div>
     )
 }

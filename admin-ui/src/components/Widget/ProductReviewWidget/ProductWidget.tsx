@@ -11,10 +11,9 @@ import "../preview-mobile.css";
 import {ColorWheelIcon, DashboardIcon, FontStyleIcon, LayoutIcon} from "@radix-ui/react-icons";
 import WidgetPreviewHeader from "../WidgetPreviewHeader";
 import WidgetSidebar from "../WidgetSidebar";
-import ReviewFormWidgetPreview from "../ReviewFormWidget/ReviewFormWidgetPreview";
 
 const ProductWidget = ({toggle}: any) => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
+    const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
 
     const settings = {
         title: 'Product Widget Configuration',

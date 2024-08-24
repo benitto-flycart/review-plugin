@@ -15,17 +15,32 @@ import RatingWidgetDialog from "./RatingWidget/RatingWidgetDialog";
 import RatingWidgetContextAPI from "./RatingWidget/RatingWidgetContextAPI";
 import ReviewFormWidgetContextAPI from "./ReviewFormWidget/ReviewFormWidgetContextAPI";
 import ReviewFormWidgetDialog from "./ReviewFormWidget/ReviewFormDialogWidgetDialog";
+import {Tabs, TabsList, TabsTrigger} from "../ui/tabs";
+import {useLocalState} from "../zustand/localState";
 
 const Widget = () => {
+    const {localState} = useLocalState();
+    const availableLanguages = localState.available_languages;
     const [activeDialog, setActiveDialog] = useState<string>('product_widget')
+    const [currentLocale, setCurrentLocale] = useState<string>(localState.current_locale)
 
     const reset = () => {
         setActiveDialog('')
     };
 
+
     return (<div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
         <div>
-            <h3>Available Widgets</h3>
+            {availableLanguages.length > 0 && (
+                <Tabs defaultValue={currentLocale} className="w-[400px]">
+                    <TabsList className={"!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"}>
+                        {availableLanguages.map((item: any, index: number) => {
+                            return (<TabsTrigger value={item.value}>{item.label}</TabsTrigger>)
+                        })}
+                    </TabsList>
+                </Tabs>
+            )}
+
         </div>
         <div className="frt-grid frt-grid-cols-3 frt-gap-4">
             <Card>

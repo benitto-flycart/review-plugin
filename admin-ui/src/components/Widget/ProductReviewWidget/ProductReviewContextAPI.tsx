@@ -95,6 +95,17 @@ function ProductWidgetContextAPI({children}: { children: any }) {
                 backgroundColor: widget.colors.button.bg_color,
                 borderColor: widget.colors.button.border_color,
             };
+        },
+        getHeaderTextColor: () => {
+            return {
+                color: widget.colors.header.text_and_icon_color
+            }
+        },
+        getBarBGColor: () => {
+            return widget.colors.header.bar_bg_color
+        },
+        getBarFillColor: () => {
+            return widget.colors.header.bar_fill_color
         }
 
     }

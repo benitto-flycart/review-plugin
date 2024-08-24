@@ -2,8 +2,6 @@
 import React, {FC, useState} from "react";
 import {HashRouter} from "react-router-dom";
 import {BarLoader, ClipLoader} from "react-spinners";
-import {ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import NavBar from "./components/NavBar";
 import AppHeader from "./components/shared/AppHeader";
 import Router from "./components/Router";
@@ -11,6 +9,7 @@ import "./main.css";
 import {fetchLocalData} from "./helpers/methods";
 import {toastrError} from "./helpers/ToastrHelper";
 import {useLocalState} from "./components/zustand/localState";
+import {Toaster} from "./components/ui/sonner";
 
 const App: FC = (props) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -54,7 +53,7 @@ const App: FC = (props) => {
             ) : (
                 <React.Suspense fallback={<ClipLoader/>}>
                     <HashRouter>
-                        <ToastContainer/>
+                        <Toaster richColors expand={true}/>
                         <div className={"flycart-review-admin-ui"}>
                             <AppHeader/>
                             <NavBar/>
