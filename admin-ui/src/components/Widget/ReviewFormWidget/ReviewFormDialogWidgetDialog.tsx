@@ -15,11 +15,13 @@ import RatingWidgetPhotoSetting from "./ReviewFormWidgetPhotoSetting";
 import ReviewFormWidgetReviewerSetting from "./ReviewFormWidgetReviewerSetting";
 import ReviewFormGetReviewSetting from "./ReviewFormGetReviewSetting";
 import ReviewFormWidgetThankyouSetting from "./ReviewFormWidgetThankyouSetting";
+import RatingWidgetPreview from "../RatingWidget/RatingWidgetPreview";
+import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
 
 const ReviewFormWidgetDialog = ({show, toggle}: any) => {
 
-    const {widget, updateWidgetFields} = useContext<any>(ReviewFormWidgetContext)
+    const context = useContext<any>(ReviewFormWidgetContext)
 
     const settings = {
         title: 'Rating Widget Configuration',
@@ -65,24 +67,14 @@ const ReviewFormWidgetDialog = ({show, toggle}: any) => {
     }
 
     return (
-        <div>
-            <Dialog open={show} onOpenChange={toggle}>
-                <DialogContent
-                    className={"wd_container widget_snippet review-widget-preview !frt-p-0"}>
-                    <div
-                        className={"wd__sidebar frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
-                        <WidgetSidebar settings={settings} widget={widget} updateWidgetFields={updateWidgetFields}/>
-                    </div>
-                    <div
-                        className={"wd_preview frt-col-span-4 frt-flex frt-flex-col frt-gap-2 frt-shadow-2xl"}>
-                        <WidgetPreviewHeader widget={widget} updateWidgetFields={updateWidgetFields}/>
-                        <div className={"wd_preview__main_content preview-widget wd_review_form_preview"}>
-                            <ReviewFormWidgetPreview/>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-        </div>
+        <WidgetDialogWrapper
+            show={show}
+            toggle={toggle}
+            context={context}
+            settings={settings}
+        >
+            <ReviewFormWidgetPreview/>
+        </WidgetDialogWrapper>
     )
 }
 

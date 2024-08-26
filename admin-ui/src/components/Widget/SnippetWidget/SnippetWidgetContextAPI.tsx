@@ -1,10 +1,11 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 import {getReviewBorderRadius, getReviewShadow} from "./preview-constants";
 
 export const SnippetWidgetContext = createContext({});
 
 function SnippetWidgetContextAPI({children}: { children: any }) {
+    const [loading, setLoading] = useState(true)
 
     const [widget, setWidget] = useState({
         view: 'desktop',
@@ -104,7 +105,7 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         },
         getRatingIconStyles: () => {
             return {
-               color:  widget.colors.rating_icon_color,
+                color: widget.colors.rating_icon_color,
                 fontSize: widget.icon_font_size + 'px'
             }
         },
@@ -124,11 +125,18 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         setWidget(newState);
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+    }, []);
+
     return (
         <SnippetWidgetContext.Provider value={{
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
+            loading
         }}>
             {children}
         </SnippetWidgetContext.Provider>

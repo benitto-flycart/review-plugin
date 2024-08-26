@@ -60,7 +60,7 @@ const Widget = () => {
                     </Button>
 
                     {activeDialog == 'product_widget' ? (<ProductWidgetContextAPI>
-                        <ProductWidget toggle={reset}/>
+                        <ProductWidget show={true} toggle={reset}/>
                     </ProductWidgetContextAPI>) : null}
 
                 </CardFooter>

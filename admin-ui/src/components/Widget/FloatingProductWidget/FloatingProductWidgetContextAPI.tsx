@@ -1,9 +1,10 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 
 export const FloatingProductWidgetContext = createContext({});
 
 function FloatingProductWidgetContextAPI({children}: { children: any }) {
+    const [loading, setLoading] = useState(true)
 
     const [widget, setWidget] = useState({
         view: 'desktop',
@@ -33,11 +34,18 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
         setWidget(newState);
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+           setLoading(false)
+        }, 500)
+    }, []);
+
     return (
         <FloatingProductWidgetContext.Provider value={{
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
+            loading
         }}>
             {children}
         </FloatingProductWidgetContext.Provider>

@@ -5,6 +5,7 @@ export const PopupWidgetContext = createContext({});
 
 function PopupWidgetContextAPI({children}: { children: any }) {
 
+    const [loading, setLoading] = useState(false)
     const [widget, setWidget] = useState({
         show_setting: '',
         view:'mobile',
@@ -37,7 +38,13 @@ function PopupWidgetContextAPI({children}: { children: any }) {
     })
 
     useEffect(() => {
-    }, [widget]);
+        setLoading(true)
+
+        setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+
+    }, []);
 
     const widgetMethods = {
         getPopupPreviewStyles: () => {
@@ -73,6 +80,7 @@ function PopupWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
+            loading
         }}>
             {children}
         </PopupWidgetContext.Provider>

@@ -6,6 +6,7 @@ use Flycart\Review\Core\Controllers\Api\EmailSettingsController;
 use Flycart\Review\Core\Controllers\Api\FloatingProductReviewWidgetController;
 use Flycart\Review\Core\Controllers\Api\SettingsController;
 use Flycart\Review\Core\Controllers\Api\SidebarWidgetController;
+use Flycart\Review\Core\Controllers\Api\Widget\WidgetController;
 use Flycart\Review\Core\Controllers\LocalDataController;
 
 return [
@@ -47,10 +48,15 @@ return [
     'save_discount_settings' => ['callable' => [SettingsController::class, 'saveDiscountSettings']],
 
 
+    'get_widget_settings' => ['callable' => [WidgetController::class, 'getWidgetSettings']],
+    'save_widget_settings' => ['callable' => [WidgetController::class, 'saveWidgetSettings']],
+
+
     //Widgets Settings
     'get_floating_product_review_widget' => ['callable' => [FloatingProductReviewWidgetController::class, 'getFloatingProductWidget']],
     'save_floating_product_review_widget' => ['callable' => [FloatingProductReviewWidgetController::class, 'saveFloatingProductWidget']],
 
     'get_sidebar_product_review_widget' => ['callable' => [SidebarWidgetController::class, 'getSidebarWidgetSettings']],
     'save_sidebar_product_review_widget' => ['callable' => [SidebarWidgetController::class, 'saveSidebarWidgetSettings']],
+
 ];

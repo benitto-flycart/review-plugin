@@ -1,9 +1,10 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 
 export const ReviewFormWidgetContext = createContext({});
 
 function ReviewFormWidgetContextAPI({children}: { children: any }) {
+    const [loading, setLoading] = useState(true)
 
     const [widget, setWidget] = useState({
         view: 'desktop',
@@ -153,11 +154,18 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         setWidget(newState);
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+    }, []);
+
     return (
         <ReviewFormWidgetContext.Provider value={{
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
+            loading
         }}>
             {children}
         </ReviewFormWidgetContext.Provider>

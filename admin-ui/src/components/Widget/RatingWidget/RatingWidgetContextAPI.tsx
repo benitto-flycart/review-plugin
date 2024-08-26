@@ -1,9 +1,10 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 
 export const RatingWidgetContext = createContext({});
 
 function RatingWidgetContextAPI({children}: { children: any }) {
+    const [loading, setLoading] = useState(true)
 
     const [widget, setWidget] = useState({
         view: 'desktop',
@@ -72,11 +73,17 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         setWidget(newState);
     }
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+    }, []);
     return (
         <RatingWidgetContext.Provider value={{
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
+            loading
         }}>
             {children}
         </RatingWidgetContext.Provider>

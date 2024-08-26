@@ -13,7 +13,6 @@ class ReviewSetting extends Model
     public const GENERAL_SETTINGS = 'general_settings';
     public const DISCOUNT_SETTINGS = 'discount_settings';
 
-
     public const SIDEBAR_WIDGET = 'sidebar_product_widget_settings';
     public const FLOATING_WIDGET = 'floating_product_review_widget';
 

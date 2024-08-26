@@ -23,7 +23,8 @@ class CoreModel extends Model
             Review::class,
             Review::class,
             ReviewConversion::class,
-            ReviewSetting::class
+            ReviewSetting::class,
+            Widget::class,
         ];
     }
 }
