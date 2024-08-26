@@ -23,7 +23,8 @@ const BrandingSetting = () => {
     const [settingsState, setSettingsState] = useState<any>({
         corner_radius: 'rounded',
         enable_logo: true,
-        logo: '',
+        logo_url: '',
+        rating_icon: '',
         rating_icon_style: 'rounded',
         enable_review_branding: true,
         enable_email_banners: false,
@@ -42,7 +43,7 @@ const BrandingSetting = () => {
         },
     });
     let frame: any;
-    const runUploader = (event: any) => {
+    const runUploader = (event: any, cb: any) => {
         event.preventDefault()
 
         // If the media frame already exists, reopen it.
@@ -70,7 +71,7 @@ const BrandingSetting = () => {
                 data = attachment["attributes"]["url"];
             });
 
-            console.log(data)
+            cb(data)
 
         });
         // Finally, open the modal on click
@@ -156,6 +157,7 @@ const BrandingSetting = () => {
         getBrandSettings();
     }, []);
 
+    console.log(settingsState)
     return (
         <Card>
             <CardContent className=" frt-grid !frt-p-2">
@@ -191,12 +193,29 @@ const BrandingSetting = () => {
                                         reviews</Label>
                                 </SettingsColWrapper>
                                 <SettingsColWrapper>
-                                    <div className="frt-w-full">
+                                    <div className="frt-w-full frt-flex frt-gap-3">
+                                        {
+                                            settingsState.logo_url ? <div className={"frt-w-24 frt-relative"}>
+                                                <img src={settingsState.logo_url} alt="logo"/>
+                                                <i onClick={() => {
+                                                    updateSettingFields((draftState: any) => {
+                                                        draftState.logo_url = ""
+                                                    })
+                                                }}
+                                                   className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                            </div> : null
+                                        }
                                         <div
-                                            className="frt-border frt-border-dashed  frt-p-4 frt-grid frt-justify-center frt-items-center">
+                                            className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
                                                 className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
-                                                onClick={runUploader}>Upload File</span>
+                                                onClick={(e => {
+                                                    runUploader(e, (data: any) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.logo_url = data
+                                                        })
+                                                    })
+                                                })}>Upload File</span>
                                         </div>
                                     </div>
                                 </SettingsColWrapper>
@@ -244,16 +263,42 @@ const BrandingSetting = () => {
                             <SettingsColWrapper>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant="outline">Rating Icon</Button>
+                                        <div className={"frt-flex frt-items-center frt-gap-4"}>
+                                            {settingsState.rating_icon ?
+                                                <i className={`review-icon review ${settingsState.rating_icon} frt-text-2xl frt-text-[${settingsState.rating_rgb_color}] `}></i> : null}
+                                            <Button variant="outline">Rating Icon</Button>
+                                        </div>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-80" side={'right'}>
-                                        <div className="frt-grid frt-gap-4">
-                                            <div className="frt-space-y-2">
-                                                <h4 className="frt-font-medium frt-leading-none">Dimensions</h4>
-                                                <p className="frt-text-sm frt-text-muted-foreground">
-                                                    Set the dimensions for the layer.
-                                                </p>
-                                            </div>
+                                    <PopoverContent className="w-80" side={'bottom'}>
+                                        <div className={"frt-grid frt-grid-cols-6 frt-gap-4"}>
+                                            <i onClick={() => {
+                                                updateSettingFields((draftState: any) => {
+                                                    draftState.rating_icon = "review-Gem"
+                                                })
+                                            }} className={'review-icon review review-Gem frt-cursor-pointer'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i> <i
+                                            className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
+                                            <i className={'review-icon review review-Gem'}></i>
                                         </div>
                                     </PopoverContent>
                                 </Popover>
@@ -323,12 +368,29 @@ const BrandingSetting = () => {
                                         reviews</Label>
                                 </SettingsColWrapper>
                                 <SettingsColWrapper>
-                                    <div className="frt-w-full">
+                                    <div className="frt-w-full frt-flex frt-gap-3">
+                                        {
+                                            settingsState.banner_src ? <div className={"frt-w-24 frt-relative"}>
+                                                <img src={settingsState.banner_src} alt="logo"/>
+                                                <i onClick={() => {
+                                                    updateSettingFields((draftState: any) => {
+                                                        draftState.banner_src = ""
+                                                    })
+                                                }}
+                                                   className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                            </div> : null
+                                        }
                                         <div
-                                            className="frt-border frt-border-dashed  frt-p-4 frt-grid frt-justify-center frt-items-center">
+                                            className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
                                                 className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
-                                                onClick={runUploader}>Upload File</span>
+                                                onClick={(e: any) => {
+                                                    runUploader(e, (data: any) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.banner_src = data
+                                                        })
+                                                    })
+                                                }}>Upload File</span>
                                         </div>
                                     </div>
                                 </SettingsColWrapper>
