@@ -5,11 +5,11 @@ import {useLocalState} from "../../zustand/localState";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {ClipLoader} from "react-spinners";
 import {Button} from "../../ui/button";
 import ProductWidget from "../ProductReviewWidget/ProductWidget";
 import ProductWidgetContextAPI from "../ProductReviewWidget/ProductReviewContextAPI";
 import {Label} from "../../ui/label";
+import {LoadingSpinner} from "../../ui/loader";
 
 const GetReviewSetting = () => {
 
@@ -93,7 +93,8 @@ const GetReviewSetting = () => {
 
                         <Button type={"submit"} className="frt-w-36">
                             {updating ? (<span className="frt-mx-2">
-                                            <ClipLoader color="white" size={"20px"}/></span>) : null}
+                                <LoadingSpinner/>
+                            </span>) : null}
                             <span>Save Changes</span>
                         </Button>
                     </div>

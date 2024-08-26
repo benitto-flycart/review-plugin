@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {ClipLoader} from "react-spinners";
 import {useLocalState} from "@/src/components/zustand/localState";
 import {Button} from "@/src/components/ui/button";
 import {Card, CardContent,} from "@/src/components/ui/card";
@@ -13,6 +12,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {LoadingSpinner} from "../../ui/loader";
 
 const DiscountSetting = () => {
     const [loading, setLoading] = useState(true);
@@ -92,8 +92,8 @@ const DiscountSetting = () => {
     return (
         <Card>
             {loading ? (
-                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}><ClipLoader color="black"
-                                                                                                         size={"20px"}/>
+                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                    <LoadingSpinner/>
                 </div>
             ) : (
                 <CardContent className="frt-my-4 frt-grid !frt-p-2">
@@ -293,7 +293,9 @@ const DiscountSetting = () => {
 
                             <Button type={"submit"}>
                                 {saveChangesLoading && (
-                                    <span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>)}
+                                    <span className="frt-mx-2">
+                                        <LoadingSpinner/>
+                                    </span>)}
                                 <span>Save Changes</span>
                             </Button>
                         </form>

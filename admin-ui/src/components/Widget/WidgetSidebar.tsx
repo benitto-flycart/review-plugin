@@ -10,9 +10,9 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
 
     return (
         <div
-            className={"frt-divide-y frt-divide-black-400 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
+            className={"frt-top-0 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
             {showDropdownOptions() ? (<div
-                className={"wd__sidebar_title widget_snippet__sidebar widget-header-title frt-flex frt-justify-between frt-p-4"}>
+                className={"wd__sidebar_title  widget-header-title frt-sticky frt-bg-primary frt-top-0 frt-flex frt-justify-between frt-p-4"}>
                 <span>{settings.title}</span>
             </div>) : null}
 

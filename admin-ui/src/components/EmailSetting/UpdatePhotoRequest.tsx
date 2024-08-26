@@ -11,18 +11,20 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVal
 import {Input} from "../ui/input";
 import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
-import {ClipLoader} from "react-spinners";
-import {Alert, AlertDescription, AlertTitle} from "../ui/alert";
-import {AlertCircle} from "lucide-react";
+import {LoadingSpinner} from "../ui/loader";
+import EmailSettingsHeader from "./EmailSettingsHeader";
 
 
-const UpdatePhotoRequest = () => {
+const UpdatePhotoRequest = (props: any) => {
 
-    const [updating, setUpdating] = useState<boolean>(false)
+    const {locale} = props;
 
     const {localState} = useLocalState();
 
-    const available_languages = localState.available_languages;
+    const currentLanguage = localState.available_languages.find((item: any) => item.value === locale);
+
+    const [updating, setUpdating] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
 
     const defaultValues = {
@@ -53,12 +55,13 @@ const UpdatePhotoRequest = () => {
         saveReviewPhotoRequest(data)
     };
 
-    const fetchReviewPhotoRequest = (language: string) => {
+    const fetchReviewPhotoRequest = () => {
+        setLoading(true)
         axiosClient.post('', {
             method: 'get_photo_request',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: language,
+            language: locale,
         }).then((response: any) => {
             let data = response.data.data
             form.reset({
@@ -72,6 +75,8 @@ const UpdatePhotoRequest = () => {
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
+        }).finally(() =>{
+            setLoading(false)
         });
     }
 
@@ -81,7 +86,7 @@ const UpdatePhotoRequest = () => {
             method: 'save_photo_request',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: data.language,
+            language: locale,
             body: data.body,
             minimum_star: data.minimum_star,
             subject: data.subject,
@@ -100,175 +105,171 @@ const UpdatePhotoRequest = () => {
     const values = form.watch();
 
     useEffect(() => {
-        fetchReviewPhotoRequest(values.language);
-    }, [values.language]);
+        fetchReviewPhotoRequest();
+    }, []);
 
     return (
-        <div>
-            <div>
-                <Alert>
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Note</AlertTitle>
-                    <AlertDescription>
-                        Changes Applied to English
-                    </AlertDescription>
-                </Alert>
-            </div>
-            <Form {...form} >
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <Card className={"frt-p-4"}>
-                        <FormField
-                            control={form.control}
-                            name="minimum_star"
-                            render={({field}) => (
-                                <FormItem className="frt-m-2 rwt-my-2">
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <FormLabel>Send Photo Reminder</FormLabel>
-                                        <div>
-                                            <FormControl>
-                                                <Select defaultValue={values.minimum_star}
-                                                        onValueChange={(value: string) => {
-                                                            form.setValue('minimum_star', value);
-                                                        }}>
-                                                    <SelectTrigger className="w-[180px]">
-                                                        <SelectValue placeholder="Select Type"/>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            <SelectItem value="5_stars">For 5 star reviews
-                                                                only</SelectItem>
-                                                            <SelectItem value="4_stars">For Reviews 4 star
-                                                                and above</SelectItem>
-                                                            <SelectItem value="never">Never</SelectItem>
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </div>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+        <>
+            {
+                loading ? (<LoadingSpinner/>) : (<div>
+                    <EmailSettingsHeader locale={locale}/>
+                    <Form {...form} >
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                            <Card className={"frt-p-4"}>
+                                <FormField
+                                    control={form.control}
+                                    name="minimum_star"
+                                    render={({field}) => (
+                                        <FormItem className="frt-m-2 rwt-my-2">
+                                            <div
+                                                className="frt-grid frt-gap-3">
+                                                <FormLabel>Send Photo Reminder</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Select defaultValue={values.minimum_star}
+                                                                onValueChange={(value: string) => {
+                                                                    form.setValue('minimum_star', value);
+                                                                }}>
+                                                            <SelectTrigger className="w-[180px]">
+                                                                <SelectValue placeholder="Select Type"/>
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectGroup>
+                                                                    <SelectItem value="5_stars">For 5 star reviews
+                                                                        only</SelectItem>
+                                                                    <SelectItem value="4_stars">For Reviews 4 star
+                                                                        and above</SelectItem>
+                                                                    <SelectItem value="never">Never</SelectItem>
+                                                                </SelectGroup>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </div>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
 
-                        <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
-                        <FormField
-                            control={form.control}
-                            name="subject"
-                            render={({field}) => (
-                                <FormItem className="frt-m-2 rwt-my-2">
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <FormLabel>Subject</FormLabel>
-                                        <div>
-                                            <FormControl>
-                                                <Input type="text"
-                                                       defaultValue={values.subject}
-                                                       onChange={(e: any) => {
-                                                           form.setValue('subject', e.target.value);
-                                                       }}
-                                                       placeholder={"Reminder: Order #{order_number}, how did it go?"}
-                                                />
-                                            </FormControl>
-                                            <FormDescription className={"frt-flex frt-flex-col"}>
+                                <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
+                                <FormField
+                                    control={form.control}
+                                    name="subject"
+                                    render={({field}) => (
+                                        <FormItem className="frt-m-2 rwt-my-2">
+                                            <div
+                                                className="frt-grid frt-gap-3">
+                                                <FormLabel>Subject</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Input type="text"
+                                                               defaultValue={values.subject}
+                                                               onChange={(e: any) => {
+                                                                   form.setValue('subject', e.target.value);
+                                                               }}
+                                                               placeholder={"Reminder: Order #{order_number}, how did it go?"}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription className={"frt-flex frt-flex-col"}>
                                                             <span>
                                                             Notes:
                                                             Use [order_number] for the customer's order number
                                                             </span>
-                                                <span>Use [name] or [last_name] as a placeholder for the user's
+                                                        <span>Use [name] or [last_name] as a placeholder for the user's
                                                                 first or last name</span>
-                                            </FormDescription>
-                                            <FormMessage/>
-                                        </div>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                                    </FormDescription>
+                                                    <FormMessage/>
+                                                </div>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
 
-                        <FormField
-                            control={form.control}
-                            name="body"
-                            render={({field}) => (
-                                <FormItem className="frt-m-2 rwt-my-2">
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <FormLabel>Body</FormLabel>
-                                        <div>
-                                            <FormControl>
-                                                <Textarea onChange={(e: any) => {
-                                                    form.setValue('body', e.target.value);
-                                                }} value={values.body}></Textarea>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </div>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                <FormField
+                                    control={form.control}
+                                    name="body"
+                                    render={({field}) => (
+                                        <FormItem className="frt-m-2 rwt-my-2">
+                                            <div
+                                                className="frt-grid frt-gap-3">
+                                                <FormLabel>Body</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Textarea onChange={(e: any) => {
+                                                            form.setValue('body', e.target.value);
+                                                        }} value={values.body}></Textarea>
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </div>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
 
-                        <FormField
-                            control={form.control}
-                            name="discount_text"
-                            render={({field}) => (
-                                <FormItem className="frt-m-2 rwt-my-2">
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <FormLabel>Discount Text</FormLabel>
-                                        <div>
-                                            <FormControl>
-                                                <Input type="text"
-                                                       defaultValue={values.discount_text}
-                                                       onChange={(e: any) => {
-                                                           form.setValue('discount_text', e.target.value)
-                                                       }}
-                                                       placeholder={"Add photo/Video review to get the discount off on next purchase"}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>Note: Added when a text review is eligible for
-                                                a photo review discount</FormDescription>
-                                            <FormMessage/>
-                                        </div>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                <FormField
+                                    control={form.control}
+                                    name="discount_text"
+                                    render={({field}) => (
+                                        <FormItem className="frt-m-2 rwt-my-2">
+                                            <div
+                                                className="frt-grid frt-gap-3">
+                                                <FormLabel>Discount Text</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Input type="text"
+                                                               defaultValue={values.discount_text}
+                                                               onChange={(e: any) => {
+                                                                   form.setValue('discount_text', e.target.value)
+                                                               }}
+                                                               placeholder={"Add photo/Video review to get the discount off on next purchase"}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>Note: Added when a text review is eligible for
+                                                        a photo review discount</FormDescription>
+                                                    <FormMessage/>
+                                                </div>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
 
-                        <FormField
-                            control={form.control}
-                            name="button_text"
-                            render={({field}) => (
-                                <FormItem className="frt-m-2 rwt-my-2">
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <FormLabel>Button Text</FormLabel>
-                                        <div>
-                                            <FormControl>
-                                                <Input
-                                                    type="text"
-                                                    placeholder={"Write a Review"}
-                                                    defaultValue={values.button_text}
-                                                    onChange={(e: any) => {
-                                                        form.setValue('button_text', e.target.value)
-                                                    }}
-                                                />
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </div>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
-                        <Button type={"submit"}>
-                            {updating ? (<span className="frt-mx-2"><ClipLoader color="white"
-                                                                                size={"20px"}/></span>) : null}
-                            <span>Save Changes</span>
-                        </Button>
-                    </Card>
-                </form>
-            </Form>
-        </div>
-    )
+                                <FormField
+                                    control={form.control}
+                                    name="button_text"
+                                    render={({field}) => (
+                                        <FormItem className="frt-m-2 rwt-my-2">
+                                            <div
+                                                className="frt-grid frt-gap-3">
+                                                <FormLabel>Button Text</FormLabel>
+                                                <div>
+                                                    <FormControl>
+                                                        <Input
+                                                            type="text"
+                                                            placeholder={"Write a Review"}
+                                                            defaultValue={values.button_text}
+                                                            onChange={(e: any) => {
+                                                                form.setValue('button_text', e.target.value)
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage/>
+                                                </div>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type={"submit"}>
+                                    {updating ? (<span className="frt-mx-2">
+                                        <LoadingSpinner/>
+                                    </span>) : null}
+                                    <span>Save Changes</span>
+                                </Button>
+                            </Card>
+                        </form>
+                    </Form>
+                </div>)}
+        </>);
+
 }
 
 export default UpdatePhotoRequest;

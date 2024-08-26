@@ -22,7 +22,7 @@
 }
 
 .wd_preview_header {
-    height: 5vh;
+    height: auto;
 }
 
 .wd_preview__main_content {

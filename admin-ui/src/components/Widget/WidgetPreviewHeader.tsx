@@ -1,6 +1,9 @@
-import React, {useContext} from "react";
+import React from "react";
+import {Badge} from "../ui/badge";
 
-const WidgetPreviewHeader = ({widget, updateWidgetFields} : any) => {
+const WidgetPreviewHeader = ({widget, updateWidgetFields}: any) => {
+
+    const savedRef = React.useRef();
 
     return (
         <div className={"wd_preview_header widget-header-title"}>
@@ -44,7 +47,9 @@ const WidgetPreviewHeader = ({widget, updateWidgetFields} : any) => {
                                             x="10" y="17" width="4" height="1" rx="0.5" fill="#091218"></rect></svg>
                                     </span>
             </div>
-            <span>Site Language: English</span>
+            <div className={"frt-mx-auto frt-max-w-max frt-my-2"}>
+                <Badge>Changes Applied to English Language</Badge>
+            </div>
         </div>
     )
 }

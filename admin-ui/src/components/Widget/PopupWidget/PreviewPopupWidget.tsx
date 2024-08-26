@@ -39,7 +39,7 @@ const PreviewPopupWidget = () => {
     }
     return (
         <div
-            className={`review-preview-wrap popup-widget frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'popup-widget-preview-mobile' : 'popup-widget-preview-desktop'}`}>
+            className={`wd_preview_content review-preview-wrap popup-widget frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'popup-widget-preview-mobile' : 'popup-widget-preview-desktop'}`}>
             <div className={`popup_container ${getPopupPosition()} ${getCornerRadius()}`}
                  style={methods.getPopupPreviewStyles()}
                  key={widget.position}

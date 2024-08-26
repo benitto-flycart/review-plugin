@@ -11,9 +11,10 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVal
 import {Input} from "../ui/input";
 import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
-import {ClipLoader} from "react-spinners";
 import {AlertCircle} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "../ui/alert";
+import EmailSettingsHeader from "./EmailSettingsHeader";
+import {LoadingSpinner} from "../ui/loader";
 
 
 const UpdateReplyToReview = () => {
@@ -86,15 +87,7 @@ const UpdateReplyToReview = () => {
     const values = form.watch();
 
     return (<div>
-        <div>
-            <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Note</AlertTitle>
-                <AlertDescription>
-                    Changes Applied to English
-                </AlertDescription>
-            </Alert>
-        </div>
+        <EmailSettingsHeader locale={locale}/>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <Card className="frt-p-4">
@@ -156,7 +149,9 @@ const UpdateReplyToReview = () => {
                         )}
                     />
                     <Button type={"submit"}>
-                        {updating ? (<span className="frt-mx-2"><ClipLoader color="white" size={"20px"}/></span>): null}
+                        {updating ? (<span className="frt-mx-2">
+                            <LoadingSpinner/>
+                        </span>): null}
                         <span>Save Changes</span>
                     </Button>
                 </Card>

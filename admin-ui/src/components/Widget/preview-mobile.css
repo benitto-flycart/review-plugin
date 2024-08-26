@@ -1,6 +1,6 @@
 @media screen and (min-width: 769px) {
     /*Product-Widget*/
-    .review-preview-product-widget .review-preview-wrap.product-widget-preview-mobile {
+    .wd_preview_content.product-widget-preview-mobile {
         width: 386px;
         margin: auto auto;
 
@@ -10,11 +10,8 @@
     }
 
     /*PopupWidget*/
-    .review-preview-popup-widget .review-preview-wrap.popup-widget-preview-mobile {
+    .wd_preview_content.popup-widget-preview-mobile {
         width: 386px;
         margin: auto auto;
     }
-
-
-
 }

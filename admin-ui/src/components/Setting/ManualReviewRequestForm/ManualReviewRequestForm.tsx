@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {ClipLoader} from "react-spinners";
 import {useLocalState} from "@/src/components/zustand/localState";
 import {Button} from "@/src/components/ui/button";
 import {Card, CardContent, CardFooter, CardHeader,} from "@/src/components/ui/card";
@@ -7,6 +6,7 @@ import "@/src/main.css";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
 import {useForm} from "react-hook-form";
 import {Input} from "../../ui/input";
+import {LoadingSpinner} from "../../ui/loader";
 
 const ManualReviewRequestForm = () => {
     const [loading, setLoading] = useState(true);
@@ -98,12 +98,7 @@ const ManualReviewRequestForm = () => {
                 </div>
                 <Button>
                     {saveChangesLoading && (
-                        <span className="frt-mx-2">
-                <ClipLoader
-                    color="white"
-                    size={"20px"}
-                />
-              </span>
+                        <span className="frt-mx-2"><LoadingSpinner/></span>
                     )}
                     <span>Send Email</span>
                 </Button>

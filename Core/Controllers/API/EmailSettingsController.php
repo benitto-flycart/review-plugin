@@ -571,4 +571,44 @@ class EmailSettingsController
         }
     }
 
+
+    public static function duplicateEmailConfig(Request $request)
+    {
+        try {
+            $language = $request->get('language');
+            $type = $request->get('type');
+
+            $previous = EmailSetting::query()
+                ->where("language = %s AND type = %s", [$language, $type])
+                ->first();
+
+            if (!empty($previous)) {
+                $data = [
+                    'language' => $previous->language,
+                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
+                    'status' => $previous->status,
+                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
+                ];
+            } else {
+                $settings = EmailSetting::getDefaultReviewReplyRequestSettings($language);
+
+                $data = [
+                    'language' => $language,
+                    'language_label' => WordpressHelper::getLanguageLabel($language),
+                    'status' => 'active',
+                    'settings' => $settings,
+                ];
+            }
+
+            //Returning Review Data
+            return ReviewPhotoRequestResource::resource([$data]);
+
+        } catch (\Exception|\Error $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error([
+                'message' => 'Server Error Occurred'
+            ]);
+        }
+    }
+
 }

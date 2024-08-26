@@ -8,7 +8,6 @@ import {ColorWheelIcon, LayoutIcon} from "@radix-ui/react-icons";
 import "@/src/styles/widgets/widget.css";
 import WidgetSidebar from "../WidgetSidebar";
 import WidgetPreviewHeader from "../WidgetPreviewHeader";
-import ReviewFormWidgetPreview from "../ReviewFormWidget/ReviewFormWidgetPreview";
 
 const PopupWidgetDialog = ({show, toggle}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(PopupWidgetContext)

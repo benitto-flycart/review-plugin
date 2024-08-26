@@ -5,7 +5,6 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
 import {Input} from "../../ui/input";
-import {ClipLoader} from "react-spinners";
 import {useLocalState} from "../../zustand/localState";
 import {Card, CardContent} from "../../ui/card";
 import {Switch} from "../../ui/switch";
@@ -13,6 +12,7 @@ import {Button} from "../../ui/button";
 import {Badge} from "../../ui/badge";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {LoadingSpinner} from "../../ui/loader";
 
 export const FloatingProductReviewsWidget = () => {
     const [savedReviewRequests, setSavedReviewRequests] = useState<any>([])
@@ -109,8 +109,9 @@ export const FloatingProductReviewsWidget = () => {
                     <form>
                         <CardContent className="frt-grid !frt-p-4">
                             {loading ? (
-                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}><ClipLoader
-                                    color="black" size={"20px"}/></div>) : (
+                                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                                    <LoadingSpinner/>
+                                </div>) : (
                                 <>
                                     <div
                                         className=" frt-flex frt-flex-col frt-gap-y-2 frt-border-b frt-border-gray-300 frt-pb-4">
@@ -234,7 +235,9 @@ export const FloatingProductReviewsWidget = () => {
                                             <Button type={"submit"} className="frt-w-36"
                                                     onClick={saveFloatingProductReview}>
                                                 {updating ?
-                                                    <span className="frt-mx-2"><ClipLoader color="black" size={"20px"}/></span> : null}
+                                                    <span className="frt-mx-2">
+                                                        <LoadingSpinner/>
+                                                    </span> : null}
                                                 <span>Save Changes</span>
                                             </Button>
                                         </div>

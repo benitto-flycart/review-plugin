@@ -1,7 +1,6 @@
 // @ts-ignore
 import React, {FC, useState} from "react";
 import {HashRouter} from "react-router-dom";
-import {BarLoader, ClipLoader} from "react-spinners";
 import NavBar from "./components/NavBar";
 import AppHeader from "./components/shared/AppHeader";
 import Router from "./components/Router";
@@ -10,6 +9,7 @@ import {fetchLocalData} from "./helpers/methods";
 import {toastrError} from "./helpers/ToastrHelper";
 import {useLocalState} from "./components/zustand/localState";
 import {Toaster} from "./components/ui/sonner";
+import {LoadingSpinner} from "./components/ui/loader";
 
 const App: FC = (props) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -45,13 +45,10 @@ const App: FC = (props) => {
         <React.Fragment>
             {loading ? (
                 <div className={"frt-grid frt-justify-center frt-items-center frt-h-[100vh]"}>
-                    <ClipLoader
-                        color="black"
-                        size={"20px"}
-                    />
+                    <LoadingSpinner/>
                 </div>
             ) : (
-                <React.Suspense fallback={<ClipLoader/>}>
+                <React.Suspense fallback={<LoadingSpinner/>}>
                     <HashRouter>
                         <Toaster richColors expand={true}/>
                         <div className={"flycart-review-admin-ui"}>
