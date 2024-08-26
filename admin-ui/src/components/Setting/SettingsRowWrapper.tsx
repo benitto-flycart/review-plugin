@@ -1,8 +1,8 @@
 import React from 'react'
 
-const SettingsRowWrapper = ({children}: any) => {
+const SettingsRowWrapper = ({children, customClassName}: any) => {
     return (
-        <div className={"frt-flex frt-flex-col frt-gap-2"}>
+        <div className={`frt-flex frt-gap-2 ${customClassName}`}>
             {children}
         </div>
     )

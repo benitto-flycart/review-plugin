@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Button} from "@/src/components/ui/button";
 import {Card, CardContent,} from "@/src/components/ui/card";
 import "@/src/main.css";
-import {Input} from "../../ui/input";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 import {Switch} from "../../ui/switch";
 import {Popover, PopoverContent, PopoverTrigger} from "../../ui/popover";
@@ -12,12 +11,36 @@ import {useLocalState} from "../../zustand/localState";
 import {LoadingSpinner} from "../../ui/loader";
 import {Label} from "../../ui/label";
 import SettingsRowWrapper from "../SettingsRowWrapper";
+import SettingsColWrapper from "../SettingsColWrapper";
+import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
+import InputFontSize from "../../Widget/utils/InputFontSize";
+import {produce} from "immer";
 
 const BrandingSetting = () => {
     const [loading, setLoading] = useState(true);
     const [saveChangesLoading, setSaveChangesLoading] = useState(false);
     const {localState} = useLocalState();
-
+    const [settingsState, setSettingsState] = useState<any>({
+        corner_radius: 'rounded',
+        enable_logo: true,
+        logo: '',
+        rating_icon_style: 'rounded',
+        enable_review_branding: true,
+        enable_email_banners: false,
+        banner_src: '',
+        rating_rgb_color: '#ff224f',
+        appearance: 'default',
+        appearance_options: {
+            email_background_color: '#fffff',
+            content_background_color: '#fffff',
+            email_text_color: '#fffff',
+            button_bg_color: '#fffff',
+            button_border_color: '#fffff',
+            button_title_color: '#fffff',
+            font_type: 'arial',
+            font_size: 10,
+        },
+    });
     let frame: any;
     const runUploader = (event: any) => {
         event.preventDefault()
@@ -54,6 +77,12 @@ const BrandingSetting = () => {
         frame.open()
     }
 
+    const updateSettingFields = (cb: any) => {
+        const newState = produce(settingsState, (draft: any) => {
+            cb(draft)
+        })
+        setSettingsState(newState)
+    }
 
     // const schema = yup.object().shape({
     //     enable_logo: yup.boolean().required("Enable logo is required"),
@@ -79,28 +108,6 @@ const BrandingSetting = () => {
     //             .required("Font size is required"),
     //     })
     // });
-
-    const values = {
-        corner_radius: 'rounded',
-        enable_logo: true,
-        logo: '',
-        rating_icon_style: 'rounded',
-        enable_review_branding: true,
-        enable_email_banners: false,
-        banner_src: '',
-        rating_rgb_color: '#ff224f',
-        appearance: 'default',
-        appearance_options: {
-            email_background_color: '#fffff',
-            content_background_color: '#fffff',
-            email_text_color: '#fffff',
-            button_bg_color: '#fffff',
-            button_border_color: '#fffff',
-            button_title_color: '#fffff',
-            font_type: 'arial',
-            font_size: 10,
-        },
-    };
 
 
     const onSubmit = (data: any) => {
@@ -151,121 +158,39 @@ const BrandingSetting = () => {
 
     return (
         <Card>
-            <CardContent className="frt-my-4 frt-grid !frt-p-2">
+            <CardContent className=" frt-grid !frt-p-2">
                 {loading ? (
                     <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}><LoadingSpinner/></div>
                 ) : (
-                    <div>
+                    <div className={"frt-flex frt-flex-col frt-gap-8 frt-p-6"}>
                         <SettingsRowWrapper>
-                            <div className={"frt-flex frt-flex-row"}>
+                            <SettingsColWrapper>
                                 <Label>Enable Logo</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
                                 <Switch id="enable-logo"
-                                        defaultChecked={values.enable_logo}
+                                        defaultChecked={settingsState.enable_logo}
                                         onCheckedChange={(value: any) => {
-                                            //
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.enable_logo = value;
+                                            })
                                         }}
                                 />
-                            </div>
+                            </SettingsColWrapper>
                         </SettingsRowWrapper>
-                        <SettingsRowWrapper>
-                            <Label className="frt-w-full">Logo</Label>
-                            <div className="frt-w-full">
-                                <div
-                                    className="frt-border frt-border-dashed  frt-p-4 frt-grid frt-justify-center frt-items-center">
-                                            <span
-                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
-                                                onClick={runUploader}>Upload File</span>
-                                </div>
-                            </div>
-                        </SettingsRowWrapper>
-
-                        <SettingsRowWrapper>
-                            <Label className="frt-w-full">Corner Radius</Label>
-                            <Select value={values.corner_radius}
-                                    onValueChange={(value: string) => {
-                                        // form.setValue('corner_radius', value);
-                                    }}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Corner Radius"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="sharp">Sharp</SelectItem>
-                                        <SelectItem value="slightly_rounded">Slightly
-                                            Rounded</SelectItem>
-                                        <SelectItem value="rounded">Rounded</SelectItem>
-                                        <SelectItem value="extra_rounded">Extra
-                                            Rounded</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </SettingsRowWrapper>
-
-                        <SettingsRowWrapper>
-                            <Label>Icon</Label>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button variant="outline">Rating Icon</Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-80" side={'right'}>
-                                    <div className="frt-grid frt-gap-4">
-                                        <div className="frt-space-y-2">
-                                            <h4 className="frt-font-medium frt-leading-none">Dimensions</h4>
-                                            <p className="frt-text-sm frt-text-muted-foreground">
-                                                Set the dimensions for the layer.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
-                        </SettingsRowWrapper>
-
-
-                        <div className={"frt-m-2 rwt-my-2"}>
-                            <Label>Rating RGB COLOR</Label>
-                            <Input type={"color"}
-                                   value={values.rating_rgb_color}
-                                   className={"!frt-w-[50px]"}
-                                   onChange={(e: any) => {
-                                       //
-                                   }}/>
-                        </div>
-
-                        <div className={"frt-m-2 rwt-my-2"}>
-                            <div
-                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                <Label>Review Branding</Label>
-                                <Switch id="review-branding"
-                                        checked={values.enable_review_branding}
-                                        onCheckedChange={(value: any) => {
-                                            console.log(value);
-                                        }}
-                                />
-                            </div>
-                        </div>
-
-
-                        <div>
-                            <div
-                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                <Label>Enable Email Banners</Label>
-                                <div>
-                                    <Switch
-                                        id="email-banners"
-                                        checked={values.enable_email_banners}
-                                        onCheckedChange={(value: any) => {
-
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {values.enable_email_banners ? (
-                            <div className={"frt-m-2 rwt-my-2"}>
-                                <div
-                                    className="frt-grid frt-grid-cols-[30%_70%]">
-                                    <Label className="frt-w-full">Banner</Label>
+                        {
+                            settingsState.enable_logo ? <SettingsRowWrapper>
+                                <SettingsColWrapper>
+                                    <Label className="frt-w-full">Logo</Label>
+                                    <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
+                                        to
+                                        auto-publish, Any changes will only affect new
+                                        reviews</Label>
+                                </SettingsColWrapper>
+                                <SettingsColWrapper>
                                     <div className="frt-w-full">
                                         <div
                                             className="frt-border frt-border-dashed  frt-p-4 frt-grid frt-justify-center frt-items-center">
@@ -274,17 +199,156 @@ const BrandingSetting = () => {
                                                 onClick={runUploader}>Upload File</span>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </SettingsColWrapper>
+                            </SettingsRowWrapper> : ''
+                        }
+
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label className="frt-w-full">Corner Radius</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Select value={settingsState.corner_radius}
+                                        onValueChange={(value: string) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.corner_radius = value;
+                                            })
+                                        }}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Corner Radius"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="sharp">Sharp</SelectItem>
+                                            <SelectItem value="slightly_rounded">Slightly
+                                                Rounded</SelectItem>
+                                            <SelectItem value="rounded">Rounded</SelectItem>
+                                            <SelectItem value="extra_rounded">Extra
+                                                Rounded</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Icon</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="outline">Rating Icon</Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-80" side={'right'}>
+                                        <div className="frt-grid frt-gap-4">
+                                            <div className="frt-space-y-2">
+                                                <h4 className="frt-font-medium frt-leading-none">Dimensions</h4>
+                                                <p className="frt-text-sm frt-text-muted-foreground">
+                                                    Set the dimensions for the layer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Rating RGB COLOR</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <PopOverColorPicker color={settingsState.rating_rgb_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.rating_rgb_color = color;
+                                                        })
+                                                    }}/>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Review Branding</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch id="review-branding"
+                                        checked={settingsState.enable_review_branding}
+                                        onCheckedChange={(value: any) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.enable_review_branding = value;
+                                            })
+                                        }}
+                                />
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Enable Email Banners</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch
+                                    id="email-banners"
+                                    checked={settingsState.enable_email_banners}
+                                    onCheckedChange={(value: any) => {
+                                        updateSettingFields((draftState: any) => {
+                                            draftState.enable_email_banners = value;
+                                        })
+                                    }}
+                                />
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {settingsState.enable_email_banners ? (
+                            <SettingsRowWrapper>
+                                <SettingsColWrapper>
+                                    <Label className="frt-w-full">Banner</Label>
+                                    <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
+                                        to
+                                        auto-publish, Any changes will only affect new
+                                        reviews</Label>
+                                </SettingsColWrapper>
+                                <SettingsColWrapper>
+                                    <div className="frt-w-full">
+                                        <div
+                                            className="frt-border frt-border-dashed  frt-p-4 frt-grid frt-justify-center frt-items-center">
+                                            <span
+                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                                                onClick={runUploader}>Upload File</span>
+                                        </div>
+                                    </div>
+                                </SettingsColWrapper>
+                            </SettingsRowWrapper>
                         ) : null}
 
-                        <div className={"frt-m-2 rwt-my-2"}>
-                            <div
-                                className="frt-grid frt-grid-cols-[30%_70%]">
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
                                 <Label>Appearance</Label>
-                                <Select value={values.appearance}
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
+                                    to
+                                    auto-publish, Any changes will only affect new
+                                    reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Select value={settingsState.appearance}
                                         onValueChange={(value: string) => {
-                                            //
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.appearance = value;
+                                            })
                                         }}>
                                     <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Appearance"/>
@@ -296,176 +360,170 @@ const BrandingSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                            </div>
-                        </div>
-
-                        <div>
-                            {
-                                values.appearance ? (
-                                    <div className={"frt-py-4 frt-my-4"}>
-                                        <h3>Custom Appearance Options</h3>
-                                        <div className={"frt-my-4"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {
+                            settingsState.appearance == "custom" ? (
+                                <>
+                                    <h3 className={"frt-font-bold frt-text-lg"}>Custom Appearance Options</h3>
+                                    <>
+                                        <SettingsRowWrapper>
+                                            <SettingsColWrapper>
                                                 <Label>Email Background Color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           className={"!frt-w-[50px]"}
-                                                           value={values.appearance_options.email_background_color}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.email_background_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <Label>Content Background Color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           className={"!frt-w-[50px]"}
-                                                           value={values.appearance_options.content_background_color}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.content_background_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                    reviews you want
+                                                    to
+                                                    auto-publish, Any changes will only affect new
+                                                    reviews</Label>
+                                            </SettingsColWrapper>
+                                            <SettingsColWrapper>
+                                                <PopOverColorPicker
+                                                    color={settingsState.appearance_options.email_background_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.appearance_options.email_background_color = color;
+                                                        })
+                                                    }}/>
+                                            </SettingsColWrapper>
+                                        </SettingsRowWrapper>
+                                        <SettingsRowWrapper>
+                                            <SettingsColWrapper>
                                                 <Label>Email text color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           value={values.appearance_options.email_text_color}
-                                                           className={"!frt-w-[50px]"}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.email_text_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                    reviews you want
+                                                    to
+                                                    auto-publish, Any changes will only affect new
+                                                    reviews</Label>
+                                            </SettingsColWrapper>
+                                            <SettingsColWrapper>
+                                                <PopOverColorPicker
+                                                    color={settingsState.appearance_options.email_text_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.appearance_options.email_text_color = color;
+                                                        })
+                                                    }}/>
+                                            </SettingsColWrapper>
+                                        </SettingsRowWrapper>
+                                        <SettingsRowWrapper>
+                                            <SettingsColWrapper>
                                                 <Label>Button Background Color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           className={"!frt-w-[50px]"}
-                                                           value={values.appearance_options.button_bg_color}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.button_bg_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                    reviews you want
+                                                    to
+                                                    auto-publish, Any changes will only affect new
+                                                    reviews</Label>
+                                            </SettingsColWrapper>
+                                            <SettingsColWrapper>
+                                                <PopOverColorPicker
+                                                    color={settingsState.appearance_options.button_bg_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.appearance_options.button_bg_color = color;
+                                                        })
+                                                    }}/>
+                                            </SettingsColWrapper>
+                                        </SettingsRowWrapper>
+                                        <SettingsRowWrapper>
+                                            <SettingsColWrapper>
                                                 <Label>Button Border Color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           value={values.appearance_options.button_border_color}
-                                                           className={"!frt-w-[50px]"}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.button_border_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
+                                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                    reviews you want
+                                                    to
+                                                    auto-publish, Any changes will only affect new
+                                                    reviews</Label>
+                                            </SettingsColWrapper>
+                                            <SettingsColWrapper>
+                                                <PopOverColorPicker
+                                                    color={settingsState.appearance_options.button_border_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.appearance_options.button_border_color = color;
+                                                        })
+                                                    }}/>
+                                            </SettingsColWrapper>
+                                        </SettingsRowWrapper>
+                                        <SettingsRowWrapper>
+                                            <SettingsColWrapper>
                                                 <Label>Button Title Color</Label>
-                                                <div
-                                                    className="frt-flex frt-justify-items-start frt-gap-2">
-                                                    <span>#</span>
-                                                    <Input type="color"
-                                                           className={"!frt-w-[50px]"}
-                                                           value={values.appearance_options.button_title_color}
-                                                           onChange={(e: any) => {
-                                                               // form.setValue('appearance_options.button_title_color', e.target.value)
-                                                           }}
-                                                    />
-                                                    <span>show</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                    reviews you want
+                                                    to
+                                                    auto-publish, Any changes will only affect new
+                                                    reviews</Label>
+                                            </SettingsColWrapper>
+                                            <SettingsColWrapper>
+                                                <PopOverColorPicker
+                                                    color={settingsState.appearance_options.button_title_color}
+                                                    onChange={(color: string) => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.appearance_options.button_title_color = color;
+                                                        })
+                                                    }}/>
+                                            </SettingsColWrapper>
+                                        </SettingsRowWrapper>
+                                    </>
 
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <Label>Font Type</Label>
-                                                <Select
-                                                    value={values.appearance_options.font_type}
-                                                    onValueChange={(value: string) => {
-                                                        // form.setValue('appearance_options.font_type', value)
-                                                    }}
-                                                >
-                                                    <SelectTrigger className="w-[180px]">
-                                                        <SelectValue placeholder="Corner Radius"/>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            <SelectItem
-                                                                value="arial">Arial</SelectItem>
-                                                            <SelectItem value="times_new_roman">Times
-                                                                New
-                                                                Roman</SelectItem>
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-
-                                            </div>
-                                        </div>
-
-                                        <div className={"frt-m-2 rwt-my-2"}>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <Label>Font Size</Label>
-                                                <Input
-                                                    type="number"
-                                                    placeholder="Font size"
-                                                    value={values.appearance_options.font_size}
-                                                    onChange={(e) => {
-                                                        let value = e.target.value ? parseInt(e.target.value) : 0;
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : null
-                            }
-                        </div>
-
-                        <Button type={"submit"}>
+                                    <SettingsRowWrapper>
+                                        <SettingsColWrapper>
+                                            <Label>Font Type</Label>
+                                            <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                reviews you want
+                                                to
+                                                auto-publish, Any changes will only affect new
+                                                reviews</Label>
+                                        </SettingsColWrapper>
+                                        <SettingsColWrapper>
+                                            <Select
+                                                value={settingsState.appearance_options.font_type}
+                                                onValueChange={(value: string) => {
+                                                    updateSettingFields((draftState: any) => {
+                                                        draftState.appearance_options.font_type = value;
+                                                    })
+                                                }}
+                                            >
+                                                <SelectTrigger className="w-[180px]">
+                                                    <SelectValue placeholder="Corner Radius"/>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem
+                                                            value="arial">Arial</SelectItem>
+                                                        <SelectItem value="times_new_roman">Times
+                                                            New
+                                                            Roman</SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </SettingsColWrapper>
+                                    </SettingsRowWrapper>
+                                    <SettingsRowWrapper>
+                                        <SettingsColWrapper>
+                                            <Label>Font Size</Label>
+                                            <Label className={"frt-text-xs frt-text-grayprimary"}>select which
+                                                reviews you want
+                                                to
+                                                auto-publish, Any changes will only affect new
+                                                reviews</Label>
+                                        </SettingsColWrapper>
+                                        <SettingsColWrapper>
+                                            <InputFontSize
+                                                min={10}
+                                                max={50}
+                                                step={1}
+                                                value={settingsState.appearance_options.font_size}
+                                                onChange={(value: any) => {
+                                                    updateSettingFields((draftState: any) => {
+                                                        draftState.appearance_options.font_size = value;
+                                                    })
+                                                }}
+                                            />
+                                        </SettingsColWrapper>
+                                    </SettingsRowWrapper>
+                                </>
+                            ) : null
+                        }
+                        <Button type={"submit"} className={"frt-w-32"}>
                             {saveChangesLoading && (
                                 <span className="frt-mx-2">
                                         <LoadingSpinner/>

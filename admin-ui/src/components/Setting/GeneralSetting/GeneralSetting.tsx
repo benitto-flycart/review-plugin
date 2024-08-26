@@ -3,29 +3,25 @@ import {useLocalState} from "@/src/components/zustand/localState";
 import {Button} from "@/src/components/ui/button";
 import {Card, CardContent,} from "@/src/components/ui/card";
 import "@/src/main.css";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 import {Switch} from "../../ui/switch";
-import {useForm} from "react-hook-form";
 import {Input} from "../../ui/input";
 import {Textarea} from "../../ui/textarea";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {LoadingSpinner} from "../../ui/loader";
+import SettingsRowWrapper from "../SettingsRowWrapper";
+import SettingsColWrapper from "../SettingsColWrapper";
+import {Label} from "../../ui/label";
+import {produce} from "immer";
 
 const GeneralSetting = () => {
     const [loading, setLoading] = useState(true);
     const [saveChangesLoading, setSaveChangesLoading] = useState(false);
     const {localState, setLocalState} = useLocalState();
     const [errors, setErrors] = useState<any>();
-
-    useEffect(() => {
-        setLoading(true);
-    }, []);
-
-    const defaultValues = {
+    const [settingsState, setSettingsState] = useState<any>({
         send_replies_to: '',
         enable_email_footer: true,
         footer_text: '',
@@ -34,8 +30,12 @@ const GeneralSetting = () => {
         reviewers_name_format: 'first_name',
         review_notification_to: '',
         review_request_timing: 'immediate',
-        order_status: 'completed'
-    };
+        order_status: 'wc-processing'
+    });
+
+    useEffect(() => {
+        setLoading(true);
+    }, []);
 
     const schema = yup.object().shape({
         send_replies_to: yup.string().email('Must be a valid email address').optional(),
@@ -49,10 +49,6 @@ const GeneralSetting = () => {
         order_status: yup.string().required('Order Status is required')
     });
 
-    const form = useForm({
-        resolver: yupResolver(schema),
-        defaultValues: defaultValues,
-    });
 
     const onSubmit = (data: any) => {
         // Handle form data here
@@ -68,7 +64,6 @@ const GeneralSetting = () => {
             let data = response.data.data
             let settings = data.settings;
             console.log(settings)
-            form.reset(settings);
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -76,6 +71,14 @@ const GeneralSetting = () => {
             setLoading(false)
         });
     };
+
+    const updateSettingFields = (cb: any) => {
+        const newState = produce(settingsState, (draft: any) => {
+            cb(draft)
+        })
+        setSettingsState(newState)
+    }
+
 
     const saveGeneralSettings = (data: any) => {
         setSaveChangesLoading(true)
@@ -94,8 +97,6 @@ const GeneralSetting = () => {
         });
     };
 
-    const values = form.watch();
-
     useEffect(() => {
         setLoading(true);
         getGeneralSettings();
@@ -103,313 +104,214 @@ const GeneralSetting = () => {
 
     return (
         <Card>
-            {loading ? (
-                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
-                    <LoadingSpinner/>
-                </div>
-            ) : (
-                <CardContent className="frt-my-4 frt-grid !frt-p-2">
-                    <Form {...form} >
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <div className="frt-m-2 frt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="send_replies_to"
-                                    defaultValue={values.send_replies_to}
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel className="frt-w-full">Send Email Replies To</FormLabel>
-                                                <div className="frt-w-full">
-                                                    <FormControl>
-                                                        <Input placeholder="Reply To"
-                                                               value={values.send_replies_to}
-                                                               type={"email"}
-                                                               onChange={(e: any) => {
-                                                                   form.setValue('send_replies_to', e.target.value);
-                                                               }}/>
-                                                    </FormControl>
-                                                    <FormDescription>Leave Empty to have email replies to default admin
-                                                        email</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <div className="frt-m-2 frt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="enable_email_footer"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Enable Email Footer</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Switch
-                                                            id="enable_email_footer"
-                                                            checked={values.enable_email_footer}
-                                                            onCheckedChange={(value: boolean) => {
-                                                                form.setValue('enable_email_footer', value)
-                                                            }}/>
-                                                    </FormControl>
-                                                    <FormDescription>Display text in the footer of review
-                                                        emails</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            {values.enable_email_footer ? (<div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="footer_text"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel className="frt-w-full">Footer Text</FormLabel>
-                                                <div className="frt-w-full">
-                                                    <FormControl>
-                                                        <Textarea onChange={(e: any) => {
-                                                            form.setValue("footer_text", e.target.value);
-                                                        }} value={values.footer_text}></Textarea>
-                                                    </FormControl>
-                                                    <FormDescription>Your Footer Text</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>) : null}
-
-
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="reviewers_name_format"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 rwt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Reviewers Name Format</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Select value={values.reviewers_name_format}
-                                                                onValueChange={(value: string) => {
-                                                                    form.setValue('reviewers_name_format', value);
-                                                                }}>
-                                                            <SelectTrigger className="w-[180px]">
-                                                                <SelectValue placeholder="Reviewers Name format"/>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectGroup>
-                                                                    <SelectItem value="first_name">First Name
-                                                                        (John)</SelectItem>
-                                                                    <SelectItem value="last_name">Last Name
-                                                                        (Doe)</SelectItem>
-                                                                    <SelectItem value="first_last_name">First Name Last
-                                                                        Name
-                                                                        (John Doe)</SelectItem>
-                                                                </SelectGroup>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </FormControl>
-                                                    <FormDescription>Customize how the reviewer name is displayed on
-                                                        Review
-                                                        Widgets</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-
-                            {/*//Managing New Reviews*/}
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="auto_publish_new_reviews"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 rwt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Auto Publish new Reviews</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Switch checked={values.auto_publish_new_reviews}
-                                                                onCheckedChange={(value: boolean) => {
-                                                                    form.setValue('auto_publish_new_reviews', value);
-                                                                }}/>
-                                                    </FormControl>
-                                                    <FormDescription>select which reviews you want to auto-publish, Any
-                                                        changes
-                                                        will
-                                                        only affect new reviews</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="enable_review_notification"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 rwt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Enable Review Notification</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Switch
-                                                            checked={values.enable_review_notification}
-                                                            onCheckedChange={(value: boolean) => {
-                                                                form.setValue('enable_review_notification', value);
-                                                            }}/>
-                                                    </FormControl>
-                                                    <FormDescription>Enable Review Notification to remind the admin
-                                                        after a
-                                                        customer
-                                                        has submitted a review.</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            {values.enable_review_notification ? (<div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="review_notification_to"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel className="frt-w-full">Review Notification to</FormLabel>
-                                                <div className="frt-w-full">
-                                                    <FormControl>
-                                                        <Input placeholder="Review Notification To"
-                                                               value={values.review_notification_to}
-                                                               onChange={(e: any) => {
-                                                                   form.setValue('review_notification_to', e.target.value);
-                                                               }}/>
-                                                    </FormControl>
-                                                    <FormDescription>Leave empty to have notifications sent to admin
-                                                        email</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>) : null}
-
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="review_request_timing"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel className="frt-w-full">Review Request Timing</FormLabel>
-                                                <div className="frt-w-full">
-                                                    <FormControl>
-                                                        <Select value={values.review_request_timing}
-                                                                onValueChange={(value: string) => {
-                                                                    form.setValue('review_request_timing', value)
-                                                                }}>
-                                                            <SelectTrigger className="w-[180px]">
-                                                                <SelectValue placeholder="Review Request Timing"/>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectGroup>
-                                                                    <SelectItem value="immediate">Immediate</SelectItem>
-                                                                    <SelectItem value="1_day">1 Day</SelectItem>
-                                                                    <SelectItem value="3_days">3 Day</SelectItem>
-                                                                    <SelectItem value="5_days">5 Day</SelectItem>
-                                                                    <SelectItem value="7_days">7 Day</SelectItem>
-                                                                </SelectGroup>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </FormControl>
-                                                    <FormDescription>Select the Option in which day you want to send
-                                                        review
-                                                        request email</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="order_status"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel className="frt-w-full">Order Status</FormLabel>
-                                                <div className="frt-w-full">
-                                                    <FormControl>
-                                                        <Select value={values.order_status}
-                                                                onValueChange={(value: string) => {
-                                                                    form.setValue('order_status', value)
-                                                                }}>
-                                                            <SelectTrigger className="w-[180px]">
-                                                                <SelectValue placeholder="Order Status"/>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectGroup>
-                                                                    {Object.entries(localState.order_statuses)?.map((obj: any, index: number) => {
-                                                                        return <SelectItem key={index}
-                                                                                           value={obj[0]}>{obj[1]}</SelectItem>;
-                                                                    })}
-                                                                </SelectGroup>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </FormControl>
-                                                    <FormDescription>Send Review Request Email based on Order
-                                                        Status</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <Button type={"submit"}>
-                                {saveChangesLoading && (
-                                    <span className="frt-mx-2">
+            <CardContent>
+                {loading ? (
+                    <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                        <LoadingSpinner/>
+                    </div>
+                ) : (
+                    <div className={"frt-flex frt-flex-col frt-gap-8 frt-p-6"}>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Send Email Replies To</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Leave Empty to have email replies to default admin email</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Input placeholder="Reply To"
+                                       value={settingsState.send_replies_to}
+                                       type={"email"}
+                                       onChange={(e: any) => {
+                                           updateSettingFields((draftState: any) => {
+                                               draftState.send_replies_to = e.target.value;
+                                           })
+                                       }}/>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Enable Email Footer
+                                </Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Display text in the footer of review emails</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch
+                                    id="enable_email_footer"
+                                    checked={settingsState.enable_email_footer}
+                                    onCheckedChange={(value: boolean) => {
+                                        updateSettingFields((draftState: any) => {
+                                            draftState.enable_email_footer = value;
+                                        })
+                                    }}/>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {
+                            settingsState.enable_email_footer ? <SettingsRowWrapper>
+                                <SettingsColWrapper>
+                                    <Label>Footer Text
+                                    </Label>
+                                    <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                        Your Footer Text</Label>
+                                </SettingsColWrapper>
+                                <SettingsColWrapper>
+                                    <Textarea onChange={(e: any) => {
+                                        updateSettingFields((draftState: any) => {
+                                            draftState.footer_text = e.target.value;
+                                        })
+                                    }} value={settingsState.footer_text}></Textarea>
+                                </SettingsColWrapper>
+                            </SettingsRowWrapper> : null
+                        }
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Reviewers Name Format</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Customize how the reviewer name is displayed on Review Widgets</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Select value={settingsState.reviewers_name_format}
+                                        onValueChange={(value: string) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.reviewers_name_format = value;
+                                            })
+                                        }}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Reviewers Name format"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="first_name">First Name
+                                                (John)</SelectItem>
+                                            <SelectItem value="last_name">Last Name
+                                                (Doe)</SelectItem>
+                                            <SelectItem value="first_last_name">First Name
+                                                Last
+                                                Name
+                                                (John Doe)</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Auto Publish new Reviews</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
+                                    auto-publish, Any changes will only affect new reviews</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch checked={settingsState.auto_publish_new_reviews}
+                                        onCheckedChange={(value: boolean) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.auto_publish_new_reviews = value;
+                                            })
+                                        }}/>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Enable Review Notification</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>Enable Review Notification to
+                                    remind the admin after a customer has submitted a review.</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch
+                                    checked={settingsState.enable_review_notification}
+                                    onCheckedChange={(value: boolean) => {
+                                        updateSettingFields((draftState: any) => {
+                                            draftState.enable_review_notification = value;
+                                        })
+                                    }}/>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {
+                            settingsState.enable_review_notification ? <SettingsRowWrapper>
+                                <SettingsColWrapper>
+                                    <Label>Review Notification to</Label>
+                                    <Label className={"frt-text-xs frt-text-grayprimary"}>Leave empty to have
+                                        notifications
+                                        sent to admin email</Label>
+                                </SettingsColWrapper>
+                                <SettingsColWrapper>
+                                    <Input placeholder="Review Notification To"
+                                           value={settingsState.review_notification_to}
+                                           onChange={(e: any) => {
+                                               updateSettingFields((draftState: any) => {
+                                                   draftState.review_notification_to = e.target.value;
+                                               })
+                                           }}/>
+                                </SettingsColWrapper>
+                            </SettingsRowWrapper> : null
+                        }
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Review Request Timing
+                                </Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>Select the Option in which day you
+                                    want to send review request email</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Select value={settingsState.review_request_timing}
+                                        onValueChange={(value: string) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.review_request_timing = value;
+                                            })
+                                        }}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Review Request Timing"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem
+                                                value="immediate">Immediate</SelectItem>
+                                            <SelectItem value="1_day">1 Day</SelectItem>
+                                            <SelectItem value="3_days">3 Day</SelectItem>
+                                            <SelectItem value="5_days">5 Day</SelectItem>
+                                            <SelectItem value="7_days">7 Day</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Order Status</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>Send Review Request Email based on
+                                    Order Status</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Select value={settingsState.order_status}
+                                        onValueChange={(value: string) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.order_status = value;
+                                            })
+                                        }}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Order Status"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {Object.entries(localState.order_statuses)?.map((obj: any, index: number) => {
+                                                return <SelectItem key={index}
+                                                                   value={obj[0]}>{obj[1]}</SelectItem>;
+                                            })}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        <Button className={"frt-w-32"} type={"submit"}>
+                            {saveChangesLoading && (
+                                <span className="frt-mx-2">
                                         <LoadingSpinner/>
                                     </span>)}
-                                <span>Save Changes</span>
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>)
-            }
+                            <span>Save Changes</span>
+                        </Button>
+                    </div>)
+                }
+            </CardContent>
+
         </Card>
     );
 };
