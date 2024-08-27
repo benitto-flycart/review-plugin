@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'review';
-  src:  url('fonts/review.eot?tdwrif');
-  src:  url('fonts/review.eot?tdwrif#iefix') format('embedded-opentype'),
-    url('fonts/review.ttf?tdwrif') format('truetype'),
-    url('fonts/review.woff?tdwrif') format('woff'),
-    url('fonts/review.svg?tdwrif#review') format('svg');
+  src:  url('fonts/review.eot?gxglgt');
+  src:  url('fonts/review.eot?gxglgt#iefix') format('embedded-opentype'),
+    url('fonts/review.ttf?gxglgt') format('truetype'),
+    url('fonts/review.woff?gxglgt') format('woff'),
+    url('fonts/review.svg?gxglgt#review') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,30 +25,57 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.review-Gem:before {
+.review-gem-outline:before {
   content: "\e900";
 }
-.review-Heart:before {
+.review-gem:before {
   content: "\e901";
 }
-.review-Leaf:before {
+.review-heart-outline:before {
   content: "\e902";
 }
-.review-Rocket:before {
+.review-heart:before {
   content: "\e903";
 }
-.review-Star-1:before {
+.review-leaf-outline:before {
   content: "\e904";
 }
-.review-Star-2:before {
+.review-leaf:before {
   content: "\e905";
 }
-.review-Star-3:before {
+.review-rocket-outline:before {
   content: "\e906";
 }
-.review-Star-4:before {
+.review-rocket:before {
   content: "\e907";
 }
-.review-Trophy:before {
+.review-round-star:before {
   content: "\e908";
+}
+.review-star-sharp-outline:before {
+  content: "\e909";
+}
+.review-star-sharp:before {
+  content: "\e90a";
+}
+.review-star-lc-outline:before {
+  content: "\e90b";
+}
+.review-star-hc:before {
+  content: "\e90c";
+}
+.review-star-hc-outline:before {
+  content: "\e90d";
+}
+.review-round-star-outline:before {
+  content: "\e90e";
+}
+.review-star-mc:before {
+  content: "\e90f";
+}
+.review-trophy-outline:before {
+  content: "\e910";
+}
+.review-trophy:before {
+  content: "\e911";
 }

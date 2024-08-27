@@ -1,53 +1,77 @@
-.expanded_header {
+.r_pw_eh_container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 0.5rem;
     padding: 0.25rem;
     gap: 1rem;
+}
 
-    .overall_rating_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: .5rem;
-    }
+.r_pw_eh_rating_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
 
-    .overall_rating {
-        display: flex;
-        justify-content: center;
-        gap: .5rem;
-        align-items: center;
-    }
+.r_pw_eh_rating_overview {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    align-items: center;
+}
 
-    .rating_details {
-        display: flex;
-        flex-direction: column;
-        gap: .5rem;
-        align-items: center;
-    }
+.r_pw_eh_rating_details_container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    align-items: center;
+}
 
-    .rating_row {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        align-items: center;
-    }
+.r_pw_eh_rating_details {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
 
+.r_pw_eh_rating_details--icons-info {
+    display: flex;
+    gap: .75rem;
+}
 
-    .progress_bar {
-        width: 100px;
-        height: 10px;
-    }
+.r_pw_eh_rating_details--progress_bar_container {
+    width: 100px;
+    height: 10px;
+}
 
-    .actions {
-        display: flex;
-        flex-direction: row;
-        gap: .5rem;
-        align-items: center;
-        justify-content: center;
-    }
+.r_pw_eh_rating_details--review_count {
+
+}
+
+.r_pw_eh_actions_container {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.r_pw_eh_actions_container--btn_container {
+
+}
+
+.r_pw_eh_actions_container--btn_container-btn {
+    padding: .5rem;
+}
+
+.r_pw_eh_actions_container--sorting_container {
+
+}
+
+.r_pw_eh_actions_container--sorting_container-btn {
+    padding: .5rem;
 }
 
 
@@ -57,3 +81,81 @@
         justify-content: center;
     }
 }
+
+/*List Card Review*/
+.r_pw_r_l_preview_container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-block: .5rem;
+}
+
+.r_pw_r_l_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.r_pw_r_l_container--review_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: .5rem;
+    padding: .75rem;
+}
+
+.r_pw_r_l_container--review_details-overview {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+}
+
+.r_pw_r_l_container--review_details-review_title {
+    padding: .25rem;
+}
+
+.r_pw_r_l_container--review_details--rating_details {
+    display: flex;
+    flex-direction: column;
+}
+
+.r_pw_r_l_container--review_details--review-date {
+
+}
+
+.r_pw_r_l_container--review_details--rating_details_icons {
+    display: flex;
+    justify-content: start;
+    gap: .5rem;
+}
+
+.r_pw_r_l_container--review_content_container {
+    padding: .75rem;
+}
+
+.r_pw_r_l_container--review_content_img {
+    width: 80px;
+    height: 80px;
+}
+
+.r_pw_r_l_container--reply_container {
+    padding: .75rem;
+}
+
+.r_pw_r_l_container--reply_container_details {
+
+}
+
+.r_pw_r_l_container--reply_reviewer_name {
+
+}
+
+.r_pw_r_l_container--reply_content {
+
+}
+
+.r_pw_r_l_container--reply_content_img_container {
+    display: flex;
+    flex-direction: row;
+}
+

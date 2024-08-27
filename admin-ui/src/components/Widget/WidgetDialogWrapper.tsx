@@ -1,8 +1,9 @@
 import React from "react";
-import {Dialog, DialogContent} from "../ui/dialog";
+import {Dialog, DialogContent, DialogTitle} from "../ui/dialog";
 import WidgetSidebarWrapper from "./Sidebar/WidgetSidebarWrapper";
 import WidgetMainContentWrapper from "./WidgetMainContentWrapper";
 import {LoadingSpinner} from "../ui/loader";
+import "@/src/styles/widgets/widget.css";
 
 const WidgetDialogWrapper = ({children, show, toggle, settings, context}: any) => {
     const {loading} = context;
@@ -14,17 +15,19 @@ const WidgetDialogWrapper = ({children, show, toggle, settings, context}: any) =
                 onInteractOutside={(e: any) => {
                     e.preventDefault();
                 }}>
+                <DialogTitle/>
                 {loading ? <LoadingSpinner/> : (<>
                     <WidgetSidebarWrapper widget={context.widget}
                                           settings={settings}
                                           updateWidgetFields={context.updateWidgetFields}
                     />
-                    <WidgetMainContentWrapper
-                        widget={context.widget}
-                        updateWidgetFields={context.updateWidgetFields}
-                    >
-                        {children}
-                    </WidgetMainContentWrapper>
+                        <WidgetMainContentWrapper
+                            saving={context.saving}
+                            widget={context.widget}
+                            updateWidgetFields={context.updateWidgetFields}
+                        >
+                            {children}
+                        </WidgetMainContentWrapper>
                 </>)}
             </DialogContent>
         </Dialog>

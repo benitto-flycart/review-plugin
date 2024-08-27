@@ -8,11 +8,12 @@ export const ProductWidgetContext = createContext({});
 
 function ProductWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(false)
+    const [saving, setSaving] = useState(false)
 
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
-        view: 'mobile',
+        view: 'desktop',
         show_setting: '',
         layout: {
             widget_layout: 'list',
@@ -127,6 +128,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
     }
 
     const saveSettings = () => {
+        setSaving(true)
         axiosClient.post('', {
             method: 'save_widget_settings',
             widget_type: 'product_widget',
@@ -140,11 +142,11 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            buildStateFromResponse(settings);
-            toastrSuccess(data.message);
+            // buildStateFromResponse(settings);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
+            setSaving(false)
         });
     }
 
@@ -172,8 +174,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         fetchProductWidget();
 
         let saveInterval = setInterval(() => {
-            saveSettings();
-            console.log('save api called');
+            // saveSettings();
         }, 15000);
 
         return () => {
@@ -242,7 +243,8 @@ function ProductWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+           saving
         }}>
             {children}
         </ProductWidgetContext.Provider>

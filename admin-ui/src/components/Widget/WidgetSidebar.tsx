@@ -23,6 +23,7 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
                         settings?.options.map((option: any, index: number) => {
                             return (
                                 <div
+                                    key={index}
                                     className={"wd_sidebar_options_container__option frt-p-3 frt-cursor-pointer frt-transition-transform frt-duration-1000"}
                                     onClick={() => {
                                         updateWidgetFields((draftState: any) => {
@@ -51,7 +52,7 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
             {settings.options.map((option: any, index: number) => {
                     return (
                         <div
-                            key={option.key}
+                            key={index}
                             className={`${widget.show_setting == option.key ? 'wd_setting_container show frt-opacity-100' : 'hide frt-opacity-0'}  widget-setting-transform frt-flex-col frt-flex-1 frt-transition-transform frt-duration-1000`}>
                             {option.component}
                         </div>

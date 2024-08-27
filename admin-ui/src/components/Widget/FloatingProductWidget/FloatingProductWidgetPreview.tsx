@@ -4,6 +4,7 @@ import {FloatingProductWidgetContext} from "./FloatingProductWidgetContextAPI";
 import ProductWidgetContextAPI from "../ProductReviewWidget/ProductReviewContextAPI";
 import PreviewProductWidget from "../ProductReviewWidget/Preview/PreviewProductWidget";
 import {Cross1Icon} from "@radix-ui/react-icons";
+import ProductWidget from "../ProductReviewWidget/ProductWidget";
 
 const FloatingProductWidgetPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(FloatingProductWidgetContext)
@@ -21,11 +22,9 @@ const FloatingProductWidgetPreview = () => {
                     </span>
                 </div>
             </div>
-            {/*<div>*/}
-            {/*    <ProductWidgetContextAPI>*/}
-            {/*        <PreviewProductWidget/>*/}
-            {/*    </ProductWidgetContextAPI>*/}
-            {/*</div>*/}
+            <ProductWidgetContextAPI>
+                <PreviewProductWidget view={widget.view} current_widget={'floating_product'}/>
+            </ProductWidgetContextAPI>
         </div>
     )
 }

@@ -31,6 +31,7 @@ class AssetsActions
             wp_enqueue_style('flycart-review-plugin-styles', "{$reactDistUrl}/main.css", [], F_Review_VERSION);
             wp_enqueue_script('flycart-review-plugin-script', "{$reactDistUrl}/main.bundle.js", array('wp-element'), F_Review_VERSION, true);
             wp_enqueue_style('flycart-review-styles-font-awesome', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
+            error_log("{$resourceUrl}/admin/css/review-fonts.css");
             wp_enqueue_media();
             remove_all_actions('admin_notices');
         }

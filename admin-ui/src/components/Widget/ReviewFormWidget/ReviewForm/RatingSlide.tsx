@@ -15,7 +15,7 @@ const RatingSlide = ({rating, updateRating} : any) => {
                         return (
                             <i key={index + '_' + rating}
                                style={methods.ratingIconStyles()}
-                               className={`review-icon review review-Gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
+                               className={`review-icon review review-gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
                                onClick={() => updateRating(index + 1)}
                             ></i>
                         )

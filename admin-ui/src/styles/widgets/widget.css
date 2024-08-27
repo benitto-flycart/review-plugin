@@ -147,6 +147,15 @@
     display: none;
 }
 
-.widget-setting-transform.show {
-    animation: WidgetfadeIn 2s;;
+.widget-save-alert {
+    animation: widget-save-slide-in 100ms;
+}
+
+@keyframes widget-save-slide-in {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
 }

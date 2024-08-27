@@ -11,72 +11,58 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         show_setting: '',
         general: {
             button: {
-                text_color: 'white',
-                bg_color: 'purple',
+                text_color: '#E70680',
+                bg_color: '#FED2EA',
             },
             input: {
                 border_color: 'white',
                 border_focus_color: 'purple',
             },
             dialog: {
-                bg_color: 'white',
+                bg_color: '#FED2EA',
             }
         },
         rating: {
             title: 'How would you rate this item?',
-            text_color: 'black',
-            icon_color: 'purple',
-            font_size: 30,
-            icon_size: 30,
+            text_color: '#6D033D',
+            icon_color: '#6D033D',
         },
         photos: {
             title: 'Show it Off',
-            title_text_size: 20,
             title_text_color: 'black',
             description: "We'd love to see it again",
-            description_text_size: 10,
             description_color: 'black',
             button_text: 'Add Photos',
             button_text_color: 'white',
-            button_text_size: 10,
         },
         review_content: {
             title: 'Tell us more!',
-            title_text_size: 30,
             title_text_color: 'black',
             placeholder: 'Share your experience'
         },
         reviewer: {
             title: 'About you',
-            title_text_size: 30,
             title_text_color: 'purple',
             label_color: 'purple',
-            label_text_size: 16,
             description_color: 'purple',
-            description_text_size: 16,
         },
         thank_you: {
             title: 'Thank you',
-            title_text_size: 30,
             title_text_color: 'purple',
             description: 'Your Review was submitted',
-            description_text_size: 16,
             description_text_color: 'purple',
         }
-
     })
 
     const widgetMethods = {
         getThankyouTitleStyles: () => {
             return {
                 color: widget.thank_you.title_text_color,
-                fontSize: widget.thank_you.title_text_size + 'px'
             }
         },
         getThankyouDescriptionStyles: () => {
             return {
                 color: widget.thank_you.description_text_color,
-                fontSize: widget.thank_you.description_text_size + 'px'
             }
         },
         getDialogStyles: () => {
@@ -86,31 +72,26 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         },
         ratingTitleStyles: () => {
             return {
-                fontSize: widget.rating.font_size + 'px',
                 color: widget.rating.text_color,
             }
         },
         ratingIconStyles: () => {
             return {
-                fontSize: widget.rating.icon_size + 'px',
                 color: widget.rating.icon_color,
             }
         },
         getPhotoTitleStyles: () => {
             return {
-                fontSize: widget.photos.title_text_size + 'px',
                 color: widget.photos.title_text_color,
             }
         },
         getPhotoDescriptionStyles: () => {
             return {
-                fontSize: widget.photos.description_text_size + 'px',
                 color: widget.photos.description_color,
             }
         },
         getPhotoButtonStyles: () => {
             return {
-                fontSize: widget.photos.button_text_size + 'px',
                 color: widget.general.button.text_color,
                 backgroundColor: widget.general.button.bg_color
             }
@@ -124,25 +105,21 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         getReviewContentStyle: () => {
             return {
                 color: widget.review_content.title_text_color,
-                fontSize: widget.review_content.title_text_size + 'px',
             }
         },
         getReviewerTitleStyles: () => {
             return {
                 color: widget.reviewer.title_text_color,
-                fontSize: widget.reviewer.title_text_size + 'px',
             }
         },
         getReviewerDescriptionStyles: () => {
             return {
                 color: widget.reviewer.description_color,
-                fontSize: widget.reviewer.description_text_size + 'px',
             }
         },
         getReviewerLabelStyles: () => {
             return {
                 color: widget.reviewer.label_color,
-                fontSize: widget.reviewer.label_text_size + 'px',
             }
         }
     }
@@ -157,7 +134,7 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
-        }, 3000)
+        }, 1000)
     }, []);
 
     return (

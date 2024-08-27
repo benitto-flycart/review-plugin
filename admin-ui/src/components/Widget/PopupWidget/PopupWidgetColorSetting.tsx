@@ -33,7 +33,6 @@ const PopupWidgetColorSetting = ({name}: any) => {
                                 })
                             }}/>
                         </SidebarDetailField>
-
                     </div>
                 </SidebarDetailSection>
 

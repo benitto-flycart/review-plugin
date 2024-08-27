@@ -10,64 +10,6 @@ use Flycart\Review\Package\Request\Response;
 
 class ProductWidget extends Widget implements WidgetInterface
 {
-    public function save()
-    {
-        $widget = WidgetModel::query()
-            ->where("language = %s AND widget_type = %s", [$this->language, WidgetModel::PRODUCT_WIDGET])
-            ->first();
-
-        $settings = [
-            'layout' => $this->request->get('layout'),
-            'style' => $this->request->get('style'),
-            'colors' => $this->request->get('colors'),
-            'preferences' => $this->request->get('preferences'),
-        ];
-
-        $settingsAsArray = $this->getSettings($settings);
-        $settings = Functions::jsonEncode($settingsAsArray);
-
-        if (empty($widget)) {
-            WidgetModel::query()->create([
-                'language' => $this->language,
-                'widget_type' => WidgetModel::PRODUCT_WIDGET,
-                'status' => WidgetModel::ACTIVE,
-                'theme' => 'default',
-                'settings' => $settings
-            ]);
-        } else {
-            WidgetModel::query()->update([
-                'settings' => $settings
-            ], [
-                'id' => $widget->id
-            ]);
-        }
-
-        $data = [
-            'message' => sprintf(__('%s Widget Saved Successfully'), 'Product'),
-            'settings' => $settingsAsArray
-        ];
-
-        return $data;
-    }
-
-    public function get()
-    {
-        $widget = WidgetModel::query()
-            ->where("language = %s AND widget_type = %s", [$this->language, WidgetModel::PRODUCT_WIDGET])
-            ->first();
-
-        $settings = Functions::jsonDecode($widget->settings ?? null);
-        $settings = $this->getSettings($settings);
-
-        $data = [
-            'settings' => $settings,
-            'message' => sprintf(__('%s Widget Fetched Successfully'), 'Product')
-        ];
-
-        return $data;
-    }
-
-
     public function getSettings($settings)
     {
 
@@ -89,29 +31,29 @@ class ProductWidget extends Widget implements WidgetInterface
             'colors' => [
                 'type' => $colors['type'] ?? 'custom',
                 'header' => [
-                    'text_and_icon_color' => $colors['header']['text_and_icon_color'] ?? '#ea3c3c',
-                    'bar_fill_color' => $colors['header']['bar_fill_color'] ?? '#7b7b7b',
-                    'bar_bg_color' => $colors['header']['bar_bg_color'] ?? 'f5f5f5',
+                    'text_and_icon_color' => $colors['header']['text_and_icon_color'] ?? '#E70680',
+                    'bar_fill_color' => $colors['header']['bar_fill_color'] ?? '#E70680',
+                    'bar_bg_color' => $colors['header']['bar_bg_color'] ?? '#FED2EA',
                 ],
                 'button' => [
-                    'text_color' => $colors['button']['text_color'] ?? '#000000',
-                    'text_hover_color' => $colors['button']['text_hover_color'] ?? '#000000',
-                    'bg_color' => $colors['button']['bg_color'] ?? '#ffffff',
-                    'bg_hover_color' => $colors['button']['bg_hover_color'] ?? '#e8e8e8',
-                    'border_color' => $colors['button']['border_color'] ?? '#e8e8e8',
+                    'text_color' => $colors['button']['text_color'] ?? '#E70680',
+                    'text_hover_color' => $colors['button']['text_hover_color'] ?? '#E70680',
+                    'bg_color' => $colors['button']['bg_color'] ?? '#FED2EA',
+                    'bg_hover_color' => $colors['button']['bg_hover_color'] ?? '#FED2EA',
+                    'border_color' => $colors['button']['border_color'] ?? '#E70680',
                 ],
                 'reviews' => [
-                    'text_color' => $colors['reviews']['text_color'] ?? '#020202',
-                    'bg_color' => $colors['reviews']['bg_color'] ?? '#f5c6c6',
-                    'bg_hover_color' => $colors['reviews']['bg_hover_color'] ?? '#b45e5e',
-                    'shadow_color' => $colors['reviews']['shadow_color'] ?? '#ebacac'
+                    'text_color' => $colors['reviews']['text_color'] ?? '#6D033D',
+                    'bg_color' => $colors['reviews']['bg_color'] ?? '#FEE1F1',
+                    'bg_hover_color' => $colors['reviews']['bg_hover_color'] ?? '#FDAAD7',
+                    'shadow_color' => $colors['reviews']['shadow_color'] ?? '#E70680'
                 ],
                 'replies' => [
-                    'text_color' => $colors['replies']['text_color'] ?? '#000000',
-                    'bg_color' => $colors['replies']['bg_color'] ?? '#ffffff',
+                    'text_color' => $colors['replies']['text_color'] ?? '#6D033D',
+                    'bg_color' => $colors['replies']['bg_color'] ?? '#FDAAD7',
                 ],
                 'verified_badge' => [
-                    'icon_color' => $colors['verified_badge']['icon_color'] ?? '#282828'
+                    'icon_color' => $colors['verified_badge']['icon_color'] ?? '#E70680'
                 ]
             ],
             'preferences' => [
@@ -126,6 +68,21 @@ class ProductWidget extends Widget implements WidgetInterface
                 'default_sorting' => $preferences['default_sorting'] ?? 'newest',
                 'show_rating_options' => $preferences['show_rating_options'] ?? true
             ]
+        ];
+    }
+
+    public function getWidgetType()
+    {
+        return WidgetModel::PRODUCT_WIDGET;
+    }
+
+    public function getRequestFromSettings()
+    {
+        $settings = [
+            'layout' => $this->request->get('layout'),
+            'style' => $this->request->get('style'),
+            'colors' => $this->request->get('colors'),
+            'preferences' => $this->request->get('preferences'),
         ];
     }
 }

@@ -15,21 +15,21 @@ const ListCardPreview = ({review}: any) => {
     return (
         <div
             key={review.id}
-            className={"frt-flex frt-flex-col frt-border  frt-divide-y frt-divide-amber-100"}
+            className={"r_pw_r_l_container"}
             style={getReviewCardStyles(widget, isHovered)}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className={"frt-flex frt-flex-col frt-flex-start frt-gap-2 frt-p-3"}>
-                <div className={"frt-flex frt-flex-row frt-gap-2 frt-items-center"}>
-                    <span>{review.reviewer_name}</span>
+            <div className={"r_pw_r_l_container--review_details"}>
+                <div className={"r_pw_r_l_container--review_details-overview"}>
+                    <span className={"r_pw_r_l_container--review_details-reviewer_name"}>{review.reviewer_name}</span>
                     <span
-                        className={"frt-bg-gray-700 frt-text-white frt-rounded frt-p-1"}>{review.review_title}</span>
-                    {review.is_verified ? <span>Verified</span> : null}
+                        className={"r_pw_r_l_container--review_details-review_title"}>{review.review_title}</span>
+                    {review.is_verified ? <span className={"r_pw_r_l_container--review_details-review_verfied"}>Verified</span> : null}
                 </div>
-                <div className={"frt-flex frt-flex-col"}>
-                    <span>{review.date}</span>
-                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
+                <div className={"r_pw_r_l_container--review_details--rating_details"}>
+                    <span className={"r_pw_r_l_container--review_details--review-date"}>{review.date}</span>
+                    <div className="r_pw_r_l_container--review_details--rating_details_icons">
                         <ReviewIcon/>
                         <ReviewIcon/>
                         <ReviewIcon/>
@@ -38,21 +38,21 @@ const ListCardPreview = ({review}: any) => {
                     </div>
                 </div>
             </div>
-            <div className={"frt-p-3"}>
-                <p>{review.content}</p>
+            <div className={"r_pw_r_l_container--review_content_container"}>
+                <p className={"r_pw_r_l_container--review_content"}>{review.content}</p>
                 {review.images?.length > 0 ? (
-                    <img className={"frt-rounded"} src={review.images[0].src} alt={""} height={"80px"} width={"80px"}/>
+                    <img className={"r_pw_r_l_container--review_content_img"} src={review.images[0].src} alt={""}/>
                 ) : null}
             </div>
             {review.replies?.length > 0 ? (
-               <div className={"frt-p-3"}>
+               <div className={"r_pw_r_l_container--reply_container"}>
                    {review.replies?.map((reply: any, index: number) => {
                        return (
-                           <div>
-                               <span>{reply.reviewer_name} replied</span>
-                               <p>{reply.reply_content}</p>
+                           <div className={"r_pw_r_l_container--reply_container_details"}>
+                               <span className={"r_pw_r_l_container--reply_reviewer_name"}>{reply.reviewer_name} replied</span>
+                               <p className={"r_pw_r_l_container--reply_content"}>{reply.reply_content}</p>
                                {reply.images?.length > 0 ? (
-                                   <div>
+                                   <div className={"r_pw_r_l_container--reply_content_img_container"}>
                                        {reply.images?.map((img: any, index: number) => {
                                                return (
                                                    <div key={img.id}>

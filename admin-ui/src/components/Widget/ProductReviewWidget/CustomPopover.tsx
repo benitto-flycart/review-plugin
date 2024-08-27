@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './Popover.css';
 
 const CustomPopover = ({ children, content }: any) => {
     const [isVisible, setIsVisible] = useState(false); // Manages the visibility state of the popover
@@ -13,10 +12,10 @@ const CustomPopover = ({ children, content }: any) => {
     useEffect(() => {
         const handleClickOutside = (event:any) => {
             //@ts-ignore
-            if (popoverRef?.current && !popoverRef?.current.contains(event.target) && !triggerRef?.current.contains(event.target)
-            ) {
+            // if (popoverRef?.current && !popoverRef?.current.contains(event.target) && !triggerRef?.current.contains(event.target)
+            // ) {
                 setIsVisible(false); // Close the popover if clicked outside
-            }
+            // }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -26,11 +25,11 @@ const CustomPopover = ({ children, content }: any) => {
     }, []);
 
     return (
-        <div className="popover-container">
+        <div className="r_pw_h_popover-container">
             <button
                 ref={triggerRef}
                 onClick={toggleVisibility}
-                className="popover-trigger"
+                className="r_pw_h_popover-trigger"
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-content"
@@ -39,9 +38,9 @@ const CustomPopover = ({ children, content }: any) => {
             </button>
             {isVisible && (
                 <div
-                    id="popover-content"
+                    id="r_pw_h_popover-content"
                     ref={popoverRef}
-                    className="popover-content"
+                    className="r_pw_h_popover-content"
                     role="dialog"
                     aria-modal="true"
                 >

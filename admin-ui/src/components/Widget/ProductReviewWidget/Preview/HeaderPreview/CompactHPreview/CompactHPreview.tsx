@@ -5,105 +5,104 @@ import ReviewIcon from "../../../../../ReviewIcon";
 import ProgressBar from "../../../ProgressBar";
 import CustomPopover from "../../../CustomPopover";
 
-
 const CompactHPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
 
     return (
-        <div className={styles.compact_header}>
-            <div className={styles.overall_rating_container} style={methods.getHeaderTextColor()}>
-                <div className={styles.overall_rating}>
+        <div className={"r_pw_ch_container"}>
+            <div className={"r_pw_ch_rating_container"} style={methods.getHeaderTextColor()}>
+                <div className={"r_pw_ch_rating"}>
                     <ReviewIcon/>
                     <span>4.7</span>
                 </div>
                 <span>20 Reviews</span>
             </div>
             {methods.isRatingOptionsEnabled() ? (
-                <div className={styles.rating_details} style={methods.getHeaderTextColor()}>
-                    <div className={styles.rating_row}>
-                        <div className={"frt-flex frt-flex-row frt-gap-3"}>
+                <div className={"r_pw_ch_rd_container"} style={methods.getHeaderTextColor()}>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                         </div>
-                        <div className={styles.progress_bar}>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
                             <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
                                          completed="33"/>
                         </div>
-                        <div>14</div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
-                    <div className={styles.rating_row}>
-                        <div className={"frt-flex frt-flex-row frt-gap-3"}>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                         </div>
-                        <div className={styles.progress_bar}>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
                             <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
                                          completed="33"/>
                         </div>
-                        <div>14</div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
-                    <div className={styles.rating_row}>
-                        <div className={"frt-flex frt-flex-row frt-gap-3"}>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                         </div>
-                        <div className={styles.progress_bar}>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
                             <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
                                          completed="33"/>
                         </div>
-                        <div>14</div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
-                    <div className={styles.rating_row}>
-                        <div className={"frt-flex frt-flex-row frt-gap-3"}>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                         </div>
-                        <div className={styles.progress_bar}>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
                             <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
                                          completed="33"/>
                         </div>
-                        <div>14</div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
-                    <div className={styles.rating_row}>
-                        <div className={"frt-flex frt-flex-row frt-gap-3"}>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                             <ReviewIcon/>
                         </div>
-                        <div className={styles.progress_bar}>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
                             <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
                                          completed="33"/>
                         </div>
-                        <div>14</div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
 
                 </div>) : null}
-            <div className={styles.actions}>
-                {methods.isAddReviewEnabled() ? (<div>
+            <div className={"r_pw_ch_actions"}>
+                {methods.isAddReviewEnabled() ? (<div className={"r_pw_ch_actions_new_review_btn_container"}>
                     <button
                         type="button"
-                        className="frt-border frt-p-2"
+                        className="r_pw_ch_actions_new_review_btn_container_btn"
                         style={methods.getButtonStyles()}
                     >
                         Write a Review
                     </button>
                 </div>) : null}
-                {methods.isSortingEnabled() ? (<div>
-                    <CustomPopover content={<div >
+                {methods.isSortingEnabled() ? (<div className={"r_pw_ch_actions_sorting_container"}>
+                    <CustomPopover content={<div>
                         <ul>
                             <li>Sort By</li>
                             <li style={{cursor: 'pointer'}}>Newest</li>
@@ -113,7 +112,7 @@ const CompactHPreview = () => {
                         </ul>
                     </div>}>
                         <button type="button"
-                                className="frt-border frt-p-2"
+                                className="r_pw_ch_actions_sorting_container_btn"
                                 style={methods.getButtonStyles()}
                         >
                             <svg data-panel="dropdown" id="menu-icon-svg" width="20" height="21" viewBox="0 0 20 21"

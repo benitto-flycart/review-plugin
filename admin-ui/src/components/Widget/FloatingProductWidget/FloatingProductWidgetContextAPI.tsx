@@ -1,10 +1,15 @@
 import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
+import {axiosClient} from "../../../helpers/axios";
+import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {useLocalState} from "../../zustand/localState";
 
 export const FloatingProductWidgetContext = createContext({});
 
 function FloatingProductWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
+    const [saving, setSaving] = useState(true)
+    const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
         view: 'desktop',
@@ -34,10 +39,65 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
         setWidget(newState);
     }
 
+
+    const buildStateFromResponse = (settings: any) => {
+        updateWidgetFields((draftState: any) => {
+            draftState.text_content = settings?.text_content;
+            draftState.font_size = settings?.font_size;
+            draftState.text_color = settings?.text_color;
+            draftState.bg_color = settings?.bg_color;
+        })
+    }
+    const fetchFloatingProductWidget = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'get_widget_settings',
+            widget_type: 'floating_product_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
+    const saveSettings = () => {
+        setSaving(true)
+        axiosClient.post('', {
+            method: 'save_widget_settings',
+            widget_type: 'floating_product_widget',
+            language: localState.current_locale,
+            ...widget,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setSaving(false)
+        });
+    }
+
     useEffect(() => {
-        setTimeout(() => {
-           setLoading(false)
-        }, 500)
+        fetchFloatingProductWidget();
+
+        let saveInterval = setInterval(() => {
+            // saveSettings();
+        }, 15000);
+
+        return () => {
+            clearInterval(saveInterval)
+        }
     }, []);
 
     return (

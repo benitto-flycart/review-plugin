@@ -12,4 +12,7 @@ interface WidgetInterface
 
     public function getSettings($settings);
 
+    public function getWidgetType();
+
+    public function getRequestFromSettings();
 }

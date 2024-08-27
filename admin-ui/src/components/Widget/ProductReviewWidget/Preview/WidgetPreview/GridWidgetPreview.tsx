@@ -220,7 +220,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             {columns.map((column: any, columnIndex: number) => (
                 <div key={columnIndex} style={{flex: 1, flexWrap: 'wrap', margin: '0 10px'}}>
                     {column?.map((item: any, itemIndex: any) => (
-                        <GridCardPreview review={item}/>
+                        <GridCardPreview review={item} key={itemIndex}/>
                     ))}
                 </div>
             ))}

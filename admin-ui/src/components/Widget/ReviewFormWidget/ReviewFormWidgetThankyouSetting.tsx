@@ -8,7 +8,6 @@ import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
 import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
 import SidebarDetailField from "../Sidebar/SidebarDetailField";
-import InputFontSize from "../utils/InputFontSize";
 
 const ReviewFormWidgetThankyouSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ReviewFormWidgetContext)
@@ -34,30 +33,14 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                             />
                         </div>
                     </SidebarDetailField>
-                    <SidebarDetailField>
 
-                        <Label className={"frt-text-xs"} htmlFor="none">Title Text Size</Label>
-                        <InputFontSize
-                            min={16}
-                            max={50}
-                            step={1}
-                            value={widget.thank_you.title_text_size}
-                            onChange={(value: number) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.thank_you.title_text_size = value;
-                                })
-                            }}
-                        />
-                    </SidebarDetailField>
                     <SidebarDetailField>
-
                         <Label className={"frt-text-xs"} htmlFor="none">Title Text Color</Label>
                         <PopOverColorPicker color={widget.thank_you.title_text_color} onChange={(color: string) => {
                             updateWidgetFields((draftState: any) => {
                                 draftState.thank_you.title_text_color = color;
                             })
                         }}/>
-
                     </SidebarDetailField>
                     <SidebarDetailField>
 
@@ -75,17 +58,6 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                                 }}
                             />
                         </div>
-
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Description Text Size</Label>
-                        <InputFontSize
-                            value={widget.thank_you.description_text_size}
-                            onChange={(value: number) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.thank_you.description_text_size = value;
-                                })
-                            }}/>
                     </SidebarDetailField>
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Description Text Color</Label>

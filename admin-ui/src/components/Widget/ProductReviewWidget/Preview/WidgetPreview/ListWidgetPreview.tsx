@@ -183,10 +183,10 @@ const ListWidgetPreview = () => {
 
     return (
         <div
-            className="frt-flex frt-flex-col frt-m-2 frt-gap-2"
+            className="r_pw_r_l_preview_container"
         >
-            {gridItems.map((item:any) => (
-                <ListCardPreview review={item}/>
+            {gridItems.map((item:any, index: number) => (
+                <ListCardPreview review={item} key={index}/>
             ))}
         </div>
     )

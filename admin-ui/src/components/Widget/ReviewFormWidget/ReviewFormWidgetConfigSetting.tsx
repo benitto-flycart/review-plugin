@@ -26,42 +26,46 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                     </SidebarDetailField>
                 </SidebarDetailSection>
                 <SidebarDetailSection title={"Button"}>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Background Color </Label>
-                        <PopOverColorPicker color={widget.general.button.bg_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.general.button.bg_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
-                        <PopOverColorPicker color={widget.general.button.text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.general.button.text_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
+                    <div className="frt-grid frt-grid-cols-2 frt-gap-2">
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Background Color </Label>
+                            <PopOverColorPicker color={widget.general.button.bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.general.button.bg_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
+                            <PopOverColorPicker color={widget.general.button.text_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.general.button.text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                    </div>
 
                 </SidebarDetailSection>
                 <SidebarDetailSection title={"Input"}>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Border Color</Label>
-                        <PopOverColorPicker color={widget.general.input.border_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.general.input.border_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Focus Border Color</Label>
-                        <PopOverColorPicker color={widget.general.input.border_focus_color}
-                                            onChange={(color: string) => {
-                                                updateWidgetFields((draftState: any) => {
-                                                    draftState.general.input.border_focus_color = color;
-                                                })
-                                            }}/>
-                    </SidebarDetailField>
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Border Color</Label>
+                            <PopOverColorPicker color={widget.general.input.border_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.general.input.border_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Focus Border Color</Label>
+                            <PopOverColorPicker color={widget.general.input.border_focus_color}
+                                                onChange={(color: string) => {
+                                                    updateWidgetFields((draftState: any) => {
+                                                        draftState.general.input.border_focus_color = color;
+                                                    })
+                                                }}/>
+                        </SidebarDetailField>
+                    </div>
                 </SidebarDetailSection>
             </SidebarDetail>
         </SidebarDetailWrapper>)

@@ -32,6 +32,7 @@ export const REVIEW_OPENERS: { [index: string]: any } = {
 };
 
 export const getReviewShadow = (index: any, color: any) => {
+    console.log(index)
     let style = REVIEW_SHADOWS[index];
 
     return style.boxShadow.replace("{{color}}", color)

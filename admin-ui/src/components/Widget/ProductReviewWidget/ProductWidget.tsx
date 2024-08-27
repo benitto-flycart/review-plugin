@@ -5,12 +5,9 @@ import ProductWidgetStyleSetting from "./ProductWidgetStyleSetting";
 import PreviewProductWidget from "./Preview/PreviewProductWidget";
 import ProductWidgetColorSetting from "./ProductWidgetColorSetting";
 import ProductWidgetPreferenceSetting from "./ProductWidgetPreferenceSetting";
-import "@/src/styles/widgets/widget.css";
 import "../preview-mobile.css";
 import {ColorWheelIcon, DashboardIcon, FontStyleIcon, LayoutIcon} from "@radix-ui/react-icons";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import WidgetMainContentWrapper from "../WidgetMainContentWrapper";
-import WidgetSidebarWrapper from "../Sidebar/WidgetSidebarWrapper";
 
 const ProductWidget = ({show, toggle}: any) => {
     const context = useContext<any>(ProductWidgetContext)
@@ -55,7 +52,7 @@ const ProductWidget = ({show, toggle}: any) => {
             // updateWidgetFields={updateWidgetFields}
             settings={settings}
         >
-            <PreviewProductWidget/>
+            <PreviewProductWidget view={context.widget.view}/>
         </WidgetDialogWrapper>
     )
 }

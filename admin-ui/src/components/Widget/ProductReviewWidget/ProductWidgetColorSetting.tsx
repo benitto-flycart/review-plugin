@@ -167,8 +167,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             fill="white"></path>
                                         <defs>
                                             <filter id="filter0_b_5848_86970" x="-4" y="-4" width="32" height="32"
-                                                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feGaussianBlur in="BackgroundImageFix"
                                                                 stdDeviation="2"></feGaussianBlur>
                                                 <feComposite in2="SourceAlpha" operator="in"
@@ -179,8 +179,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter1_f_5848_86970" x="-15.8823" y="-11.8046" width="27.481"
                                                     height="35.7304" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="4.47507"
@@ -188,8 +188,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter2_f_5848_86970" x="-3.05182" y="-15.5019" width="35.8833"
                                                     height="36.1464" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="4.47507"
@@ -197,8 +197,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter3_f_5848_86970" x="-2.33663" y="-3.91915" width="50.4384"
                                                     height="52.0395" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="8.22276"
@@ -206,8 +206,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter4_f_5848_86970" x="-14.2153" y="-4.17208" width="39.5287"
                                                     height="44.0531" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="8.22276"
@@ -215,8 +215,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter5_f_5848_86970" x="2.6452" y="8.86236" width="27.7465"
                                                     height="37.4296" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="4.47507"
@@ -224,8 +224,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter6_f_5848_86970" x="-25.1013" y="-0.455278" width="42.8131"
                                                     height="48.8549" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="8.22276"
@@ -233,8 +233,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter7_f_5848_86970" x="-23.3783" y="-19.299" width="42.4717"
                                                     height="50.7211" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="8.22276"
@@ -242,8 +242,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter8_f_5848_86970" x="-12.3703" y="-4.26641" width="28.9684"
                                                     height="32.5484" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="5.48184"
@@ -251,8 +251,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter9_f_5848_86970" x="-8.17035" y="-21.6406" width="44.4196"
                                                     height="41.4579" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="4.47507"
@@ -260,8 +260,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter10_f_5848_86970" x="-8.44427" y="1.5666" width="30.032"
                                                     height="37.0816" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="5.48184"
@@ -269,8 +269,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter11_f_5848_86970" x="-1.70392" y="8.86334" width="27.7465"
                                                     height="37.4296" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="4.47507"
@@ -278,8 +278,8 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                             </filter>
                                             <filter id="filter12_f_5848_86970" x="-25.0136" y="-3.50118" width="44.6238"
                                                     height="51.7582" filterUnits="userSpaceOnUse"
-                                                    color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                                    colorInterpolationFilters="sRGB">
+                                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                                 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
                                                          result="shape"></feBlend>
                                                 <feGaussianBlur stdDeviation="8.22276"

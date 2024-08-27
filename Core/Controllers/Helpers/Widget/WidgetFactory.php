@@ -37,7 +37,7 @@ class WidgetFactory
             case 'popup_widget':
                 return PopupWidget::make($this->language, $this->request);
             case 'sidebar_widget':
-                return SidebarWidget::make();
+                return SidebarWidget::make($this->language, $this->request);
             case 'floating_product_widget':
                 return FloatingProductWidget::make($this->language, $this->request);
             case 'snippet_widget':

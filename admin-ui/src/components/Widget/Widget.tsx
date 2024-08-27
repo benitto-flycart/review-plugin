@@ -17,11 +17,13 @@ import ReviewFormWidgetContextAPI from "./ReviewFormWidget/ReviewFormWidgetConte
 import ReviewFormWidgetDialog from "./ReviewFormWidget/ReviewFormDialogWidgetDialog";
 import {Tabs, TabsList, TabsTrigger} from "../ui/tabs";
 import {useLocalState} from "../zustand/localState";
+import SidebarWidgetDialog from "./SidebarWidget/SidebarWidgetDialog";
+import SidebarWidgetContextAPI from "./SidebarWidget/SidebarWidgetContextAPI";
 
 const Widget = () => {
     const {localState} = useLocalState();
     const availableLanguages = localState.available_languages;
-    const [activeDialog, setActiveDialog] = useState<string>('product_widget')
+    const [activeDialog, setActiveDialog] = useState<string>('')
     const [currentLocale, setCurrentLocale] = useState<string>(localState.current_locale)
 
     const reset = () => {
@@ -35,7 +37,7 @@ const Widget = () => {
                 <Tabs defaultValue={currentLocale} className="w-[400px]">
                     <TabsList className={"!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"}>
                         {availableLanguages.map((item: any, index: number) => {
-                            return (<TabsTrigger value={item.value}>{item.label}</TabsTrigger>)
+                            return (<TabsTrigger key={index} value={item.value}>{item.label}</TabsTrigger>)
                         })}
                     </TabsList>
                 </Tabs>
@@ -99,10 +101,18 @@ const Widget = () => {
                         multiple layouts</p>
                 </CardContent>
                 <CardFooter className="frt-flex frt-justify-end">
-                    <NavLink
-                        to={"/widgets/review-sidebar-widget"}>
-                        <Button>Configure</Button>
-                    </NavLink>
+
+                    <Button onClick={() => {
+                        setActiveDialog('sidebar_widget')
+                    }}>
+                        Customize
+                    </Button>
+
+                    {activeDialog == 'sidebar_widget' ? (<SidebarWidgetContextAPI>
+                        <SidebarWidgetDialog show={true} toggle={reset}/>
+                    </SidebarWidgetContextAPI>) : null}
+
+
                 </CardFooter>
             </Card>
 

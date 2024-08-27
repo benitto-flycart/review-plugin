@@ -8,27 +8,27 @@ const MinimalHPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ProductWidgetContext)
 
     return (
-        <div className={styles.minimal_header}>
-            <div className={"frt-flex frt-flex-row frt-flex-start frt-items-center frt-gap-2"} style={methods.getHeaderTextColor()}>
-                <div className={"frt-flex frt-flex-row frt-gap-3"}>
+        <div className={'r_pw_mh_container'}>
+            <div className={"r_pw_mh_rating_container"} style={methods.getHeaderTextColor()}>
+                <div className={"r_pw_mh_rating_details"}>
                     <ReviewIcon/>
                     <ReviewIcon/>
                     <ReviewIcon/>
                     <ReviewIcon/>
                     <ReviewIcon/>
                 </div>
-                <div className={"frt-flex frt-flex-row frt-gap-3 frt-items-center"}>
-                    <span>20 Reviews</span>
+                <div className={"r_pw_mh_overall_reviews"}>
+                    <span className={"r_pw_mh_overall_reviews_count"}>20 Reviews</span>
                     {methods.isRatingOptionsEnabled() ? (
                         <>
-                            <span>
+                            <span className={"r_pw_mh_filter_open_icon"}>
                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
                                      xmlns="http://www.w3.org/2000/svg"
                                      aria-label="chevron open" role="img" className="chevron-open"><path
                                     d="M7.11098 5.15691L2.16098 0.206909L0.746979 1.62091L7.11098 7.98491L13.475 1.62091L12.061 0.206911L7.11098 5.15691Z"
                                     fill="black"></path></svg>
                             </span>
-                            <span>
+                            <span className={"r_pw_mh_filter_close_icon"}>
                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
                                      xmlns="http://www.w3.org/2000/svg"
                                      aria-label="chevron closed" role="img" className="chevron-closed chevron-hide"><path
@@ -38,20 +38,20 @@ const MinimalHPreview = () => {
                         </>) : null}
                 </div>
             </div>
-            <div className={"frt-flex frt-flex-row frt-gap-2 frt-flex-start frt-items-center"}>
+            <div className={"r_pw_mh_actions_container"}>
                 {methods.isAddReviewEnabled() ? (
-                    <div>
+                    <div className={"r_pw_mh_actions_container--btn_container"}>
                         <button
                             type="button"
-                            className="frt-border frt-p-2"
+                            className="r_pw_mh_actions_container--btn_container-btn"
                             style={methods.getButtonStyles()}
                         >
                             Write a Review
                         </button>
                     </div>) : null}
-                {methods.isSortingEnabled() ? (<div>
+                {methods.isSortingEnabled() ? (<div className={"r_pw_mh_actions_container--sorting_container"}>
                     <button type="button"
-                            className="frt-border frt-p-2"
+                            className="r_pw_mh_actions_container--sorting_container-btn"
                             style={methods.getButtonStyles()}
                     >
                         <svg data-panel="dropdown" id="menu-icon-svg" width="20" height="21" viewBox="0 0 20 21"
