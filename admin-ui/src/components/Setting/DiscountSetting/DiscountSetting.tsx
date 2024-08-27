@@ -3,31 +3,31 @@ import {useLocalState} from "@/src/components/zustand/localState";
 import {Button} from "@/src/components/ui/button";
 import {Card, CardContent,} from "@/src/components/ui/card";
 import "@/src/main.css";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../../ui/form";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 import {Switch} from "../../ui/switch";
-import {useForm} from "react-hook-form";
 import {Input} from "../../ui/input";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {LoadingSpinner} from "../../ui/loader";
+import SettingsRowWrapper from "../SettingsRowWrapper";
+import SettingsColWrapper from "../SettingsColWrapper";
+import {Label} from "../../ui/label";
+import {produce} from "immer";
 
 const DiscountSetting = () => {
     const [loading, setLoading] = useState(true);
     const [saveChangesLoading, setSaveChangesLoading] = useState(false);
     const {localState, setLocalState} = useLocalState();
     const [errors, setErrors] = useState<any>();
-
-    const defaultValues = {
+    const [settingsState, setSettingsState] = useState<any>({
         enable_photo_discount: true,
         photo_discount_type: 'fixed',
         photo_discount_value: '',
         enable_video_discount: true,
         video_discount_type: 'fixed',
         video_discount_value: '',
-    };
+    })
 
     const schema = yup.object().shape({
         enable_photo_discount: yup.boolean().required('Enable Photo Discount is required'),
@@ -38,16 +38,9 @@ const DiscountSetting = () => {
         video_discount_value: yup.string().required('Video Discount Value is required'),
     });
 
-    const form = useForm({
-        resolver: yupResolver(schema),
-        defaultValues: defaultValues,
-    });
-
     const onSubmit = (data: any) => {
         saveDiscountSettings(data)
     };
-
-    const values = form.watch();
 
     const getDiscountSettings = () => {
         axiosClient.post('', {
@@ -58,7 +51,6 @@ const DiscountSetting = () => {
             let data = response.data.data
             let settings = data.settings;
             console.log(settings)
-            form.reset(settings);
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -66,6 +58,13 @@ const DiscountSetting = () => {
             setLoading(false)
         });
     };
+
+    const updateSettingFields = (cb: any) => {
+        const newState = produce(settingsState, (draft: any) => {
+            cb(draft)
+        })
+        setSettingsState(newState)
+    }
 
     const saveDiscountSettings = (data: any) => {
         setSaveChangesLoading(true)
@@ -91,217 +90,176 @@ const DiscountSetting = () => {
 
     return (
         <Card>
-            {loading ? (
-                <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
-                    <LoadingSpinner/>
-                </div>
-            ) : (
-                <CardContent className="frt-my-4 frt-grid !frt-p-2">
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="enable_photo_discount"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Enable Photo Discount</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Switch
-                                                            id="enable_photo_discount"
-                                                            checked={values.enable_photo_discount}
-                                                            onCheckedChange={(value: boolean) => {
-                                                                form.setValue('enable_photo_discount', value)
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormDescription>Incentivize customers to leave a photo review by
-                                                        offering a
-                                                        discount for their next purchase</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
+            <CardContent>
+                {loading ? (
+                    <div className={"frt-grid frt-justify-center frt-items-center frt-h-[60vh]"}>
+                        <LoadingSpinner/>
+                    </div>
+                ) : (
+                    <div className={"frt-flex frt-flex-col frt-gap-8 frt-p-6"}>
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Enable Photo Discount
+                                </Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Incentivize customers to leave a photo review by offering a discount for their next
+                                    purchase
+                                </Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch
+                                    id="enable_photo_discount"
+                                    checked={settingsState.enable_photo_discount}
+                                    onCheckedChange={(value: boolean) => {
+                                        updateSettingFields((draftState: any) => {
+                                            draftState.enable_photo_discount = value;
+                                        })
+                                    }}
                                 />
-                            </div>
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {
+                            settingsState.enable_photo_discount ? <>
+                                <SettingsRowWrapper>
+                                    <SettingsColWrapper>
+                                        <Label>Photo Discount Type
+                                        </Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                            Incentivize customers to leave a Video review by offering a discount for
+                                            their next
+                                            purchase</Label>
+                                    </SettingsColWrapper>
+                                    <SettingsColWrapper>
+                                        <Select value={settingsState.photo_discount_type}
+                                                onValueChange={(value: any) => {
+                                                    updateSettingFields((draftState: any) => {
+                                                        draftState.photo_discount_type = value;
+                                                    })
+                                                }}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select Type"/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem
+                                                        value="percentage">Percentage</SelectItem>
+                                                    <SelectItem
+                                                        value="fixed">Fixed</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </SettingsColWrapper>
+                                </SettingsRowWrapper>
 
-                            {values.enable_photo_discount ? (
-                                <>
-                                    <div className="frt-m-2 rwt-my-2">
-                                        <FormField
-                                            control={form.control}
-                                            name="photo_discount_type"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <div
-                                                        className="frt-grid frt-grid-cols-[30%_70%]">
-                                                        <FormLabel>Photo Discount Type</FormLabel>
-                                                        <div>
-                                                            <FormControl>
-                                                                <Select value={values.photo_discount_type}>
-                                                                    <SelectTrigger className="w-[180px]">
-                                                                        <SelectValue placeholder="Select Type"/>
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        <SelectGroup>
-                                                                            <SelectItem
-                                                                                value="percentage">Percentage</SelectItem>
-                                                                            <SelectItem value="fixed">Fixed</SelectItem>
-                                                                        </SelectGroup>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </FormControl>
-                                                            <FormMessage/>
-                                                        </div>
-                                                    </div>
-                                                </FormItem>
-                                            )}
+                                <SettingsRowWrapper>
+                                    <SettingsColWrapper>
+                                        <Label>Value
+                                        </Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                            Incentivize customers to leave a Video review by offering a discount for
+                                            their next
+                                            purchase</Label>
+                                    </SettingsColWrapper>
+                                    <SettingsColWrapper>
+                                        <Input type="number" placeholder="Value"
+                                               value={settingsState.photo_discount_value}
+                                               onChange={(e: any) => {
+                                                   updateSettingFields((draftState: any) => {
+                                                       draftState.photo_discount_value = e.target.value;
+                                                   })
+                                               }}
                                         />
-                                    </div>
-
-                                    <div className="frt-m-2 rwt-my-2">
-                                        <FormField
-                                            control={form.control}
-                                            name="photo_discount_value"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <div
-                                                        className="frt-grid frt-grid-cols-[30%_70%]">
-                                                        <FormLabel>Value</FormLabel>
-                                                        <div>
-                                                            <FormControl>
-                                                                <Input type="number" placeholder="Value"
-                                                                       value={values.photo_discount_value}
-                                                                       onChange={(e: any) => {
-                                                                           form.setValue('photo_discount_value', e.target.value);
-                                                                       }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage/>
-                                                        </div>
-                                                    </div>
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                </>
-                            ) : null}
-
-
-                            {/*//Video Discounts*/}
-
-                            <div className="frt-m-2 rwt-my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="enable_video_discount"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <div
-                                                className="frt-grid frt-grid-cols-[30%_70%]">
-                                                <FormLabel>Enable Video Discount</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Switch id="enable_video_discount"
-                                                                checked={values.enable_video_discount}
-                                                                onCheckedChange={(value: boolean) => {
-                                                                    form.setValue('enable_video_discount', value)
-                                                                }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormDescription>Incentivize customers to leave a Video review by
-                                                        offering a
-                                                        discount for their next purchase</FormDescription>
-                                                    <FormMessage/>
-                                                </div>
-                                            </div>
-                                        </FormItem>
-                                    )}
+                                    </SettingsColWrapper>
+                                </SettingsRowWrapper>
+                            </> : null
+                        }
+                        <SettingsRowWrapper>
+                            <SettingsColWrapper>
+                                <Label>Enable Video Discount
+                                </Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Incentivize customers to leave a Video review by offering a discount for their next
+                                    purchase</Label>
+                            </SettingsColWrapper>
+                            <SettingsColWrapper>
+                                <Switch id="enable_video_discount"
+                                        checked={settingsState.enable_video_discount}
+                                        onCheckedChange={(value: boolean) => {
+                                            updateSettingFields((draftState: any) => {
+                                                draftState.enable_video_discount = value;
+                                            })
+                                        }}
                                 />
-                            </div>
-
-                            {values.enable_video_discount ? (
-                                <>
-                                    <div className="frt-m-2 rwt-my-2">
-                                        <FormField
-                                            control={form.control}
-                                            name="video_discount_type"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <div
-                                                        className="frt-grid frt-grid-cols-[30%_70%]">
-                                                        <FormLabel>Video Discount Type</FormLabel>
-                                                        <div>
-                                                            <FormControl>
-                                                                <Select
-                                                                    value={values.video_discount_type}
-                                                                    onValueChange={(value: string) => {
-                                                                        form.setValue('video_discount_type', value);
-                                                                    }}
-                                                                >
-                                                                    <SelectTrigger className="w-[180px]">
-                                                                        <SelectValue placeholder="Select Type"/>
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        <SelectGroup>
-                                                                            <SelectItem
-                                                                                value="percentage">Percentage</SelectItem>
-                                                                            <SelectItem value="fixed">Fixed</SelectItem>
-                                                                        </SelectGroup>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </FormControl>
-                                                            <FormMessage/>
-                                                        </div>
-                                                    </div>
-                                                </FormItem>
-                                            )}
+                            </SettingsColWrapper>
+                        </SettingsRowWrapper>
+                        {
+                            settingsState.enable_video_discount ? <>
+                                <SettingsRowWrapper>
+                                    <SettingsColWrapper>
+                                        <Label>Video Discount Type
+                                        </Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                            Incentivize customers to leave a Video review by offering a discount for
+                                            their next
+                                            purchase</Label>
+                                    </SettingsColWrapper>
+                                    <SettingsColWrapper>
+                                        <Select
+                                            value={settingsState.video_discount_type}
+                                            onValueChange={(value: string) => {
+                                                updateSettingFields((draftState: any) => {
+                                                    draftState.video_discount_type = value;
+                                                })
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select Type"/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem
+                                                        value="percentage">Percentage</SelectItem>
+                                                    <SelectItem
+                                                        value="fixed">Fixed</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </SettingsColWrapper>
+                                </SettingsRowWrapper>
+                                <SettingsRowWrapper>
+                                    <SettingsColWrapper>
+                                        <Label>Value
+                                        </Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                            Incentivize customers to leave a Video review by offering a discount for
+                                            their next
+                                            purchase</Label>
+                                    </SettingsColWrapper>
+                                    <SettingsColWrapper>
+                                        <Input type="number"
+                                               value={settingsState.video_discount_value}
+                                               placeholder="Value"
+                                               onChange={(e: any) => {
+                                                   updateSettingFields((draftState: any) => {
+                                                       draftState.video_discount_value = e.target.value;
+                                                   })
+                                               }}
                                         />
-                                    </div>
-
-                                    <div className="frt-m-2 rwt-my-2">
-                                        <FormField
-                                            control={form.control}
-                                            name="video_discount_value"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <div
-                                                        className="frt-grid frt-grid-cols-[30%_70%]">
-                                                        <FormLabel>Value</FormLabel>
-                                                        <div>
-                                                            <FormControl>
-                                                                <Input type="number"
-                                                                       value={values.video_discount_value}
-                                                                       placeholder="Value"
-                                                                       onChange={(e: any) => {
-                                                                           form.setValue('video_discount_value', e.target.value);
-                                                                       }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage/>
-                                                        </div>
-                                                    </div>
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                </>
-                            ) : null}
-
-                            <Button type={"submit"}>
-                                {saveChangesLoading && (
-                                    <span className="frt-mx-2">
+                                    </SettingsColWrapper>
+                                </SettingsRowWrapper>
+                            </> : null
+                        }
+                        <Button type={"submit"} className={"frt-w-32"}>
+                            {saveChangesLoading && (
+                                <span className="frt-mx-2">
                                         <LoadingSpinner/>
                                     </span>)}
-                                <span>Save Changes</span>
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-            )}
+                            <span>Save Changes</span>
+                        </Button>
+                    </div>
+                )}
+            </CardContent>
+
         </Card>
     );
 };
