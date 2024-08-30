@@ -5,9 +5,9 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
 
     const columnCount = 4;
 
-    const [columns, setColumns] = useState<any>(Array(columnCount).fill([]));
-    const [heightCalculated, setHeightCalculated] = useState<boolean>(false);
-    const itemRefs = useRef<any>([]);
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
 
     const items: any = [
@@ -22,7 +22,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             replies: [],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/3/31/m5mpj28dj.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3),
             }
         },
         {
@@ -35,21 +35,21 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3),
                 },
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 },
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3),
             }
         },
         {
@@ -62,7 +62,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/S8Hp5oDh5ed.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [
@@ -74,7 +74,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             ],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/3/31/cbq7gq0YbL.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
             }
         },
         {
@@ -87,7 +87,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/3/31/m5mpj28dj.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [
@@ -99,7 +99,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             ],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/3/31/m5mpj28dj.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
             }
         },
         {
@@ -112,7 +112,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/3/31/cbq7gq0YbL.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [
@@ -124,7 +124,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             ],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/3/31/m5mpj28dj.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
             }
         },
         {
@@ -137,7 +137,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/aPDidEEc4p.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [
@@ -149,7 +149,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             ],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
             }
         },
         {
@@ -162,7 +162,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.loox.io/uploads/2024/1/31/bkHgcNVq2.jpg',
+                    src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
                 }
             ],
             replies: [
@@ -174,69 +174,74 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
             ],
             product: {
                 product_name: 'Sample Product',
-                src: 'https://images.loox.io/uploads/2024/1/31/10kEcxhZV.jpg',
+                src: `https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)
             }
         }
     ];
 
-    useLayoutEffect(() => {
-        // Function to calculate the height of each item and assign it to the shortest column
-        const calculateHeights = () => {
-
-            if (heightCalculated) {
-                return;
-            }
-            const columnHeights: any = Array(columnCount).fill(0);
-            const newColumns: any = Array(columnCount).fill(0).map(() => []);
-
-            itemRefs.current.forEach((itemRef: any, index: number) => {
-                if (itemRef) {
-                    const itemHeight: any = itemRef.clientHeight;
-
-                    // Find the shortest column
-                    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-
-                    // Add the item to the shortest column
-                    newColumns[shortestColumnIndex].push(items[index]);
-
-                    // Update the height of the column
-                    columnHeights[shortestColumnIndex] += itemHeight;
-                }
-            });
-
-            setColumns(newColumns);
-            setHeightCalculated(true)
-        };
-
-        const timeout = setTimeout(calculateHeights, 1000);
-
-        return () => clearTimeout(timeout);
-
-    }, [items]);
+    // useLayoutEffect(() => {
+    //     // Function to calculate the height of each item and assign it to the shortest column
+    //     const calculateHeights = () => {
+    //
+    //         if (heightCalculated) {
+    //             return;
+    //         }
+    //         const columnHeights: any = Array(columnCount).fill(0);
+    //         const newColumns: any = Array(columnCount).fill(0).map(() => []);
+    //
+    //         itemRefs.current.forEach((itemRef: any, index: number) => {
+    //             if (itemRef) {
+    //                 const itemHeight: any = itemRef.clientHeight;
+    //
+    //                 // Find the shortest column
+    //                 const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+    //
+    //                 // Add the item to the shortest column
+    //                 newColumns[shortestColumnIndex].push(items[index]);
+    //
+    //                 // Update the height of the column
+    //                 columnHeights[shortestColumnIndex] += itemHeight;
+    //             }
+    //         });
+    //
+    //         setColumns(newColumns);
+    //         setHeightCalculated(true)
+    //     };
+    //
+    //     const timeout = setTimeout(calculateHeights, 1000);
+    //
+    //     return () => clearTimeout(timeout);
+    //
+    // }, [items]);
 
 
     return (
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
-            {columns.map((column: any, columnIndex: number) => (
-                <div key={columnIndex} style={{flex: 1, flexWrap: 'wrap', margin: '0 10px'}}>
-                    {column?.map((item: any, itemIndex: any) => (
-                        <GridCardPreview review={item} key={itemIndex}/>
-                    ))}
-                </div>
-            ))}
-            <div style={{visibility: 'hidden', position: 'absolute', top: 0, left: 0}}>
-                {items.map((item: any, itemIndex: number) => (
-                    <div
-                        key={itemIndex}
-                        ref={(el: any) => (itemRefs.current[itemIndex] = el)}
-                        className="masonry-item"
-                    >
-                        {item.content}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+        <div className={"r_pw_g_all_reviews_container"}>
+            {/*{columns.map((column: any, columnIndex: number) => (*/}
+            {/*    <div key={columnIndex} style={{flex: 1, flexWrap: 'wrap', margin: '0 10px'}}>*/}
+            {/*        {column?.map((item: any, itemIndex: any) => (*/}
+            {/*            // <GridCardPreview review={item} key={itemIndex}/>*/}
+            {/*        ))}*/}
+            {/*    </div>*/}
+            {/*))}*/}
+            {items.map((item: any, itemIndex: number) => {
+                return <GridCardPreview review={item} key={itemIndex}/>
+            })}
+
+    {/*<div style={{visibility: 'hidden', position: 'absolute', top: 0, left: 0}}>*/}
+    {/*    {items.map((item: any, itemIndex: number) => (*/}
+    {/*        <div*/}
+    {/*            key={itemIndex}*/}
+    {/*            ref={(el: any) => (itemRefs.current[itemIndex] = el)}*/}
+    {/*            className="masonry-item"*/}
+    {/*        >*/}
+    {/*            {item.content}*/}
+    {/*        </div>*/}
+    {/*    ))}*/}
+    {/*</div>*/}
+</div>
+)
+    ;
 }
 
 export default GridWidgetPreview;

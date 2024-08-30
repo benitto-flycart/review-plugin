@@ -1,5 +1,4 @@
 import React, {useLayoutEffect, useRef, useState} from "react";
-import GridCardPreview from "./Cards/GridCardPreview";
 import MosaicCardPreview from "./Cards/MosaicCardPreview";
 
 const MosaicWidgetPreview = () => {
@@ -180,61 +179,64 @@ const MosaicWidgetPreview = () => {
         }
     ];
 
-    useLayoutEffect(() => {
-        // Function to calculate the height of each item and assign it to the shortest column
-        const calculateHeights = () => {
-            if (heightCalculated) {
-                return;
-            }
-
-            const columnHeights: any = Array(columnCount).fill(0);
-            const newColumns: any = Array(columnCount).fill(0).map(() => []);
-
-            itemRefs.current.forEach((itemRef: any, index: number) => {
-                if (itemRef) {
-                    const itemHeight = itemRef.clientHeight;
-
-                    // Find the shortest column
-                    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-
-                    // Add the item to the shortest column
-                    newColumns[shortestColumnIndex].push(items[index]);
-
-                    // Update the height of the column
-                    columnHeights[shortestColumnIndex] += itemHeight;
-                }
-            });
-
-            setColumns(newColumns);
-            setHeightCalculated(true)
-        };
-
-        const timeout = setTimeout(calculateHeights, 1000);
-
-        return () => clearTimeout(timeout);
-
-    }, [items]);
+    // useLayoutEffect(() => {
+    //     // Function to calculate the height of each item and assign it to the shortest column
+    //     const calculateHeights = () => {
+    //         if (heightCalculated) {
+    //             return;
+    //         }
+    //
+    //         const columnHeights: any = Array(columnCount).fill(0);
+    //         const newColumns: any = Array(columnCount).fill(0).map(() => []);
+    //
+    //         itemRefs.current.forEach((itemRef: any, index: number) => {
+    //             if (itemRef) {
+    //                 const itemHeight = itemRef.clientHeight;
+    //
+    //                 // Find the shortest column
+    //                 const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+    //
+    //                 // Add the item to the shortest column
+    //                 newColumns[shortestColumnIndex].push(items[index]);
+    //
+    //                 // Update the height of the column
+    //                 columnHeights[shortestColumnIndex] += itemHeight;
+    //             }
+    //         });
+    //
+    //         setColumns(newColumns);
+    //         setHeightCalculated(true)
+    //     };
+    //
+    //     const timeout = setTimeout(calculateHeights, 1000);
+    //
+    //     return () => clearTimeout(timeout);
+    //
+    // }, [items]);
 
     return (
-        <div className="masonry-grid" style={{display: 'flex'}}>
-            {columns.map((column: any, columnIndex: number) => (
-                <div key={columnIndex} className="masonry-column" style={{flex: 1, margin: '0 10px'}}>
-                    {column?.map((item: any, itemIndex: any) => (
-                        <MosaicCardPreview review={item}/>
-                    ))}
-                </div>
-            ))}
-            <div style={{visibility: 'hidden', position: 'absolute', top: 0, left: 0}}>
-                {items.map((item: any, itemIndex: number) => (
-                    <div
-                        key={itemIndex}
-                        ref={(el: any) => (itemRefs.current[itemIndex] = el)}
-                        className="masonry-item"
-                    >
-                        {item.content}
-                    </div>
-                ))}
-            </div>
+        <div className="r_pw_r_m_all_reviews_container masonry-grid">
+            {/*{columns.map((column: any, columnIndex: number) => (*/}
+            {/*    <div key={columnIndex} className="masonry-column" style={{flex: 1, margin: '0 10px'}}>*/}
+            {/*        {column?.map((item: any, itemIndex: any) => (*/}
+            {/*            <MosaicCardPreview review={item}/>*/}
+            {/*        ))}*/}
+            {/*    </div>*/}
+            {/*))}*/}
+            {items.map((item: any, itemIndex: number) => {
+                return <MosaicCardPreview review={item} key={itemIndex}/>
+            })}
+            {/*<div style={{visibility: 'hidden', position: 'absolute', top: 0, left: 0}}>*/}
+            {/*    {items.map((item: any, itemIndex: number) => (*/}
+            {/*        <div*/}
+            {/*            key={itemIndex}*/}
+            {/*            ref={(el: any) => (itemRefs.current[itemIndex] = el)}*/}
+            {/*            className="masonry-item"*/}
+            {/*        >*/}
+            {/*            {item.content}*/}
+            {/*        </div>*/}
+            {/*    ))}*/}
+            {/*</div>*/}
         </div>
     );
 }

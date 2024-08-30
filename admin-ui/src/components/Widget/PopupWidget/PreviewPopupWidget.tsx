@@ -1,96 +1,132 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
-import  "./popup.css";
+import "./popup.css";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
-import GemIcon from "../../icon-components/GemIcon";
 import {Cross1Icon} from "@radix-ui/react-icons";
 import ReviewIcon from "../../ReviewIcon";
-
+import {LoadingSpinner} from "../../ui/loader";
 
 const PreviewPopupWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(PopupWidgetContext)
+    const [loading, setLoading] = useState(true)
+
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    useEffect(() => {
+
+        setLoading(true)
+
+        setTimeout(() => {
+            //@ts-ignore
+            let iframe: any = window.frames['widget_preview_iframe'];
+
+// Create a new link element
+            let linkElement: any = document.createElement('link');
+            linkElement.rel = 'stylesheet';
+            linkElement.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/widgets/popup_widget.css'; // Replace with the URL of your stylesheet
+
+            let head = iframe.contentDocument.head;
+            head.appendChild(linkElement);
+
+            let another = document.createElement('link');
+            another.rel = 'stylesheet';
+            another.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css'; // Replace with the URL of your stylesheet
+
+            head.appendChild(another);
+
+            setLoading(false)
+
+        }, 2000)
+
+    }, []);
 
     const getPopupPosition = () => {
         switch (widget.position) {
             case 'top_right':
-                return 'top_right popup_right_slide_in'
+                return 'r_puw-top_right r_puw-popup_right_slide_in'
             case 'top_left':
-                return 'top_left popup_left_slide_in'
+                return 'r_puw-top_left r_puw-popup_left_slide_in'
             case 'bottom_right':
-                return 'bottom_right popup_right_slide_in'
+                return 'r_puw-bottom_right r_puw-popup_right_slide_in'
             case 'bottom_left':
-                return 'bottom_left popup_left_slide_in'
+                return 'r_puw-bottom_left r_puw-popup_left_slide_in'
         }
     }
 
     const getCornerRadius = () => {
         switch (widget.corner_radius) {
             case 'sharp':
-                return 'sharp'
+                return 'r_puw-sharp'
             case 'slightly_rounded':
-                return 'popup_slightly_rounded'
+                return 'r_puw-popup_slightly_rounded'
             case 'rounded':
-                return 'popup_rounded'
+                return 'r_puw-popup_rounded'
             case 'extra_rounded':
-                return 'popup_extra_rounded'
+                return 'r_puw-popup_extra_rounded'
             case 'none':
-                return 'popup_none'
+                return 'r_puw-popup_none'
         }
     }
     return (
-        <div
-            className={`wd_preview_content review-preview-wrap popup-widget frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'popup-widget-preview-mobile' : 'popup-widget-preview-desktop'}`}>
-            <div className={`popup_container ${getPopupPosition()} ${getCornerRadius()}`}
-                 style={methods.getPopupPreviewStyles()}
-                 key={widget.position}
-            >
-                <span className="close_icon"
+        <>
+            {!loading ? (
+                <div
+                    className={`wd_preview_content review-preview-wrap}`}>
+                    <div className={`r_puw_container ${getPopupPosition()} ${getCornerRadius()}`}
+                         style={methods.getPopupPreviewStyles()}
+                         key={widget.position}
+                    >
+                <span className="r_puw_close-icon"
                       style={methods.getCloseIconStyles()}
                 ><Cross1Icon/></span>
-                <div className="review_wrapper">
-                    <div className="review_image_wrapper">
-                        <img
-                            src={"https://images.loox.io/uploads/2024/7/18/ZF-ve1-el.jpg"}
-                            className={`review_image`}
-                            // style={{backgroundImage: 'url("")'}}
-                            onError={(e) => {
-                                console.log('Image Loading Error');
-                                //@ts-ignore
-                                e.target?.parentElement.remove();
-                            }}
-                        ></img>
-
-                    </div>
-                    <div className={'review_body'}>
-                        <div className={'reviewer_name'}>Edward</div>
-                        <div className={'review_icon_wrapper'}>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                        </div>
-                        <div title="nice snowboard, awesome" className={'review_content'}>
-                            nice snowboard, awesome
-                        </div>
-                    </div>
-                    <div data-product-url=""
-                         style={methods.getPopupProductStyles()}>
-                        <div className={'review_product_wrapper'}>
-                            <div className={'review_product_image_wrapper'}>
+                        <div className="r_puw-review_wrapper">
+                            <div className="r_puw-review_image_wrapper">
                                 <img
-                                    src={'https://cdn.shopify.com/s/files/1/0664/4262/5197/files/snowboard_sky_x50.png?v=1720513923'}
-                                    alt={""}
-                                    className={'review_product_image'}/>
+                                    src={`https://unsplash.it/${getRandomNumber(500, 1000)}/${getRandomNumber(500, 1000)}` + `?t=` +Math.floor(Math.random() * 3)}
+                                    className={`r_puw-review_image`}
+                                    // style={{backgroundImage: 'url("")'}}
+                                    onError={(e) => {
+                                        console.log('Image Loading Error');
+                                        //@ts-ignore
+                                        e.target?.parentElement.remove();
+                                    }}
+                                ></img>
+
                             </div>
-                            <div title="The Compare at Price Snowboard" className={'review_product_title'}>
-                                The Compare at Price S...
+                            <div className={'r_puw-review-details-wrapper'}>
+                                <div className={'r_puw-review-details-name'}>Edward</div>
+                                <div className={'r_puw-review-details-name'}>
+                                    <ReviewIcon/>
+                                    <ReviewIcon/>
+                                    <ReviewIcon/>
+                                    <ReviewIcon/>
+                                    <ReviewIcon/>
+                                </div>
+                                <div title="nice snowboard, awesome" className={'r_puw-review-details-content'}>
+                                    nice snowboard, awesome
+                                </div>
+                            </div>
+                            <div data-product-url=""
+                                 style={methods.getPopupProductStyles()}>
+                                <div className={'r_puw-product_details_wrapper'}>
+                                    <div className={'r_puw-product_details-img_wrapper'}>
+                                        <img
+                                            src={'https://cdn.shopify.com/s/files/1/0664/4262/5197/files/snowboard_sky_x50.png?v=1720513923'}
+                                            alt={""}
+                                            className={'r_puw-product_details-img'}/>
+                                    </div>
+                                    <div title="The Compare at Price Snowboard"
+                                         className={'r_puw-product_details-product_title'}>
+                                        The Compare at Price S...
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>)
+                </div>) : (<div style={{width: "100%", height: "100%"}}><LoadingSpinner/></div>)}
+        </>)
 }
 
 export default PreviewPopupWidget;

@@ -1,47 +1,80 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import "./sidebar.css";
 import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
-import GemIcon from "../../icon-components/GemIcon";
 import ReviewIcon from "../../ReviewIcon";
-
+import {LoadingSpinner} from "../../ui/loader";
 
 const PreviewSidebarWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(SidebarWidgetContext)
 
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+
+        setLoading(true)
+
+        setTimeout(() => {
+            //@ts-ignore
+            let iframe: any = window.frames['widget_preview_iframe'];
+
+
+// Create a new link element
+            let linkElement: any = document.createElement('link');
+            linkElement.rel = 'stylesheet';
+            linkElement.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/widgets/sidebar_widget.css'; // Replace with the URL of your stylesheet
+
+            let head = iframe.contentDocument.head;
+            head.appendChild(linkElement);
+
+            let another = document.createElement('link');
+            another.rel = 'stylesheet';
+            another.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css'; // Replace with the URL of your stylesheet
+
+            head.appendChild(another);
+
+            setLoading(false)
+
+        }, 2000)
+
+    }, []);
+
     const getSidebarPosition = () => {
         switch (widget.position) {
             case 'right':
-                return 'sidebar_widget_right'
+                return 'r_sbw__right'
             case 'left':
-                return 'sidebar_widget_left'
+                return 'r_sbw__left'
         }
     }
 
     const getPositionAndOrientation = () => {
         if (widget.position == "left" && widget.orientation == "top_bottom") {
-            return "sidebar_widget_pl_tb"
+            return "r_sbw__pl_tb"
         } else if (widget.position == "right" && widget.orientation == "top_bottom") {
-            return "sidebar_widget_pr_tb"
+            return "r_sbw__pr_tb"
         } else if (widget.position == "left" && widget.orientation == "bottom_top") {
-            return "sidebar_widget_pl_bt"
+            return "r_sbw__pl_bt"
         } else {
-            return "sidebar_widget_pr_bt"
+            return "r_sbw__pr_bt"
         }
     }
 
     return (
-        <div
-            className={`review-preview-wrap sidebar-widget-main frt-flex frt-flex-col frt-gap-2 frt-min-h-[50vh] frt-relative ${widget.view == 'mobile' ? 'sidebar-widget-preview-mobile' : 'sidebar-widget-preview-desktop'}`}>
-            <div style={methods.getReviewSidebarPreviewStyles()}
-                 className={`sidebar_widget ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
-               <span className={"sidebar_button_icon"}>
+        <>
+            {!loading ? (
+                <div
+                    className={'r_sb_wrapper '}>
+                    <div style={methods.getReviewSidebarPreviewStyles()}
+                         className={`r_sbw__container ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
+               <span className={"r_sbw__btn_icon"}>
                    <ReviewIcon/>
                </span>
-                <span className={"sidebar_button_text"}>{widget.button_text}</span>
-            </div>
-        </div>
-    )
+                        <span className={"r_sbw__btn_text"}>{widget.button_text}</span>
+                    </div>
+                </div>
+            ) : (<div style={{width: "100%", height: "100%"}}><LoadingSpinner/></div>)}
+        </>)
 }
 
 export default PreviewSidebarWidget;

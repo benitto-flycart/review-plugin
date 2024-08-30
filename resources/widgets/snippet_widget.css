@@ -1,3 +1,9 @@
+
+* {
+    all: unset;
+    box-sizing: border-box;
+}
+
 .r_sw__product_wrapper {
     display: flex;
     gap: 1.5rem;
@@ -119,6 +125,25 @@
     width: 50px;
 }
 
+.r_sw__review_details_wrapper {
+    padding: .5rem;
+}
+
+.r_sw__review_details {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+}
+
+.r_sw__review_details_icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: .5rem;
+}
+
+
 
 /* hanlde smooth transitions between slides */
 @keyframes r_sw_fadeVisibility {
@@ -130,7 +155,8 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+
+@media screen and (max-width: 650px) {
     .r_sw__product_wrapper {
         flex-direction: column;
     }

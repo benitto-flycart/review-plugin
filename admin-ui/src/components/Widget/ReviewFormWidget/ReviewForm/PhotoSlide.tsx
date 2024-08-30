@@ -1,31 +1,77 @@
-import React, {useContext} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {ReviewFormWidgetContext} from "../ReviewFormWidgetContextAPI";
 
 const PhotoSlide = () => {
 
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
+    const [images, setImages] = useState<any>([])
+
+    const fileInputRef = useRef(null);
+
+    // Function to handle the click event on the custom button
+    const handleButtonClick = () => {
+        // Programmatically click the file input
+        fileInputRef.current.click();
+    };
+
+    const saveFile = (e: any) => {
+        let file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImages(prevImages => [...prevImages, reader.result]);
+        };
+        reader.readAsDataURL(file);
+    }
+
     return (
-        <div className={"wd_preview__photos_addition"}>
-            <div className={"wd_preview__photos_addition___text_container"}>
-                                <span className={"wd_photo_addition_title"}
+        <div className={"r_rfw_photo_slide_container"} style={methods.getDialogStyles()}>
+            <div className={"r_frw_photo_slide__text_container"}>
+                                <span className={"r_frw_photo_title"}
                                       style={methods.getPhotoTitleStyles()}>{widget.photos.title}</span>
-                <span className={"wd_photo_addition_description"}
+                <span className={"r_frw_photo_description"}
                       style={methods.getPhotoDescriptionStyles()}>{widget.photos.description}</span>
             </div>
-            <div className={"wd_add_photos_section"}>
-                <button className={"wd_add_photos_text"}
-                        style={methods.getPhotoButtonStyles()}>{widget.photos.button_text}</button>
+            <div className={"r_frw_add_photos_container"}>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{display: 'none'}}
+                    onChange={(e) => saveFile(e)}
+                />
+                {images.length >= 5 ? null : (<button className={"r_frw_add_photos_btn wd_add_photos_btn"}
+                                                      style={methods.getPhotoButtonStyles()}
+                                                      onClick={handleButtonClick}
+                >{widget.photos.button_text}</button>)}
+
             </div>
-            <div className={"wd_photos_container"}>
-                <div className={"wd_images_list"}>
-                    <div className={"wd_review_image"}></div>
-                    <div className={"wd_review_image"}></div>
-                    <div className={"wd_review_image"}></div>
-                    <div className={"wd_review_image"}></div>
-                    <div className={"wd_review_image"}></div>
-                </div>
-            </div>
+            {
+                images.length > 0 ? (
+                    <div className={"r_frw_view_photos_container"}>
+                        <div className={"r_frw_photos_list"}>
+                            {images.slice(0, 5).map((imageSrc, index) => {
+                                    return (<div className={"r_frw_img_container"}>
+                                            <span className={"r_frw_img_close_icon"} style={methods.getPhotoButtonStyles()}>X</span>
+                                            <img
+                                                key={index}
+                                                src={imageSrc}
+                                                alt={`Uploaded Preview ${index + 1}`}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                    marginRight: '10px'
+                                                }}
+                                            />
+                                        </div>
+                                    )
+                                }
+                            )}
+                        </div>
+                    </div>
+                ) : null
+            }
+
         </div>
     )
 }

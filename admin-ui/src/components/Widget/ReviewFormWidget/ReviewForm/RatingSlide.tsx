@@ -6,16 +6,16 @@ const RatingSlide = ({rating, updateRating} : any) => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
     return (
-        <div className={"wd_preview__rating"}>
-                            <span className={"wd_preview__rating_title"}
+        <div className={"r_rfw_rating_container"} style={methods.getDialogStyles()}>
+                            <span className={"r_rfw_rating_preview_title"}
                                   style={methods.ratingTitleStyles()}>{widget.rating.title}</span>
-            <div className="wd_preview__rating_icons frt-flex frt-flex-row frt-justify-start frt-gap-2">
+            <div className="r_rfw_rating_icons_wrapper">
                 {
                     Array.from({length: 5}).map((item: any, index: number) => {
                         return (
                             <i key={index + '_' + rating}
                                style={methods.ratingIconStyles()}
-                               className={`review-icon review review-gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
+                               className={`r_rfw_rating_icon review-icon review review-gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
                                onClick={() => updateRating(index + 1)}
                             ></i>
                         )

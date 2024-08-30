@@ -22,11 +22,11 @@
 
 .r_puw-review_wrapper {
     border-radius: .5rem;
+    overflow: clip;
 }
 
 
 .r_puw-review_image_wrapper {
-    overflow: clip;
 }
 
 .r_puw-review_image {
@@ -49,10 +49,9 @@
     gap: .3rem;
 }
 
-.r_puw-review-details-content  {
+.r_puw-review-details-content {
 
 }
-
 
 
 .r_puw-product_details_wrapper {
@@ -71,8 +70,6 @@
 .r_puw-product_details-product_title {
 
 }
-
-
 
 
 .r_puw-popup_left_slide_in {
@@ -144,3 +141,15 @@
         transform: translateX(0%);
     }
 }
+
+@media screen and (max-width: 600px) {
+    .r_puw_container {
+        width: 150px;
+    }
+    .r_puw-review_image_wrapper {
+        max-height: 200px;
+        overflow: hidden;
+    }
+
+}
+

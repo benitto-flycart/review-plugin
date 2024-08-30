@@ -80,8 +80,8 @@ const RatingWidgetStyleSetting = ({name}: any) => {
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Text Font Size</Label>
                         <InputFontSize
-                            min={16}
-                            max={50}
+                            min={10}
+                            max={30}
                             step={1}
                             value={widget.font_size}
                             onChange={(value: number) => {
@@ -95,8 +95,8 @@ const RatingWidgetStyleSetting = ({name}: any) => {
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Rating Size</Label>
                         <InputFontSize
-                            min={16}
-                            max={50}
+                            min={10}
+                            max={30}
                             step={1}
                             value={widget.rating_icon_size}
                             onChange={(value: number) => {

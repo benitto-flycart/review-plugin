@@ -93,13 +93,15 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         getPhotoButtonStyles: () => {
             return {
                 color: widget.general.button.text_color,
-                backgroundColor: widget.general.button.bg_color
+                backgroundColor: widget.general.button.bg_color,
+                borderColor: widget.general.button.text_color
             }
         },
         getFooterButtonStyles: () => {
             return {
                 color: widget.general.button.text_color,
-                backgroundColor: widget.general.button.bg_color
+                backgroundColor: widget.general.button.bg_color,
+                borderColor: `${widget.general.button.text_color}`,
             }
         },
         getReviewContentStyle: () => {

@@ -30,7 +30,6 @@ const Widget = () => {
         setActiveDialog('')
     };
 
-
     return (<div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
         <div>
             {availableLanguages.length > 0 && (
@@ -156,7 +155,6 @@ const Widget = () => {
                         }}>
                             Customize
                         </Button>
-
                         {activeDialog == 'snippets_widget' ? (<SnippetWidgetContextAPI>
                             <SnippetWidgetDialog show={true} toggle={reset}/>
                         </SnippetWidgetContextAPI>) : null}

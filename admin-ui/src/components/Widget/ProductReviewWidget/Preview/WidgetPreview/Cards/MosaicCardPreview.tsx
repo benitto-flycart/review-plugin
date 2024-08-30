@@ -2,7 +2,6 @@ import React, {useContext, useState} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import {getRepliesStyles, getReviewCardStyles} from "../../../helper";
 import {Badge} from "../../../../../ui/badge";
-import GemIcon from "../../../../../icon-components/GemIcon";
 import ReviewIcon from "../../../../../ReviewIcon";
 
 const MosaicCardPreview = ({review}: any) => {
@@ -16,19 +15,18 @@ const MosaicCardPreview = ({review}: any) => {
     return (
         <div
             key={review.id}
-            className="frt-mb-4 frt-flex frt-flex-col frt-border frt-border-gray-100 frt-divide-y frt-divide-amber-100"
+            className="r_pw_r_m_container"
             style={getReviewCardStyles(widget, isHovered)}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className={"frt-flex frt-flex-col frt-gap-2 frt-p-3"}>
+            <div className={"r_pw_r_m_review-details-container"}>
                 <span>{review.title}</span>
-                {review.images.length > 0 ? (<img src={review.images[0].src}/>) : null}
-                <div className={"frt-flex frt-flex-col frt-gap-2"}>
+                <div className={"r_pw_r_m_review-details"}>
                     <span>{review.reviewer_name}</span>
                     {review.is_verified ? <span><Badge variant="outline">verified</Badge></span> : null}
                     <span>{review.date}</span>
-                    <div className="frt-flex frt-flex-row frt-justify-start frt-gap-2">
+                    <div className="r_pw_r_m_review-details--review-icons">
                         <ReviewIcon/>
                         <ReviewIcon/>
                         <ReviewIcon/>
@@ -36,9 +34,11 @@ const MosaicCardPreview = ({review}: any) => {
                         <ReviewIcon/>
                     </div>
                     <p>{review.content}</p>
+                    {review.images.length > 0 ? (<img src={review.images[0].src} width={60} height={60}/>) : null}
                 </div>
             </div>
-            {review.replies?.length > 0 ? (<div className={"frt-p-3"} style={getRepliesStyles(widget)}>
+            {review.replies?.length > 0 ? (
+                <div className={"r_pw_r_m_review-details--reply-container"} style={getRepliesStyles(widget)}>
                     {review.replies.map((reply: any, index: number) => {
                         return (
                             <div>
@@ -49,8 +49,8 @@ const MosaicCardPreview = ({review}: any) => {
                     })}
                 </div>
             ) : null}
-            <div className={"frt-flex frt-flex-row frt-gap-2 frt-items-center frt-p-3"}>
-                <div className={"frt-py-2"}>
+            <div className={"r_pw_r_m_review-details--product_container"}>
+                <div className={"r_pw_r_m_review-details--product_img_container"}>
                     <img src={review.product.src} alt="" width={"100px"} height={"50px"}/>
                 </div>
                 <div><span>{review.product.product_name}</span></div>

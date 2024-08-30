@@ -157,5 +157,48 @@
 .r_pw_r_l_container--reply_content_img_container {
     display: flex;
     flex-direction: row;
+    margin-block: 1rem;
 }
 
+
+/*Mosaic Card Preview*/
+.r_pw_r_m_container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.r_pw_r_m_review-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .75rem;
+}
+
+.r_pw_r_m_review-details {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.r_pw_r_m_review-details--review-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: .5rem;
+}
+
+.r_pw_r_m_review-details--reply-container {
+    padding: .75rem;
+}
+
+.r_pw_r_m_review-details--product_container {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+    padding: .75rem;
+}
+.r_pw_r_m_review-details--product_img_container {
+   padding: .5rem;
+}

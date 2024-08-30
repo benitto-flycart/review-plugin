@@ -20,12 +20,6 @@ function Router() {
             <Route path="/settings" element={<Setting/>}></Route>
             <Route path="/widgets" element={<Widget/>}></Route>
             <Route path="/email-settings" element={<EmailSetting/>}></Route>
-            <Route path="widgets/product-review-widget" element={<ProductReviewWidget/>}/>
-            <Route path="widgets/popup-widget" element={<PopupWidget/>}/>
-            <Route path="widgets/review-sidebar-widget" element={<ReviewSidebarWidget/>}/>
-            <Route path="widgets/snippets-widget" element={<SnippetWidget/>}/>
-            <Route path="widgets/rating-widget" element={<RatingWidget/>}/>
-            <Route path="widgets/floating-product-widget" element={<FloatingProductWidget/>}/>
         </Routes>
     );
 }

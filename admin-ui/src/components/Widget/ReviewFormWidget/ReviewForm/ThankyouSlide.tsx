@@ -8,6 +8,7 @@ const ThankyouSlide = () => {
 
     // const DEFAULT_COLOR = '#FFC700';
     const DEFAULT_COLOR = 'purple';
+
     function random(min: any, max: any) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -81,9 +82,15 @@ const ThankyouSlide = () => {
     });
 
     return (
-        <div className={"wrapper wd_review_thank_you "} id="sparkle-wrapper">
-            <span style={methods.getThankyouTitleStyles()}>{widget.thank_you.title}</span>
-            <span style={methods.getThankyouDescriptionStyles()}>{widget.thank_you.description}</span>
+        <div className={"r_rfw_thank_you_slide_wrapper wrapper "} id="sparkle-wrapper"
+             style={methods.getDialogStyles()}>
+            <span
+                className={"r_rfw_thank_you_title"}
+                style={methods.getThankyouTitleStyles()}>{widget.thank_you.title}</span>
+            <span
+                style={methods.getThankyouDescriptionStyles()}
+                className={"r_rfw_thank_you_description"}
+            >{widget.thank_you.description}</span>
             <div className={"sparkle-wrapper"}>
             </div>
         </div>

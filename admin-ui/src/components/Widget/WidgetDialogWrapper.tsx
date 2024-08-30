@@ -11,7 +11,7 @@ const WidgetDialogWrapper = ({children, show, toggle, settings, context}: any) =
     return (
         <Dialog open={show} onOpenChange={toggle}>
             <DialogContent
-                className={"wd_container widget_snippet review-widget-preview !frt-p-0"}
+                className={"wd_container widget_snippet review-widget-preview !frt-p-0 !frt-gap-0"}
                 onInteractOutside={(e: any) => {
                     e.preventDefault();
                 }}>

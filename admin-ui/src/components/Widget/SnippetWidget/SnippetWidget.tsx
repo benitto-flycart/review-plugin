@@ -24,7 +24,6 @@ const SnippetWidget = () => {
             </SnippetWidgetContextAPI>) : null}
         </div>
     );
-
 };
 
 export default SnippetWidget;

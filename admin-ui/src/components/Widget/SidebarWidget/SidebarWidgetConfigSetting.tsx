@@ -69,39 +69,46 @@ const SidebarWidgetConfigSetting = ({name}: any) => {
                             }}
                         />
                     </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Button background color </Label>
-                        <PopOverColorPicker color={widget.button_bg_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.button_bg_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Text </Label>
-                        <PopOverColorPicker color={widget.button_text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.button_text_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
+
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Button background color </Label>
+                            <PopOverColorPicker color={widget.button_bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.button_bg_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Text </Label>
+                            <PopOverColorPicker color={widget.button_text_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.button_text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                    </div>
 
                     <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="hide_on_mobile">Hide on Mobile</Label>
-                        <Switch
-                            id="hide_on_mobile"
-                            checked={widget.hide_on_mobile}
-                            onCheckedChange={(value: boolean) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.hide_on_mobile = value
-                                })
-                            }}
-                        />
+                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
+                            <Switch
+                                id="hide_on_mobile"
+                                checked={widget.hide_on_mobile}
+                                onCheckedChange={(value: boolean) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.hide_on_mobile = value
+                                    })
+                                }}
+                            />
+
+                            <Label className={"frt-text-xs"} htmlFor="hide_on_mobile">Hide on Mobile</Label>
+                        </div>
+                        <p>Check store to view this change</p>
                     </SidebarDetailField>
                 </SidebarDetailSection>
             </SidebarDetail>
         </SidebarDetailWrapper>
-)
+    )
 }
 
 export default SidebarWidgetConfigSetting;

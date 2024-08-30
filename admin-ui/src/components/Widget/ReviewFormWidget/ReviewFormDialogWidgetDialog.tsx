@@ -1,9 +1,6 @@
 import React, {useContext} from "react";
-import {Dialog, DialogContent} from "../../ui/dialog";
-import WidgetPreviewHeader from "../WidgetPreviewHeader";
 
 import "@/src/styles/widgets/widget.css";
-import WidgetSidebar from "../WidgetSidebar";
 import {LayoutIcon} from "@radix-ui/react-icons";
 import {ReviewFormWidgetContext} from "./ReviewFormWidgetContextAPI";
 

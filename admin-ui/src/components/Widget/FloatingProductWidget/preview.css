@@ -1,11 +1,11 @@
-.wd_fp_header_container {
+.r_fpw-container {
     display: flex;
     align-items: center;
     padding: .5rem;
     gap: 1rem;
 }
 
-.wd_fp_header_container__close_icon {
+.r_fpw-close_icon {
     padding: .5em;
     opacity: 0.5;
     cursor: pointer;
@@ -13,11 +13,11 @@
     background-color: lightgray;
 }
 
-.wd_fp_header_container__close_icon:hover {
+.r_fpw-close_icon:hover {
     opacity: 1;
 }
 
-.wd_fp_header_container__text {
+.r_fpw-text_content_wrapper {
     flex-grow: 1;
     display: flex;
     justify-content: center;

@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import PreviewSnippetWidget from "./SnippetWidgetPreview";
 
 import "@/src/styles/widgets/widget.css";
-import "./mobile.css";
+// import "./mobile.css";
 import './snippets-widget.css'
 import SnippetWidgetConfigSetting from "./SnippetWidgetConfigSetting";
 import SnippetWidgetColorSetting from "./SnippetWidgetColorSetting";

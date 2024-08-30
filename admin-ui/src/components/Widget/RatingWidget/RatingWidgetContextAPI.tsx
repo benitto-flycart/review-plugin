@@ -19,8 +19,8 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         direction: 'icon_first',
         text_content: "{{rating}} - ({{count}})",
         hide_text_content: false,
-        font_size: 30,
-        rating_icon_size: 20,
+        font_size: 25,
+        rating_icon_size: 25,
         style: {},
         colors: {
             text_color: '#141010',
