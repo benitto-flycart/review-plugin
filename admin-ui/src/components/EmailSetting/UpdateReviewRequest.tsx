@@ -1,12 +1,9 @@
 import {Card} from "../ui/card";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../ui/form";
 import {Input} from "../ui/input";
 import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
 import React, {useEffect, useState} from "react";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {axiosClient} from "../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {useLocalState} from "../zustand/localState";
@@ -14,6 +11,8 @@ import {LoadingSpinner} from "../ui/loader";
 import useLocale from "./utils/useLocale";
 import LanguageList from "./utils/LanguageList";
 import EmailNavigation from "./utils/EmailNavigation";
+import {produce} from "immer";
+import {showValidationError} from "../../helpers/html";
 
 type FormValues = {
     language: string;
@@ -29,15 +28,14 @@ const UpdateReviewRequest = () => {
     const [updating, setUpdating] = useState<boolean>(false)
 
     const [loading, setLoading] = useState<boolean>(false)
-
     const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
-
-    const defaultValues: FormValues = {
+    const [state,setState]=useState({
         language: currentLocale,
         subject: "Order #{order_number}, how did it go?",
         body: "Order #{order_number}, how did it go?",
         button_text: 'Write a Review',
-    };
+    })
+    const [errors,setErrors]=useState<any>()
 
     const schema = yup.object().shape({
         language: yup.string().required("Language is required"),
@@ -45,13 +43,6 @@ const UpdateReviewRequest = () => {
         body: yup.string().required("Body is required"),
         button_text: yup.string().required("Button Text is required"),
     });
-
-    const form = useForm<FormValues>({
-        resolver: yupResolver(schema),
-        defaultValues: defaultValues,
-    });
-
-    const values = form.watch();
 
     const fetchReviewRequest = () => {
         setLoading(true)
@@ -62,7 +53,7 @@ const UpdateReviewRequest = () => {
             language: currentLocale,
         }).then((response: any) => {
             let data = response.data.data
-            form.reset({
+            setState({
                 language: data.language,
                 subject: data.settings.subject,
                 body: data.settings.body,
@@ -76,30 +67,46 @@ const UpdateReviewRequest = () => {
         });
     }
 
-    const saveReviewRequest = (data: any) => {
+    const saveReviewRequest = () => {
         setUpdating(true)
-        axiosClient.post('', {
-            method: 'save_review_request',
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: currentLocale,
-            body: data.body,
-            subject: data.subject,
-            button_text: data.button_text
-        }).then((response: any) => {
-            let data = response.data.data
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrSuccess('Server Error Occurred');
-        }).finally(() => {
+        schema.validate(state,{abortEarly:false}).then(()=>{
+            axiosClient.post('', {
+                method: 'save_review_request',
+                _wp_nonce_key: 'flycart_review_nonce',
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                language: currentLocale,
+                body: state.body,
+                subject: state.subject,
+                button_text: state.button_text
+            }).then((response: any) => {
+                let data = response.data.data
+                toastrSuccess(data.message);
+            }).catch((error: any) => {
+                toastrSuccess('Server Error Occurred');
+                setErrors(error)
+            }).finally(() => {
+                setUpdating(false)
+            });
+        }).catch((validationError: any) => {
             setUpdating(false)
-        });
+            toastrError('Validation Failed')
+            const validationErrors = {}
+            validationError?.inner?.forEach((e: any) => {
+                // @ts-ignore
+                validationErrors[e.path] = [e.message]
+            });
+            setErrors(validationErrors)
+        })
+    };
+
+    const updateReviewRequestState = (cb: (state: any) => void) => {
+        setState(prevState => produce(prevState, cb));
     };
 
     useEffect(() => {
         fetchReviewRequest();
     }, [currentLocale])
-
+console.log(errors)
     return (
         <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
             <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>
@@ -108,98 +115,86 @@ const UpdateReviewRequest = () => {
                           availableLanguages={availableLanguages}/>
             {
                 loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(saveReviewRequest)}>
-                            <Card className="frt-p-4">
-                                <h3 className="frt-my-4 frt-font-extrabold frt-mx-2">Content</h3>
-                                <FormField
-                                    control={form.control}
-                                    name="subject"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-gap-3">
-                                                <FormLabel>Subject</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Input type="text"
-                                                               placeholder={"Subject"}
-                                                               value={values.subject}
-                                                               onChange={(e: any) => {
-                                                                   form.setValue('subject', e.target.value);
-                                                               }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormDescription>
-                                                        Notes:
-                                                        <p>Use [order_number] for the customer's order
-                                                            number
-                                                        </p>
-                                                        <p>Use [name] or [last_name] as a placeholder for
-                                                            the user's
-                                                            first or last name</p>
-                                                    </FormDescription>
-                                                    <FormMessage/>
-                                                </div>
+                        <form>
+                            <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
+                                <h3 className="frt-font-extrabold">Content</h3>
+                                <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
+                                    <div
+                                        className="frt-grid frt-gap-3">
+                                        <label>Subject</label>
+                                        <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
+                                            <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
+                                                <Input type="text"
+                                                       placeholder={"Subject"}
+                                                       value={state.subject}
+                                                       onChange={(e: any) => {
+                                                           updateReviewRequestState((emailState) => {
+                                                               emailState.subject = e.target.value;
+                                                           });
+                                                       }}
+                                                />
+                                                {showValidationError(errors,"subject")}
                                             </div>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="body"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-gap-3">
-                                                <FormLabel>Body</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Textarea onChange={(e: any) => {
-                                                            form.setValue('body', e.target.value)
-                                                        }}
-                                                                  value={values.body}
-                                                        ></Textarea>
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </div>
+                                            <div>
+                                                Notes:
+                                                <p>Use [order_number] for the customer's order
+                                                    number
+                                                </p>
+                                                <p>Use [name] or [last_name] as a placeholder for
+                                                    the user's
+                                                    first or last name</p>
                                             </div>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="button_text"
-                                    render={({field}) => (
-                                        <FormItem className="frt-m-2 frt-my-2">
-                                            <div
-                                                className="frt-grid frt-gap-3">
-                                                <FormLabel>Button Text</FormLabel>
-                                                <div>
-                                                    <FormControl>
-                                                        <Input type="text"
-                                                               value={values.button_text}
-                                                               onChange={(e: any) => {
-                                                                   form.setValue('button_text', e.target.value);
-                                                               }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="frt-grid frt-gap-3">
+                                        <label>Body</label>
+                                            <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
+                                                <Textarea onChange={(e: any) => {
+                                                    updateReviewRequestState((emailState) => {
+                                                        emailState.body = e.target.value;
+                                                    });
+                                                }}
+                                                value={state.body}
+                                                ></Textarea>
+                                                {showValidationError(errors,"body")}
                                             </div>
-                                        </FormItem>
-                                    )}
-                                />
-                                <Button type={"submit"}
-                                        className={"frt-flex frt-justify-between frt-gap-2 frt-m-2"}>
-                                    {updating ? (<span><LoadingSpinner/></span>) : null}
-                                    <span>Save Changes</span>
-                                </Button>
+                                    </div>
+                                    <div
+                                        className="frt-grid frt-gap-3">
+                                        <label>Button Text</label>
+                                        <div>
+                                            <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                                <Input type="text"
+                                                       value={state.button_text}
+                                                       onChange={(e: any) => {
+                                                           updateReviewRequestState((emailState) => {
+                                                               emailState.button_text = e.target.value;
+                                                           })
+                                                       }}
+                                                />
+                                                {showValidationError(errors,"button_text")}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={"frt-flex frt-gap-x-5  frt-my-4"}>
+                                    <Button onClick={(e)=>{
+                                        e.preventDefault();
+                                        saveReviewRequest()
+                                    }}
+                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                        {updating ? (<span><LoadingSpinner/></span>) : null}
+                                        <span>Save Changes</span>
+                                    </Button>
+                                    <Button type={"submit"}
+                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                        {updating ? (<span><LoadingSpinner/></span>) : null}
+                                        <span>Preview</span>
+                                    </Button>
+                                </div>
                             </Card>
-                        </form>
-                    </Form>)
+                        </form>)
             }
         </div>
     )

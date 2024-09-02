@@ -4,13 +4,6 @@ import Dashboard from "../Dashboard/Dashboard";
 import Setting from "@/src/components/Setting";
 import EmailSetting from "../EmailSetting";
 import Widget from "../Widget";
-import ProductReviewWidget from "../Widget/ProductReviewWidget";
-import PopupWidget from "../Widget/PopupWidget/PopupWidget";
-import {ReviewSidebarWidget} from "../Widget/ReviewSidebarWidget/ReviewSidebarWidget";
-import {FloatingProductReviewsWidget} from "../Widget/FloatingProductWidget/FloatingProductReviewsWidget";
-import SnippetWidget from "../Widget/SnippetWidget/SnippetWidget";
-import RatingWidget from "../Widget/RatingWidget/RatingWidget";
-import FloatingProductWidget from "../Widget/FloatingProductWidget/FloatingProductWidget";
 import UpdateReviewRequest from "../EmailSetting/UpdateReviewRequest";
 import UpdateReviewReminder from "../EmailSetting/UpdateReviewReminder";
 import UpdatePhotoRequest from "../EmailSetting/UpdatePhotoRequest";
@@ -25,9 +18,12 @@ function Router() {
             <Route path="/settings" element={<Setting/>}></Route>
             <Route path="/widgets" element={<Widget/>}></Route>
             <Route path="/email-settings" element={<EmailSetting/>}></Route>
-            <Route  path="/emails/review-request" element={<UpdateReviewRequest/>}/>
-            <Route  path="/emails/review-reminder" element={<UpdateReviewReminder/>}/>
-            <Route  path="/emails/photo-reminder" element={<UpdatePhotoRequest/>}/>
+            <Route path="/emails/review-request" element={<UpdateReviewRequest/>}/>
+            <Route path="/emails/review-reminder" element={<UpdateReviewReminder/>}/>
+            <Route path="/emails/photo-request" element={<UpdatePhotoRequest/>}/>
+            <Route path="/emails/discount-reminder" element={<UpdateDiscountReminder/>}/>
+            <Route path="/emails/reply-to-review" element={<UpdateReplyToReview/>}/>
+
             {/*<Route  path="/emails/discount-reminder" element={<UpdateDiscountReminder/>}/>*/}
             {/*<Route  path="/emails/reply-to-review" element={<UpdateReplyToReview/>}/>*/}
         </Routes>
