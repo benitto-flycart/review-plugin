@@ -15,6 +15,7 @@ import SettingsRowWrapper from "../SettingsRowWrapper";
 import SettingsColWrapper from "../SettingsColWrapper";
 import {Label} from "../../ui/label";
 import {produce} from "immer";
+import {showValidationError} from "../../../helpers/html";
 
 const GeneralSetting = () => {
     const [loading, setLoading] = useState(true);
@@ -49,12 +50,6 @@ const GeneralSetting = () => {
         order_status: yup.string().required('Order Status is required')
     });
 
-
-    const onSubmit = (data: any) => {
-        // Handle form data here
-        saveGeneralSettings(data)
-    };
-
     const getGeneralSettings = () => {
         axiosClient.post('', {
             method: 'get_general_settings',
@@ -63,7 +58,7 @@ const GeneralSetting = () => {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            console.log(settings)
+            setSettingsState(settings)
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -80,21 +75,34 @@ const GeneralSetting = () => {
     }
 
 
-    const saveGeneralSettings = (data: any) => {
+    const saveGeneralSettings = () => {
         setSaveChangesLoading(true)
-        axiosClient.post('', {
-            method: 'save_general_settings',
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            ...data
-        }).then((response: any) => {
-            let data = response.data.data
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
+        schema.validate(settingsState,{abortEarly:false}).then(()=>{
+            axiosClient.post('', {
+                method: 'save_general_settings',
+                _wp_nonce_key: 'flycart_review_nonce',
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                ...settingsState
+            }).then((response: any) => {
+                let data = response.data.data
+                toastrSuccess(data.message);
+            }).catch((error: any) => {
+                toastrError('Server Error Occurred');
+                setErrors(error)
+            }).finally(() => {
+                setSaveChangesLoading(false)
+            });
+        }).catch((validationError: any) => {
             setSaveChangesLoading(false)
-        });
+            toastrError('Validation Failed')
+            const validationErrors = {}
+            validationError?.inner?.forEach((e: any) => {
+                // @ts-ignore
+                validationErrors[e.path] = [e.message]
+            });
+            setErrors(validationErrors)
+        })
+
     };
 
     useEffect(() => {
@@ -117,7 +125,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>
                                     Leave Empty to have email replies to default admin email</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Input placeholder="Reply To"
                                        value={settingsState.send_replies_to}
                                        type={"email"}
@@ -126,6 +134,7 @@ const GeneralSetting = () => {
                                                draftState.send_replies_to = e.target.value;
                                            })
                                        }}/>
+                                {showValidationError(errors,"send_replies_to")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -135,7 +144,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>
                                     Display text in the footer of review emails</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch
                                     id="enable_email_footer"
                                     checked={settingsState.enable_email_footer}
@@ -144,6 +153,7 @@ const GeneralSetting = () => {
                                             draftState.enable_email_footer = value;
                                         })
                                     }}/>
+                                {showValidationError(errors,"enable_email_footer")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -154,12 +164,13 @@ const GeneralSetting = () => {
                                     <Label className={"frt-text-xs frt-text-grayprimary"}>
                                         Your Footer Text</Label>
                                 </SettingsColWrapper>
-                                <SettingsColWrapper>
+                                <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                     <Textarea onChange={(e: any) => {
                                         updateSettingFields((draftState: any) => {
                                             draftState.footer_text = e.target.value;
                                         })
                                     }} value={settingsState.footer_text}></Textarea>
+                                    {showValidationError(errors,"footer_text")}
                                 </SettingsColWrapper>
                             </SettingsRowWrapper> : null
                         }
@@ -169,7 +180,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>
                                     Customize how the reviewer name is displayed on Review Widgets</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Select value={settingsState.reviewers_name_format}
                                         onValueChange={(value: string) => {
                                             updateSettingFields((draftState: any) => {
@@ -192,6 +203,7 @@ const GeneralSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
+                                {showValidationError(errors,"reviewers_name_format")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -200,13 +212,14 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
                                     auto-publish, Any changes will only affect new reviews</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch checked={settingsState.auto_publish_new_reviews}
                                         onCheckedChange={(value: boolean) => {
                                             updateSettingFields((draftState: any) => {
                                                 draftState.auto_publish_new_reviews = value;
                                             })
                                         }}/>
+                                {showValidationError(errors,"auto_publish_new_reviews")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -215,7 +228,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>Enable Review Notification to
                                     remind the admin after a customer has submitted a review.</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch
                                     checked={settingsState.enable_review_notification}
                                     onCheckedChange={(value: boolean) => {
@@ -223,6 +236,7 @@ const GeneralSetting = () => {
                                             draftState.enable_review_notification = value;
                                         })
                                     }}/>
+                                {showValidationError(errors,"enable_review_notification")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -233,7 +247,7 @@ const GeneralSetting = () => {
                                         notifications
                                         sent to admin email</Label>
                                 </SettingsColWrapper>
-                                <SettingsColWrapper>
+                                <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                     <Input placeholder="Review Notification To"
                                            value={settingsState.review_notification_to}
                                            onChange={(e: any) => {
@@ -241,6 +255,7 @@ const GeneralSetting = () => {
                                                    draftState.review_notification_to = e.target.value;
                                                })
                                            }}/>
+                                    {showValidationError(errors,"review_notification_to")}
                                 </SettingsColWrapper>
                             </SettingsRowWrapper> : null
                         }
@@ -251,7 +266,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>Select the Option in which day you
                                     want to send review request email</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Select value={settingsState.review_request_timing}
                                         onValueChange={(value: string) => {
                                             updateSettingFields((draftState: any) => {
@@ -272,6 +287,7 @@ const GeneralSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
+                                {showValidationError(errors,"review_request_timing")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -280,7 +296,7 @@ const GeneralSetting = () => {
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>Send Review Request Email based on
                                     Order Status</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Select value={settingsState.order_status}
                                         onValueChange={(value: string) => {
                                             updateSettingFields((draftState: any) => {
@@ -299,9 +315,10 @@ const GeneralSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
+                                {showValidationError(errors,"order_status")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
-                        <Button className={"frt-w-32"} type={"submit"}>
+                        <Button className={"frt-w-32"} onClick={saveGeneralSettings}>
                             {saveChangesLoading && (
                                 <span className="frt-mx-2">
                                         <LoadingSpinner/>

@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import {useLocalState} from "../zustand/localState";
 import "../../main.css";
 import {Button} from "../ui/button";
-import {Tabs, TabsList, TabsTrigger} from "../ui/tabs";
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../ui/dialog";
 import UpdateReviewRequest from "./UpdateReviewRequest";
 import UpdateReviewReminder from "./UpdateReviewReminder";
 import UpdatePhotoRequest from "./UpdatePhotoRequest";
@@ -37,15 +35,15 @@ const EmailSetting = () => {
         },
         {
             title: "Photo Request",
-            slug: "review_request",
+            slug: "photo_request",
             description: "Review Request Settings",
             detailed_description: "After the customer has submitted a review, this email encourages them to add a photo to enhance their review",
-            route: "/emails/review-reminder",
+            route: "/emails/photo-request",
             viewComponent: UpdatePhotoRequest
         },
         {
             title: "Discount Reminder",
-            slug: "review_request",
+            slug: "discount_reminder",
             description: "Discount Reminder Settings",
             detailed_description: "This email reminds the customer of the discount they received for leaving a review, ensuring they make use of the offer",
             route: "/emails/discount-reminder",
@@ -53,7 +51,7 @@ const EmailSetting = () => {
         },
         {
             title: "Reply to Review",
-            slug: "review_request",
+            slug: "reply_to_review",
             description: "Reply to Review Settings",
             detailed_description: "This email notifies the customer when a reply has been posted to their review, keeping them engaged in the conversation",
             route: "/emails/reply-to-review",
@@ -86,26 +84,6 @@ const EmailSetting = () => {
                     );
                 })}
             </div>
-
-            {activeEmail?.slug && view && (
-                <Dialog open={view} onOpenChange={setView}>
-                    <DialogContent className={"frt-min-h-[40vh] !frt-overflow-scroll !frt-my-4"}
-                                   onInteractOutside={(e) => {
-                                       e.preventDefault();
-                                   }}
-                    >
-                        <DialogHeader className={"frt-gap-2 frt-m-2"}>
-                            <DialogTitle>{activeEmail.title}</DialogTitle>
-                            <DialogDescription>
-                                {activeEmail.detailed_description}
-                            </DialogDescription>
-                        </DialogHeader>
-                        <div>
-                            <EmailComponent locale={currentLocale}/>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            )}
         </div>
     )
 };
