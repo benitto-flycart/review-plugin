@@ -198,6 +198,19 @@ div[data-radix-popper-content-wrapper] {
 
 }
 
+#flycart-reviews-admin-main [contenteditable=true]:focus,
+#flycart-reviews-admin-main [href]:focus,
+#flycart-reviews-admin-main [tabindex]:not([tabindex="-1"]):focus,
+#flycart-reviews-admin-main button:focus,
+#flycart-reviews-admin-main details:focus,
+#flycart-reviews-admin-main input:focus,
+#flycart-reviews-admin-main select:focus,
+#flycart-reviews-admin-main textarea:focus {
+    outline: none !important;
+    box-shadow: none;
+}
+
+
 #flycart-reviews-admin-main * {
   font-family: inherit;
     box-sizing: border-box;

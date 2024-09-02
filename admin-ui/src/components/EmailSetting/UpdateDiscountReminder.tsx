@@ -12,13 +12,13 @@ import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
 import {LoadingSpinner} from "../ui/loader";
 import EmailSettingsHeader from "./EmailSettingsHeader";
+import useLocale from "./utils/useLocale";
+import EmailNavigation from "./utils/EmailNavigation";
+import LanguageList from "./utils/LanguageList";
 
-const UpdateDiscountReminder = (props: any) => {
-    const {locale} = props;
-
+const UpdateDiscountReminder = () => {
     const {localState} = useLocalState();
-
-    const currentLanguage = localState.available_languages.find((item: any) => item.value === locale);
+    const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
 
     const [updating, setUpdating] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
@@ -52,7 +52,7 @@ const UpdateDiscountReminder = (props: any) => {
             method: 'get_review_discount_remainder',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: locale,
+            language: currentLocale,
         }).then((response: any) => {
             let data = response.data.data
             form.reset({
@@ -75,7 +75,7 @@ const UpdateDiscountReminder = (props: any) => {
             method: 'save_review_discount_remainder',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: locale,
+            language: currentLocale,
             body: data.body,
             subject: data.subject,
             button_text: data.button_text
@@ -96,10 +96,14 @@ const UpdateDiscountReminder = (props: any) => {
     }, []);
 
     return (
-        <>
+
+        <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
+            <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>
+            <LanguageList currentLocale={currentLocale}
+                          setCurrentLocale={setCurrentLocale}
+                          availableLanguages={availableLanguages}/>
             {
-                loading ? (<LoadingSpinner/>) : (<div>
-                        <EmailSettingsHeader locale={locale}/>
+                loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <Card className="frt-p-4">
@@ -193,10 +197,10 @@ const UpdateDiscountReminder = (props: any) => {
                                     </Button>
                                 </Card>
                             </form>
-                        </Form>
-                    </div>
-                )}
-        </>)
+                        </Form>)
+            }
+        </div>
+    )
 }
 
 export default UpdateDiscountReminder;

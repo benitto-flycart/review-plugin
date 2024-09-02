@@ -11,6 +11,11 @@ import {FloatingProductReviewsWidget} from "../Widget/FloatingProductWidget/Floa
 import SnippetWidget from "../Widget/SnippetWidget/SnippetWidget";
 import RatingWidget from "../Widget/RatingWidget/RatingWidget";
 import FloatingProductWidget from "../Widget/FloatingProductWidget/FloatingProductWidget";
+import UpdateReviewRequest from "../EmailSetting/UpdateReviewRequest";
+import UpdateReviewReminder from "../EmailSetting/UpdateReviewReminder";
+import UpdatePhotoRequest from "../EmailSetting/UpdatePhotoRequest";
+import UpdateDiscountReminder from "../EmailSetting/UpdateDiscountReminder";
+import UpdateReplyToReview from "../EmailSetting/UpdateReplyToReview";
 
 
 function Router() {
@@ -20,6 +25,11 @@ function Router() {
             <Route path="/settings" element={<Setting/>}></Route>
             <Route path="/widgets" element={<Widget/>}></Route>
             <Route path="/email-settings" element={<EmailSetting/>}></Route>
+            <Route  path="/emails/review-request" element={<UpdateReviewRequest/>}/>
+            <Route  path="/emails/review-reminder" element={<UpdateReviewReminder/>}/>
+            <Route  path="/emails/photo-reminder" element={<UpdatePhotoRequest/>}/>
+            {/*<Route  path="/emails/discount-reminder" element={<UpdateDiscountReminder/>}/>*/}
+            {/*<Route  path="/emails/reply-to-review" element={<UpdateReplyToReview/>}/>*/}
         </Routes>
     );
 }

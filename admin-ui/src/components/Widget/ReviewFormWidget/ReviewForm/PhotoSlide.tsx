@@ -5,21 +5,22 @@ const PhotoSlide = () => {
 
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
-    const [images, setImages] = useState<any>([])
+    const [images, setImages] = useState<Array<any>>([])
 
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<any>(null);
 
     // Function to handle the click event on the custom button
     const handleButtonClick = () => {
         // Programmatically click the file input
-        fileInputRef.current.click();
+        if (fileInputRef)
+            fileInputRef.current.click();
     };
 
     const saveFile = (e: any) => {
         let file = e.target.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
-            setImages(prevImages => [...prevImages, reader.result]);
+            setImages((prevImages: any) => [...prevImages, reader.result]);
         };
         reader.readAsDataURL(file);
     }
@@ -49,9 +50,10 @@ const PhotoSlide = () => {
                 images.length > 0 ? (
                     <div className={"r_frw_view_photos_container"}>
                         <div className={"r_frw_photos_list"}>
-                            {images.slice(0, 5).map((imageSrc, index) => {
-                                    return (<div className={"r_frw_img_container"}>
-                                            <span className={"r_frw_img_close_icon"} style={methods.getPhotoButtonStyles()}>X</span>
+                            {images.slice(0, 5).map((imageSrc: string, index: number) => {
+                                    return (<div className={"r_frw_img_container"} key={index}>
+                                            <span className={"r_frw_img_close_icon"}
+                                                  style={methods.getPhotoButtonStyles()}>X</span>
                                             <img
                                                 key={index}
                                                 src={imageSrc}

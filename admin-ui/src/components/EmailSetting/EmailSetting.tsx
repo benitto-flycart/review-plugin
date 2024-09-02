@@ -8,11 +8,11 @@ import UpdateReviewRequest from "./UpdateReviewRequest";
 import UpdateReviewReminder from "./UpdateReviewReminder";
 import UpdatePhotoRequest from "./UpdatePhotoRequest";
 import UpdateDiscountReminder from "./UpdateDiscountReminder";
+import {NavLink} from "react-router-dom";
 
 
 const EmailSetting = () => {
     const {localState, setLocalState} = useLocalState();
-    const availableLanguages = localState.available_languages;
     const [currentLocale, setCurrentLocale] = useState<string>(localState.current_locale)
 
     const [view, setView] = useState(false)
@@ -65,36 +65,21 @@ const EmailSetting = () => {
 
     return (
         <div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
-            <div>
-                {availableLanguages.length > 0 && (
-                    <Tabs defaultValue={currentLocale} onValueChange={(value: string) => {
-                        setCurrentLocale(value)
-                    }}>
-                        <TabsList className={"!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"}>
-                            {availableLanguages.map((item: any, index: number) => {
-                                return (<TabsTrigger value={item.value}>{item.label}</TabsTrigger>)
-                            })}
-                        </TabsList>
-                    </Tabs>
-                )}
-
-            </div>
             <div className="frt-grid frt-grid-cols-1 frt-gap-4">
                 {emails.map((item: any, index: number) => {
                     return (
                         <div key={index}
-                             className={"frt-rounded-lg frt-border frt-bg-card frt-text-card-foreground frt-shadow-sm frt-flex frt-justify-between frt-gap-2 frt-p-4 frt-items-center"}>
+                             className={"frt-shadow-primary frt-rounded-lg frt-border frt-bg-card frt-text-card-foreground frt-shadow-sm frt-flex frt-justify-between frt-gap-2 frt-p-4 frt-items-center"}>
                             <div className={"frt-flex-grow frt-flex frt-flex-col frt-gap-2"}>
                                 <span className={"frt-font-extrabold"}>{item.title}</span>
                                 <p>{item.description}</p>
                                 <p>{item.detailed_description}</p>
                             </div>
                             <div className="frt-flex frt-justify-end frt-gap-1 frt-col-span-1">
-                                <Button onClick={() => {
-                                    setView(true);
-                                    setActiveEmail(item);
-                                }}>
-                                    Update
+                                <Button>
+                                    <NavLink to={item.route}>
+                                        Update
+                                    </NavLink>
                                 </Button>
                             </div>
                         </div>

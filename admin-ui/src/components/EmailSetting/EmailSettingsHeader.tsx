@@ -4,10 +4,11 @@ import {Alert, AlertDescription, AlertTitle} from "../ui/alert";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "../ui/select";
 import {useLocalState} from "../zustand/localState";
 
-const EmailSettingsHeader = ({locale}: any) => {
+const EmailSettingsHeader = () => {
     const {localState} = useLocalState();
 
     const available_languages = localState.available_languages;
+    const locale = localState.current_locale;
 
     const currentLanguage = available_languages.find((item: any) => item.value === locale);
 

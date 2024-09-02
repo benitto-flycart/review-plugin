@@ -13,15 +13,15 @@ import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
 import {LoadingSpinner} from "../ui/loader";
 import EmailSettingsHeader from "./EmailSettingsHeader";
+import EmailNavigation from "./utils/EmailNavigation";
+import LanguageList from "./utils/LanguageList";
+import useLocale from "./utils/useLocale";
 
 
-const UpdatePhotoRequest = (props: any) => {
-
-    const {locale} = props;
-
+const UpdatePhotoRequest = () => {
     const {localState} = useLocalState();
 
-    const currentLanguage = localState.available_languages.find((item: any) => item.value === locale);
+    const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
 
     const [updating, setUpdating] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
@@ -61,7 +61,7 @@ const UpdatePhotoRequest = (props: any) => {
             method: 'get_photo_request',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: locale,
+            language: currentLocale,
         }).then((response: any) => {
             let data = response.data.data
             form.reset({
@@ -86,7 +86,7 @@ const UpdatePhotoRequest = (props: any) => {
             method: 'save_photo_request',
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            language: locale,
+            language: currentLocale,
             body: data.body,
             minimum_star: data.minimum_star,
             subject: data.subject,
@@ -109,10 +109,13 @@ const UpdatePhotoRequest = (props: any) => {
     }, []);
 
     return (
-        <>
+        <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
+            <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>
+            <LanguageList currentLocale={currentLocale}
+                          setCurrentLocale={setCurrentLocale}
+                          availableLanguages={availableLanguages}/>
             {
-                loading ? (<LoadingSpinner/>) : (<div>
-                    <EmailSettingsHeader locale={locale}/>
+                loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
                     <Form {...form} >
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <Card className={"frt-p-4"}>
@@ -266,10 +269,10 @@ const UpdatePhotoRequest = (props: any) => {
                                 </Button>
                             </Card>
                         </form>
-                    </Form>
-                </div>)}
-        </>);
-
+                    </Form>)
+                        }
+                    </div>
+                )
 }
 
 export default UpdatePhotoRequest;

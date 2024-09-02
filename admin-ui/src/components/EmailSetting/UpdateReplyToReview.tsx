@@ -15,14 +15,18 @@ import {AlertCircle} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "../ui/alert";
 import EmailSettingsHeader from "./EmailSettingsHeader";
 import {LoadingSpinner} from "../ui/loader";
+import useLocale from "./utils/useLocale";
+import EmailNavigation from "./utils/EmailNavigation";
+import LanguageList from "./utils/LanguageList";
 
 
 const UpdateReplyToReview = () => {
     const [updating, setUpdating] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const {localState} = useLocalState();
 
-    const available_languages = localState.available_languages;
+    const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
 
     const defaultValues = {
         language: localState.current_locale,
@@ -86,8 +90,14 @@ const UpdateReplyToReview = () => {
 
     const values = form.watch();
 
-    return (<div>
-        <EmailSettingsHeader locale={locale}/>
+    return (
+        <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
+            <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>
+            <LanguageList currentLocale={currentLocale}
+                          setCurrentLocale={setCurrentLocale}
+                          availableLanguages={availableLanguages}/>
+            {
+                loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <Card className="frt-p-4">
@@ -157,5 +167,10 @@ const UpdateReplyToReview = () => {
                 </Card>
             </form>
         </Form>
-    </div>)
+                )
+            }
+        </div>
+    )
 }
+
+export default UpdateReplyToReview;

@@ -43,8 +43,8 @@ const Widget = () => {
             )}
 
         </div>
-        <div className="frt-grid frt-grid-cols-3 frt-gap-4">
-            <Card>
+        <div className="frt-grid lg:frt-grid-cols-3 md:frt-grid-cols-2 sm:frt-grid-cols-1 frt-gap-4">
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Product Reviews Widget</CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -68,7 +68,7 @@ const Widget = () => {
             </Card>
 
 
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Popup Widget</CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -90,7 +90,7 @@ const Widget = () => {
                 </CardFooter>
             </Card>
 
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Reviews Sidebar Widget</CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -116,7 +116,7 @@ const Widget = () => {
             </Card>
 
 
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Floating Product Reviews Widget 2</CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -139,7 +139,7 @@ const Widget = () => {
                     </CardFooter>
                 </CardFooter>
             </Card>
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Snippet Widget </CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -163,7 +163,7 @@ const Widget = () => {
             </Card>
 
 
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Rating Review Widget </CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>
@@ -187,7 +187,7 @@ const Widget = () => {
                 </CardFooter>
             </Card>
 
-            <Card>
+            <Card className={"frt-shadow-primary"}>
                 <CardHeader>
                     <CardTitle>Review Form Widget</CardTitle>
                     <CardDescription>Customize your new project in one-click.</CardDescription>

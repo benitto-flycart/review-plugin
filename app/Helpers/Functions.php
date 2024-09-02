@@ -229,7 +229,7 @@ class Functions
     public static function getServerErrorMessage()
     {
         return [
-            'message' => __('Server Error Occurred', 'wprelay'),
+            'message' => __('Server Error Occurred', 'f-review'),
         ];
     }
 }
