@@ -14,6 +14,7 @@ import SettingsRowWrapper from "../SettingsRowWrapper";
 import SettingsColWrapper from "../SettingsColWrapper";
 import {Label} from "../../ui/label";
 import {produce} from "immer";
+import {showValidationError} from "../../../helpers/html";
 
 const DiscountSetting = () => {
     const [loading, setLoading] = useState(true);
@@ -38,10 +39,6 @@ const DiscountSetting = () => {
         video_discount_value: yup.string().required('Video Discount Value is required'),
     });
 
-    const onSubmit = (data: any) => {
-        saveDiscountSettings(data)
-    };
-
     const getDiscountSettings = () => {
         axiosClient.post('', {
             method: 'get_discount_settings',
@@ -50,7 +47,7 @@ const DiscountSetting = () => {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            console.log(settings)
+            setSettingsState(settings)
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -66,21 +63,33 @@ const DiscountSetting = () => {
         setSettingsState(newState)
     }
 
-    const saveDiscountSettings = (data: any) => {
+    const saveDiscountSettings = () => {
         setSaveChangesLoading(true)
-        axiosClient.post('', {
-            method: 'save_discount_settings',
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            ...data
-        }).then((response: any) => {
-            let data = response.data.data
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
+        schema.validate(settingsState,{abortEarly:false}).then(()=>{
+            axiosClient.post('', {
+                method: 'save_discount_settings',
+                _wp_nonce_key: 'flycart_review_nonce',
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                ...settingsState
+            }).then((response: any) => {
+                let data = response.data.data
+                toastrSuccess(data.message);
+            }).catch((error: any) => {
+                setErrors(error)
+                toastrError('Server Error Occurred');
+            }).finally(() => {
+                setSaveChangesLoading(false)
+            });
+        }).catch((validationError: any) => {
             setSaveChangesLoading(false)
-        });
+            toastrError('Validation Failed')
+            const validationErrors = {}
+            validationError?.inner?.forEach((e: any) => {
+                // @ts-ignore
+                validationErrors[e.path] = [e.message]
+            });
+            setErrors(validationErrors)
+        })
     };
 
     useEffect(() => {
@@ -106,7 +115,7 @@ const DiscountSetting = () => {
                                     purchase
                                 </Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch
                                     id="enable_photo_discount"
                                     checked={settingsState.enable_photo_discount}
@@ -116,6 +125,7 @@ const DiscountSetting = () => {
                                         })
                                     }}
                                 />
+                                {showValidationError(errors,"enable_photo_discount")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -129,7 +139,7 @@ const DiscountSetting = () => {
                                             their next
                                             purchase</Label>
                                     </SettingsColWrapper>
-                                    <SettingsColWrapper>
+                                    <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                         <Select value={settingsState.photo_discount_type}
                                                 onValueChange={(value: any) => {
                                                     updateSettingFields((draftState: any) => {
@@ -148,6 +158,7 @@ const DiscountSetting = () => {
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+                                        {showValidationError(errors,"photo_discount_type")}
                                     </SettingsColWrapper>
                                 </SettingsRowWrapper>
 
@@ -160,7 +171,7 @@ const DiscountSetting = () => {
                                             their next
                                             purchase</Label>
                                     </SettingsColWrapper>
-                                    <SettingsColWrapper>
+                                    <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                         <Input type="number" placeholder="Value"
                                                value={settingsState.photo_discount_value}
                                                onChange={(e: any) => {
@@ -169,6 +180,7 @@ const DiscountSetting = () => {
                                                    })
                                                }}
                                         />
+                                        {showValidationError(errors,"photo_discount_value")}
                                     </SettingsColWrapper>
                                 </SettingsRowWrapper>
                             </> : null
@@ -181,7 +193,7 @@ const DiscountSetting = () => {
                                     Incentivize customers to leave a Video review by offering a discount for their next
                                     purchase</Label>
                             </SettingsColWrapper>
-                            <SettingsColWrapper>
+                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch id="enable_video_discount"
                                         checked={settingsState.enable_video_discount}
                                         onCheckedChange={(value: boolean) => {
@@ -190,6 +202,7 @@ const DiscountSetting = () => {
                                             })
                                         }}
                                 />
+                                {showValidationError(errors,"enable_video_discount")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -203,7 +216,7 @@ const DiscountSetting = () => {
                                             their next
                                             purchase</Label>
                                     </SettingsColWrapper>
-                                    <SettingsColWrapper>
+                                    <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                         <Select
                                             value={settingsState.video_discount_type}
                                             onValueChange={(value: string) => {
@@ -224,6 +237,7 @@ const DiscountSetting = () => {
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+                                        {showValidationError(errors,"video_discount_type")}
                                     </SettingsColWrapper>
                                 </SettingsRowWrapper>
                                 <SettingsRowWrapper>
@@ -235,7 +249,7 @@ const DiscountSetting = () => {
                                             their next
                                             purchase</Label>
                                     </SettingsColWrapper>
-                                    <SettingsColWrapper>
+                                    <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                         <Input type="number"
                                                value={settingsState.video_discount_value}
                                                placeholder="Value"
@@ -245,11 +259,12 @@ const DiscountSetting = () => {
                                                    })
                                                }}
                                         />
+                                        {showValidationError(errors,"video_discount_value")}
                                     </SettingsColWrapper>
                                 </SettingsRowWrapper>
                             </> : null
                         }
-                        <Button type={"submit"} className={"frt-w-32"}>
+                        <Button onClick={saveDiscountSettings} className={"frt-w-32"}>
                             {saveChangesLoading && (
                                 <span className="frt-mx-2">
                                         <LoadingSpinner/>

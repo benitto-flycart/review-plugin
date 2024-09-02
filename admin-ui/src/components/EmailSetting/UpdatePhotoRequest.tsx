@@ -226,10 +226,7 @@ const UpdatePhotoRequest = () => {
                                     </div>
                                 </div>
                                 <div className={"frt-flex frt-gap-x-5 frt-my-4"}>
-                                    <Button onClick={(e)=> {
-                                        e.preventDefault()
-                                        saveReviewPhotoRequest()
-                                    }}
+                                    <Button onClick={saveReviewPhotoRequest}
                                             className={"frt-flex frt-justify-between frt-gap-2  "}>
                                         {updating ? (<span><LoadingSpinner/></span>) : null}
                                         <span>Save Changes</span>

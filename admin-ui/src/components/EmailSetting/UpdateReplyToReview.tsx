@@ -151,10 +151,7 @@ const UpdateReplyToReview = () => {
                     </div>
                     <div className={"frt-flex frt-gap-x-5   frt-my-4"}>
                         <Button type={"submit"}
-                                onClick={(e)=>{
-                                    e.preventDefault();
-                                    saveReviewReplyRequest()
-                                }}
+                                onClick={saveReviewReplyRequest}
                                 className={"frt-flex frt-justify-between frt-gap-2  "}>
                             {updating ? (<span><LoadingSpinner/></span>) : null}
                             <span>Save Changes</span>
