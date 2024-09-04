@@ -1,9 +1,6 @@
 import React, {useContext} from "react";
-import {Dialog, DialogContent} from "../../ui/dialog";
-import WidgetPreviewHeader from "../WidgetPreviewHeader";
 
 import "@/src/styles/widgets/widget.css";
-import WidgetSidebar from "../WidgetSidebar";
 import {LayoutIcon} from "@radix-ui/react-icons";
 import {FloatingProductWidgetContext} from "./FloatingProductWidgetContextAPI";
 import FloatingProductWidgetConfigSetting from "./FloatingProductWidgetConfigSetting";
@@ -11,10 +8,9 @@ import FloatingProductWidgetPreview from "./FloatingProductWidgetPreview";
 
 import './preview.css'
 import './mobile.css'
-import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const FloatingProductWidgetDialog = ({show, toggle}: any) => {
+const FloatingProductWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(FloatingProductWidgetContext)
 
@@ -37,6 +33,7 @@ const FloatingProductWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             context={context}
             settings={settings}
+            currentLocale={currentLocale}
         >
             <FloatingProductWidgetPreview/>
         </WidgetDialogWrapper>

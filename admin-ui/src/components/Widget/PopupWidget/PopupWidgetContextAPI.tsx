@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import {produce} from "immer";
 import {axiosClient} from "../../../helpers/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
@@ -115,18 +115,6 @@ function PopupWidgetContextAPI({children}: { children: any }) {
         });
     }
 
-    useEffect(() => {
-        fetchPopupWidget();
-
-        let saveInterval = setInterval(() => {
-            // saveSettings();
-        }, 15000);
-
-        return () => {
-            clearInterval(saveInterval)
-        }
-    }, []);
-
     const widgetMethods = {
         getPopupPreviewStyles: () => {
             return {
@@ -145,7 +133,8 @@ function PopupWidgetContextAPI({children}: { children: any }) {
                 color: widget.colors.close_icon.text_color,
                 backgroundColor: widget.colors.close_icon.bg_color,
             }
-        }
+        },
+        saveSettings,
     }
 
     //update editor state

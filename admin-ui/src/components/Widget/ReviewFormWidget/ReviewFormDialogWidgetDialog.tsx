@@ -12,11 +12,10 @@ import RatingWidgetPhotoSetting from "./ReviewFormWidgetPhotoSetting";
 import ReviewFormWidgetReviewerSetting from "./ReviewFormWidgetReviewerSetting";
 import ReviewFormGetReviewSetting from "./ReviewFormGetReviewSetting";
 import ReviewFormWidgetThankyouSetting from "./ReviewFormWidgetThankyouSetting";
-import RatingWidgetPreview from "../RatingWidget/RatingWidgetPreview";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
 
-const ReviewFormWidgetDialog = ({show, toggle}: any) => {
+const ReviewFormWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(ReviewFormWidgetContext)
 
@@ -69,6 +68,7 @@ const ReviewFormWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             context={context}
             settings={settings}
+            currentLocale={currentLocale}
         >
             <ReviewFormWidgetPreview/>
         </WidgetDialogWrapper>

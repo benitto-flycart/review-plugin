@@ -25,20 +25,6 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         show_on_product_page: true
     })
 
-    const widgetMethods = {
-        getReviewSidebarPreviewStyles: () => {
-            return {
-                color: widget.button_text_color,
-                backgroundColor: widget.button_bg_color,
-            };
-        },
-        // getReviewProductStyles: () => {
-        //     return {
-        //         color: widget.colors.product.text_color,
-        //     };
-        // }
-    }
-
     //update editor state
     const updateWidgetFields = (cb: any) => {
         let newState = produce(widget, draft => {
@@ -79,6 +65,36 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         }).finally(() => {
             setLoading(false)
         });
+    }
+
+    const saveSettings = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'save_widget_settings',
+            widget_type: 'sidebar_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
+    const widgetMethods = {
+        getReviewSidebarPreviewStyles: () => {
+            return {
+                color: widget.button_text_color,
+                backgroundColor: widget.button_bg_color,
+            };
+        },
+        saveSettings
     }
 
     useEffect(() => {

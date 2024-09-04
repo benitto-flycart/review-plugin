@@ -7,10 +7,9 @@ import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
 import SidebarWidgetConfigSetting from "./SidebarWidgetConfigSetting";
 import SidebarWidgetConfigPages from "./SidebarWidgetConfigPages";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import PreviewSidebarWidget from "./PreviewSidebarWidget";
 
-const SidebarWidgetDialog = ({show, toggle}: any) => {
+const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(SidebarWidgetContext)
 
     const settings = {
@@ -37,6 +36,7 @@ const SidebarWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             settings={settings}
             context={context}
+            currentLocale={currentLocale}
         >
             <PreviewSidebarWidget/>
         </WidgetDialogWrapper>

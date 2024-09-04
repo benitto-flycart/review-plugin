@@ -1,10 +1,16 @@
 import React from "react";
 import {Badge} from "../ui/badge";
+import {useLocalState} from "../zustand/localState";
 
-const WidgetPreviewHeader = ({widget, updateWidgetFields}: any) => {
+const WidgetPreviewHeader = ({widget, updateWidgetFields,currentLocale}: any) => {
 
     const savedRef = React.useRef();
+    const {localState}=useLocalState()
 
+    const availableLanguages = localState.available_languages;
+    const currentLanguageLabel=availableLanguages.find((allLang:any)=>{
+        return allLang.value===currentLocale
+    }).label
     return (
         <div className={"wd_preview_header widget-header-title"}>
             <div
@@ -48,7 +54,7 @@ const WidgetPreviewHeader = ({widget, updateWidgetFields}: any) => {
                                     </span>
             </div>
             <div className={"frt-mx-auto frt-max-w-max frt-my-2"}>
-                <Badge>Changes Applied to English Language</Badge>
+                <Badge>Changes Applied to {currentLanguageLabel} Language</Badge>
             </div>
         </div>
     )

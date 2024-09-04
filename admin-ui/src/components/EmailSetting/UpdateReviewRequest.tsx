@@ -106,7 +106,6 @@ const UpdateReviewRequest = () => {
     useEffect(() => {
         fetchReviewRequest();
     }, [currentLocale])
-console.log(errors)
     return (
         <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
             <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>

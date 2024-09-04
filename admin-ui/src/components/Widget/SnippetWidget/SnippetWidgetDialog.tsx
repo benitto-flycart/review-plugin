@@ -11,10 +11,9 @@ import {LayoutIcon} from "@radix-ui/react-icons";
 import SnippetWidgetStyleSetting from "./SnippetWidgetStyleSetting";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const SnippetWidgetDialog = ({show, toggle}: any) => {
+const SnippetWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(SnippetWidgetContext)
-
     const settings = {
         title: 'Snippet Widget Configuration',
         widget_slug: 'snippet',
@@ -42,6 +41,7 @@ const SnippetWidgetDialog = ({show, toggle}: any) => {
 
     return (
         <WidgetDialogWrapper
+            currentLocale={currentLocale}
             show={show}
             toggle={toggle}
             settings={settings}

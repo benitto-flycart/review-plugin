@@ -126,7 +126,6 @@ const BrandingSetting = () => {
         })
 
     };
- console.log(errors)
     useEffect(() => {
         setLoading(true);
         getBrandSettings();
