@@ -3,6 +3,7 @@
 namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Model;
 
 class ReviewSetting extends Model
@@ -31,5 +32,10 @@ class ReviewSetting extends Model
                 deleted_at TIMESTAMP NULL,
                 PRIMARY KEY (id)
                 ) {$charset};";
+    }
+
+    public static function getBrandSetting()
+    {
+        return (new BrandSettings())->get();
     }
 }

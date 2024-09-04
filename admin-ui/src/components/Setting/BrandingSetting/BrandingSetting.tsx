@@ -18,17 +18,20 @@ import {produce} from "immer";
 import * as yup from 'yup'
 import {showValidationError} from "../../../helpers/html";
 import {runUploader} from "../../../helpers/utils";
+import ReviewIcon from "../../ReviewIcon";
+import {reviewIcons} from "../../../helpers/icons";
+import {ClientResponse} from "../../../helpers/response";
 
 const BrandingSetting = () => {
     const [loading, setLoading] = useState(true);
     const [saveChangesLoading, setSaveChangesLoading] = useState(false);
     const {localState} = useLocalState();
-    const [errors,setErrors]=useState<any>()
+    const [errors, setErrors] = useState<any>()
     const [settingsState, setSettingsState] = useState<any>({
         corner_radius: 'rounded',
         enable_logo: true,
         logo_url: '',
-        rating_icon: '',
+        rating_icon: 'gem',
         rating_icon_style: 'rounded',
         enable_review_branding: true,
         enable_email_banners: false,
@@ -74,7 +77,7 @@ const BrandingSetting = () => {
             font_type: yup.string().required("Font type is required"),
             font_size: yup.number()
                 .min(5, 'Minimum it should be 5')
-                .max(20, 'Maximum it should be 5')
+                .max(50, 'Maximum it should be 50')
                 .required("Font size is required"),
         })
     });
@@ -88,6 +91,8 @@ const BrandingSetting = () => {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
+            settings.rating_icon = 'gem';
+            console.log(settings)
             setSettingsState(settings)
             toastrSuccess(data.message);
         }).catch((error: any) => {
@@ -99,18 +104,25 @@ const BrandingSetting = () => {
 
     const saveBrandSettings = () => {
         setSaveChangesLoading(true)
-        schema.validate(settingsState,{abortEarly:false}).then(()=>{
+        schema.validate(settingsState, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_brand_settings',
                 _wp_nonce_key: 'flycart_review_nonce',
                 _wp_nonce: localState?.nonces?.flycart_review_nonce,
                 ...settingsState
             }).then((response: any) => {
-                let data = response.data.data
-                toastrSuccess(data.message);
+                let [code, data] = ClientResponse.getResponseData(response)
+                console.log(data)
+                toastrSuccess(data?.message);
+                setErrors({})
             }).catch((error: any) => {
+                let [code, errors] = ClientResponse.getResponseError(error)
+                if (ClientResponse.isValidationError(code)) {
+                    setErrors(errors)
+                    toastrError('Validation Error Occurred');
+                    return;
+                }
                 toastrError('Server Error Occurred');
-                setErrors(error)
             }).finally(() => {
                 setSaveChangesLoading(false)
             });
@@ -126,7 +138,7 @@ const BrandingSetting = () => {
         })
 
     };
- console.log(errors)
+    console.log(errors)
     useEffect(() => {
         setLoading(true);
         getBrandSettings();
@@ -155,7 +167,7 @@ const BrandingSetting = () => {
                                             })
                                         }}
                                 />
-                                {showValidationError(errors,"enable_logo")}
+                                {showValidationError(errors, "enable_logo")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -172,12 +184,14 @@ const BrandingSetting = () => {
                                         {
                                             settingsState.logo_url ? <div className={"frt-w-24 frt-relative"}>
                                                 <img src={settingsState.logo_url} alt="logo"/>
+                                                <span>
+                                                </span>
                                                 <i onClick={() => {
                                                     updateSettingFields((draftState: any) => {
                                                         draftState.logo_url = ""
                                                     })
                                                 }}
-                                                   className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                                   className={"review review-cross-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
                                             </div> : null
                                         }
                                         <div
@@ -193,9 +207,9 @@ const BrandingSetting = () => {
                                                 })}>Upload File</span>
                                         </div>
                                     </div>
-                                    {showValidationError(errors,"logo_url")}
+                                    {showValidationError(errors, "logo_url")}
                                 </SettingsColWrapper>
-                            </SettingsRowWrapper> : ''
+                            </SettingsRowWrapper> : null
                         }
 
                         <SettingsRowWrapper>
@@ -226,7 +240,7 @@ const BrandingSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                                {showValidationError(errors,"corner_radius")}
+                                {showValidationError(errors, "corner_radius")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
 
@@ -242,44 +256,30 @@ const BrandingSetting = () => {
                                     <PopoverTrigger asChild>
                                         <div className={"frt-flex frt-items-center frt-gap-4"}>
                                             {settingsState.rating_icon ?
-                                                <i className={`review-icon review ${settingsState.rating_icon} frt-text-2xl frt-text-[${settingsState.rating_rgb_color}] `}></i> : null}
+                                                <span className={`frt-text-2xl`}>
+                                                <ReviewIcon icon={settingsState.rating_icon}
+                                                            color={settingsState.rating_rgb_color}
+                                                ></ReviewIcon> </span> : null}
                                             <Button variant="outline">Rating Icon</Button>
                                         </div>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-80" side={'bottom'}>
-                                        <div className={"frt-grid frt-grid-cols-6 frt-gap-4"}>
-                                            <i onClick={() => {
-                                                updateSettingFields((draftState: any) => {
-                                                    draftState.rating_icon = "review-Gem"
-                                                })
-                                            }} className={'review-icon review review-Gem frt-cursor-pointer'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i> <i
-                                            className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
-                                            <i className={'review-icon review review-Gem'}></i>
+                                    <PopoverContent className="w-80">
+                                        <div className={"frt-grid frt-grid-cols-3 frt-gap-4"}>
+                                            {Object.entries(reviewIcons).map(([iconName, iconData]: any, index: number) => {
+                                                return (<span key={index}
+                                                              className={"frt-cursor-pointer frt-text-2xl"}
+                                                              style={{color: settingsState.rating_rgb_color}}
+                                                              onClick={() => {
+                                                                  updateSettingFields((draftState: any) => {
+                                                                      draftState.rating_icon = iconData.filled;
+                                                                  })
+                                                              }}>
+                                                    <ReviewIcon icon={iconData.filled}/></span>);
+                                            })}
                                         </div>
                                     </PopoverContent>
                                 </Popover>
-                                {showValidationError(errors,"rating_icon")}
+                                {showValidationError(errors, "rating_icon")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
 
@@ -297,7 +297,7 @@ const BrandingSetting = () => {
                                                             draftState.rating_rgb_color = color;
                                                         })
                                                     }}/>
-                                {showValidationError(errors,"rating_rgb_color")}
+                                {showValidationError(errors, "rating_rgb_color")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -316,7 +316,7 @@ const BrandingSetting = () => {
                                             })
                                         }}
                                 />
-                                {showValidationError(errors,"enable_review_branding")}
+                                {showValidationError(errors, "enable_review_branding")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
@@ -336,33 +336,35 @@ const BrandingSetting = () => {
                                         })
                                     }}
                                 />
-                                {showValidationError(errors,"enable_email_banners")}
+                                {showValidationError(errors, "enable_email_banners")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
-                        {settingsState.enable_email_banners ? (
-                            <SettingsRowWrapper>
-                                <SettingsColWrapper>
-                                    <Label className="frt-w-full">Banner</Label>
-                                    <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
-                                        to
-                                        auto-publish, Any changes will only affect new
-                                        reviews</Label>
-                                </SettingsColWrapper>
-                                <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                    <div className="frt-w-full frt-flex frt-gap-3">
-                                        {
-                                            settingsState.banner_src ? <div className={"frt-w-24 frt-relative"}>
-                                                <img src={settingsState.banner_src} alt="logo"/>
-                                                <i onClick={() => {
-                                                    updateSettingFields((draftState: any) => {
-                                                        draftState.banner_src = ""
-                                                    })
-                                                }}
-                                                   className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
-                                            </div> : null
-                                        }
-                                        <div
-                                            className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
+                        {
+                            settingsState.enable_email_banners ? (
+                                <SettingsRowWrapper>
+                                    <SettingsColWrapper>
+                                        <Label className="frt-w-full">Banner</Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you
+                                            want
+                                            to
+                                            auto-publish, Any changes will only affect new
+                                            reviews</Label>
+                                    </SettingsColWrapper>
+                                    <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                                        <div className="frt-w-full frt-flex frt-gap-3">
+                                            {
+                                                settingsState.banner_src ? <div className={"frt-w-24 frt-relative"}>
+                                                    <img src={settingsState.banner_src} alt="banner"/>
+                                                    <i onClick={() => {
+                                                        updateSettingFields((draftState: any) => {
+                                                            draftState.banner_src = ""
+                                                        })
+                                                    }}
+                                                       className={"review review-cross-icon frt-cursor-pointer frt-absolute frt-top-0 frt-right-0"}></i>
+                                                </div> : null
+                                            }
+                                            <div
+                                                className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
                                                 className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
                                                 onClick={(e: any) => {
@@ -372,12 +374,13 @@ const BrandingSetting = () => {
                                                         })
                                                     })
                                                 }}>Upload File</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {showValidationError(errors,"banner_src")}
-                                </SettingsColWrapper>
-                            </SettingsRowWrapper>
-                        ) : null}
+                                        {showValidationError(errors, "banner_src")}
+                                    </SettingsColWrapper>
+                                </SettingsRowWrapper>
+                            ) : null
+                        }
 
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
@@ -404,7 +407,7 @@ const BrandingSetting = () => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                                {showValidationError(errors,"appearance")}
+                                {showValidationError(errors, "appearance")}
                             </SettingsColWrapper>
                         </SettingsRowWrapper>
                         {
@@ -429,7 +432,7 @@ const BrandingSetting = () => {
                                                             draftState.appearance_options.email_background_color = color;
                                                         })
                                                     }}/>
-                                                {showValidationError(errors,"appearance_options.email_background_color")}
+                                                {showValidationError(errors, "appearance_options.email_background_color")}
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                         <SettingsRowWrapper>
@@ -449,16 +452,14 @@ const BrandingSetting = () => {
                                                             draftState.appearance_options.email_text_color = color;
                                                         })
                                                     }}/>
-                                                {showValidationError(errors,"appearance_options.email_text_color")}
+                                                {showValidationError(errors, "appearance_options.email_text_color")}
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                         <SettingsRowWrapper>
                                             <SettingsColWrapper>
                                                 <Label>Button Background Color</Label>
                                                 <Label className={"frt-text-xs frt-text-grayprimary"}>select which
-                                                    reviews you want
-                                                    to
-                                                    auto-publish, Any changes will only affect new
+                                                    reviews you want to auto-publish, Any changes will only affect new
                                                     reviews</Label>
                                             </SettingsColWrapper>
                                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
@@ -469,7 +470,7 @@ const BrandingSetting = () => {
                                                             draftState.appearance_options.button_bg_color = color;
                                                         })
                                                     }}/>
-                                                {showValidationError(errors,"appearance_options.button_bg_color")}
+                                                {showValidationError(errors, "appearance_options.button_bg_color")}
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                         <SettingsRowWrapper>
@@ -489,7 +490,7 @@ const BrandingSetting = () => {
                                                             draftState.appearance_options.button_border_color = color;
                                                         })
                                                     }}/>
-                                                {showValidationError(errors,"appearance_options.button_border_color")}
+                                                {showValidationError(errors, "appearance_options.button_border_color")}
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                         <SettingsRowWrapper>
@@ -509,7 +510,7 @@ const BrandingSetting = () => {
                                                             draftState.appearance_options.button_title_color = color;
                                                         })
                                                     }}/>
-                                                {showValidationError(errors,"appearance_options.button_title_color")}
+                                                {showValidationError(errors, "appearance_options.button_title_color")}
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                     </>
@@ -544,7 +545,7 @@ const BrandingSetting = () => {
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
-                                            {showValidationError(errors,"appearance_options.font_type")}
+                                            {showValidationError(errors, "appearance_options.font_type")}
                                         </SettingsColWrapper>
                                     </SettingsRowWrapper>
                                     <SettingsRowWrapper>
@@ -568,13 +569,13 @@ const BrandingSetting = () => {
                                                     })
                                                 }}
                                             />
-                                            {showValidationError(errors,"appearance_options.font_size")}
+                                            {showValidationError(errors, "appearance_options.font_size")}
                                         </SettingsColWrapper>
                                     </SettingsRowWrapper>
                                 </>
                             ) : null
                         }
-                        <Button onClick={saveBrandSettings} className={"frt-w-32"}>
+                        <Button onClick={saveBrandSettings} className={"frt-max-w-max"}>
                             {saveChangesLoading && (
                                 <span className="frt-mx-2">
                                         <LoadingSpinner/>
@@ -585,7 +586,8 @@ const BrandingSetting = () => {
                 )}
             </CardContent>
         </Card>
-    );
+    )
+        ;
 };
 
 export default BrandingSetting;

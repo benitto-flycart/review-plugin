@@ -1,5 +1,6 @@
-let frame: any;
+
 export const runUploader = (event: any, cb: any) => {
+    let frame: any;
     event.preventDefault()
 
     // If the media frame already exists, reopen it.
@@ -16,19 +17,23 @@ export const runUploader = (event: any, cb: any) => {
             text: 'Use this media',
         },
         multiple: false, // Set to true to allow multiple files to be selected
+        library: {
+            type: ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'] // Restrict to png, jpg, gif, svg (icon)
+        }
     })
 
     frame.on("select", () => {
 
         let selection = frame.state().get("selection");
+
         let data;
+
 
         selection.each((attachment: any) => {
             data = attachment["attributes"]["url"];
         });
 
         cb(data)
-
     });
     // Finally, open the modal on click
     frame.open()

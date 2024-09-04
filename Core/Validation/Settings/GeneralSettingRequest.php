@@ -14,7 +14,6 @@ class GeneralSettingRequest implements FormRequest
         $data = $request->all();
 
         $rules = [
-            'send_replies_to' => ['required'],
             'enable_email_footer' => ['required'],
             'reviewers_name_format' => ['required'],
             'auto_publish_new_reviews' => ['required'],

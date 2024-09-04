@@ -44,6 +44,14 @@ class LocalDataController
                 'available_languages' => WordpressHelper::getAvailableLanguages(),
                 'current_locale' => get_locale(),
                 'order_statuses' => wc_get_order_statuses(),
+                'iframe_styles' => [
+                    'font_css' => plugins_url('resources/admin/css/review-fonts.css', F_Review_PLUGIN_FILE),
+                    'product_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/product_widget.css', F_Review_PLUGIN_FILE),
+                        'widget_js' => plugins_url('resources/admin/js/product_widget.js', F_Review_PLUGIN_FILE),
+                        'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
+                    ],
+                ]
             ];
 
             $localize = apply_filters('flycart_review_pro_local_data', $localData);

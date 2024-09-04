@@ -29,7 +29,7 @@ defined('F_Review_PLUGIN_FILE') or define('F_Review_PLUGIN_FILE', __FILE__);
 defined('F_Review_PLUGIN_NAME') or define('F_Review_PLUGIN_NAME', 'Review F');
 defined('F_Review_PLUGIN_SLUG') or define('F_Review_PLUGIN_SLUG', "wp-relay");
 defined('F_Review_VERSION') or define('F_Review_VERSION', "2.0");
-defined('F_Review_PREFIX') or define('F_Review_PREFIX', "prefix_");
+defined('F_Review_PREFIX') or define('F_Review_PREFIX', "f_review_");
 
 //__('joj', 'flycart-review');
 /**

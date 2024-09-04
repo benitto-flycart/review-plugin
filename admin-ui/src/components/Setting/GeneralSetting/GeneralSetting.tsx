@@ -41,7 +41,7 @@ const GeneralSetting = () => {
     const schema = yup.object().shape({
         send_replies_to: yup.string().email('Must be a valid email address').optional(),
         enable_email_footer: yup.boolean().required("Enable Email Footer is required"),
-        footer_text: yup.string().required("Footer text is required"),
+        footer_text: yup.string().nullable("Footer text is required"),
         auto_publish_new_reviews: yup.boolean().required("Auto publish Reviews is required"),
         enable_review_notification: yup.boolean().required("Enable Review Notification is enabled"),
         reviewers_name_format: yup.string().required("Reviewers Name format is required"),

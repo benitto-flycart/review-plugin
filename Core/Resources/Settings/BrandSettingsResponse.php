@@ -14,9 +14,11 @@ class BrandSettingsResponse extends Resource
             'settings' => [
                 'corner_radius' => $settings['corner_radius'] ?? '',
                 'enable_logo' => $settings['enable_logo'] ?? false,
+                'logo_url' => $settings['logo_url'] ?? '',
                 'rating_icon_style' => $settings['rating_icon_style'] ?? '',
                 'enable_review_branding' => $settings['enable_review_branding'] ?? false,
                 'enable_email_banners' => $settings['enable_email_banners'] ?? false,
+                'banner_src' => $settings['banner_src'] ?? '',
                 'rating_rgb_color' => $settings['rating_rgb_color'] ?? '',
                 'appearance' => $settings['appearance'] ?? '',
                 'appearance_options' => [
