@@ -872,6 +872,9 @@ video {
 .frt-grid {
   display: grid;
 }
+.frt-hidden {
+  display: none;
+}
 .frt-aspect-square {
   aspect-ratio: 1 / 1;
 }

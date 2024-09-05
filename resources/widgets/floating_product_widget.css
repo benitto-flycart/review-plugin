@@ -1,3 +1,38 @@
+.wd_preview_content {
+    background: white;
+    width: 90%;
+    margin: auto;
+    padding: .5rem;
+}
+
+
+/*FLoating Product Widget*/
+
+.r_fpw-container {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    gap: 1rem;
+}
+
+.r_fpw-close_icon {
+    padding: .5em;
+    opacity: 0.5;
+    cursor: pointer;
+    border-radius: 20%;
+    background-color: lightgray;
+}
+
+.r_fpw-close_icon:hover {
+    opacity: 1;
+}
+
+.r_fpw-text_content_wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
 /*Ending Floating Product Widget CSS*/
 
 /*--------------------------------------------------------*/

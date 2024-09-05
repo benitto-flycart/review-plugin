@@ -3,6 +3,7 @@ import WidgetPreviewHeader from "./WidgetPreviewHeader";
 import {Badge} from "../ui/badge";
 import Frame from 'react-frame-component';
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "../ui/resizable";
+import {LoadingSpinner} from "../ui/loader";
 
 const WidgetMainContentWrapper = ({children, widget, updateWidgetFields, saving = false}: any) => {
     const sidePanelHeight = widget.view == 'mobile' ? 30 : 0;
@@ -22,9 +23,13 @@ const WidgetMainContentWrapper = ({children, widget, updateWidgetFields, saving 
                                 <Badge className={"frt-w-min frt-h-min frt-py-3"}>Saving...</Badge>
                             </div>
                             : null}
-                        <Frame className={"frt-h-full frt-w-full"} id={"widget_preview_iframe"}>
-                            {children}
-                        </Frame>
+                        <div className={"frt-h-full"}>
+                            {widget.widget_loading ? <LoadingSpinner/> : null}
+                            <Frame className={`frt-h-full frt-w-full ${widget.widget_loading ? 'frt-hidden' : null}`} id={"widget_preview_iframe"}>
+                                {children}
+                            </Frame>
+                        </div>
+
                     </div>
                 </ResizablePanel>
                 <ResizableHandle/>

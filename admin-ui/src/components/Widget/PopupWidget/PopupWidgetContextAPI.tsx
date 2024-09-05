@@ -13,6 +13,7 @@ function PopupWidgetContextAPI({children}: { children: any }) {
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         show_setting: '',
         view: 'mobile',
         position: 'top_left',

@@ -12,6 +12,7 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         view: 'desktop',
         show_setting: '',
         text_content: "Reviews",

@@ -3,41 +3,44 @@ import React, {useContext, useEffect, useState} from "react";
 import "./sidebar.css";
 import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
 import ReviewIcon from "../../ReviewIcon";
-import {LoadingSpinner} from "../../ui/loader";
+import {useLocalState} from "../../zustand/localState";
 
 const PreviewSidebarWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(SidebarWidgetContext)
 
     const [loading, setLoading] = useState(true)
-
+    const {localState} = useLocalState()
     useEffect(() => {
 
-        setLoading(true)
+        updateWidgetFields((draftState: any) => {
+            draftState.widget_loading = true;
+        })
 
         setTimeout(() => {
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
-
-// Create a new link element
             let linkElement: any = document.createElement('link');
             linkElement.rel = 'stylesheet';
-            linkElement.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/widgets/sidebar_widget.css'; // Replace with the URL of your stylesheet
+            linkElement.href = localState.iframe_styles?.sidebar_widget?.widget_css; // Replace with the URL of your stylesheet
 
             let head = iframe.contentDocument.head;
+            let body = iframe.contentDocument.body;
             head.appendChild(linkElement);
+
 
             let another = document.createElement('link');
             another.rel = 'stylesheet';
-            another.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css'; // Replace with the URL of your stylesheet
-
+            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
             head.appendChild(another);
 
-            setLoading(false)
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = false;
+            })
 
         }, 2000)
 
-    }, []);
+    }, [widget.layout]);
 
     const getSidebarPosition = () => {
         switch (widget.position) {
@@ -61,20 +64,18 @@ const PreviewSidebarWidget = () => {
     }
 
     return (
-        <>
-            {!loading ? (
-                <div
-                    className={'r_sb_wrapper '}>
-                    <div style={methods.getReviewSidebarPreviewStyles()}
-                         className={`r_sbw__container ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
+
+        <div
+            className={'r_sb_wrapper '}>
+            <div style={methods.getReviewSidebarPreviewStyles()}
+                 className={`r_sbw__container ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
                <span className={"r_sbw__btn_icon"}>
                    <ReviewIcon/>
                </span>
-                        <span className={"r_sbw__btn_text"}>{widget.button_text}</span>
-                    </div>
-                </div>
-            ) : (<div style={{width: "100%", height: "100%"}}><LoadingSpinner/></div>)}
-        </>)
+                <span className={"r_sbw__btn_text"}>{widget.button_text}</span>
+            </div>
+        </div>)
+
 }
 
 export default PreviewSidebarWidget;

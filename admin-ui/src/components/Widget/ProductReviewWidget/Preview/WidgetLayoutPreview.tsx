@@ -7,19 +7,22 @@ import {ProductWidgetContext} from "../ProductReviewContextAPI";
 const WidgetLayoutPreview = () => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
 
-    let layout: any = <GridWidgetPreview/>;
+    const getLayout=()=>{
+        let layout: any = <GridWidgetPreview/>;
 
-    switch (widget.layout.widget_layout) {
-        case 'list':
-            layout = <ListWidgetPreview/>;
-            break;
-        case 'mosaic':
-            layout = <MosaicWidgetPreview/>
+        switch (widget.layout.widget_layout) {
+            case 'list':
+                layout = <ListWidgetPreview/>;
+                break;
+            case 'mosaic':
+                layout = <MosaicWidgetPreview/>
+        }
+        return layout
     }
 
     return (
         <div>
-            {layout}
+            {getLayout()}
         </div>
     )
 }

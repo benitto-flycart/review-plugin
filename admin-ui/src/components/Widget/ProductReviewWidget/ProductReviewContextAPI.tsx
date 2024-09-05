@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import {produce} from "immer";
 import {axiosClient} from "../../../helpers/axios";
 import {useLocalState} from "../../zustand/localState";
@@ -13,6 +13,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         view: 'desktop',
         show_setting: '',
         layout: {
@@ -66,8 +67,9 @@ function ProductWidgetContextAPI({children}: { children: any }) {
     })
 
     const buildStateFromResponse = (settings: any) => {
+        console.log(settings)
         updateWidgetFields((draftState: any) => {
-            //layout
+
             draftState.layout = {
                 widget_layout: settings?.layout?.widget_layout,
                 header_layout: settings?.layout?.header_layout
@@ -142,7 +144,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            // buildStateFromResponse(settings);
+             buildStateFromResponse(settings);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
@@ -161,7 +163,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            buildStateFromResponse(settings);
+              // buildStateFromResponse(settings);
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -170,7 +172,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         });
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetchProductWidget();
 
         let saveInterval = setInterval(() => {
@@ -183,6 +185,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
     }, []);
 
     const widgetMethods = {
+
         isAddReviewEnabled: () => {
             return widget.preferences.show_write_a_review == true;
         },

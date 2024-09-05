@@ -13,6 +13,7 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         view: 'desktop',
         show_setting: '',
         widget_alignment: 'left',

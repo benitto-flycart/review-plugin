@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import styles from './CHP.module.css';
 import ReviewIcon from "../../../../../ReviewIcon";
 import ProgressBar from "../../../ProgressBar";
 import CustomPopover from "../../../CustomPopover";

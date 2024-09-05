@@ -1,7 +1,5 @@
 import React, {useContext} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import GemIcon from "../../../../../icon-components/GemIcon";
-import styles from './MHP.module.css';
 import ReviewIcon from "../../../../../ReviewIcon";
 
 const MinimalHPreview = () => {

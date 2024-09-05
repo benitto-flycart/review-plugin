@@ -6,12 +6,12 @@ import PhotoSlide from "./ReviewForm/PhotoSlide";
 import ReviewContentSlide from "./ReviewForm/ReviewContentSlide";
 import ReviewerInfoSlide from "./ReviewForm/ReviewerInfoSlide";
 import ThankyouSlide from "./ReviewForm/ThankyouSlide";
-import {LoadingSpinner} from "../../ui/loader";
+import {useLocalState} from "../../zustand/localState";
 
 const ReviewFormWidgetPreview = () => {
 
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
-
+    const {localState} = useLocalState()
     const [activeSlide, setActiveSlide] = useState<number>(1)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -37,84 +37,84 @@ const ReviewFormWidgetPreview = () => {
         }, 700)
     }
 
+
     useEffect(() => {
 
-        setLoading(true)
+        updateWidgetFields((draftState: any) => {
+            draftState.widget_loading = true
+        })
 
         setTimeout(() => {
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
-// Create a new link element
             let linkElement: any = document.createElement('link');
             linkElement.rel = 'stylesheet';
-            linkElement.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/widgets/review_form_widget.css'; // Replace with the URL of your stylesheet
+            linkElement.href = localState.iframe_styles?.review_form_widget?.widget_css; // Replace with the URL of your stylesheet
 
             let head = iframe.contentDocument.head;
+            let body = iframe.contentDocument.body;
             head.appendChild(linkElement);
 
             let another = document.createElement('link');
             another.rel = 'stylesheet';
-            another.href = 'http://localhost:8004/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css'; // Replace with the URL of your stylesheet
-
+            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
             head.appendChild(another);
 
-            setLoading(false)
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = false
+            })
 
         }, 2000)
 
-    }, []);
+    }, [widget.layout]);
 
 
     return (
-        <>
-            {!loading ? (
-                <div
-                    className={`wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative ${widget.view == 'mobile' ? 'rating-widget-preview-mobile' : 'rating-widget-preview-desktop'}`}>
-                    <div className={"r_rfw_container"} style={methods.getDialogStyles()}>
-                        {activeSlide == 1 ? (
-                            <div className={"r_rfw_header"} style={methods.getDialogStyles()}>
-                                <span>X</span>
-                            </div>) : null}
-                        <div className={`r_rfw_main_content_wrapper`}
-                             style={{transform: `translateX(${translateX}%)`}}>
-                            <div className={`r_rfw_slide`}>
-                                <RatingSlide rating={rating} updateRating={updateRating}/>
-                            </div>
-                            <div className={`r_rfw_slide`}>
-                                <PhotoSlide/>
-                            </div>
-                            <div className={`r_rfw_slide`}>
-                                <ReviewContentSlide/>
-                            </div>
-                            <div className={"r_rfw_slide"}>
-                                <ReviewerInfoSlide/>
-                            </div>
-                            <div
-                                className={`r_rfw_slide`}>
-                                <ThankyouSlide/>
-                            </div>
-                        </div>
-                        <div className={"r_rfw_footer_wrapper"}>
-                            {activeSlide != 1 ? (
-                                <>
-                                    <button onClick={handlePrevClick}
-                                            style={methods.getFooterButtonStyles()}
-                                            className={"r_rfw_footer_btn r_rfw_footer_back_btn"}
-                                    >Back
-                                    </button>
-
-                                    <button onClick={handleNextClick}
-                                            style={methods.getFooterButtonStyles()}
-                                            className={"r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
-                                    </button>
-                                </>
-                            ) : null}
-                        </div>
+        <div
+            className={`wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative ${widget.view == 'mobile' ? 'rating-widget-preview-mobile' : 'rating-widget-preview-desktop'}`}>
+            <div className={"r_rfw_container"} style={methods.getDialogStyles()}>
+                {activeSlide == 1 ? (
+                    <div className={"r_rfw_header"} style={methods.getDialogStyles()}>
+                        <span>X</span>
+                    </div>) : null}
+                <div className={`r_rfw_main_content_wrapper`}
+                     style={{transform: `translateX(${translateX}%)`}}>
+                    <div className={`r_rfw_slide`}>
+                        <RatingSlide rating={rating} updateRating={updateRating}/>
+                    </div>
+                    <div className={`r_rfw_slide`}>
+                        <PhotoSlide/>
+                    </div>
+                    <div className={`r_rfw_slide`}>
+                        <ReviewContentSlide/>
+                    </div>
+                    <div className={"r_rfw_slide"}>
+                        <ReviewerInfoSlide/>
+                    </div>
+                    <div
+                        className={`r_rfw_slide`}>
+                        <ThankyouSlide/>
                     </div>
                 </div>
-            ) : (<div style={{width: "100%", height: "100%"}}><LoadingSpinner/></div>)}
-        </>)
+                <div className={"r_rfw_footer_wrapper"}>
+                    {activeSlide != 1 ? (
+                        <>
+                            <button onClick={handlePrevClick}
+                                    style={methods.getFooterButtonStyles()}
+                                    className={"r_rfw_footer_btn r_rfw_footer_back_btn"}
+                            >Back
+                            </button>
+
+                            <button onClick={handleNextClick}
+                                    style={methods.getFooterButtonStyles()}
+                                    className={"r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
+                            </button>
+                        </>
+                    ) : null}
+                </div>
+            </div>
+        </div>)
 }
 
 export default ReviewFormWidgetPreview;

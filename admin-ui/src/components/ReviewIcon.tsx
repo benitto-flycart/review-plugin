@@ -12,7 +12,7 @@ const ReviewIcon = ({icon = '', color = 'inherit', fontSize = 'inherit', filled 
     const {localState} = useLocalState();
 
     //@ts-ignore
-    const reviewicon: string = reviewIcons[icon].filled;
+    const reviewicon: string = icon ? reviewIcons[icon].filled : reviewIcons['gem'].filled;
     return (
         <i className={`review-icon review review-${reviewicon} ${filled ? 'review-icon-filled' : 'review-icon-empty'} ${className}`}
            style={{fontSize: fontSize, color: color}}></i>

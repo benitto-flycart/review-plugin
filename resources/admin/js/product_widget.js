@@ -1,5 +1,6 @@
 
 function masnoryLayout() {
+    console.log('Executing msnory')
     var elem = document.querySelector('.r_pw_g_all_reviews_container');
 
     var msnry = new Masonry(elem, {
@@ -11,11 +12,11 @@ function masnoryLayout() {
     console.log(msnry)
 }
 
-masnoryLayout();
+// masnoryLayout();
 
 
 function mosaicLayout() {
-    console.log('Executing')
+    console.log('Executing mosaic')
     var elem = document.querySelector('.r_pw_r_m_all_reviews_container');
 
     var msnry = new Masonry(elem, {
@@ -27,7 +28,7 @@ function mosaicLayout() {
     console.log(msnry)
 }
 
-mosaicLayout();
+// moaicLayout();
 
 
 

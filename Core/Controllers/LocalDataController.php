@@ -48,9 +48,28 @@ class LocalDataController
                     'font_css' => plugins_url('resources/admin/css/review-fonts.css', F_Review_PLUGIN_FILE),
                     'product_widget' => [
                         'widget_css' => plugins_url('resources/widgets/product_widget.css', F_Review_PLUGIN_FILE),
-                        'widget_js' => plugins_url('resources/admin/js/product_widget.js', F_Review_PLUGIN_FILE),
+                        'widget_js' => plugins_url('resources/admin/js/product_widget.js', F_Review_PLUGIN_FILE). "?t=" .time(),
                         'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
                     ],
+                    'popup_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/popup_widget.css', F_Review_PLUGIN_FILE),
+                    ],
+                    'rating_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/rating_widget.css', F_Review_PLUGIN_FILE),
+                    ],
+                    'review_form_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/review_form_widget.css', F_Review_PLUGIN_FILE),
+                    ],
+                    'sidebar_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/sidebar_widget.css', F_Review_PLUGIN_FILE). "?t=" .time(),
+                    ],
+                    'snippet_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/snippet_widget.css', F_Review_PLUGIN_FILE),
+                    ],
+                    'floating_product_reviews_widget' => [
+                        'widget_css' => plugins_url('resources/widgets/floating_product_widget.css', F_Review_PLUGIN_FILE),
+                        // 'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
+                     ],
                 ]
             ];
 

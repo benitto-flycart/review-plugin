@@ -1,14 +1,44 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 
 import {FloatingProductWidgetContext} from "./FloatingProductWidgetContextAPI";
 import ProductWidgetContextAPI from "../ProductReviewWidget/ProductReviewContextAPI";
 import PreviewProductWidget from "../ProductReviewWidget/Preview/PreviewProductWidget";
 import {Cross1Icon} from "@radix-ui/react-icons";
-import ProductWidget from "../ProductReviewWidget/ProductWidget";
+import {useLocalState} from "../../zustand/localState";
 
 const FloatingProductWidgetPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(FloatingProductWidgetContext)
+    const {localState}=useLocalState()
+    useEffect(() => {
 
+        updateWidgetFields((draftState: any) => {
+            draftState.widget_loading = true
+        })
+
+        setTimeout(() => {
+            //@ts-ignore
+            let iframe: any = window.frames['widget_preview_iframe'];
+
+            let linkElement: any = document.createElement('link');
+            linkElement.rel = 'stylesheet';
+            linkElement.href = localState.iframe_styles?.floating_product_reviews_widget?.widget_css; // Replace with the URL of your stylesheet
+
+            let head = iframe.contentDocument.head;
+            let body = iframe.contentDocument.body;
+            head.appendChild(linkElement);
+
+            let another = document.createElement('link');
+            another.rel = 'stylesheet';
+            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
+            head.appendChild(another);
+
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = false
+            })
+
+        }, 2000)
+
+    }, [widget.layout]);
     return (
         <div
             className={`wd_preview_content review-preview-wrap frt-flex frt-flex-col frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'floating_product_widget_preview_mobile' : 'floating_product_widget_preview_desktop'}`}>
