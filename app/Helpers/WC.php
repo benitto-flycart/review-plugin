@@ -301,4 +301,10 @@ class WC
 
         return $currencies;
     }
+
+    public static function isHPOSEnabled(): bool
+    {
+        return Util::isMethodExists('\Automattic\WooCommerce\Utilities\OrderUtil', 'custom_orders_table_usage_is_enabled')
+            && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+    }
 }

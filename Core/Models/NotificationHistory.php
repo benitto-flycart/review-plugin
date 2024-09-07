@@ -21,6 +21,7 @@ class NotificationHistory extends Model
 
         return "CREATE TABLE {$table} (
                 id BIGINT UNSIGNED AUTO_INCREMENT,
+                woo_order_id BIGINT UNSIGNED,
                 order_id BIGINT UNSIGNED,
                 notification_content LONGTEXT NULL,
                 medium VARCHAR(255) NOT NULL,

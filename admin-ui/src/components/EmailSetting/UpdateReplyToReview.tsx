@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useLocalState} from "../zustand/localState";
 import * as yup from "yup";
-import {axiosClient} from "../../helpers/axios";
+import {axiosClient} from "../api/axios";
 import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {Card} from "../ui/card";
 import {Input} from "../ui/input";

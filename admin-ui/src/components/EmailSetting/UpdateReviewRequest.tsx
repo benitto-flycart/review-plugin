@@ -4,7 +4,7 @@ import {Textarea} from "../ui/textarea";
 import {Button} from "../ui/button";
 import React, {useEffect, useState} from "react";
 import * as yup from "yup";
-import {axiosClient} from "../../helpers/axios";
+import {axiosClient} from "../api/axios";
 import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {useLocalState} from "../zustand/localState";
 import {LoadingSpinner} from "../ui/loader";

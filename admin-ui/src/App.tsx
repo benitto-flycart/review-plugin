@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 import AppHeader from "./components/shared/AppHeader";
 import Router from "./components/Router";
 import "./main.css";
-import {fetchLocalData} from "./helpers/methods";
+import {fetchLocalData} from "./components/api/methods";
 import {toastrError} from "./helpers/ToastrHelper";
 import {useLocalState} from "./components/zustand/localState";
 import {Toaster} from "./components/ui/sonner";

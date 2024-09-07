@@ -5,7 +5,7 @@ import "@/src/main.css";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 import {Switch} from "../../ui/switch";
 import {Popover, PopoverContent, PopoverTrigger} from "../../ui/popover";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {useLocalState} from "../../zustand/localState";
 import {LoadingSpinner} from "../../ui/loader";

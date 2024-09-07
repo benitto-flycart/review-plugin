@@ -11,7 +11,7 @@ import {Card, CardContent} from "../../ui/card";
 import {Switch} from "../../ui/switch";
 import {Button} from "../../ui/button";
 import {Badge} from "../../ui/badge";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {LoadingSpinner} from "../../ui/loader";
 

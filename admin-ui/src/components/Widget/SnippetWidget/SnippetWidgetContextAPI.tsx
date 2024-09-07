@@ -2,7 +2,7 @@ import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 import {getReviewBorderRadius, getReviewShadow} from "./preview-constants";
 import {useLocalState} from "../../zustand/localState";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 
 export const SnippetWidgetContext = createContext({});
