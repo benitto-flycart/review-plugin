@@ -7,7 +7,7 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVal
 import {Switch} from "../../ui/switch";
 import {Input} from "../../ui/input";
 import * as yup from "yup";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {LoadingSpinner} from "../../ui/loader";
 import SettingsRowWrapper from "../SettingsRowWrapper";

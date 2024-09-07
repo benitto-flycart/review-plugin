@@ -12,7 +12,7 @@ $store_front_hooks = [
 
 
     'filters' => [
-
+        'woocommerce_email_classes' => ['callable' => [EmailController::class, 'addEmails'], 'priority' => 10, 'accepted_args' => 1],
     ],
 ];
 
@@ -21,7 +21,7 @@ $admin_hooks = [
     ],
 
     'filters' => [
-        'woocommerce_email_classes' => ['callable' => [EmailController::class, 'addEmails'], 'priority' => 10, 'accepted_args' => 1],
+
     ],
 ];
 

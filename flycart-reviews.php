@@ -195,7 +195,7 @@ add_action('admin_head', function () {
     if (in_array($page, array('flycart-review'))) {
         ?>
         <script type="text/javascript">
-            jQuery(document).ready(function($) {
+            jQuery(document).ready(function ($) {
                 self = window;
             });
         </script>
@@ -203,4 +203,10 @@ add_action('admin_head', function () {
     }
 }, 11);
 
+add_action('action_scheduler_init', function () {
+    if (isset($_GET['send_email']) && $_GET['send_email']) {
+        $hook_name = F_Review_PREFIX . 'send_review_request_email';
+        as_schedule_single_action(strtotime("+0 minutes"), $hook_name, [2]);
+    }
+});
 

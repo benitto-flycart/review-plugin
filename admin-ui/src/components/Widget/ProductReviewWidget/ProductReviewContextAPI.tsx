@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {useLocalState} from "../../zustand/localState";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 

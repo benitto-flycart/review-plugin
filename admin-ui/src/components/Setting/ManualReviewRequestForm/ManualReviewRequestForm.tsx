@@ -11,7 +11,7 @@ import SettingsRowWrapper from "../SettingsRowWrapper";
 import {produce} from "immer";
 import {Checkbox} from "../../ui/checkbox";
 import * as yup from "yup";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {showValidationError} from "../../../helpers/html";
 import {runUploader} from "../../../helpers/utils";
