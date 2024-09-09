@@ -963,9 +963,6 @@ video {
 .\!frt-w-full {
   width: 100% !important;
 }
-.frt-w-1\/7 {
-  width: 14.285714%;
-}
 .frt-w-10 {
   width: 2.5rem;
 }
@@ -1234,15 +1231,6 @@ video {
 }
 .frt-gap-y-5 {
   row-gap: 1.25rem;
-}
-.frt-space-x-0 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0px * 0);
-  margin-right: calc(0px * var(--tw-space-x-reverse));
-  margin-left: calc(0px * (1 - 0));
-  margin-left: calc(0px * (1 - var(--tw-space-x-reverse)));
-  margin-left: calc(0px * calc(1 - 0));
-  margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
 }
 .frt-space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -1772,6 +1760,15 @@ video {
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0);
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
   }
+}
+.frt-animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
 }
 .frt-duration-1000 {
   animation-duration: 1000ms;

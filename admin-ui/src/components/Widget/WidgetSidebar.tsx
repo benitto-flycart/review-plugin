@@ -12,8 +12,8 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
         <div
             className={"frt-top-0 frt-col-span-1 frt-flex frt-flex-col frt-gap-2 frt-border-r frt-border-black-400"}>
             {showDropdownOptions() ? (<div
-                className={"wd__sidebar_title  widget-header-title frt-sticky frt-bg-primary frt-top-0 frt-flex frt-justify-between frt-p-4"}>
-                <span>{settings.title}</span>
+                className={"wd__sidebar_title  widget-header-title frt-sticky frt-bg-secondary frt-top-0 frt-flex frt-justify-between frt-p-4"}>
+                <span className={"frt-text-primary"}>{settings.title}</span>
             </div>) : null}
 
             {

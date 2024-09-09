@@ -23,8 +23,8 @@ const Setting = () => {
     return (
         <div>
             <div className="frt-border-b-gray-500 frt-rounded frt-py-4">
-                <Tabs defaultValue={defaultValue} className="frt-w-full frt-flex frt-gap-3" orientation={"vertical"}>
-                    <TabsList className="frt-flex frt-flex-col !frt-items-start !frt-justify-start frt-space-x-0">
+                <Tabs defaultValue={defaultValue} className="frt-gap-3">
+                    <TabsList className="frt-my-2">
                         <TabsTrigger className="tabs-trigger frt-w-full" value="review_branding">
                             Branding
                         </TabsTrigger>
@@ -38,16 +38,16 @@ const Setting = () => {
                             Manual Review Request Form
                         </TabsTrigger>
                     </TabsList>
-                    <TabsContent value="review_branding" className="!frt-w-full frt-px-4">
+                    <TabsContent value="review_branding" className="!frt-w-full">
                         <BrandingSetting/>
                     </TabsContent>
-                    <TabsContent value="review_general" className="!frt-w-full frt-px-4">
+                    <TabsContent value="review_general" className="!frt-w-full">
                         <GeneralSetting/>
                     </TabsContent>
-                    <TabsContent value="review_discounts" className="!frt-w-full frt-px-4">
+                    <TabsContent value="review_discounts" className="!frt-w-full">
                         <DiscountSetting/>
                     </TabsContent>
-                    <TabsContent value="review_manual_form" className="!frt-w-full frt-px-4">
+                    <TabsContent value="review_manual_form" className="!frt-w-full">
                         <ManualReviewRequestForm/>
                     </TabsContent>
                 </Tabs>

@@ -174,10 +174,9 @@ const BrandingSetting = () => {
                             settingsState.enable_logo ? <SettingsRowWrapper>
                                 <SettingsColWrapper>
                                     <Label className="frt-w-full">Logo</Label>
-                                    <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
-                                        to
-                                        auto-publish, Any changes will only affect new
-                                        reviews</Label>
+                                    <p className={"frt-text-xs frt-text-grayprimary"}>
+                                        Activate or deactivate the display of your brand logo on reviews. Any changes will only apply to new reviews submitted after this setting is modified.
+                                    </p>
                                 </SettingsColWrapper>
                                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                     <div className="frt-w-full frt-flex frt-gap-3">
@@ -215,9 +214,9 @@ const BrandingSetting = () => {
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
                                 <Label className="frt-w-full">Corner Radius</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
-                                    auto-publish, Any changes will only affect new
-                                    reviews</Label>
+                                <p className={"frt-text-xs frt-text-grayprimary"}>
+                                    Adjust the corner radius of the review widget to control how rounded or sharp the corners appear. This setting will affect the visual style of newly published reviews.
+                                </p>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Select value={settingsState.corner_radius}
@@ -247,9 +246,9 @@ const BrandingSetting = () => {
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
                                 <Label>Icon</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
-                                    auto-publish, Any changes will only affect new
-                                    reviews</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Choose whether to use a icon for review-related elements, such as rating stars or review badges. Changes will only impact future reviews.
+                                </Label>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Popover>
@@ -303,9 +302,9 @@ const BrandingSetting = () => {
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
                                 <Label>Review Branding</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
-                                    auto-publish, Any changes will only affect new
-                                    reviews</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Customize how your brand is represented in the review widget, including logo, colors, and other branding elements. Any updates will be applied to new reviews.
+                                </Label>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch id="review-branding"
@@ -322,9 +321,9 @@ const BrandingSetting = () => {
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
                                 <Label>Enable Email Banners</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want to
-                                    auto-publish, Any changes will only affect new
-                                    reviews</Label>
+                                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                    Toggle the inclusion of banners in review-related emails. This feature helps highlight your brand and promotions in email communications with customers.
+                                </Label>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Switch
@@ -344,11 +343,9 @@ const BrandingSetting = () => {
                                 <SettingsRowWrapper>
                                     <SettingsColWrapper>
                                         <Label className="frt-w-full">Banner</Label>
-                                        <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you
-                                            want
-                                            to
-                                            auto-publish, Any changes will only affect new
-                                            reviews</Label>
+                                        <Label className={"frt-text-xs frt-text-grayprimary"}>
+                                            Customize the banner that appears in review emails. This banner will be included in future email notifications sent to customers.
+                                        </Label>
                                     </SettingsColWrapper>
                                     <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                         <div className="frt-w-full frt-flex frt-gap-3">
@@ -385,10 +382,9 @@ const BrandingSetting = () => {
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
                                 <Label>Appearance</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>select which reviews you want
-                                    to
-                                    auto-publish, Any changes will only affect new
-                                    reviews</Label>
+                                <p className={"frt-text-xs frt-text-grayprimary"}>
+                                    Modify the overall look and feel of the review widget, including themes, colors, and layout options. Updates will affect only new reviews.
+                                </p>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
                                 <Select value={settingsState.appearance}

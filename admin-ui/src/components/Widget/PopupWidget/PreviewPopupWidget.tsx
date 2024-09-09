@@ -21,7 +21,7 @@ const PreviewPopupWidget = () => {
             draftState.widget_loading = true
         })
 
-        setTimeout(() => {
+        // setTimeout(() => {
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -42,7 +42,7 @@ const PreviewPopupWidget = () => {
                 draftState.widget_loading = false
             })
 
-        }, 2000)
+        // }, 2000)
 
     }, [widget.layout]);
 

@@ -57,28 +57,27 @@ const Orders = () => {
             <div className="frt-flex frt-flex-col frt-gap-4">
                 <div className='frt-flex frt-justify-between frt-mt-5 frt-w-full frt-px-4'>
                     <div
-                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Order
+                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Order
                     </div>
                     <div
-                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Email
+                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Email
                         Status
                     </div>
                     <div
-                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Order
+                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Order
                         Item Count
                     </div>
                     <div
-                        className='frt-flex-1 frt-max-w-[200px] frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Review
+                        className='frt-flex-1 frt-max-w-[200px] frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Review
                         Count
                     </div>
                     <div
-                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Date
+                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Date
                         Created At
                     </div>
                     <div
-                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs frt-w-1/7 frt-text-2.5 frt-uppercase'>Customer
+                        className='frt-flex-1 frt-text-grayprimary frt-font-bold xl:frt-text-xs md:frt-text-xs  frt-text-2.5 frt-uppercase'>Customer
                     </div>
-
                 </div>
                 <div className='frt-flex frt-flex-col frt-gap-4'>
                     {
