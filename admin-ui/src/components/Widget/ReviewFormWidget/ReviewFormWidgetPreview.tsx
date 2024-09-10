@@ -7,6 +7,7 @@ import ReviewContentSlide from "./ReviewForm/ReviewContentSlide";
 import ReviewerInfoSlide from "./ReviewForm/ReviewerInfoSlide";
 import ThankyouSlide from "./ReviewForm/ThankyouSlide";
 import {useLocalState} from "../../zustand/localState";
+import RemainingItems from "./ReviewForm/RemainingItems";
 
 const ReviewFormWidgetPreview = () => {
 
@@ -44,28 +45,25 @@ const ReviewFormWidgetPreview = () => {
             draftState.widget_loading = true
         })
 
-        setTimeout(() => {
-            //@ts-ignore
-            let iframe: any = window.frames['widget_preview_iframe'];
+        //@ts-ignore
+        let iframe: any = window.frames['widget_preview_iframe'];
 
-            let linkElement: any = document.createElement('link');
-            linkElement.rel = 'stylesheet';
-            linkElement.href = localState.iframe_styles?.review_form_widget?.widget_css; // Replace with the URL of your stylesheet
+        let linkElement: any = document.createElement('link');
+        linkElement.rel = 'stylesheet';
+        linkElement.href = localState.iframe_styles?.review_form_widget?.widget_css; // Replace with the URL of your stylesheet
 
-            let head = iframe.contentDocument.head;
-            let body = iframe.contentDocument.body;
-            head.appendChild(linkElement);
+        let head = iframe.contentDocument.head;
+        let body = iframe.contentDocument.body;
+        head.appendChild(linkElement);
 
-            let another = document.createElement('link');
-            another.rel = 'stylesheet';
-            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-            head.appendChild(another);
+        let another = document.createElement('link');
+        another.rel = 'stylesheet';
+        another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
+        head.appendChild(another);
 
-            updateWidgetFields((draftState: any) => {
-                draftState.widget_loading = false
-            })
-
-        }, 2000)
+        updateWidgetFields((draftState: any) => {
+            draftState.widget_loading = false
+        })
 
     }, [widget.layout]);
 
@@ -76,8 +74,24 @@ const ReviewFormWidgetPreview = () => {
             <div className={"r_rfw_container"} style={methods.getDialogStyles()}>
                 {activeSlide == 1 ? (
                     <div className={"r_rfw_header"} style={methods.getDialogStyles()}>
-                        <span>X</span>
-                    </div>) : null}
+                        <button className={"r_rfw_btn"} style={methods.getFooterButtonStyles()}>
+                        <span className={"review review-cross-icon"} ></span>
+                        </button>
+                    </div>) : <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_up"}>
+                    {activeSlide != 1 ? (
+                        <>
+                            <button onClick={handlePrevClick}
+                                                                style={methods.getFooterButtonStyles()}
+                                                                className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
+                                <span className={"review review-arrow-left"}></span>
+                            </button>
+                            {activeSlide == 2 ? (<button onClick={handleNextClick}
+                                                         style={methods.getFooterButtonStyles()}
+                                                         className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
+                            </button>) : null}
+                        </>
+                    ) : null}
+                </div>}
                 <div className={`r_rfw_main_content_wrapper`}
                      style={{transform: `translateX(${translateX}%)`}}>
                     <div className={`r_rfw_slide`}>
@@ -87,29 +101,33 @@ const ReviewFormWidgetPreview = () => {
                         <PhotoSlide/>
                     </div>
                     <div className={`r_rfw_slide`}>
-                        <ReviewContentSlide/>
+                        <ReviewContentSlide handleNextSlide={handleNextClick}/>
                     </div>
                     <div className={"r_rfw_slide"}>
-                        <ReviewerInfoSlide/>
+                        <ReviewerInfoSlide handleNextSlide={handleNextClick}/>
                     </div>
                     <div
                         className={`r_rfw_slide`}>
-                        <ThankyouSlide/>
+                        <ThankyouSlide handleNextClick={handleNextClick}/>
+                    </div>
+                    <div
+                        className={`r_rfw_slide`}>
+                        <RemainingItems />
                     </div>
                 </div>
-                <div className={"r_rfw_footer_wrapper"}>
+                <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_down"}>
                     {activeSlide != 1 ? (
                         <>
                             <button onClick={handlePrevClick}
-                                    style={methods.getFooterButtonStyles()}
-                                    className={"r_rfw_footer_btn r_rfw_footer_back_btn"}
-                            >Back
+                                                                style={methods.getFooterButtonStyles()}
+                                                                className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
+                                <span className={"review review-arrow-left"}></span>
                             </button>
-
-                            <button onClick={handleNextClick}
-                                    style={methods.getFooterButtonStyles()}
-                                    className={"r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
-                            </button>
+                            {activeSlide == 2 ? (
+                                <button onClick={handleNextClick}
+                                        style={methods.getFooterButtonStyles()}
+                                        className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
+                                </button>) : null}
                         </>
                     ) : null}
                 </div>

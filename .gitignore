@@ -5,3 +5,5 @@
 /test-emails
 .DS_Store
 /resources/.DS_Store
+/scripts/node_modules/
+/scripts/dist/

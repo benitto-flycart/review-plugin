@@ -52,8 +52,7 @@ const PhotoSlide = () => {
                         <div className={"r_frw_photos_list"}>
                             {images.slice(0, 5).map((imageSrc: string, index: number) => {
                                     return (<div className={"r_frw_img_container"} key={index}>
-                                            <span className={"r_frw_img_close_icon"}
-                                                  style={methods.getPhotoButtonStyles()}>X</span>
+                                            <span className={"review review-cross-icon r_frw_img_close_icon"}></span>
                                             <img
                                                 key={index}
                                                 src={imageSrc}

@@ -16,7 +16,6 @@ const PreviewPopupWidget = () => {
     }
 
     useEffect(() => {
-
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = true
         })

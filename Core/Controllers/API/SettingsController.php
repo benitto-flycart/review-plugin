@@ -5,6 +5,8 @@ namespace Flycart\Review\Core\Controllers\Api;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\ReviewSetting;
 use Flycart\Review\Core\Resources\Settings\BrandSettingsResponse;
@@ -21,10 +23,7 @@ class SettingsController
     public static function getDiscountSettings()
     {
         try {
-            $discount_setting = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
-                ->first();
-
-            $data = Functions::jsonDecode($discount_setting->meta_value);
+            $data = (new DiscountSettings())->get();
 
             return DiscountSettingResource::resource([$data]);
 
@@ -42,25 +41,14 @@ class SettingsController
         Database::beginTransaction();
 
         try {
-            $photo_discount_enabled = Functions::getBoolValue($request->get('enable_photo_discount'));
-            $video_discount_enabled = Functions::getBoolValue($request->get('enable_video_discount'));
+            $data = (new DiscountSettings())->getFromRequest($request);
 
-            $data = [
-                'enable_photo_discount' => $photo_discount_enabled,
-                'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed',
-                'photo_discount_value' => $photo_discount_enabled ? $request->get('photo_discount_value') : 0,
-                'enable_video_discount' => $video_discount_enabled,
-                'video_discount_type' => $video_discount_enabled ? $request->get('video_discount_type') : 'fixed',
-                'video_discount_value' => $video_discount_enabled ? $request->get('video_discount_value') : 0,
-            ];
+            $data = Functions::jsonEncode($data);
 
-            $data = wp_json_encode($data);
-
-            $brand_setting = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
+            $discount_settings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
                 ->first();
 
-            if (empty($brand_setting)) {
-
+            if (empty($discount_settings)) {
 
                 ReviewSetting::query()->create([
                     'meta_key' => ReviewSetting::DISCOUNT_SETTINGS,
@@ -76,11 +64,10 @@ class SettingsController
                     'meta_key' => ReviewSetting::DISCOUNT_SETTINGS,
                 ]);
             }
-
             Database::commit();
 
             return Response::success([
-                'message' => 'Discount Settings Saved Successfully',
+                'message' => __('Discount Settings Saved Successfully', 'flycart-review'),
             ]);
 
         } catch (\Exception|\Error $exception) {
@@ -151,10 +138,7 @@ class SettingsController
     public static function getGeneralSettings()
     {
         try {
-            $general_settings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
-                ->first();
-
-            $data = Functions::jsonDecode($general_settings->meta_value);
+            $data = (new GeneralSettings())->get();
 
             return GeneralSettingsResource::resource([$data]);
 
@@ -172,24 +156,14 @@ class SettingsController
         Database::beginTransaction();
 
         try {
-            $data = [
-                'send_replies_to' => $request->get('send_replies_to') ?? '',
-                'enable_email_footer' => $enable_email_footer = Functions::getBoolValue($request->get('enable_email_footer')),
-                'footer_text' => $enable_email_footer ? $request->get('footer_text') : '',
-                'reviewers_name_format' => $request->get('reviewers_name_format'),
-                'auto_publish_new_reviews' => $request->get('auto_publish_new_reviews'),
-                'enable_review_notification' => $enable_review_notification = Functions::getBoolValue($request->get('enable_review_notification')),
-                'review_notification_to' => $enable_review_notification ? $request->get('review_notification_to') : '',
-                'review_request_timing' => $request->get('review_request_timing'),
-                'order_status' => $request->get('order_status'),
-            ];
+            $data = (new GeneralSettings())->getFromRequest($request);
 
-            $data = wp_json_encode($data);
+            $data = Functions::jsonEncode($data);
 
-            $brand_setting = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
+            $general_settings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
                 ->first();
 
-            if (empty($brand_setting)) {
+            if (empty($general_settings)) {
                 ReviewSetting::query()->create([
                     'meta_key' => ReviewSetting::GENERAL_SETTINGS,
                     'meta_value' => $data,
@@ -208,7 +182,7 @@ class SettingsController
             Database::commit();
 
             return Response::success([
-                'message' => 'General Settings Saved Successfully',
+                'message' => __('General Settings Saved Successfully', 'flycart-review'),
             ]);
 
         } catch (\Exception|\Error $exception) {

@@ -33,11 +33,12 @@ class OrderPlacedController
                 'created_at' => Functions::currentUTCTime(),
                 'updated_at' => Functions::currentUTCTime(),
             ]);
-            $lastInsertedId = NotificationHistory::query()->lastInsertedId();
+            $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
 
             if (\ActionScheduler::is_initialized()) {
+                //Add Option in Settings Page when to send review
                 $hook_name = F_Review_PREFIX . 'send_review_request_email';
-                as_schedule_single_action(strtotime("+0 minutes"), $hook_name, [$lastInsertedId]);
+                as_schedule_single_action(strtotime("+0 minutes"), $hook_name, [['notification_id' => $notificationHistoryId]]);
             }
 
         } catch (\Error|\Exception $exception) {

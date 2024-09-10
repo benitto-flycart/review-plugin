@@ -56,15 +56,6 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                                 })
                             }}/>
                         </SidebarDetailField>
-                        <SidebarDetailField>
-                            <Label className={"frt-text-xs"} htmlFor="none">Focus Border Color</Label>
-                            <PopOverColorPicker color={widget.general.input.border_focus_color}
-                                                onChange={(color: string) => {
-                                                    updateWidgetFields((draftState: any) => {
-                                                        draftState.general.input.border_focus_color = color;
-                                                    })
-                                                }}/>
-                        </SidebarDetailField>
                     </div>
                 </SidebarDetailSection>
             </SidebarDetail>

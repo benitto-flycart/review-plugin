@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react";
 import {ReviewFormWidgetContext} from "../ReviewFormWidgetContextAPI";
 
 
-const ThankyouSlide = () => {
+const ThankyouSlide = ({handleNextClick}: any) => {
 
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
@@ -91,7 +91,14 @@ const ThankyouSlide = () => {
                 style={methods.getThankyouDescriptionStyles()}
                 className={"r_rfw_thank_you_description"}
             >{widget.thank_you.description}</span>
-            <div className={"sparkle-wrapper"}>
+            <div className={"r_rfw_thank_you_discount_detail_wrapper"}>
+                <p>Use the following discount code for 15% off your next purchase</p>
+                <span className={"r_rfw_thank_you_discount_code"}>LX-1FFRII</span>
+                <span>we'll also send it by email discount expires DD/MM/YYYY</span>
+            </div>
+            <div className={"r_rfw_thank_you_proceed_next"}>
+                <button className={"r_rfw_btn"} style={methods.getFooterButtonStyles()}>Continue</button>
+                <button className={"r_rfw_btn"} onClick={handleNextClick}>Review another item</button>
             </div>
         </div>
     )

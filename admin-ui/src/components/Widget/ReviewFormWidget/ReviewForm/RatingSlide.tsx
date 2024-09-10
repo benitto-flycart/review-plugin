@@ -1,14 +1,18 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {ReviewFormWidgetContext} from "../ReviewFormWidgetContextAPI";
 
-const RatingSlide = ({rating, updateRating} : any) => {
+const RatingSlide = ({rating, updateRating}: any) => {
 
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
     return (
         <div className={"r_rfw_rating_container"} style={methods.getDialogStyles()}>
-                            <span className={"r_rfw_rating_preview_title"}
-                                  style={methods.ratingTitleStyles()}>{widget.rating.title}</span>
+            <div className={"r_rfw_review_product_details"}>
+                <img className={"r_rfw_product_image"} src="https://unsplash.it/200/200" alt="Product Image"/>
+                <span className={"r_rfw_product_name"}>Product Name</span>
+            </div>
+            <span className={"r_rfw_rating_preview_title"}
+                  style={methods.ratingTitleStyles()}>{widget.rating.title}</span>
             <div className="r_rfw_rating_icons_wrapper">
                 {
                     Array.from({length: 5}).map((item: any, index: number) => {

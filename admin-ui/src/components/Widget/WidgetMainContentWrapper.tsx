@@ -15,8 +15,8 @@ const WidgetMainContentWrapper = ({children, widget, updateWidgetFields, saving 
                 <ResizablePanel defaultSize={sidePanelHeight} className="frt-flex frt-items-center frt-justify-center"
                                 style={{writingMode: "vertical-lr", transform: "rotateZ(180deg)"}}>Adjust the width to check
                     responsiveness</ResizablePanel>
-                <ResizableHandle/>
-                <ResizablePanel defaultSize={100 - (sidePanelHeight * 2)}>
+                <ResizableHandle withHandle/>
+                <ResizablePanel defaultSize={100 - (sidePanelHeight * 2)} minSize={20}>
                     <div className={"wd_preview__main_content preview-widget wd_review_form_preview frt-relative"}>
                         {saving ?
                             <div className={"frt-sticky frt-top-[50%] widget-save-alert"}>
@@ -32,7 +32,7 @@ const WidgetMainContentWrapper = ({children, widget, updateWidgetFields, saving 
 
                     </div>
                 </ResizablePanel>
-                <ResizableHandle/>
+                <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={sidePanelHeight} className="frt-flex frt-items-center frt-justify-center"
                                 style={{writingMode: "vertical-lr"}}>Adjust the width to check responsiveness</ResizablePanel>
             </ResizablePanelGroup>

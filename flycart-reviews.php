@@ -206,7 +206,47 @@ add_action('admin_head', function () {
 add_action('action_scheduler_init', function () {
     if (isset($_GET['send_email']) && $_GET['send_email']) {
         $hook_name = F_Review_PREFIX . 'send_review_request_email';
-        as_schedule_single_action(strtotime("+0 minutes"), $hook_name, [2]);
+        as_schedule_single_action(strtotime("+0 minutes"), $hook_name, ['notification_id' => 9]);
     }
 });
+
+// Hook into theme activation
+//add_action('after_switch_theme', 'create_custom_page_programmatically');
+//
+//// Hook into plugin activation
+//register_activation_hook(__FILE__, 'create_custom_page_programmatically');
+//
+//
+//function create_custom_page_programmatically() {
+//    // Define page details
+//    $page_title = 'Review Form';  // Page title
+//    $page_content = 'Review Form Page Content';  // Page content
+//    $page_template = 'template-empty.php';  // Optional: set a custom template
+//
+//    // Check if the page already exists
+//    $page_exists = get_page_by_title($page_title, 'OBJECT', 'page');
+//
+//    // If the page doesn't exist, create it
+//    if (!$page_exists) {
+//        // Prepare the page array
+//        $new_page = array(
+//            'post_title'    => $page_title,
+//            'post_content'  => $page_content,
+//            'post_status'   => 'publish',
+//            'post_type'     => 'page',
+//            'post_author'   => 1, // Typically the admin ID
+//            'post_name'     => sanitize_title($page_title), // Page slug
+//        );
+//
+//        // Insert the page into the database
+//        $page_id = wp_insert_post($new_page);
+//
+//        // Optionally, assign a page template
+//        if (!empty($page_template)) {
+//            update_post_meta($page_id, '_wp_page_template', $page_template);
+//        }
+//    }
+//}
+
+
 

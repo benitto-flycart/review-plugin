@@ -38,4 +38,6 @@ class ReviewSetting extends Model
     {
         return (new BrandSettings())->get();
     }
+
+
 }

@@ -5,53 +5,50 @@ namespace Flycart\Review\App\Helpers\ReviewSettings;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\Core\Models\ReviewSetting;
 
-class GeneralSettings extends ReviewSettings
+class DiscountSettings extends ReviewSettings
 {
-    public $generalSettings = [];
+    public $discountSettings = [];
 
     public function __construct()
     {
         $brand_setting = ReviewSetting::query()
-            ->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
+            ->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
             ->first();
 
         $data = Functions::jsonDecode($brand_setting->meta_value);
 
-        $this->generalSettings = $this->mergeWithDefault($data);
+        $this->discountSettings = $this->mergeWithDefault($data);
     }
 
     public function get()
     {
-        return $this->mergeWithDefault($this->generalSettings);
+        return $this->mergeWithDefault($this->discountSettings);
     }
 
     public function mergeWithDefault($settings)
     {
         return [
-            'send_replies_to' => $settings['send_replies_to'] ?? '',
-            'enable_email_footer' => Functions::getBoolValue($settings['send_replies_to']) ?? false,
-            'footer_text' => $settings['footer_text'] ?? '',
-            'reviewers_name_format' => $settings['reviewers_name_format'] ?? 'first_name',
-            'auto_publish_new_reviews' => Functions::getBoolValue($settings['auto_publish_new_reviews']) ?? false,
-            'enable_review_notification' => Functions::getBoolValue($settings['enable_review_notification']) ?? false,
-            'review_notification_to' => $settings['review_notification_to'] ?? '',
-            'review_request_timing' => $settings['review_request_timing'] ?? 'immediate',
-            'order_status' => $settings['order_status'] ?? ['completed'],
+            'enable_photo_discount' => $settings['enable_photo_discount'] ?? false,
+            'photo_discount_type' => $settings['photo_discount_type'] ?? 'fixed',
+            'photo_discount_value' => $settings['photo_discount_value'] ?? 0,
+            'enable_video_discount' => $settings['enable_video_discount'] ?? false,
+            'video_discount_type' => $settings['video_discount_type'] ?? 'fixed',
+            'video_discount_value' => $settings['video_discount_value'] ?? 0,
         ];
     }
 
     public function getFromRequest($request)
     {
+        $photo_discount_enabled = Functions::getBoolValue($request->get('enable_photo_discount'));
+        $video_discount_enabled = Functions::getBoolValue($request->get('enable_video_discount'));
+
         $data = [
-            'send_replies_to' => $request->get('send_replies_to') ?? '',
-            'enable_email_footer' => $enable_email_footer = Functions::getBoolValue($request->get('enable_email_footer')),
-            'footer_text' => $enable_email_footer ? $request->get('footer_text') : '',
-            'reviewers_name_format' => $request->get('reviewers_name_format'),
-            'auto_publish_new_reviews' => $request->get('auto_publish_new_reviews'),
-            'enable_review_notification' => $enable_review_notification = Functions::getBoolValue($request->get('enable_review_notification')),
-            'review_notification_to' => $enable_review_notification ? $request->get('review_notification_to') : '',
-            'review_request_timing' => $request->get('review_request_timing'),
-            'order_status' => $request->get('order_status'),
+            'enable_photo_discount' => $photo_discount_enabled,
+            'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed',
+            'photo_discount_value' => $photo_discount_enabled ? $request->get('photo_discount_value') : 0,
+            'enable_video_discount' => $video_discount_enabled,
+            'video_discount_type' => $video_discount_enabled ? $request->get('video_discount_type') : 'fixed',
+            'video_discount_value' => $video_discount_enabled ? $request->get('video_discount_value') : 0,
         ];
 
         return $this->mergeWithDefault($data);

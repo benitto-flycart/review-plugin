@@ -9,6 +9,7 @@ class NotificationHistory extends Model
     protected static $table = 'notification_histories';
 
     public const PENDING = 'pending';
+    public const SUCCESS = 'success';
 
     public const MEDIUM_EMAIL = 'email';
 
@@ -32,5 +33,15 @@ class NotificationHistory extends Model
                 deleted_at TIMESTAMP NULL,
                 PRIMARY KEY (id)
                 ) {$charset};";
+    }
+
+    public static function isReviewRequestType($type)
+    {
+        return $type == 'review_request';
+    }
+
+    public static function isAlreadySent($status)
+    {
+        return $status == static::SUCCESS;
     }
 }

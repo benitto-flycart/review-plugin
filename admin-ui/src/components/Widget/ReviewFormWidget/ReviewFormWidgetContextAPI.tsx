@@ -17,7 +17,6 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
             },
             input: {
                 border_color: 'white',
-                border_focus_color: 'purple',
             },
             dialog: {
                 bg_color: '#FED2EA',
@@ -102,7 +101,6 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
             return {
                 color: widget.general.button.text_color,
                 backgroundColor: widget.general.button.bg_color,
-                borderColor: `${widget.general.button.text_color}`,
             }
         },
         getReviewContentStyle: () => {
@@ -123,6 +121,11 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         getReviewerLabelStyles: () => {
             return {
                 color: widget.reviewer.label_color,
+            }
+        },
+        getInputStyles: () => {
+            return {
+                borderColor: widget.general.input.border_color,
             }
         }
     }

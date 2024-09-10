@@ -8,6 +8,7 @@ use WC_Email;
 
 class ReviewRequestWCEmail extends WC_Email
 {
+    public $woo_order;
     public function __construct()
     {
         // Email slug we can use to filter other data.
@@ -33,11 +34,31 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function trigger($data)
     {
-        $html = $this->get_content();
+
+        error_log('printing notification');
+        error_log(print_r($data, true));
+
+
+        $notification_id = $data['notification_id'] ?? '';
+
+        error_log('printing notificationid');
+
+        error_log($notification_id);
+
+        $notification = NotificationHistory::query()->find($notification_id);
+
+        if (empty($notification) || !NotificationHistory::isReviewRequestType($notification->notify_type) || NotificationHistory::isAlreadySent($notification->status)) {
+            error_log('Returning');
+            return;
+        }
+
+        $this->woo_order = wc_get_order($notification->order_id);
 
         $short_codes = [
             '{{email}}' => 'benitto@cartrabbit.in',
         ];
+
+        $html = $this->get_content();
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);
 
@@ -45,9 +66,14 @@ class ReviewRequestWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-//        NotificationHistory::
-
         $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+
+        NotificationHistory::query()->update([
+            'notification_content' => $html,
+            'status' => NotificationHistory::SUCCESS,
+        ], [
+            'id' => $notification_id
+        ]);
     }
 
     public function get_content_html()
@@ -65,7 +91,7 @@ class ReviewRequestWCEmail extends WC_Email
         $brandSettings = (new BrandSettings());
 
         return wc_get_template_html($this->template_plain, array(
-            'order' => $this->object,
+            'order' => $this->woo_order,
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,
             'plain_text' => $plain_text,

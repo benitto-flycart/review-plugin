@@ -21,18 +21,16 @@ class EmailController
 
     public static function sendReviewRequestWCEmail($data)
     {
-        error_log('Sending emails called');
         try {
             \WC_Emails::instance();
 
             $emails = wc()->mailer()->get_emails();
 
-            error_log(print_r($emails, true));
+            error_log('printing all data');
 
             error_log(print_r($data, true));
 
             if (isset($emails['ReviewRequestWCEmail'])) {
-                error_log('Triggering Email');
                 $emails['ReviewRequestWCEmail']->trigger($data);
             }
         } catch (\Error $error) {

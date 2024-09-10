@@ -36,7 +36,7 @@ class BrandSettings extends ReviewSettings
             'enable_email_banners' => $settings['enable_email_banners'] ?? false,
             'banner_src' => $settings['banner_src'] ?? '',
             'rating_rgb_color' => $settings['rating_rgb_color'] ?? '',
-            'appearance' => $appearance = Functions::getBoolValue($settings['appearance']) ?? '',
+            'appearance' => $appearance = $settings['appearance'] ?? 'default',
             'appearance_options' => $appearance ? [
                 'email_background_color' => $settings['appearance_options']['email_background_color'] ?? '',
                 'content_background_color' => $settings['appearance_options']['content_background_color'] ?? '',
@@ -52,7 +52,7 @@ class BrandSettings extends ReviewSettings
 
     public function getEmailBgColor()
     {
-       return $this->brandSettings['appearance_options']['email_background_color'] ?? '#fff';
+        return $this->brandSettings['appearance_options']['email_background_color'] ?? '#fff';
     }
 
     public function getContentBGColor()
@@ -71,7 +71,7 @@ class BrandSettings extends ReviewSettings
             'enable_email_banners' => Functions::getBoolValue($request->get('enable_email_banners')),
             'banner_src' => $request->get('banner_src'),
             'rating_rgb_color' => $request->get('rating_rgb_color'),
-            'appearance' => $customAppearance = Functions::getBoolValue($request->get('appearance')),
+            'appearance' => $customAppearance = $request->get('appearance'),
             'appearance_options' => $customAppearance ? [
                 'email_background_color' => $request->get('appearance_options.email_background_color'),
                 'content_background_color' => $request->get('appearance_options.content_background_color'),
@@ -85,5 +85,26 @@ class BrandSettings extends ReviewSettings
         ];
 
         return $this->mergeWithDefault($data);
+    }
+
+    public function isEmailBannerEnabled()
+    {
+     return $this->brandSettings['enable_email_banners'];
+    }
+
+    public function getEmailBanner()
+    {
+        return $this->brandSettings['banner_src'];
+    }
+
+    public function isLogoEnabled()
+    {
+        return $this->brandSettings['enable_logo'];
+
+    }
+
+    public function getLogoSrc()
+    {
+        return $this->brandSettings['logo_url'];
     }
 }
