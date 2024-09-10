@@ -11,7 +11,6 @@ import SidebarDetailField from "../Sidebar/SidebarDetailField";
 
 const RatingWidgetRatingSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ReviewFormWidgetContext)
-
     return (
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>

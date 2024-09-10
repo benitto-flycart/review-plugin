@@ -17,12 +17,17 @@ const RatingSlide = ({rating, updateRating}: any) => {
                 {
                     Array.from({length: 5}).map((item: any, index: number) => {
                         return (
-                            <i key={index + '_' + rating}
-                               style={methods.ratingIconStyles()}
-                               className={`r_rfw_rating_icon review-icon review review-gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
-                               onClick={() => updateRating(index + 1)}
-                            ></i>
-                        )
+                            <div className={"r_rwf_rating_icons_wrapper_with_text"}>
+                                <i key={index + '_' + rating}
+                                   style={methods.ratingIconStyles()}
+                                   className={`r_rfw_rating_icon review-icon review review-gem review_rating review_rating_${index + 1} ${index + 1 <= rating ? 'review_rating_active' : null}`}
+                                   onClick={() => updateRating(index + 1)}
+                                ></i>
+                                {(index === 0 || index === 4) && (
+                                    <span className={"r_rwf_rating_icons_text"}>{index === 0 ? 'Dislike it' : 'Love it!'}</span>
+                                )}
+                            </div>
+                    )
                     })
                 }
             </div>

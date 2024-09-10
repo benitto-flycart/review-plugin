@@ -22,6 +22,9 @@
     padding: 1rem;
 }
 
+.r_rfw_header .r_rfw_btn_back{
+    font-size: 20px;
+}
 .r_rfw_main_content_wrapper {
     display: flex;
     flex-direction: row;
@@ -51,15 +54,14 @@
 
 .r_rfw_btn {
     border: none;
-    border-radius: 1em;
-    padding: 1em;
+    border-radius: 4px;
+    padding: 6px 12px;
     cursor: pointer;
     letter-spacing: 2px;
 }
 
-
-.r_rfw_footer_wrapper .r_rfw_footer_back_btn {
-    /*opacity: 1;*/
+.r_rfw_footer_wrapper .r_rfw_footer_back_btn span {
+   font-size: 20px;
 }
 
 .r_rfw_footer_wrapper .r_rfw_footer_back_btn:hover {
@@ -81,6 +83,20 @@
     letter-spacing: 2px;
     font-weight: bold;
     text-transform: uppercase;
+}
+
+.r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 52px;
+    gap: 8px;
+}
+
+.r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rwf_rating_icons_text {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: normal;
 }
 
 .r_rfw_slide > div:first-child {
@@ -115,9 +131,24 @@
 
 
 .r_rfw_photo_slide_container .r_frw_add_photos_container {
+    margin: auto;
+    border-width: 1px;
+    border-style: solid;
+    padding: 16px;
+    border-radius: 4px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    gap: 1rem;
+}
+.r_rfw_photo_slide_container .r_frw_add_photos_container span{
+    font-size: 18px;
+}
+
+.r_rfw_photo_slide_container .r_frw_add_photos_container button{
+    font-size: 14px;
 }
 
 .r_rfw_rating_container .r_rfw_rating_preview_title {
@@ -137,6 +168,7 @@
 .r_rfw_rating_icons_wrapper .r_rfw_rating_icon {
     opacity: 0.5;
     cursor: pointer;
+    font-size: 36px !important;
 }
 
 .r_rfw_rating_icons_wrapper .r_rfw_rating_icon:hover {
@@ -158,24 +190,50 @@
 
 .r_frw_add_photos_container .r_frw_add_photos_btn {
     border: none;
-    border-radius: 1em;
-    padding: 1em;
+    padding: 0.75em;
     cursor: pointer;
     text-align: center;
+    width: 100%;
+    border-radius: 6px;
 }
 
 .r_rfw_photo_slide_container .r_frw_view_photos_container {
     display: flex;
+    width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 }
 
 .r_rfw_photo_slide_container .r_frw_photos_list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
     gap: 12px;
+    min-height: 75px;
     width: 100%;
-    height: 120px;
+}
+
+.r_rfw_photo_slide_container .r_frw_photos_list .r_frw_img_container {
+  width: 20%;
+}
+
+.r_rfw_photo_slide_container .r_frw_photos_list .r_frw_img_container img {
+  min-height: 75px !important;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.r_rfw_photo_slide_container .r_frw_add_photos_div {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.r_rfw_photo_slide_container .r_frw_add_photos_div i {
+   width: 75px;
+   text-align: center;
+   min-height: 75px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .r_frw_img_container {
@@ -184,10 +242,13 @@
 
 .r_frw_img_close_icon {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    top: 5px;
-    right: 10px;
+    top: -10px;
+    right: -4px;
+    padding: 2px;
+    border-radius: 50%;
+    background:white;
+    cursor: pointer;
+    font-size: 16px !important;
 }
 
 .r_rfw_review_content_title {
@@ -374,10 +435,48 @@ font-size(--r-rfw-fs-description, 1 rem)
     .r_rfw_review_next_item .r_rfw_review_next_item_write_a_review {
         width: 80%;
     }
+
+    .r_rfw_photo_slide_container .r_frw_photos_list {
+        flex-wrap: wrap;
+    }
+    .r_rfw_photo_slide_container .r_frw_photos_list .r_frw_img_container{
+        width: 30%;
+    }
 }
 
 @media screen  and (min-width: 651px) {
     .r_rfw_footer_wrapper_up {
         display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .r_rfw_rating_container .r_rfw_review_product_details .r_rfw_product_image {
+        width: 9rem;
+        height: 9rem;
+    }
+
+    .r_rfw_rating_container .r_rfw_rating_preview_title {
+        font-size: 1.5rem;
+    }
+
+    .r_rfw_rating_container .r_rfw_rating_icons_wrapper {
+        gap: 0;
+    }
+
+    .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text {
+        width: 46px;
+    }
+
+    .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rwf_rating_icons_text {
+        text-wrap: nowrap;
+    }
+
+    .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rfw_rating_icon {
+        font-size: 32px !important;
+    }
+
+    .r_rfw_photo_slide_container .r_frw_photos_list .r_frw_img_container{
+        width: 45%;
     }
 }

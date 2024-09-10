@@ -74,14 +74,14 @@ const ReviewFormWidgetPreview = () => {
             <div className={"r_rfw_container"} style={methods.getDialogStyles()}>
                 {activeSlide == 1 ? (
                     <div className={"r_rfw_header"} style={methods.getDialogStyles()}>
-                        <button className={"r_rfw_btn"} style={methods.getFooterButtonStyles()}>
-                        <span className={"review review-cross-icon"} ></span>
+                        <button className={"r_rfw_btn"} style={methods.getFooterBackButtonStyles()}>
+                        <span className={"review review-cross-icon r_rfw_btn_back"} ></span>
                         </button>
                     </div>) : <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_up"}>
                     {activeSlide != 1 ? (
                         <>
                             <button onClick={handlePrevClick}
-                                                                style={methods.getFooterButtonStyles()}
+                                                                style={methods.getFooterBackButtonStyles()}
                                                                 className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
                                 <span className={"review review-arrow-left"}></span>
                             </button>
@@ -118,9 +118,7 @@ const ReviewFormWidgetPreview = () => {
                 <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_down"}>
                     {activeSlide != 1 ? (
                         <>
-                            <button onClick={handlePrevClick}
-                                                                style={methods.getFooterButtonStyles()}
-                                                                className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
+                            <button onClick={handlePrevClick} style={methods.getFooterBackButtonStyles()} className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
                                 <span className={"review review-arrow-left"}></span>
                             </button>
                             {activeSlide == 2 ? (

@@ -9,7 +9,7 @@ import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
 import SidebarDetail from "../Sidebar/SidebarDetail";
 import SidebarDetailField from "../Sidebar/SidebarDetailField";
 
-const RatingWidgetPhotoSetting = ({title}: any) => {
+const RatingWidgetPhotoSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(ReviewFormWidgetContext)
 
     return (
@@ -62,7 +62,6 @@ const RatingWidgetPhotoSetting = ({title}: any) => {
                         </div>
 
                     </SidebarDetailField>
-
                     <SidebarDetailField>
 
                         <div className={"frt-flex frt-flex-col frt-gap-2"}>
@@ -72,6 +71,23 @@ const RatingWidgetPhotoSetting = ({title}: any) => {
                                     draftState.photos.description_color = color;
                                 })
                             }}/>
+                        </div>
+
+                    </SidebarDetailField>
+                    <SidebarDetailField>
+                        <Label className={"frt-text-xs"} htmlFor="none">Discount text</Label>
+                        <div className={"frt-grid frg-gap-2"}>
+                            <Input
+                                className={"frt-grow-2 frt-bg-primary"}
+                                type={"text"}
+                                id="discount_text"
+                                value={widget.photos.discount_text}
+                                onChange={(e: any) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.photos.discount_text = e.target.value;
+                                    })
+                                }}
+                            />
                         </div>
 
                     </SidebarDetailField>

@@ -12,8 +12,8 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         show_setting: '',
         general: {
             button: {
-                text_color: '#E70680',
-                bg_color: '#FED2EA',
+                text_color: '#000000',
+                bg_color: '#ffffff',
             },
             input: {
                 border_color: 'white',
@@ -34,6 +34,7 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
             description_color: 'black',
             button_text: 'Add Photos',
             button_text_color: 'white',
+            discount_text:'Get {{discount_value}} off your next purchase!\n'
         },
         review_content: {
             title: 'Tell us more!',
@@ -97,10 +98,24 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
                 borderColor: widget.general.button.text_color
             }
         },
+        getAddPhotosDivStyles:()=>{
+            return {
+                borderWidth:"1px",
+                borderStyle:'dashed',
+                borderColor:widget.general.button.text_color,
+                color:widget.general.button.text_color,
+            }
+        },
         getFooterButtonStyles: () => {
             return {
                 color: widget.general.button.text_color,
                 backgroundColor: widget.general.button.bg_color,
+            }
+        },
+        getFooterBackButtonStyles: () => {
+            return {
+                color: widget.general.button.bg_color,
+                backgroundColor:'transparent',
             }
         },
         getReviewContentStyle: () => {
