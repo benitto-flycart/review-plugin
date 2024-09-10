@@ -18,7 +18,6 @@ const ReviewFormWidgetPreview = () => {
 
     const [rating, setRating] = useState<number>(0)
 
-
     const [translateX, setTranslateX] = useState(0);
 
     const handleNextClick = () => {

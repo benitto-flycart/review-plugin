@@ -4,6 +4,7 @@
 
 use Flycart\Review\Core\Controllers\EmailController;
 use Flycart\Review\Core\Controllers\StoreFront\OrderPlacedController;
+use Flycart\Review\Core\Controllers\StoreFront\TemplateController;
 
 $store_front_hooks = [
     'actions' => [
@@ -13,6 +14,8 @@ $store_front_hooks = [
 
     'filters' => [
         'woocommerce_email_classes' => ['callable' => [EmailController::class, 'addEmails'], 'priority' => 10, 'accepted_args' => 1],
+        'template_include' => ['callable' => [TemplateController::class, 'loadTemplate'], 'priority' => 10, 'accepted_args' => 1],
+
     ],
 ];
 

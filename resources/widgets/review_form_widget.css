@@ -1,3 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+#review_form_dialog {
+    width: 100%;
+    max-width: 800px;
+    background-color: ghostwhite;
+    overflow-x: hidden;
+    margin: auto;
+    border: none;
+    outline: none;
+}
+
 .r_rfw_container, .r_rfw_container > * {
     --r-rfw-btn-border-width: 1px;
     --r-rfw-btn-style: solid;
@@ -424,10 +438,6 @@ font-size(--r-rfw-fs-description, 1 rem)
         flex-direction: column;
     }
 
-    .r_rfw_footer_wrapper_down {
-        display: none;
-    }
-
     .r_rfw_remaining_items_wrapper .r_rfw_review_next_item_product_details {
         width: 100%;
     }
@@ -444,11 +454,6 @@ font-size(--r-rfw-fs-description, 1 rem)
     }
 }
 
-@media screen  and (min-width: 651px) {
-    .r_rfw_footer_wrapper_up {
-        display: none;
-    }
-}
 
 @media screen and (max-width: 480px) {
     .r_rfw_rating_container .r_rfw_review_product_details .r_rfw_product_image {

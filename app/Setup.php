@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+use Flycart\Review\App\Helpers\AssetHelper;
+
 class Setup
 {
     /**
@@ -21,7 +23,48 @@ class Setup
      */
     public static function activate()
     {
-        //code
+        error_log('Executing Activation Hook');
+
+        static::create_custom_page_programmatically();
+    }
+
+    // Hook into theme activation
+    //add_action('after_switch_theme', 'create_custom_page_programmatically');
+    //Need to execute this hook in theme switch
+    public static function create_custom_page_programmatically()
+    {
+        // Define page details
+        $page_title = 'Review Form';  // Page title
+        $page_content = 'Review Form Page Content';  // Page content
+
+        $page_template = "templates/review-form.php";  // Optional: set a custom template
+
+        $page_id = get_option('flycart-review-form-page-id', 0);
+
+        error_log('Checking page exists');
+
+        // If the page doesn't exist, create it
+        if (empty($page_id)) {
+            // Prepare the page array
+            $new_page = array(
+                'post_title' => $page_title,
+                'post_content' => $page_content,
+                'post_status' => 'publish',
+                'post_type' => 'page',
+                'post_author' => 1, // Typically the admin ID
+                'post_name' => sanitize_title($page_title), // Page slug
+            );
+
+            // Insert the page into the database
+            $page_id = wp_insert_post($new_page);
+
+            update_post_meta($page_id, '_wp_page_template', $page_template);
+            // Optionally, assign a page template
+            update_option('flycart-review-form-page-id', $page_id);
+
+            error_log('page id for flycart-review form');
+
+        }
     }
 
     /**

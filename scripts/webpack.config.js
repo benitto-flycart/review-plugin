@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/app.ts',                   // Entry point
+    entry: {
+        review_form: './src/review-form.ts', // Adjust the path to where your app1.ts is located
+        app2: './src/app2.ts', // Adjust the path to where your app2.ts is located
+    },
     module: {
         rules: [
             {
@@ -15,8 +18,8 @@ module.exports = {
         extensions: ['.ts', '.js'],            // Resolve these extensions
     },
     output: {
-        filename: 'bundle.js',                 // Output file
-        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/[name].js', // [name] will be replaced by entry point name (app1, app2)
+        path: path.resolve(__dirname, '../resources'),
     },
     watch: true
 };

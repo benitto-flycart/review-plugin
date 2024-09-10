@@ -19,6 +19,7 @@ class AssetsActions
     public static function enqueue()
     {
         add_action('admin_enqueue_scripts', [__CLASS__, 'addAdminPluginAssets'], 100);
+
         add_action('wp_enqueue_scripts', [__CLASS__, 'addStoreFrontScripts'], 100);
     }
 
@@ -39,11 +40,14 @@ class AssetsActions
 
     public static function addStoreFrontScripts()
     {
-        $reactDistUrl = AssetHelper::getReactAssetURL();
+        $resourceUrl = AssetHelper::getResourceURL();
 
-        if (isset($_GET['review-template-preview'])) {
-            wp_enqueue_style('flycart-review-template-plugin-styles', "{$reactDistUrl}/main.css", [], F_Review_VERSION);
-            wp_enqueue_script('flycart-review-template-plugin-script', "{$reactDistUrl}/main.bundle.js", array('wp-element'), F_Review_VERSION, true);
+        error_log(get_page_template_slug());
+
+        if (is_page()) {
+            wp_enqueue_style('flycart-review-styles-font-awesomee', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
+            wp_enqueue_script('flycart-review-form-plugin-script', "{$resourceUrl}/js/review_form.js", array('jquery'), F_Review_VERSION, true);
+            error_log('enquered the script');
         }
     }
 }

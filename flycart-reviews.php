@@ -19,7 +19,8 @@
 
 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 
-use Flycart\Review\App\App;
+
+use Flycart\Review\App\Helpers\AssetHelper;
 
 defined('ABSPATH') or exit;
 
@@ -153,7 +154,7 @@ require_once(plugin_dir_path(__FILE__) . '../woocommerce/packages/action-schedul
 if (!function_exists('flycart_review_app')) {
     function flycart_review_app()
     {
-        return App::make();
+        return \Flycart\Review\App\App::make();
     }
 }
 
@@ -210,43 +211,8 @@ add_action('action_scheduler_init', function () {
     }
 });
 
-// Hook into theme activation
-//add_action('after_switch_theme', 'create_custom_page_programmatically');
+//add_action('wp_loaded', function() {
+//    error_log('printing page id');
 //
-//// Hook into plugin activation
-//register_activation_hook(__FILE__, 'create_custom_page_programmatically');
-//
-//
-//function create_custom_page_programmatically() {
-//    // Define page details
-//    $page_title = 'Review Form';  // Page title
-//    $page_content = 'Review Form Page Content';  // Page content
-//    $page_template = 'template-empty.php';  // Optional: set a custom template
-//
-//    // Check if the page already exists
-//    $page_exists = get_page_by_title($page_title, 'OBJECT', 'page');
-//
-//    // If the page doesn't exist, create it
-//    if (!$page_exists) {
-//        // Prepare the page array
-//        $new_page = array(
-//            'post_title'    => $page_title,
-//            'post_content'  => $page_content,
-//            'post_status'   => 'publish',
-//            'post_type'     => 'page',
-//            'post_author'   => 1, // Typically the admin ID
-//            'post_name'     => sanitize_title($page_title), // Page slug
-//        );
-//
-//        // Insert the page into the database
-//        $page_id = wp_insert_post($new_page);
-//
-//        // Optionally, assign a page template
-//        if (!empty($page_template)) {
-//            update_post_meta($page_id, '_wp_page_template', $page_template);
-//        }
-//    }
-//}
-
-
-
+//    error_log(get_permalink(1348));
+//});
