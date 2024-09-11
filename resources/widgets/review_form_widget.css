@@ -273,6 +273,16 @@
     font-size: var(--r-rfw-fs-description, 3rem);
 }
 
+.r_rfw_review_text_error{
+    text-align: start;
+    color:red;
+}
+
+.r_rfw_reviewer_detail_container .r_rfw_input_field_wrapper .r_rfw_review_info_error{
+    text-align: start;
+    color:red;
+}
+
 .r_rfw_reviewer_detail_container {
     display: flex;
     flex-direction: column;
