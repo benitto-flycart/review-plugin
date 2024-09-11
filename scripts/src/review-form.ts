@@ -1,6 +1,9 @@
 // src/app.ts
 
 //@ts-ignore
+import ChangeEvent = JQuery.ChangeEvent;
+import ClickEvent = JQuery.ClickEvent;
+
 jQuery(document).ready(($) => {
 
     const template = document.getElementById('r_rfw_shadow_template') as HTMLTemplateElement;
@@ -32,6 +35,13 @@ jQuery(document).ready(($) => {
                 REVIEW_FORM.showFooter();
             } else {
                 REVIEW_FORM.hideFooter();
+            }
+
+            let skipBtn = shadowRoot?.querySelector('.r_rfw_footer_forward_btn') as HTMLButtonElement
+            if (review_details.activeSlide == 2) {
+                $(skipBtn).css('display', 'block');
+            } else {
+                $(skipBtn).css('display', 'none');
             }
         },
         slideNext: () => {
@@ -72,7 +82,7 @@ jQuery(document).ready(($) => {
                     })
                 })
 
-                shadowRoot.querySelectorAll('.r_rfw_footer_forward_btn').forEach((item: Element, index: number) => {
+                shadowRoot.querySelectorAll('.r_rfw_footer_forward_btn, .r_rfw_continue_btn').forEach((item: Element, index: number) => {
                     item.addEventListener('click', function () {
                         REVIEW_FORM.slideNext();
                     })
@@ -98,14 +108,61 @@ jQuery(document).ready(($) => {
         },
         photo: {
             init: () => {
-                shadowRoot.querySelector('.r_frw_add_photos_btn')?.addEventListener('click', () => {
-                  shadowRoot.querySelector('')
+
+
+                shadowRoot.querySelectorAll('.wd_add_photos_btn')?.forEach((item: Element, index: number) => {
+                    $(item).on('click', () => {
+                        let fileInput = shadowRoot.querySelector('.r_frw_file_input') as HTMLElement;
+                        if (fileInput) {
+                            $(fileInput).trigger('click')
+                        }
+
+                    })
                 });
+
+                shadowRoot.querySelectorAll('.r_frw_img_close_icon')?.forEach((item: Element, index: number) => {
+                    $(item).on('click', (e: ClickEvent) => {
+                        alert('clicked')
+                    })
+
+                })
+
+
+                shadowRoot.querySelector('.r_frw_file_input')?.addEventListener('change', (e: any) => {
+                    let file = e.target?.files[0];
+
+                    const reader = new FileReader();
+
+                    reader.onloadend = () => {
+                        let imageContainer = shadowRoot.querySelector('.r_frw_img_container')?.cloneNode(true) as HTMLElement;
+                        console.log(imageContainer)
+                        //@ts-ignore
+                        $(imageContainer)?.find('img').attr('src', reader.result);
+                        $(imageContainer).css('display', 'block')
+
+                        let list = shadowRoot.querySelector('.r_frw_photos_list') as HTMLDivElement
+
+                        console.log(list)
+
+                        $(list)?.prepend(imageContainer);
+
+                        let photoContainer = shadowRoot.querySelector('.r_frw_view_photos_container') as HTMLElement;
+                        $(photoContainer)?.css('display', 'flex')
+
+                        let addPhotoBtn = shadowRoot.querySelector('.r_frw_add_photos_btn') as HTMLElement;
+                        $(addPhotoBtn)?.css('display', 'none')
+
+                        REVIEW_FORM.slideNext();
+                    };
+
+                    reader.readAsDataURL(file);
+                })
             }
         }
     }
 
     REVIEW_FORM.rating.init();
+    REVIEW_FORM.photo.init();
 
 //     const openDialogButton = shadowRoot.getElementById('open-dialog') as HTMLElement;
 //
