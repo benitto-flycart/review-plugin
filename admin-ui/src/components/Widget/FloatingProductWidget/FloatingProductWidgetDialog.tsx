@@ -14,7 +14,7 @@ import './mobile.css'
 import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const FloatingProductWidgetDialog = ({show, toggle}: any) => {
+const FloatingProductWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(FloatingProductWidgetContext)
 
@@ -37,6 +37,7 @@ const FloatingProductWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             context={context}
             settings={settings}
+            currentLocale={currentLocale}
         >
             <FloatingProductWidgetPreview/>
         </WidgetDialogWrapper>

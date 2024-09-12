@@ -15,7 +15,7 @@ import RatingWidgetStyleSetting from "./RatingWidgetStyleSetting";
 import PreviewSnippetWidget from "../SnippetWidget/SnippetWidgetPreview";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const RatingWidgetDialog = ({show, toggle}: any) => {
+const RatingWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(RatingWidgetContext)
 
@@ -44,6 +44,7 @@ const RatingWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             context={context}
             settings={settings}
+            currentLocale={currentLocale}
         >
             <RatingWidgetPreview/>
         </WidgetDialogWrapper>

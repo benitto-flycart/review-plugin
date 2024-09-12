@@ -146,7 +146,8 @@ function PopupWidgetContextAPI({children}: { children: any }) {
                 color: widget.colors.close_icon.text_color,
                 backgroundColor: widget.colors.close_icon.bg_color,
             }
-        }
+        },
+        saveSettings
     }
 
     //update editor state

@@ -9,9 +9,8 @@ import "../preview-mobile.css";
 import {ColorWheelIcon, DashboardIcon, FontStyleIcon, LayoutIcon} from "@radix-ui/react-icons";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const ProductWidget = ({show, toggle}: any) => {
+const ProductWidget = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(ProductWidgetContext)
-
     const settings = {
         title: 'Product Widget Configuration',
         widget_slug: 'product',
@@ -50,6 +49,7 @@ const ProductWidget = ({show, toggle}: any) => {
             context={context}
             // widget={widget}
             // updateWidgetFields={updateWidgetFields}
+            currentLocale={currentLocale}
             settings={settings}
         >
             <PreviewProductWidget view={context.widget.view}/>

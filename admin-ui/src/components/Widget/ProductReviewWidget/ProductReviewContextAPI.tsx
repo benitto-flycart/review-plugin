@@ -229,7 +229,8 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         },
         getBarFillColor: () => {
             return widget.colors.header.bar_fill_color
-        }
+        },
+        saveSettings
 
     }
 

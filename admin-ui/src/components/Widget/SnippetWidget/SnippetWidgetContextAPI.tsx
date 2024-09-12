@@ -88,41 +88,7 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
             borderRadius: getReviewBorderRadius(widget.style.review_card_openers)
         }
     }
-    const widgetMethods = {
-        getStyles: () => {
-            return {
-                ...getAlignmentStyle(),
-                ...getWidgetWidth(),
-                ...getOtherStyles(),
 
-            };
-        },
-        getReviewStyles: () => {
-            return {
-                color: widget.colors.text_color,
-                fontSize: widget.font_size + 'px',
-            }
-        },
-        getReviewerNameStyle: () => {
-            return {
-                color: widget.colors.name_color,
-                fontSize: widget.name_font_size + 'px'
-            }
-        },
-        getRatingIconStyles: () => {
-            return {
-                color: widget.colors.rating_icon_color,
-                fontSize: widget.icon_font_size + 'px'
-            }
-        },
-        getCarosualActionStyle: () => {
-            return {
-                backgroundColor: widget.colors.bg_color,
-                color: widget.colors.text_color,
-                borderRadius: "50%"
-            }
-        }
-    }
 
     const updateWidgetFields = (cb: any) => {
         let newState = produce(widget, draft => {
@@ -197,16 +163,45 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         });
     }
 
+    const widgetMethods = {
+        getStyles: () => {
+            return {
+                ...getAlignmentStyle(),
+                ...getWidgetWidth(),
+                ...getOtherStyles(),
+
+            };
+        },
+        getReviewStyles: () => {
+            return {
+                color: widget.colors.text_color,
+                fontSize: widget.font_size + 'px',
+            }
+        },
+        getReviewerNameStyle: () => {
+            return {
+                color: widget.colors.name_color,
+                fontSize: widget.name_font_size + 'px'
+            }
+        },
+        getRatingIconStyles: () => {
+            return {
+                color: widget.colors.rating_icon_color,
+                fontSize: widget.icon_font_size + 'px'
+            }
+        },
+        getCarosualActionStyle: () => {
+            return {
+                backgroundColor: widget.colors.bg_color,
+                color: widget.colors.text_color,
+                borderRadius: "50%"
+            }
+        },
+        saveSettings
+    }
+
     useEffect(() => {
         getSettings();
-
-        let saveInterval = setInterval(() => {
-            // saveSettings();
-        }, 15000);
-
-        return () => {
-            clearInterval(saveInterval)
-        }
     }, []);
 
     return (
