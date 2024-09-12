@@ -8,38 +8,143 @@ import ReviewerInfoSlide from "./ReviewForm/ReviewerInfoSlide";
 import ThankyouSlide from "./ReviewForm/ThankyouSlide";
 import {useLocalState} from "../../zustand/localState";
 import RemainingItems from "./ReviewForm/RemainingItems";
+import * as yup from "yup";
 
 const ReviewFormWidgetPreview = () => {
-
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
-    const {localState} = useLocalState()
-    const [activeSlide, setActiveSlide] = useState<number>(1)
-    const [loading, setLoading] = useState<boolean>(false)
+    const {localState} = useLocalState();
 
-    const [rating, setRating] = useState<number>(0)
+    const [review, setReview] = useState<any>({
+        rating: 0,
+        review_text: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+    });
+
+    const slideList: any = [
+        'rating',
+        'photo',
+        'review',
+        'reviewer',
+        'thank_you',
+        'next_products'
+    ];
+    const [activeSlide, setActiveSlide] = useState<any>({
+        index: 0,
+        name: 'rating'
+    })
+    const [loading, setLoading] = useState<boolean>(false)
 
     const [translateX, setTranslateX] = useState(0);
 
+    const [images, setImages] = useState<Array<any>>([])
+
+    const [errors, setErrors] = useState<any>({})
+
+    const getNextButtonName = () => {
+        if (activeSlide.name == 'photo') {
+            return images.length == 0 ? 'Skip' : 'Continue';
+        } else if (activeSlide.name == 'review') {
+            return 'Continue';
+        } else if (activeSlide.name == 'reviewer') {
+            return 'Done';
+        } else {
+            return 'Continue';
+        }
+    }
+
+    const isNeedToShowNext = () => {
+        if (activeSlide.name == 'rating' || activeSlide.name == 'thank_you' || activeSlide.name == 'next_products') {
+            return false;
+        }
+
+        return true;
+    }
+
     const handleNextClick = () => {
-        setActiveSlide((prevActiveSlide) => (prevActiveSlide + 1))
-        setTranslateX((prevTranslateX) => (prevTranslateX - 100)); // Decrease to move slides left
+        if (activeSlide.name == 'review') {
+            validateReviewContent();
+        } else if (activeSlide.name == 'reviewer') {
+            validateReviewerInfo();
+        } else {
+            moveNextSlide();
+        }
     };
 
+    const moveNextSlide = () => {
+        console.log('calling next slide');
+        setActiveSlide((prevActiveSlide: any) => {
+            let index: number = prevActiveSlide.index + 1;
+            return {
+                index: index,
+                name: slideList[index]
+            }
+        })
+        setTranslateX((prevTranslateX) => (prevTranslateX - 100)); // Decrease to move slides left
+    }
+
     const handlePrevClick = () => {
-        setActiveSlide((prevActiveSlide) => (prevActiveSlide - 1))
+        setActiveSlide((prevActiveSlide: any) => {
+            let index = prevActiveSlide.index - 1
+            return {
+                index: index,
+                name: slideList[index]
+            }
+        })
+
         setTranslateX((prevTranslateX) => (prevTranslateX + 100)); // Decrease to move slides left
     };
 
     const updateRating = (selectedRating: number) => {
-        setRating(selectedRating)
+        setReview({...review, rating: selectedRating})
         setTimeout(() => {
             handleNextClick();
         }, 700)
     }
 
 
-    useEffect(() => {
+    const reviewContentValidationSchema = yup.object().shape({
+        review_text: yup.string().required("Please enter a review"),
+    })
 
+    const validateReviewContent = () => {
+        reviewContentValidationSchema.validate(review, {abortEarly: false}).then(() => {
+            console.log('Executing validation');
+            setErrors({})
+            console.log('moving to next slide');
+            moveNextSlide();
+        }).catch((validationError) => {
+            const validationErrors = {}
+            validationError?.inner?.forEach((e: any) => {
+                // @ts-ignore
+                validationErrors[e.path] = [e.message]
+            });
+            setErrors(validationErrors)
+        });
+    }
+
+    const reviewerValidationSchema = yup.object().shape({
+        first_name: yup.string().required("Please enter a first name"),
+        last_name: yup.string().required("Please enter a last name"),
+        email: yup.string().email("Enter a valid email address").required("Please enter a email"),
+    })
+
+    const validateReviewerInfo = () => {
+        reviewerValidationSchema.validate(review, {abortEarly: false}).then(() => {
+            setErrors({})
+            moveNextSlide();
+        }).catch((validationError) => {
+            const validationErrors = {}
+            validationError?.inner?.forEach((e: any) => {
+                // @ts-ignore
+                validationErrors[e.path] = [e.message]
+            });
+            setErrors((validationErrors))
+        })
+    }
+
+    useEffect(() => {
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = true
         })
@@ -66,44 +171,38 @@ const ReviewFormWidgetPreview = () => {
 
     }, [widget.layout]);
 
-
     return (
         <div
             className={`wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative ${widget.view == 'mobile' ? 'rating-widget-preview-mobile' : 'rating-widget-preview-desktop'}`}>
-            <div className={"r_rfw_container"} style={methods.getDialogStyles()}>
-                {activeSlide == 1 ? (
-                    <div className={"r_rfw_header"} style={methods.getDialogStyles()}>
-                        <button className={"r_rfw_btn"} style={methods.getFooterBackButtonStyles()}>
-                        <span className={"review review-cross-icon r_rfw_btn_back"} ></span>
+            <div className={"r_rfw_container"} style={methods.getReviewFormVariables()}>
+                {activeSlide.name == 'rating' ? (
+                    <div className={"r_rfw_header"}>
+                        <button className={"r_rfw_btn"}>
+                            <span className={"review review-cross-icon r_rfw_btn_back"}></span>
                         </button>
-                    </div>) : <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_up"}>
-                    {activeSlide != 1 ? (
-                        <>
-                            <button onClick={handlePrevClick}
-                                                                style={methods.getFooterBackButtonStyles()}
-                                                                className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
-                                <span className={"review review-arrow-left"}></span>
-                            </button>
-                            {activeSlide == 2 ? (<button onClick={handleNextClick}
-                                                         style={methods.getFooterButtonStyles()}
-                                                         className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
-                            </button>) : null}
-                        </>
-                    ) : null}
-                </div>}
+                    </div>) : null}
                 <div className={`r_rfw_main_content_wrapper`}
                      style={{transform: `translateX(${translateX}%)`}}>
                     <div className={`r_rfw_slide`}>
-                        <RatingSlide rating={rating} updateRating={updateRating}/>
+                        <RatingSlide rating={review.rating} updateRating={updateRating}/>
                     </div>
                     <div className={`r_rfw_slide`}>
-                        <PhotoSlide/>
+                        <PhotoSlide images={images} setImages={setImages} handleNextClick={handleNextClick}/>
                     </div>
                     <div className={`r_rfw_slide`}>
-                        <ReviewContentSlide handleNextSlide={handleNextClick}/>
+                        <ReviewContentSlide handleNextSlide={handleNextClick}
+                                            reviews={review}
+                                            setReviews={setReview}
+                                            errors={errors}
+                        />
                     </div>
                     <div className={"r_rfw_slide"}>
-                        <ReviewerInfoSlide handleNextSlide={handleNextClick}/>
+                        <ReviewerInfoSlide
+                            handleNextSlide={handleNextClick}
+                            reviews={review}
+                            setReviews={setReview}
+                            errors={errors}
+                        />
                     </div>
                     <div
                         className={`r_rfw_slide`}>
@@ -111,22 +210,18 @@ const ReviewFormWidgetPreview = () => {
                     </div>
                     <div
                         className={`r_rfw_slide`}>
-                        <RemainingItems />
+                        <RemainingItems/>
                     </div>
                 </div>
                 <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_down"}>
-                    {activeSlide != 1 ? (
-                        <>
-                            <button onClick={handlePrevClick} style={methods.getFooterBackButtonStyles()} className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn"}>
-                                <span className={"review review-arrow-left"}></span>
-                            </button>
-                            {activeSlide == 2 ? (
-                                <button onClick={handleNextClick}
-                                        style={methods.getFooterButtonStyles()}
-                                        className={"r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn"}>Skip
-                                </button>) : null}
-                        </>
-                    ) : null}
+                    <button onClick={handlePrevClick}
+                            className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn ${activeSlide.name != 'rating' ? '' : 'r_rfw_hide'}`}>
+                        <span className={"review review-arrow-left"}></span>
+                    </button>
+                    <button onClick={handleNextClick}
+                            className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn ${isNeedToShowNext() ? '' : 'r_rfw_hide'}`}>
+                        {getNextButtonName()}
+                    </button>
                 </div>
             </div>
         </div>)

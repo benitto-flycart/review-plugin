@@ -32,24 +32,6 @@ const RatingWidgetRatingSetting = ({name}: any) => {
                             />
                         </div>
                     </SidebarDetailField>
-                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2 frt-justify-center"}>
-                        <SidebarDetailField>
-                            <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
-                            <PopOverColorPicker color={widget.rating.text_color} onChange={(color: string) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.rating.text_color = color;
-                                })
-                            }}/>
-                        </SidebarDetailField>
-                        <SidebarDetailField>
-                            <Label className={"frt-text-xs"} htmlFor="none">Icon Color</Label>
-                            <PopOverColorPicker color={widget.rating.icon_color} onChange={(color: string) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.rating.icon_color = color;
-                                })
-                            }}/>
-                        </SidebarDetailField>
-                    </div>
                 </SidebarDetailSection>
             </SidebarDetail>
         </SidebarDetailWrapper>)

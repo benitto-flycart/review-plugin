@@ -36,18 +36,6 @@ const ReviewFormGetReviewSetting = ({name}: any) => {
 
                     </SidebarDetailField>
                     <SidebarDetailField>
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                            <Label className={"frt-text-xs"} htmlFor="none">Title Text Color</Label>
-                            <PopOverColorPicker color={widget.review_content.title_text_color}
-                                                onChange={(color: string) => {
-                                                    updateWidgetFields((draftState: any) => {
-                                                        draftState.review_content.title_text_color = color;
-                                                    })
-                                                }}/>
-                        </div>
-
-                    </SidebarDetailField>
-                    <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Placeholder</Label>
                         <div className={"frt-grid frg-gap-2"}>
                             <Input

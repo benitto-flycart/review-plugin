@@ -108,8 +108,6 @@ jQuery(document).ready(($) => {
         },
         photo: {
             init: () => {
-
-
                 shadowRoot.querySelectorAll('.wd_add_photos_btn')?.forEach((item: Element, index: number) => {
                     $(item).on('click', () => {
                         let fileInput = shadowRoot.querySelector('.r_frw_file_input') as HTMLElement;

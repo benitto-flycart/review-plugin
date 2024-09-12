@@ -7,11 +7,9 @@ const RemainingItems = ({handleNextClick}: any) => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
 
     return (
-        <div className={"r_rfw_remaining_items_wrapper"}
-             style={methods.getDialogStyles()}>
+        <div className={"r_rfw_remaining_items_wrapper"}>
             <span
-                className={"r_rfw_remaining_items_title"}
-                style={methods.getThankyouTitleStyles()}>Review Another Item</span>
+                className={"r_rfw_remaining_items_title"}>Review Another Item</span>
             <div className={"r_rfw_review_remaining_available_items"}>
                 <div className={"r_rfw_review_next_item"}>
                     <div className={"r_rfw_review_next_item_product_details"}>

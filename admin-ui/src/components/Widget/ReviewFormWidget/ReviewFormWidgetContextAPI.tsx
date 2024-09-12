@@ -11,136 +11,69 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         view: 'desktop',
         show_setting: '',
         general: {
-            button: {
-                text_color: '#000000',
-                bg_color: '#ffffff',
-            },
-            input: {
-                border_color: 'white',
-            },
-            dialog: {
-                bg_color: '#FED2EA',
-            }
+            title_color: '#f20ba9',
+            description_color: '#ec07a3',
+            button_text_color: '#f20ba9',
+            button_bg_color: '#fbddef',
+            input_label_color: '#ff47d7',
+            input_border_color: '#f4d4ed',
+            input_error_color: '#ff0808',
+            dialog_bg_color: '#fffafd',
+            rating_icon_color: '#f178bb',
         },
         rating: {
-            title: 'How would you rate this item?',
-            text_color: '#6D033D',
-            icon_color: '#6D033D',
+            title: 'How would you rate {product_name?}',
         },
         photos: {
             title: 'Show it Off',
-            title_text_color: 'black',
             description: "We'd love to see it again",
-            description_color: 'black',
             button_text: 'Add Photos',
-            button_text_color: 'white',
-            discount_text:'Get {{discount_value}} off your next purchase!\n'
+            discount_text: 'Get {{discount_value}} off your next purchase!'
         },
         review_content: {
             title: 'Tell us more!',
-            title_text_color: 'black',
             placeholder: 'Share your experience'
         },
         reviewer: {
             title: 'About you',
-            title_text_color: 'purple',
             label_color: 'purple',
             description_color: 'purple',
         },
         thank_you: {
             title: 'Thank you',
-            title_text_color: 'purple',
             description: 'Your Review was submitted',
-            description_text_color: 'purple',
         }
     })
 
     const widgetMethods = {
-        getThankyouTitleStyles: () => {
+        getAddPhotosDivStyles: () => {
             return {
-                color: widget.thank_you.title_text_color,
+                borderWidth: "1px",
+                borderStyle: 'dashed',
+                borderColor: widget.general.button_text_color,
+                color: widget.general.button_text_color,
             }
         },
-        getThankyouDescriptionStyles: () => {
-            return {
-                color: widget.thank_you.description_text_color,
+        getRatingTitle: () => {
+            let title =  widget.rating.title;
+
+            if(title) {
+                title = title?.replace("{product_name}?", "<span className='r_rfw_rating-title__product_name'>{product_name}?</span>")
             }
+
+           return title;
         },
-        getDialogStyles: () => {
+        getReviewFormVariables: () => {
             return {
-                backgroundColor: widget.general.dialog.bg_color
-            }
-        },
-        ratingTitleStyles: () => {
-            return {
-                color: widget.rating.text_color,
-            }
-        },
-        ratingIconStyles: () => {
-            return {
-                color: widget.rating.icon_color,
-            }
-        },
-        getPhotoTitleStyles: () => {
-            return {
-                color: widget.photos.title_text_color,
-            }
-        },
-        getPhotoDescriptionStyles: () => {
-            return {
-                color: widget.photos.description_color,
-            }
-        },
-        getPhotoButtonStyles: () => {
-            return {
-                color: widget.general.button.text_color,
-                backgroundColor: widget.general.button.bg_color,
-                borderColor: widget.general.button.text_color
-            }
-        },
-        getAddPhotosDivStyles:()=>{
-            return {
-                borderWidth:"1px",
-                borderStyle:'dashed',
-                borderColor:widget.general.button.text_color,
-                color:widget.general.button.text_color,
-            }
-        },
-        getFooterButtonStyles: () => {
-            return {
-                color: widget.general.button.text_color,
-                backgroundColor: widget.general.button.bg_color,
-            }
-        },
-        getFooterBackButtonStyles: () => {
-            return {
-                color: widget.general.button.bg_color,
-                backgroundColor:'transparent',
-            }
-        },
-        getReviewContentStyle: () => {
-            return {
-                color: widget.review_content.title_text_color,
-            }
-        },
-        getReviewerTitleStyles: () => {
-            return {
-                color: widget.reviewer.title_text_color,
-            }
-        },
-        getReviewerDescriptionStyles: () => {
-            return {
-                color: widget.reviewer.description_color,
-            }
-        },
-        getReviewerLabelStyles: () => {
-            return {
-                color: widget.reviewer.label_color,
-            }
-        },
-        getInputStyles: () => {
-            return {
-                borderColor: widget.general.input.border_color,
+                "--r-rfw-dialog-bg-color": widget.general.dialog_bg_color,
+                "--r-rfw-rating-icon-color": widget.general.rating_icon_color,
+                "--r-rfw-input-label-color": widget.general.input_label_color,
+                "--r-rfw-input-border-color": widget.general.input_border_color,
+                "--r-rfw-input-error-color": widget.general.input_error_color,
+                "--r-rfw-title-color": widget.general.title_color,
+                "--r-rfw-description-color": widget.general.description_color,
+                "--r-rfw-btn-text-color": widget.general.button_text_color,
+                "--r-rfw-btn-bg-color": widget.general.button_bg_color,
             }
         }
     }

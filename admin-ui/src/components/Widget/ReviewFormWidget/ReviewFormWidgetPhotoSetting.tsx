@@ -34,18 +34,8 @@ const RatingWidgetPhotoSetting = ({name}: any) => {
                         </div>
                     </SidebarDetailField>
 
+
                     <SidebarDetailField>
-
-                        <Label className={"frt-text-xs"} htmlFor="none">Title Text Color</Label>
-                        <PopOverColorPicker color={widget.photos.title_text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.photos.title_text_color = color;
-                            })
-                        }}/>
-
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-
                         <Label className={"frt-text-xs"} htmlFor="none">Description</Label>
                         <div className={"frt-grid frg-gap-2"}>
                             <Input
@@ -60,20 +50,8 @@ const RatingWidgetPhotoSetting = ({name}: any) => {
                                 }}
                             />
                         </div>
-
                     </SidebarDetailField>
-                    <SidebarDetailField>
 
-                        <div className={"frt-flex frt-flex-col frt-gap-2"}>
-                            <Label className={"frt-text-xs"} htmlFor="none">Description Text Color</Label>
-                            <PopOverColorPicker color={widget.photos.description_color} onChange={(color: string) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.photos.description_color = color;
-                                })
-                            }}/>
-                        </div>
-
-                    </SidebarDetailField>
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Discount text</Label>
                         <div className={"frt-grid frg-gap-2"}>

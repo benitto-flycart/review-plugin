@@ -82,13 +82,10 @@ const ThankyouSlide = ({handleNextClick}: any) => {
     });
 
     return (
-        <div className={"r_rfw_thank_you_slide_wrapper wrapper "} id="sparkle-wrapper"
-             style={methods.getDialogStyles()}>
+        <div className={"r_rfw_thank_you_slide_wrapper wrapper"} id="sparkle-wrapper">
             <span
-                className={"r_rfw_thank_you_title"}
-                style={methods.getThankyouTitleStyles()}>{widget.thank_you.title}</span>
+                className={"r_rfw_thank_you_title"}>{widget.thank_you.title}</span>
             <span
-                style={methods.getThankyouDescriptionStyles()}
                 className={"r_rfw_thank_you_description"}
             >{widget.thank_you.description}</span>
             <div className={"r_rfw_thank_you_discount_detail_wrapper"}>
@@ -97,7 +94,7 @@ const ThankyouSlide = ({handleNextClick}: any) => {
                 <span>we'll also send it by email discount expires DD/MM/YYYY</span>
             </div>
             <div className={"r_rfw_thank_you_proceed_next"}>
-                <button className={"r_rfw_btn"} style={methods.getFooterButtonStyles()}>Continue</button>
+                <button className={"r_rfw_btn"}>Continue</button>
                 <button className={"r_rfw_btn"} onClick={handleNextClick}>Review another item</button>
             </div>
         </div>

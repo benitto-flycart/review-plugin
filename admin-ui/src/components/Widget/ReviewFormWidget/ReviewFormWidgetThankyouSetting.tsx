@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {Label} from "../../ui/label";
 import {ReviewFormWidgetContext} from "./ReviewFormWidgetContextAPI";
 import {Input} from "../../ui/input";
-import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
 import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
 import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
@@ -35,15 +34,6 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                     </SidebarDetailField>
 
                     <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Title Text Color</Label>
-                        <PopOverColorPicker color={widget.thank_you.title_text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.thank_you.title_text_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-
                         <Label className={"frt-text-xs"} htmlFor="none">Description</Label>
                         <div className={"frt-flex frt-flex-row frt-gap-2"}>
                             <Input
@@ -58,15 +48,6 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                                 }}
                             />
                         </div>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Description Text Color</Label>
-                        <PopOverColorPicker color={widget.thank_you.description_text_color}
-                                            onChange={(color: string) => {
-                                                updateWidgetFields((draftState: any) => {
-                                                    draftState.thank_you.description_text_color = color;
-                                                })
-                                            }}/>
                     </SidebarDetailField>
                 </SidebarDetailSection>
             </SidebarDetail>

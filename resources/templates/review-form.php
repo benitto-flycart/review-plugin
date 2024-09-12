@@ -47,7 +47,24 @@ wp_head();
                                                                                      style="color: black;">Show it Off</span><span
                                             class="r_frw_photo_description" style="color: black;">We'd love to see it again</span>
                                 </div>
-                                <div class="r_frw_add_photos_container"><input type="file" style="display: none;">
+                                <div class="r_frw_add_photos_container">
+                                    <div class="r_frw_view_photos_container">
+                                        <div class="r_frw_photos_list">
+                                            <div class="r_frw_img_container" style="display:none">
+                                                <span class="review review-cross-icon r_frw_img_close_icon"></span>
+                                                <img
+                                                        src="#"
+                                                        alt="Uploaded Preview"
+                                                        style="height=100%;object-fit=cover;margin-right=10px;"
+                                                />
+                                            </div>
+                                            <div class="r_frw_add_photos_div wd_add_photos_btn">
+                                                <i class="review-plus  review-icon review"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="file" style="display: none;" class="r_frw_file_input"/>
                                     <button class="r_frw_add_photos_btn wd_add_photos_btn"
                                             style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234); border-color: rgb(231, 6, 128);">
                                         Add Photos
@@ -61,7 +78,7 @@ wp_head();
                                       style="color: black;">Tell us more!</span><textarea
                                         class="r_rfw_review_content_text r_rfw_input_field" rows="15"
                                         placeholder="Share your experience" style="border-color: white;"></textarea>
-                                <div class="r_rfw_review_content_continue_btn">
+                                <div class="r_rfw_review_content_continue_btn r_rfw_continue_btn">
                                     <button class="r_rfw_btn"
                                             style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234);">
                                         Continue
@@ -92,7 +109,7 @@ wp_head();
                                 <div class="r_rfw_reviewer_continue_btn">
                                     <button class="r_rfw_btn"
                                             style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234);">
-                                        Continue
+                                        Done
                                     </button>
                                 </div>
                             </div>
@@ -145,7 +162,7 @@ wp_head();
                         <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn">
                             <span class="review review-arrow-left"></span>
                         </button>
-                        <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn">Skip</button>
+                        <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_skip_btn r_rfw_footer_forward_btn">Skip</button>
                     </div>
                 </div>
             </div>

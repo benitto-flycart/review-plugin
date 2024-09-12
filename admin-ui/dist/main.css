@@ -1619,6 +1619,9 @@ video {
   color: rgba(110, 106, 117, 1);
   color: rgba(110, 106, 117, var(--tw-text-opacity));
 }
+.frt-text-inherit {
+  color: inherit;
+}
 .frt-text-muted-foreground {
   color: hsl(0, 0%, 45%);
   color: hsl(var(--muted-foreground));
