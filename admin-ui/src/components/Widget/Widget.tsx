@@ -194,9 +194,9 @@ const Widget = () => {
         </div>
         <div className="frt-grid lg:frt-grid-cols-3 md:frt-grid-cols-2 sm:frt-grid-cols-1 frt-gap-4">
             {
-                widgets.map((widget) => {
+                widgets.map((widget,index:number) => {
                     return (
-                        <Card className={"frt-shadow-primary"}>
+                        <Card className={"frt-shadow-primary"} key={index}>
                             <CardHeader>
                                 <CardTitle>{widget.title}</CardTitle>
                                 <CardDescription>{widget.description}</CardDescription>

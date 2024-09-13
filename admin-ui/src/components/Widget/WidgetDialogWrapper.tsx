@@ -1,5 +1,5 @@
 import React from "react";
-import {Dialog, DialogContent, DialogTitle} from "../ui/dialog";
+import {Dialog, DialogContent, DialogDescription, DialogTitle} from "../ui/dialog";
 import WidgetSidebarWrapper from "./Sidebar/WidgetSidebarWrapper";
 import WidgetMainContentWrapper from "./WidgetMainContentWrapper";
 import {LoadingSpinner} from "../ui/loader";
@@ -17,6 +17,7 @@ const WidgetDialogWrapper = ({children, show, toggle, settings, context,currentL
                     e.preventDefault();
                 }}>
                 <DialogTitle/>
+                <DialogDescription/>
                 {loading ? <LoadingSpinner/> : (<>
                     <WidgetSidebarWrapper widget={context.widget}
                                           settings={settings}

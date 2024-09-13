@@ -1,11 +1,9 @@
 .wd_preview_content {
-    background: white;
+    background: var(--r-prw-wrapper-bg-color, black);
     width: 90%;
     margin: auto;
     padding: .5rem;
 }
-
-
 /*FLoating Product Widget*/
 
 .r_fpw-container {

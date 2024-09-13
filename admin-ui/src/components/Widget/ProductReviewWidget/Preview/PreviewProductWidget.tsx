@@ -5,7 +5,7 @@ import {ProductWidgetContext} from "../ProductReviewContextAPI";
 import {useLocalState} from "../../../zustand/localState";
 
 const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
+    const {widget, updateWidgetFields,methods} = useContext<any>(ProductWidgetContext)
     const {localState} = useLocalState();
 
     const [loading, setLoading] = useState(true)
@@ -78,7 +78,7 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
 
     return (
         <div
-            className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`}>
+            className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`} style={{'--r-prw-wrapper-bg-color': methods.getProductReviewWidgetColors()["--r-prw-wrapper-bg-color"]}}>
             <HeaderLayoutPreview/>
             <WidgetLayoutPreview/>
         </div>

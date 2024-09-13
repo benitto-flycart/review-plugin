@@ -66,7 +66,7 @@ const PreviewSidebarWidget = () => {
     return (
 
         <div
-            className={'r_sb_wrapper '}>
+            className={'r_sb_wrapper'}>
             <div style={methods.getReviewSidebarPreviewStyles()}
                  className={`r_sbw__container ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
                <span className={"r_sbw__btn_icon"}>

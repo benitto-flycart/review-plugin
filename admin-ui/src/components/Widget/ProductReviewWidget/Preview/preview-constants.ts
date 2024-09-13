@@ -38,6 +38,9 @@ export const WIDGET_COLOR_DEFAULTS = {
             bar_fill_color: '#7b7b7b',
             bar_bg_color: '#f5f5f5',
         },
+        widget_wrapper:{
+            background_color: '#ffffff',
+        },
         button: {
             text_color: '#000000',
             text_hover_color: '#000000',
@@ -64,6 +67,9 @@ export const WIDGET_COLOR_DEFAULTS = {
             text_and_icon_color: '##ffffff',
             bar_fill_color: '#7b7b7b',
             bar_bg_color: '#000000',
+        },
+        widget_wrapper:{
+            background_color: '#000000',
         },
         button: {
             text_color: '#ffffff',

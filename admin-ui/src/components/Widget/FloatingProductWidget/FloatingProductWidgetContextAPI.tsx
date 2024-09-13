@@ -7,7 +7,7 @@ import {useLocalState} from "../../zustand/localState";
 export const FloatingProductWidgetContext = createContext({});
 
 function FloatingProductWidgetContextAPI({children}: { children: any }) {
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [saving, setSaving] = useState(true)
     const {localState} = useLocalState();
 

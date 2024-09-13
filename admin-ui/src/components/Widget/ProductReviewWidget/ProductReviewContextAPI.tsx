@@ -9,7 +9,7 @@ export const ProductWidgetContext = createContext({});
 function ProductWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(false)
     const [saving, setSaving] = useState(false)
-
+   const [customStylesState,setCustomStylesState]=useState<any>()
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
@@ -30,6 +30,9 @@ function ProductWidgetContextAPI({children}: { children: any }) {
                 text_and_icon_color: '#282828',
                 bar_fill_color: '#7b7b7b',
                 bar_bg_color: '#f5f5f5',
+            },
+            widget_wrapper:{
+                background_color: '#ffffff',
             },
             button: {
                 text_color: '#000000',
@@ -84,6 +87,9 @@ function ProductWidgetContextAPI({children}: { children: any }) {
             draftState.colors = {
                 //colors
                 type: settings?.colors?.type,
+                widget_wrapper:{
+                    background_color: settings.colors.widget_wrapper.background_color,
+                },
                 //colors header
                 header: {
                     text_and_icon_color: settings?.colors.header?.text_and_icon_color,
@@ -230,8 +236,12 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         getBarFillColor: () => {
             return widget.colors.header.bar_fill_color
         },
-        saveSettings
-
+        saveSettings,
+        getProductReviewWidgetColors:()=>{
+            return {
+                "--r-prw-wrapper-bg-color":widget.colors.widget_wrapper.background_color
+            }
+        }
     }
 
     //update editor state
