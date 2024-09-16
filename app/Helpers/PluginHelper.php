@@ -4,6 +4,7 @@ namespace Flycart\Review\App\Helpers;
 
 use DateTime;
 use Exception;
+use Flycart\Review\App\Services\Encrypt;
 
 class PluginHelper
 {
@@ -71,5 +72,24 @@ class PluginHelper
     public static function getPluginName()
     {
         return apply_filters('wprelay_get_plugin_name', F_Review_PLUGIN_NAME);
+    }
+
+    public static function getReviewLink($order, $product_id)
+    {
+        $url = static::getReviewFormPage();
+
+        $url = add_query_arg(array(
+            '_review_order_id' => Encrypt::encrypt($order->get_id(), true),
+            '_review_product_id' => Encrypt::encrypt($product_id, true)
+        ), $url);
+
+        return $url;
+    }
+
+    public static function getReviewFormPage()
+    {
+        $page_meta_key = 'flycart-review-form-page-id';
+        $id = get_option($page_meta_key);
+        return get_permalink($id);
     }
 }

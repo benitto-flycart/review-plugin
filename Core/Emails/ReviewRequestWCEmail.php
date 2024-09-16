@@ -96,7 +96,6 @@ class ReviewRequestWCEmail extends WC_Email
             'sent_to_admin' => false,
             'plain_text' => $plain_text,
             'email' => $this,
-            'brandSettings' => $brandSettings,
         ), '', $this->template_base);
     }
 }

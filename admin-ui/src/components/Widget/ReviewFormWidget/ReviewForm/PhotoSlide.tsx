@@ -43,7 +43,7 @@ const PhotoSlide = ({images, setImages, handleNextClick}: any) => {
                 ref={fileInputRef}
                 style={{display: 'none'}}
                 onChange={(e) => saveFile(e)}
-                className={''}
+                className={'r_frw_file_input'}
             />
             <div className={"r_frw_photo_slide__text_container"}>
                 <span className={"r_frw_photo_title"}>{widget.photos.title}</span>

@@ -410,7 +410,7 @@
                                                                         role="presentation"
                                                                         style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#414141;"
                                                                         valign="middle">
-                                                                        <a href="<?php echo get_permalink($product_id) ?>"
+                                                                        <a href="<?php echo \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($order, $product_id) ?>"
                                                                            style="display:inline-block;background:#414141;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;"
                                                                            target="_blank"> Rate It </a>
                                                                     </td>

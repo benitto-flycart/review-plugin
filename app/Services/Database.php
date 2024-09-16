@@ -478,4 +478,20 @@ class Database
 
         return $table;
     }
+
+    public static function getCommentsTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'comments';
+
+        return $table;
+    }
+
+    public static function getCommentsMetaTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'commentmeta';
+
+        return $table;
+    }
 }

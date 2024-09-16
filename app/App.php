@@ -2,6 +2,8 @@
 namespace Flycart\Review\App;
 
 
+use Flycart\Review\App\ShortCode\ProductWidgetShortCode;
+
 class App extends Container
 {
 
@@ -24,7 +26,15 @@ class App extends Container
         add_action('plugins_loaded', function () {
             do_action('flycart_review_before_init');
             Route::register();
+            static::registerShortCodes();
             do_action('flycart_review_after_init');
         }, 1);
+    }
+    public static function registerShortCodes()
+    {
+        //register the shortcode classes
+
+        ProductWidgetShortCode::register();
+
     }
 }

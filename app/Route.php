@@ -30,7 +30,6 @@ class Route
         WooCommerceHooks::register();
         CustomHooks::register();
         WPHooks::register();
-
     }
 
     public static function getRequestObject()

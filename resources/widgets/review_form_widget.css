@@ -1,28 +1,37 @@
-* {
-    box-sizing: border-box;
-}
-.wd_preview_content{
-    background: white;
-}
+/*Minimum Sizes
+253 pixels
+520 pixels
+
+*/
+
 #review_form_dialog {
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     background-color: ghostwhite;
     overflow-x: hidden;
     margin: auto;
     border: none;
     outline: none;
+    box-sizing: border-box;
+    padding: 0;
+    height: 95vh;
 }
 
-.r_rfw_container, .r_rfw_container > * {
+.r_rfw_container, .r_rfw_container * {
     --r-rfw-btn-border-width: 1px;
     --r-rfw-btn-style: solid;
     --r-rfw-input-border-style: solid;
-    --r-rfw-fs-title: 2rem;
-    --r-rfw-fs-description: 1rem;
+    --r-rfw-fs-title: clamp(1rem, 3vw, 2rem);
+    --r-rfw-fs-description: clamp(10px, 3vw, 1rem);
     --r-rfw-flex-col-gap: 1rem;
     box-sizing: border-box;
 }
+
+.r_rfw_container a {
+    text-decoration: none;
+}
+
+
 
 
 .r_rfw_container {
@@ -32,11 +41,15 @@
     background-color: var(--r-rfw-dialog-bg-color);
     overflow-x: hidden;
     margin: auto;
+    height: 100%;
 }
 
 .r_rfw_header {
+    display: flex;
+    align-items: center;
     height: 10%;
-    padding: 1rem;
+    max-height: 50px;
+    padding: .25rem 1rem;
 }
 
 .r_rfw_header .r_rfw_btn_back {
@@ -49,27 +62,34 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 80%;
+    /*//iphone se height*/
+    height: 70%;
     margin: 0 auto;
     flex: 1;
     transition: transform 1s ease-in-out;
 }
 
 .r_rfw_slide {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
     min-width: 100% !important;
     max-width: 100% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .r_rfw_footer_wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    height: 10%;
-    margin: auto;
-    padding: 1rem;
+    height: 15%;
+    max-height: 60px;
+    margin: 0 auto;
+    padding: .25rem 1rem;
+}
+
+.r_rfw_footer_wrapper .r_rfw_btn {
+    height: max-content;
 }
 
 .r_rfw_btn {
@@ -126,26 +146,28 @@
 }
 
 .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rwf_rating_icons_text {
-    font-size: 14px;
+    font-size: clamp(10px, 3vw, 20px);;
     line-height: 18px;
     font-weight: normal;
+    text-wrap: nowrap;
 }
 
 .r_rfw_slide > div:first-child {
-    /*height: 100%;*/
-    margin: auto;
+    height: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 1rem;
+    /*dont add flex center properties */
+    padding: .5rem;
     width: 80%;
+    overflow: scroll;
 }
 
 .r_rfw_review_product_details {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: auto;
+    margin: 0 auto;
     gap: 1rem;
 }
 
@@ -157,7 +179,6 @@
 .r_rfw_photo_slide_container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
     justify-content: center;
     width: 100%;
 }
@@ -170,7 +191,7 @@
 
 
 .r_rfw_photo_slide_container .r_frw_add_photos_container {
-    margin: auto;
+    margin: 0 auto;
     padding: 16px;
     border: 1px solid var(--r-rfw-input-border-color);
     display: flex;
@@ -192,7 +213,6 @@
     text-align: center;
     font-size: var(--r-rfw-fs-title, 3rem);
     color: var(--r-rfw-title-color)
-
     /*applied via user selected value*/
 }
 
@@ -221,7 +241,6 @@
 .r_frw_photo_slide__text_container {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -325,13 +344,6 @@
     color: var(--r-rfw-input-label-color)
 }
 
-.r_rfw_reviewer_detail_container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 2em;
-}
-
 .r_rfw_review_names_info_container {
     display: flex;
     flex-direction: row;
@@ -359,6 +371,7 @@
 
 .r_rfw_reviewer_section_note {
     color: var(--r-rfw-description-color);
+    font-size: var(--r-rfw-fs-description)
 }
 
 .r_rfw_reviewer_detail_title {
@@ -368,19 +381,16 @@
 }
 
 .r_rfw_thank_you_slide_wrapper {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     text-align: center;
     gap: 1rem;
+    justify-content: center;
 }
 
 .r_rfw_remaining_items_wrapper {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     text-align: center;
-    gap: 3rem;
+    justify-content: center;
 }
 
 .r_rfw_review_remaining_available_items {
@@ -390,11 +400,12 @@
 }
 
 .r_rfw_remaining_items_wrapper .r_rfw_review_next_item {
+    --r-rfw-review-nxt-item-border-color: var(--r-rfw-input-border-color);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border: 1px solid black;
-    border-radius: 5%;
+    border: 1px solid var(--r-rfw-review-nxt-item-border-color);
+    border-radius: 5px;
     padding: 1rem;
 }
 
@@ -423,10 +434,10 @@
     margin: 0 auto;
 }
 
-.r_rfw_review_next_item_write_a_review button {
+.r_rfw_review_next_item_write_a_review .r_rfw_btn {
     width: 100%;
     margin: 0 auto;
-    padding: 1rem;
+    padding: .5rem;
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -437,7 +448,7 @@
 }
 
 .r_rfw_thank_you_description {
-    font-size: 1rem;
+    font-size: var(--r-rfw-fs-description);
     color: var(--r-rfw-title-color);
 }
 
@@ -467,6 +478,7 @@
 }
 
 .r_rfw_review_content_container {
+    justify-content: center;
     max-width: 600px;
     text-align: center;
     gap: 1rem;
@@ -498,8 +510,9 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin: auto;
-    color: var(--r-rfw-description-color)
+    margin: 0 auto;
+    color: var(--r-rfw-description-color);
+    font-size: var(--r-rfw-fs-description)
 }
 
 .r_rfw_hide {
@@ -528,7 +541,7 @@
 @media screen and (max-width: 480px) {
 
     .r_rfw_rating_container .r_rfw_rating_preview_title {
-        font-size: 1.5rem;
+        font-size: var(--r-rfw-fs-title);
     }
 
     .r_rfw_rating_container .r_rfw_rating_icons_wrapper {
@@ -539,9 +552,6 @@
         width: 46px;
     }
 
-    .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rwf_rating_icons_text {
-        text-wrap: nowrap;
-    }
 
     .r_rfw_rating_container .r_rfw_rating_icons_wrapper .r_rwf_rating_icons_wrapper_with_text .r_rfw_rating_icon {
         font-size: 32px !important;

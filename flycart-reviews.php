@@ -12,7 +12,7 @@
  * Domain Path:          /i18n/languages
  * License:              GPL v3 or later
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
- *
+ * Requires Plugins: woocommerce
  * WC requires at least: 7.0
  */
 
@@ -204,6 +204,7 @@ add_action('admin_head', function () {
     }
 }, 11);
 
+
 add_action('action_scheduler_init', function () {
     if (isset($_GET['send_email']) && $_GET['send_email']) {
         $hook_name = F_Review_PREFIX . 'send_review_request_email';
@@ -211,8 +212,9 @@ add_action('action_scheduler_init', function () {
     }
 });
 
-//add_action('wp_loaded', function() {
-//    error_log('printing page id');
-//
-//    error_log(get_permalink(1348));
-//});
+add_filter('woocommerce_after_shop_loop' , 'execute_product_widget_short_code');
+
+function execute_product_widget_short_code(){
+    echo do_shortcode('[review_product_widget_shortcode]');
+}
+

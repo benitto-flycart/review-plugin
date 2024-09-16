@@ -8,6 +8,8 @@ class OrderReview extends Model
 {
     protected static $table = 'order_reviews';
 
+    public  const COMMENT_META_ORDER_KEY = '_review_order_id';
+
     public function createTable()
     {
         $charset = static::getCharSetCollate();

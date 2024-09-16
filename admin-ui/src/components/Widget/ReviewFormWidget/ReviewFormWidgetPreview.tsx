@@ -73,7 +73,6 @@ const ReviewFormWidgetPreview = () => {
     };
 
     const moveNextSlide = () => {
-        console.log('calling next slide');
         setActiveSlide((prevActiveSlide: any) => {
             let index: number = prevActiveSlide.index + 1;
             return {
@@ -110,9 +109,7 @@ const ReviewFormWidgetPreview = () => {
 
     const validateReviewContent = () => {
         reviewContentValidationSchema.validate(review, {abortEarly: false}).then(() => {
-            console.log('Executing validation');
             setErrors({})
-            console.log('moving to next slide');
             moveNextSlide();
         }).catch((validationError) => {
             const validationErrors = {}

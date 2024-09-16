@@ -232,4 +232,6 @@ class Functions
             'message' => __('Server Error Occurred', 'f-review'),
         ];
     }
+
+
 }

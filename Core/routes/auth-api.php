@@ -12,12 +12,7 @@ use Flycart\Review\Core\Controllers\LocalDataController;
 
 return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],
-
-
     'get_wc_orders' => ['callable' => [OrderApiController::class, 'getAllOrders']],
-
-
-
     //Review Request
     'get_review_request' => ['callable' => [EmailSettingsController::class, 'getReviewRequest']],
     'save_review_request' => ['callable' => [EmailSettingsController::class, 'saveReviewRequest']],
