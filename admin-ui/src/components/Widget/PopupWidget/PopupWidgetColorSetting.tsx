@@ -35,7 +35,6 @@ const PopupWidgetColorSetting = ({name}: any) => {
                         </SidebarDetailField>
                     </div>
                 </SidebarDetailSection>
-
                 <SidebarDetailSection title={"Product"}>
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Text</Label>

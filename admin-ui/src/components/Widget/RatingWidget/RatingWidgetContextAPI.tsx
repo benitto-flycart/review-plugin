@@ -29,6 +29,27 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         }
     })
 
+
+    const saveSettings = () => {
+        setSaving(true)
+        axiosClient.post('', {
+            method: 'save_widget_settings',
+            widget_type: 'rating_widget',
+            language: localState.current_locale,
+            ...widget,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setSaving(false)
+        });
+    }
+
     const widgetMethods = {
         getWidgetTextContent: () => {
             let content = widget.text_content;
@@ -69,7 +90,8 @@ function RatingWidgetContextAPI({children}: { children: any }) {
                 fontSize: widget.rating_icon_size + 'px',
                 color: widget.colors.rating_icon_color,
             }
-        }
+        },
+        saveSettings
     }
 
     const updateWidgetFields = (cb: any) => {
@@ -122,26 +144,6 @@ function RatingWidgetContextAPI({children}: { children: any }) {
             toastrError('Server Error Occurred');
         }).finally(() => {
             setLoading(false)
-        });
-    }
-
-    const saveSettings = () => {
-        setSaving(true)
-        axiosClient.post('', {
-            method: 'save_widget_settings',
-            widget_type: 'rating_widget',
-            language: localState.current_locale,
-            ...widget,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setSaving(false)
         });
     }
 

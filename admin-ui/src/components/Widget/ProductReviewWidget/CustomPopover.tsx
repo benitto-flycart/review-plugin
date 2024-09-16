@@ -26,7 +26,7 @@ const CustomPopover = ({ children, content }: any) => {
 
     return (
         <div className="r_pw_h_popover-container">
-            <button
+            <span
                 ref={triggerRef}
                 onClick={toggleVisibility}
                 className="r_pw_h_popover-trigger"
@@ -35,7 +35,7 @@ const CustomPopover = ({ children, content }: any) => {
                 aria-controls="popover-content"
             >
                 {children}
-            </button>
+            </span>
             {isVisible && (
                 <div
                     id="r_pw_h_popover-content"

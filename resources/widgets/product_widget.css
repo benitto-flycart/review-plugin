@@ -3,7 +3,9 @@
 /*--------------------------------------------------------*/
 
 /*COMPACT HEADER*/
-
+.wd_preview_content{
+    background-color: var(--r-prw-wrapper-bg-color, black);
+}
 .r_pw_ch_container {
     display: flex;
     flex-direction: column;

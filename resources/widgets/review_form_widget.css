@@ -1,7 +1,9 @@
 * {
     box-sizing: border-box;
 }
-
+.wd_preview_content{
+    background: white;
+}
 #review_form_dialog {
     width: 100%;
     max-width: 800px;

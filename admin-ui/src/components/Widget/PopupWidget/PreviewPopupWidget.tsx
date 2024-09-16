@@ -74,7 +74,7 @@ const PreviewPopupWidget = () => {
     }
     return (
         <div
-            className={`wd_preview_content review-preview-wrap}`}>
+            className={`wd_preview_content review-preview-wrap`}>
             <div className={`r_puw_container ${getPopupPosition()} ${getCornerRadius()}`}
                  style={methods.getPopupPreviewStyles()}
                  key={widget.position}

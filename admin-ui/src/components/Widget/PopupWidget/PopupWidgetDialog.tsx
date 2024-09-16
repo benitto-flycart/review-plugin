@@ -7,7 +7,7 @@ import {ColorWheelIcon, LayoutIcon} from "@radix-ui/react-icons";
 import "@/src/styles/widgets/widget.css";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-const PopupWidgetDialog = ({show, toggle}: any) => {
+const PopupWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(PopupWidgetContext)
 
     const settings = {
@@ -35,6 +35,7 @@ const PopupWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             settings={settings}
             context={context}
+            currentLocale={currentLocale}
         >
             <PreviewPopupWidget/>
         </WidgetDialogWrapper>

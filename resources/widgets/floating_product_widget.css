@@ -4,8 +4,9 @@
     margin: auto;
     padding: .5rem;
 }
-
-
+.product-widget-preview-desktop{
+    background: var(--r-prw-wrapper-bg-color, black);
+}
 /*FLoating Product Widget*/
 
 .r_fpw-container {

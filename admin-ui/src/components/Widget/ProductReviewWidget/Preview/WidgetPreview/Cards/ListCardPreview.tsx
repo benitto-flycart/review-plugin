@@ -48,7 +48,7 @@ const ListCardPreview = ({review}: any) => {
                <div className={"r_pw_r_l_container--reply_container"}>
                    {review.replies?.map((reply: any, index: number) => {
                        return (
-                           <div className={"r_pw_r_l_container--reply_container_details"}>
+                           <div className={"r_pw_r_l_container--reply_container_details"} key={index}>
                                <span className={"r_pw_r_l_container--reply_reviewer_name"}>{reply.reviewer_name} replied</span>
                                <p className={"r_pw_r_l_container--reply_content"}>{reply.reply_content}</p>
                                {reply.images?.length > 0 ? (

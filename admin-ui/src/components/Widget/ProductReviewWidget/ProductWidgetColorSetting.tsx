@@ -14,7 +14,7 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
     const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
 
     const {colors} = widget;
-
+  console.log(widget)
     return (
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
@@ -292,6 +292,20 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                                     </svg>
                                 </div>
                             </div>
+                        </SidebarDetailField>
+                    </div>
+                </SidebarDetailSection>
+
+                <SidebarDetailSection title={"Widget Wrapper"}>
+                    <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Background color</Label>
+                            <PopOverColorPicker color={colors.widget_wrapper.background_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.type = 'custom'
+                                    draftState.colors.widget_wrapper.background_color = color;
+                                })
+                            }}/>
                         </SidebarDetailField>
                     </div>
                 </SidebarDetailSection>

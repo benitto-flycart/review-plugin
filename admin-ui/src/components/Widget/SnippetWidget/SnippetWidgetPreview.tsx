@@ -157,6 +157,7 @@ const PreviewSnippetWidget = () => {
                                 {reviews.map((item: any, i: number) => {
                                     return (
                                         <div
+                                            key={i}
                                             className={`r_sw__carousel-item ${i == index ? 'r_sw__carousel-item-visible' : ''}`}
                                             style={methods.getStyles()}>
                                             {widget.show_review_image && (item.images?.length > 0) ? (

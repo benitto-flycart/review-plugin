@@ -1,3 +1,6 @@
+.wd_preview_content{
+    background: white;
+}
 .r_rw__product_wrapper {
     display: flex;
     flex-direction: row;
