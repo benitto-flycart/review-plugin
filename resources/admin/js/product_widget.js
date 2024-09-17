@@ -1,6 +1,5 @@
 
 function masnoryLayout() {
-    console.log('Executing msnory')
     var elem = document.querySelector('.r_pw_g_all_reviews_container');
 
     var msnry = new Masonry(elem, {
@@ -29,8 +28,6 @@ function mosaicLayout() {
 }
 
 // moaicLayout();
-
-
 
 // element argument can be a selector string
 //   for an individual element

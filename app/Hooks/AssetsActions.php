@@ -34,7 +34,6 @@ class AssetsActions
             wp_enqueue_style('flycart-review-plugin-styles', "{$reactDistUrl}/main.css", [], F_Review_VERSION);
             wp_enqueue_script('flycart-review-plugin-script', "{$reactDistUrl}/main.bundle.js", array('wp-element'), F_Review_VERSION, true);
             wp_enqueue_style('flycart-review-styles-font-awesome', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
-            error_log("{$resourceUrl}/admin/css/review-fonts.css");
             wp_enqueue_media();
             remove_all_actions('admin_notices');
         }
@@ -48,9 +47,9 @@ class AssetsActions
 
         $storeConfig = static::getStoreConfigValues();
 
-        if (is_page()) {
-            wp_enqueue_style('flycart-review-styles-font-awesomee', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
+        wp_enqueue_style('flycart-review-styles-font-awesomee', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
 
+        if (is_page()) {
             $handle = 'flycart-review-form-plugin-script';
             wp_enqueue_script($handle, "{$resourceUrl}/js/review_form.js", array('jquery'), F_Review_VERSION, true);
             wp_localize_script($handle, 'review_form_store_config', $storeConfig);

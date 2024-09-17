@@ -6,6 +6,8 @@ jQuery(document).ready(($) => {
 
     (function PRODUCT_WIDGET_DEFAULT() {
 
+
+
         const template = document.getElementById('r_rpw_product_widget_container') as HTMLTemplateElement;
 
         console.log(template)
@@ -20,6 +22,36 @@ jQuery(document).ready(($) => {
         //@ts-ignore
         const review_product_widget_js_data = window.review_product_widget_js_data;
 
+        function masnoryLayout() {
+            var elem = shadowRoot.querySelector('.r_pw_g_all_reviews_container');
+
+            //@ts-ignore
+            var msnry = new Masonry(elem, {
+                // options
+                itemSelector: '.r_pw_r_g_container',
+                percentPosition: true,
+                gutter: 15
+            });
+
+            console.log(msnry)
+        }
+
+// masnoryLayout();
+
+
+        function mosaicLayout() {
+            console.log('Executing mosaic')
+            var elem = shadowRoot.querySelector('.r_pw_r_m_all_reviews_container');
+
+            //@ts-ignore
+            var msnry = new Masonry(elem, {
+                // options
+                itemSelector: '.r_pw_r_m_container',
+                percentPosition: true,
+                gutter: 15
+            });
+            console.log(msnry)
+        }
 
         const PRODUCT_WIDGET: any = {
             init: () => {
@@ -37,6 +69,23 @@ jQuery(document).ready(($) => {
                 }).then((response) => {
                     const response_data = response.data;
                     $(container).html(response_data.template);
+
+                    if (review_product_widget_js_data.widget_content_type == 'grid') {
+                        //@ts-ignore
+                        masnoryLayout();
+                        setTimeout(() => {
+                                masnoryLayout();
+                            },
+                            3000)
+                    } else if(review_product_widget_js_data.widget_content_type == 'mosaic') {
+                       //@ts-ignore
+                        mosaicLayout();
+                        setTimeout(() => {
+                                mosaicLayout();
+                            },
+                            3000)
+                    }
+
                 }).catch(() => {
                     console.log("error occurred while loading review template");
                 })

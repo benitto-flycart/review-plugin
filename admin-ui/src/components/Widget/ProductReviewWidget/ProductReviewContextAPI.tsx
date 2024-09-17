@@ -1,8 +1,9 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useContext, useState} from "react";
 import {produce} from "immer";
 import {axiosClient} from "../../api/axios";
 import {useLocalState} from "../../zustand/localState";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {SampleReviewsContext} from "../SampleReviewsAPI";
 
 export const ProductWidgetContext = createContext({});
 
@@ -11,6 +12,10 @@ function ProductWidgetContextAPI({children}: { children: any }) {
     const [saving, setSaving] = useState(false)
    const [customStylesState,setCustomStylesState]=useState<any>()
     const {localState} = useLocalState();
+
+    const {reviews} = useContext<any>(SampleReviewsContext)
+
+    console.log(reviews)
 
     const [widget, setWidget] = useState({
         widget_loading: true,
@@ -239,9 +244,16 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         saveSettings,
         getProductReviewWidgetColors:()=>{
             return {
-                "--r-prw-wrapper-bg-color":widget.colors.widget_wrapper.background_color
+                "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper.background_color,
+                "--r-prw-btn-color": widget.colors.button.text_color,
+                "--r-prw-btn-bg-color": widget.colors.button.bg_color,
+                "--r-prw-btn-bg-hover-color": widget.colors.button.bg_hover_color,
+                "--r-prw-btn-border-color": widget.colors.button.border_color,
+                "--r-prw-progress-fill-color": widget.colors.header.bar_fill_color,
+                "--r-prw-progress-bg-color": widget.colors.header.bar_bg_color,
+                "--r-prw-header-text-icon-color": widget.colors.header.text_and_icon_color,
             }
-        }
+        },
     }
 
     //update editor state
@@ -258,7 +270,8 @@ function ProductWidgetContextAPI({children}: { children: any }) {
             updateWidgetFields,
             methods: widgetMethods,
             loading,
-           saving
+           saving,
+            sampleReviews: reviews
         }}>
             {children}
         </ProductWidgetContext.Provider>

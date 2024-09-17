@@ -22,6 +22,7 @@ import {Switch} from "../ui/switch";
 import {produce} from "immer";
 import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {axiosClient} from "../api/axios";
+import SampleReviewsContextAPI from "./SampleReviewsAPI";
 
 type WidgetState = {
     product_reviews_widget: { is_enabled: boolean };
@@ -39,9 +40,9 @@ const Widget = () => {
     const [activeDialog, setActiveDialog] = useState<string>('')
     const [currentLocale, setCurrentLocale] = useState<string>(localState.current_locale)
 
-    const [loading,setLoading]=useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const [widgetState,setWidgetState]=useState<WidgetState>({
+    const [widgetState, setWidgetState] = useState<WidgetState>({
         product_reviews_widget: {
             is_enabled: true
         },
@@ -144,16 +145,16 @@ const Widget = () => {
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
-        }).finally(() =>{
+        }).finally(() => {
             setLoading(false)
         });
     }
 
-    const setWidgetStatus = (slug:any,is_enabled:boolean) => {
+    const setWidgetStatus = (slug: any, is_enabled: boolean) => {
         axiosClient.post(``, {
             method: 'widget_update_status',
             widget_slug: slug,
-            is_enabled:is_enabled,
+            is_enabled: is_enabled,
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
         }).then((response) => {
@@ -161,14 +162,14 @@ const Widget = () => {
             getWidgetStatus()
         }).catch((error) => {
             toastrError("Error Occurred");
-            updateWidgetStateFields((draftState:any)=>{
-                draftState[slug as keyof WidgetState].is_enabled=!is_enabled
+            updateWidgetStateFields((draftState: any) => {
+                draftState[slug as keyof WidgetState].is_enabled = !is_enabled
             })
         })
     }
 
-    const updateWidgetStateFields=(cb:any)=>{
-        const state=produce(widgetState,(draftState:any)=>{
+    const updateWidgetStateFields = (cb: any) => {
+        const state = produce(widgetState, (draftState: any) => {
             cb(draftState)
         })
         setWidgetState(state)
@@ -179,50 +180,53 @@ const Widget = () => {
     }, [])
 
     return (<div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
-        <div>
-            {availableLanguages.length > 0 && (
-                <Tabs defaultValue={currentLocale} className="w-[400px]">
-                    <TabsList className={"!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"}>
-                        {availableLanguages.map((item: any, index: number) => {
-                            return (<TabsTrigger key={index} value={item.value} onClick={() => {
-                                setCurrentLocale(item.value)
-                            }}>{item.label}</TabsTrigger>)
-                        })}
-                    </TabsList>
-                </Tabs>
-            )}
-        </div>
-        <div className="frt-grid lg:frt-grid-cols-3 md:frt-grid-cols-2 sm:frt-grid-cols-1 frt-gap-4">
-            {
-                widgets.map((widget,index:number) => {
-                    return (
-                        <Card className={"frt-shadow-primary"} key={index}>
-                            <CardHeader>
-                                <CardTitle>{widget.title}</CardTitle>
-                                <CardDescription>{widget.description}</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>{widget.detailed_description}</p>
-                            </CardContent>
-                            <CardFooter className="frt-flex frt-justify-end !frt-gap-3">
-                                <Switch  checked={widgetState[widget.slug as keyof WidgetState].is_enabled} onCheckedChange={(value)=>{
-                                    updateWidgetStateFields((draftState:any)=>{
-                                        draftState[widget.slug as keyof WidgetState].is_enabled=value
-                                    })
-                                    setWidgetStatus(widget.slug,value);
-                                }}/>
-                                <Button onClick={() => {
-                                    setActiveDialog(widget.slug)
-                                }}>
-                                    Customize
-                                </Button>
-                                {activeDialog == widget.slug ? (widget.viewComponent) : null}
-                            </CardFooter>
-                        </Card>
-                    )
-                })
-            }
-        </div>
+        <SampleReviewsContextAPI>
+            <div>
+                {availableLanguages.length > 0 && (
+                    <Tabs defaultValue={currentLocale} className="w-[400px]">
+                        <TabsList className={"!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"}>
+                            {availableLanguages.map((item: any, index: number) => {
+                                return (<TabsTrigger key={index} value={item.value} onClick={() => {
+                                    setCurrentLocale(item.value)
+                                }}>{item.label}</TabsTrigger>)
+                            })}
+                        </TabsList>
+                    </Tabs>
+                )}
+            </div>
+            <div className="frt-grid lg:frt-grid-cols-3 md:frt-grid-cols-2 sm:frt-grid-cols-1 frt-gap-4">
+                {
+                    widgets.map((widget, index: number) => {
+                        return (
+                            <Card className={"frt-shadow-primary"} key={index}>
+                                <CardHeader>
+                                    <CardTitle>{widget.title}</CardTitle>
+                                    <CardDescription>{widget.description}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <p>{widget.detailed_description}</p>
+                                </CardContent>
+                                <CardFooter className="frt-flex frt-justify-end !frt-gap-3">
+                                    <Switch checked={widgetState[widget.slug as keyof WidgetState].is_enabled}
+                                            onCheckedChange={(value) => {
+                                                updateWidgetStateFields((draftState: any) => {
+                                                    draftState[widget.slug as keyof WidgetState].is_enabled = value
+                                                })
+                                                setWidgetStatus(widget.slug, value);
+                                            }}/>
+                                    <Button onClick={() => {
+                                        setActiveDialog(widget.slug)
+                                    }}>
+                                        Customize
+                                    </Button>
+                                    {activeDialog == widget.slug ? (widget.viewComponent) : null}
+                                </CardFooter>
+                            </Card>
+                        )
+                    })
+                }
+            </div>
+        </SampleReviewsContextAPI>
     </div>)
 };
 

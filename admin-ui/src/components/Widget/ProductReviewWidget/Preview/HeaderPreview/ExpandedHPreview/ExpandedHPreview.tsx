@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import styles from './EHP.module.css';
 import ReviewIcon from "../../../../../ReviewIcon";
 import ProgressBar from "../../../ProgressBar";
 
@@ -9,7 +8,7 @@ const ExpandedHPreview = () => {
 
     return (
         <div className={"r_pw_eh_container"}>
-            <div className={"r_pw_eh_rating_container"} style={methods.getHeaderTextColor()}>
+            <div className={"r_pw_header_rating_container r_pw_eh_rating_container"}>
                 <div className={"r_pw_eh_rating_overview"}>
                     <ReviewIcon/>
                     <span>4.7</span>
@@ -17,7 +16,7 @@ const ExpandedHPreview = () => {
                 <span>20 Reviews</span>
             </div>
             {methods.isRatingOptionsEnabled() ? (
-                <div className={"r_pw_eh_rating_details_container"} style={methods.getHeaderTextColor()}>
+                <div className={"r_pw_header_rating_container r_pw_eh_rating_details_container"}>
                     <div className={"r_pw_eh_rating_details"}>
                         <div className={"r_pw_eh_rating_details--icons-info"}>
                             <ReviewIcon/>
@@ -27,8 +26,7 @@ const ExpandedHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={'r_pw_eh_rating_details--progress_bar_container'}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_eh_rating_details--review_count"}>14</div>
                     </div>
@@ -42,8 +40,7 @@ const ExpandedHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={'r_pw_eh_rating_details--progress_bar_container'}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_eh_rating_details--review_count"}>14</div>
                     </div>
@@ -56,8 +53,7 @@ const ExpandedHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={'r_pw_eh_rating_details--progress_bar_container'}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_eh_rating_details--review_count"}>14</div>
                     </div>
@@ -70,8 +66,7 @@ const ExpandedHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={'r_pw_eh_rating_details--progress_bar_container'}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_eh_rating_details--review_count"}>14</div>
                     </div>
@@ -84,28 +79,21 @@ const ExpandedHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={'r_pw_eh_rating_details--progress_bar_container'}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_eh_rating_details--review_count"}>14</div>
                     </div>
-
-
                 </div>) : null}
             <div className={"r_pw_eh_actions_container"}>
                 {methods.isAddReviewEnabled() ? (<div className={"r_pw_eh_actions_container--btn_container"}>
                     <button
                         type="button"
-                        className="r_pw_eh_actions_container--btn_container-btn"
-                        style={methods.getButtonStyles()}
-                    >
+                        className="r_pw_header_button r_pw_eh_actions_container--btn_container-btn">
                         Write a Review
                     </button>
                 </div>) : null}
                 {methods.isSortingEnabled() ? (<div className={"r_pw_eh_actions_container--sorting_container"}>
-                    <button type="button"
-                            className="r_pw_eh_actions_container--sorting_container-btn"
-                            style={methods.getButtonStyles()}
+                    <button type="button" className="r_pw_header_button r_pw_eh_actions_container--sorting_container-btn"
                     >
                         <svg data-panel="dropdown" id="menu-icon-svg" width="20" height="21" viewBox="0 0 20 21"
                              fill="none" xmlns="http://www.w3.org/2000/svg" role="img"

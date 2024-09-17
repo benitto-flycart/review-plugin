@@ -9,7 +9,7 @@ const CompactHPreview = () => {
 
     return (
         <div className={"r_pw_ch_container"}>
-            <div className={"r_pw_ch_rating_container"} style={methods.getHeaderTextColor()}>
+            <div className={"r_pw_header_rating_container r_pw_ch_rating_container"}>
                 <div className={"r_pw_ch_rating"}>
                     <ReviewIcon/>
                     <span>4.7</span>
@@ -17,7 +17,7 @@ const CompactHPreview = () => {
                 <span>20 Reviews</span>
             </div>
             {methods.isRatingOptionsEnabled() ? (
-                <div className={"r_pw_ch_rd_container"} style={methods.getHeaderTextColor()}>
+                <div className={"r_pw_ch_rd_container"}>
                     <div className={"r_pw_ch_rd_detail"}>
                         <div className={"r_pw_ch_rd_detail_icon"}>
                             <ReviewIcon/>
@@ -27,75 +27,69 @@ const CompactHPreview = () => {
                             <ReviewIcon/>
                         </div>
                         <div className={"r_pw_ch_rd_detail_progress_bar"}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
-                    </div>
-                    <div className={"r_pw_ch_rd_detail"}>
-                        <div className={"r_pw_ch_rd_detail_icon"}>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
-                    </div>
-                    <div className={"r_pw_ch_rd_detail"}>
-                        <div className={"r_pw_ch_rd_detail_icon"}>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
-                    </div>
-                    <div className={"r_pw_ch_rd_detail"}>
-                        <div className={"r_pw_ch_rd_detail_icon"}>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
-                    </div>
-                    <div className={"r_pw_ch_rd_detail"}>
-                        <div className={"r_pw_ch_rd_detail_icon"}>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                            <ReviewIcon/>
-                        </div>
-                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
-                            <ProgressBar containerColor={methods.getBarBGColor()} bgcolor={methods.getBarFillColor()}
-                                         completed="33"/>
+                            <ProgressBar completed="33"/>
                         </div>
                         <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
                     </div>
 
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
+                            <ProgressBar completed="33"/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
+                    </div>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
+                            <ProgressBar completed="33"/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
+                    </div>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
+                            <ProgressBar completed="33"/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
+                    </div>
+                    <div className={"r_pw_ch_rd_detail"}>
+                        <div className={"r_pw_ch_rd_detail_icon"}>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                            <ReviewIcon/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar"}>
+                            <ProgressBar completed="33"/>
+                        </div>
+                        <div className={"r_pw_ch_rd_detail_progress_bar_count"}>14</div>
+                    </div>
                 </div>) : null}
             <div className={"r_pw_ch_actions"}>
                 {methods.isAddReviewEnabled() ? (<div className={"r_pw_ch_actions_new_review_btn_container"}>
                     <button
                         type="button"
-                        className="r_pw_ch_actions_new_review_btn_container_btn"
-                        style={methods.getButtonStyles()}
+                        className="r_pw_header_button r_pw_ch_actions_new_review_btn_container_btn"
                     >
                         Write a Review
                     </button>
@@ -111,9 +105,7 @@ const CompactHPreview = () => {
                         </ul>
                     </div>}>
                         <button type="button"
-                                className="r_pw_ch_actions_sorting_container_btn"
-                                style={methods.getButtonStyles()}
-                        >
+                                className="r_pw_header_button r_pw_ch_actions_sorting_container_btn">
                             <svg data-panel="dropdown" id="menu-icon-svg" width="20" height="21" viewBox="0 0 20 21"
                                  fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
                                  aria-label="Sort reviews by menu">

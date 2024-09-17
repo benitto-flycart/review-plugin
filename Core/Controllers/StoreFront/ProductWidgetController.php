@@ -4,18 +4,25 @@ namespace Flycart\Review\Core\Controllers\StoreFront;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Response;
 
 class ProductWidgetController
 {
-
     public static function getProductWidgetTemplate()
     {
         try {
             $path = F_Review_PLUGIN_PATH . 'resources/templates/product-widget/';
 
-            $header = 'compact';
-            $main_content = 'grid';
+            $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+
+            $widget = $widgetFactory->widget;
+
+
+            $header = $widget->getHeaderLayout(); //$settings['layout']['header_layout'];
+            $main_content = $widget->getMainContentLayout(); //$settings['layout']['widget_layout'];
+
             ob_start(); // Start output buffering
             include $path . 'index.php'; // Include the PHP file
             $template_content = ob_get_clean();

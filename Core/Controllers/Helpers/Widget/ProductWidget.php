@@ -12,13 +12,12 @@ class ProductWidget extends Widget implements WidgetInterface
 {
     public function getSettings($settings)
     {
-
         $layout = $settings['layout'] ?? [];
         $style = $settings['style'] ?? [];
         $colors = $settings['colors'] ?? [];
         $preferences = $settings['preferences'] ?? [];
 
-        return [
+        $this->settings = [
             'layout' => [
                 'widget_layout' => $layout['widget_layout'] ?? 'grid',
                 'header_layout' => $layout['header_layout'] ?? 'compact',
@@ -69,6 +68,8 @@ class ProductWidget extends Widget implements WidgetInterface
                 'show_rating_options' => $preferences['show_rating_options'] ?? true
             ]
         ];
+
+        return $this->settings;
     }
 
     public function getWidgetType()
@@ -78,12 +79,28 @@ class ProductWidget extends Widget implements WidgetInterface
 
     public function getRequestFromSettings()
     {
-        $settings = [
+
+        if (is_null($this->request)) {
+            return [];
+        }
+
+        return [
             'layout' => $this->request->get('layout'),
             'style' => $this->request->get('style'),
             'colors' => $this->request->get('colors'),
             'preferences' => $this->request->get('preferences'),
         ];
+    }
+
+    public function getHeaderLayout()
+    {
+        error_log(print_r($this->settings, true));
+        return $this->settings['layout']['header_layout'];
+    }
+
+    public function getMainContentLayout()
+    {
+        return $this->settings['layout']['widget_layout'];
     }
 }
 

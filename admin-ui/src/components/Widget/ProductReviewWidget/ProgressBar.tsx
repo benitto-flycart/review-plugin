@@ -1,32 +1,20 @@
 import React from "react";
 const ProgressBar = (props:any) => {
-    const { containerColor, bgcolor, completed } = props;
-
-    const containerStyles = {
-        height: '100%',
-        width: '100%',
-        backgroundColor: containerColor,
-        borderRadius: 50,
-    }
+    const { completed } = props;
 
     const fillerStyles: any = {
-        height: '100%',
         width: `${completed}%`,
-        backgroundColor: bgcolor,
-        borderRadius: 'inherit',
-        textAlign: 'right'
     }
 
-    const labelStyles = {
-        padding: 5,
-        color: 'white',
-        fontWeight: 'bold'
-    }
+    // const labelStyles = {
+    //     padding: 5,
+    //     color: 'white',
+    // }
 
     return (
-        <div style={containerStyles}>
-            <div style={fillerStyles}>
-                <span style={labelStyles}></span>
+        <div className={"r_pw_progress_bar_bg"}>
+            <div style={fillerStyles} className={"r_pw_progress_bar_fill"}>
+                <span className={"r_pw_progress_bar_label"}></span>
             </div>
         </div>
     );

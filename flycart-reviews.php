@@ -212,7 +212,7 @@ add_action('action_scheduler_init', function () {
     }
 });
 
-add_filter('woocommerce_after_shop_loop' , 'execute_product_widget_short_code');
+add_filter('woocommerce_after_main_content' , 'execute_product_widget_short_code');
 
 function execute_product_widget_short_code(){
     echo do_shortcode('[review_product_widget_shortcode]');

@@ -79,7 +79,7 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
     // @ts-ignore
     return (
         <div
-            className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`} style={{"--r-prw-wrapper-bg-color": methods.getProductReviewWidgetColors()["--r-prw-wrapper-bg-color"]}}>
+            className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`} style={{...methods.getProductReviewWidgetColors()}}>
             <HeaderLayoutPreview/>
             <WidgetLayoutPreview/>
         </div>

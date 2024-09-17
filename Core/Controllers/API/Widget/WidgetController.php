@@ -41,15 +41,21 @@ class WidgetController
 
             $widgetFactory = new WidgetFactory($widget_type, $language, $request);
 
-           $data = $widgetFactory->save();
+            $data = $widgetFactory->save();
 
-           Database::commit();
+            Database::commit();
 
-           Response::success($data);
+            Response::success($data);
         } catch (\Error|\Exception $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
+    }
+
+    public function getSampleReviews()
+    {
+        $data = require_once F_Review_PLUGIN_PATH . '/app/config/sample-reviews.php';
+        return $data;
     }
 }

@@ -10,19 +10,21 @@ class Widget
 
     public $language;
     public $request;
+    public $settings;
 
-    public function __construct($language, $request)
+    public function __construct($language, $request = null)
     {
         $this->language = $language;
         $this->request = $request;
+        $this->settings = $this->retrieveSettings();
     }
 
-    public static function make($language, $request)
+    public static function make($language, $request = null)
     {
         return new static($language, $request);
     }
 
-    public function get()
+    public function retrieveSettings()
     {
         $widgetType = $this->getWidgetType();
 
@@ -33,6 +35,12 @@ class Widget
         $settings = Functions::jsonDecode($widget->settings ?? null);
         $settings = $this->getSettings($settings);
 
+        return $settings;
+    }
+
+    public function get()
+    {
+        $settings = $this->retrieveSettings();
         $data = [
             'settings' => $settings,
             'message' => sprintf(__('%s Widget Fetched Successfully'), 'Product')
