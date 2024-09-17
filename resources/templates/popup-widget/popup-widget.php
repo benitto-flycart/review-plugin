@@ -1,13 +1,12 @@
 <style>
     #r_rpw_popup_widget_container_wrapper {
-        position: absolute;
-        top: 5rem;
-        left: 5rem;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
     }
 </style>
 
 <div id="r_rpw_popup_widget_container_wrapper">
-    <!--    <template id="r_rpw_shadow_template">-->
     <template id="r_rpw_popup_widget_container">
         <link rel="stylesheet"
               href="<?php echo $popup_widget_css ?>">
@@ -15,7 +14,7 @@
               href="<?php echo $popup_widget_font_css ?>">
         <div id="r_puw_container_wrapper">
             <div class="wd_preview_content review-preview-wrap">
-                <div class="r_puw_container undefined r_puw-sharp"
+                <div class="r_puw_container r_puw-sharp"
                      style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234); display: block;"><span
                             class="r_puw_close-icon"
                             style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234);"><svg width="15"
@@ -60,6 +59,5 @@
             </div>
         </div>
     </template>
-    <!--    </template>-->
 </div>
 

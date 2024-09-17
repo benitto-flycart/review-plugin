@@ -16,9 +16,7 @@
  * WC requires at least: 7.0
  */
 
-
 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-
 
 use Flycart\Review\App\Helpers\AssetHelper;
 
