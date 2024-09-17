@@ -8,14 +8,17 @@
     border-radius: .5rem;
     width: 200px;
 }
+.slide-in{
 
-
+}
 .r_puw_close-icon {
-    border-radius: 1em;
+    border-radius: 50%;
     padding: .5em;
     position: absolute;
     right: -12px;
     top: -12px;
+    display: flex;
+    justify-content: center;
     opacity: 0.2;
     cursor: pointer;
 }
@@ -83,7 +86,13 @@
 .r_puw-popup_right_slide_in {
     animation: r_puw-popup-right-slide-in 1000ms;
 }
+.r_puw-popup_left_slide_out {
+    animation: r_puw-popup-left-slide-out 1000ms;
+}
 
+.r_puw-popup_right_slide_out {
+    animation: r_puw-popup-right-slide-out 1000ms;
+}
 .r_puw-bottom_left {
     transition: bottom 0.5s ease, left 0.5s ease;
     bottom: 1rem;
@@ -130,7 +139,7 @@
 
 @keyframes r_puw-popup-left-slide-in {
     from {
-        transform: translateX(-100%);
+        transform: translateX(-120%);
     }
     to {
         transform: translateX(0%);
@@ -139,10 +148,28 @@
 
 @keyframes r_puw-popup-right-slide-in {
     from {
-        transform: translate(100%);
+        transform: translate(120%);
     }
     to {
         transform: translateX(0%);
+    }
+}
+
+@keyframes r_puw-popup-left-slide-out {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-120%);
+    }
+}
+
+@keyframes r_puw-popup-right-slide-out {
+    from {
+        transform: translate(0%);
+    }
+    to {
+        transform: translateX(120%);
     }
 }
 
