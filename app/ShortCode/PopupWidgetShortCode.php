@@ -26,8 +26,9 @@ class PopupWidgetShortCode
             wp_localize_script($registrationScriptHandle, 'review_popup_widget_js_data', $storeConfig);
 
 
-            $popup_widget_css = home_url() . "/wp-content/plugins/flycart-reviews/resources/widgets/popup_widget.css?ver=3.0";
-            $popup_widget_font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
+            $popup_widget_css = $resourcePath . "/widgets/popup_widget.css?ver=3.0";
+            $popup_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
+
             $path = F_Review_PLUGIN_PATH . 'resources/templates/popup-widget';
 
             ob_start(); // Start output buffering
