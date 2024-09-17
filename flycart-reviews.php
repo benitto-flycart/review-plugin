@@ -218,3 +218,9 @@ function execute_product_widget_short_code(){
     echo do_shortcode('[review_product_widget_shortcode]');
 }
 
+add_action('wp_footer', 'execute_popup_widget');
+
+function execute_popup_widget() {
+    echo do_shortcode('[review_popup_widget]');
+}
+

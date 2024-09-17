@@ -2,6 +2,7 @@
 namespace Flycart\Review\App;
 
 
+use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
 use Flycart\Review\App\ShortCode\ProductWidgetShortCode;
 
 class App extends Container
@@ -35,6 +36,7 @@ class App extends Container
         //register the shortcode classes
 
         ProductWidgetShortCode::register();
+        PopupWidgetShortCode::register();
 
     }
 }

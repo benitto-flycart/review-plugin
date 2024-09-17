@@ -1,12 +1,20 @@
-<div id="r_rpw_product_widget_container_wrapper">
+<style>
+    #r_rpw_popup_widget_container_wrapper {
+        position: absolute;
+        top: 5rem;
+        left: 5rem;
+    }
+</style>
+
+<div id="r_rpw_popup_widget_container_wrapper">
     <!--    <template id="r_rpw_shadow_template">-->
-    <template id="r_rpw_product_widget_container">
+    <template id="r_rpw_popup_widget_container">
         <link rel="stylesheet"
-              href="http://localhost:8004/wp-content/plugins/flycart-reviews/resources/widgets/product_widget.css?ver=3.0">
+              href="<?php echo $popup_widget_css ?>">
         <link rel="stylesheet"
-              href="http://localhost:8004/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0">
-        <div id="r_rpw_container_wrapper">
-            Loading...
+              href="<?php echo $popup_widget_font_css ?>">
+        <div id="r_puw_container_wrapper">
+            Loading popup widget...
         </div>
     </template>
     <!--    </template>-->
