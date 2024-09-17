@@ -64,7 +64,6 @@ if (!defined('F_Review_WC_REQUIRED_VERSION')) {
     define('F_Review_WC_REQUIRED_VERSION', '7.0.0');
 }
 
-
 // To load PSR4 autoloader
 if (file_exists(F_Review_PLUGIN_PATH . '/vendor/autoload.php')) {
     require F_Review_PLUGIN_PATH . '/vendor/autoload.php';
@@ -212,15 +211,30 @@ add_action('action_scheduler_init', function () {
     }
 });
 
-add_filter('woocommerce_after_main_content' , 'execute_product_widget_short_code');
+add_filter('woocommerce_after_main_content', 'execute_product_widget_short_code');
 
-function execute_product_widget_short_code(){
+function execute_product_widget_short_code()
+{
     echo do_shortcode('[review_product_widget_shortcode]');
 }
 
 add_action('wp_footer', 'execute_popup_widget');
 
-function execute_popup_widget() {
+function execute_popup_widget()
+{
     echo do_shortcode('[review_popup_widget]');
+}
+
+add_filter('woocommerce_after_add_to_cart_form', function () {
+    echo do_shortcode('[review_snippet_widget]');
+});
+
+add_filter('woocommerce_product_tabs', 'delete_tab_wc_review_tab', 98);
+function delete_tab_wc_review_tab($tabs)
+{
+    if (isset($tabs['reviews']))
+        unset($tabs['reviews']);
+
+    return $tabs;
 }
 
