@@ -6,8 +6,6 @@ jQuery(document).ready(($) => {
 
     (function PRODUCT_WIDGET_DEFAULT() {
 
-
-
         const template = document.getElementById('r_rpw_product_widget_container') as HTMLTemplateElement;
 
         console.log(template)
