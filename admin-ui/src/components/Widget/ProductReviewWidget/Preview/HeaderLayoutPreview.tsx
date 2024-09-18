@@ -19,7 +19,7 @@ const HeaderLayoutPreview = () => {
     }
 
     return (
-        <div>
+        <div className={"r_pw_h_container"}>
             {layout}
         </div>
     )

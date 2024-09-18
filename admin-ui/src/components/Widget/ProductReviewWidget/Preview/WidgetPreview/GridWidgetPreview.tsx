@@ -8,7 +8,7 @@ const GridWidgetPreview: () => React.JSX.Element = () => {
     function getRandomNumber(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    const items: any = context.sampleReviews;
+    const items: any = context.sampleReviews.reviews;
 
     return (
         <div className={"r_pw_g_all_reviews_container"}>

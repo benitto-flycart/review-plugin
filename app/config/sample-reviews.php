@@ -1,6 +1,6 @@
 <?php
 
-return [
+$items = [
     [
         'id' => 1,
         'reviewer_name' => 'benitto',
@@ -435,7 +435,7 @@ return [
         'id' => 25,
         'reviewer_name' => 'james',
         'review_title' => 'Worth Every Penny',
-        'rating' =>3,
+        'rating' => 3,
         'is_verified' => false,
         'date' => "25/04/2024",
         'content' => "This product is worth every penny! It has surpassed my expectations and continues to perform wonderfully.",
@@ -616,3 +616,5 @@ return [
         ]
     ]
 ];
+
+return $items;

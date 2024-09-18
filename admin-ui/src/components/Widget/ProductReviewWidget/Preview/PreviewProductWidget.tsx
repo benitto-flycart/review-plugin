@@ -5,10 +5,11 @@ import {ProductWidgetContext} from "../ProductReviewContextAPI";
 import {useLocalState} from "../../../zustand/localState";
 
 const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
-    const {widget, updateWidgetFields,methods} = useContext<any>(ProductWidgetContext)
+    const context = useContext<any>(ProductWidgetContext)
+    const {widget, updateWidgetFields, methods} = context;
     const {localState} = useLocalState();
+    const [loading, setLoading] = useState(true);
 
-    const [loading, setLoading] = useState(true)
     useEffect(() => {
 
         updateWidgetFields((draftState: any) => {
@@ -17,7 +18,6 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
 
         //@ts-ignore
         let iframe: any = window.frames['widget_preview_iframe'];
-
 
 // Create a new link element
         let linkElement: any = document.createElement('link');
@@ -57,11 +57,9 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
                         return;
                     }
                 };
-
                 js.onerror = function () {
                     console.error('Failed to load the product_widget.js script.');
                 };
-
             } else {
 
             }
@@ -74,14 +72,16 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
             draftState.widget_loading = false
         })
 
-    }, [widget.layout.widget_layout]);
+    }, [widget.layout.widget_layout, widget.sampleReviews]);
 
     // @ts-ignore
     return (
-        <div
-            className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`} style={{...methods.getProductReviewWidgetColors()}}>
-            <HeaderLayoutPreview/>
-            <WidgetLayoutPreview/>
+        <div style={{...methods.getProductReviewWidgetColors()}}>
+            <div
+                className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`}>
+                <HeaderLayoutPreview/>
+                <WidgetLayoutPreview/>
+            </div>
         </div>
     )
 }

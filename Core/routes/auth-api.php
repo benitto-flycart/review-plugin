@@ -49,7 +49,7 @@ return [
     'save_discount_settings' => ['callable' => [SettingsController::class, 'saveDiscountSettings']],
 
 
-    'get_sample_reviews' => ['callable' => [WidgetController::class, 'getSampleReviews']],
+    'get_sample_reviews' => ['callable' => [WidgetController::class, 'sampleReviewsforAdmin']],
     'get_widget_settings' => ['callable' => [WidgetController::class, 'getWidgetSettings']],
     'save_widget_settings' => ['callable' => [WidgetController::class, 'saveWidgetSettings']],
 

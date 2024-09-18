@@ -1,17 +1,12 @@
-import React, {useContext} from "react";
+import React from "react";
 import {Badge} from "../../../../../ui/badge";
-import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import {getRepliesStyles, getReviewCardStyles} from "../../../helper";
 import ReviewIcon from "../../../../../ReviewIcon";
 
 const GridCardPreview = ({review}: any) => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
-
     return (
         <div
             key={review.id}
             className="r_pw_r_container r_pw_r_g_container"
-            style={getReviewCardStyles(widget)}
         >
             <div className={"r_pw_r_g_container--review-details"}>
                 <span className={"r_pw_r_g_container--review-details--title"}>{review.title}</span>
@@ -34,7 +29,6 @@ const GridCardPreview = ({review}: any) => {
             </div>
             {review.replies?.length > 0 ? (<div
                     className={"r_pw_r_reply_container r_pw_r_g_container--reply-container"}
-                    style={getRepliesStyles(widget)}
                 >
                     {review.replies.map((reply: any, index: number) => {
                         return (

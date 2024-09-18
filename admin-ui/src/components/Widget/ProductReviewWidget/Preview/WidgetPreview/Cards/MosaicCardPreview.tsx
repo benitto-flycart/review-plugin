@@ -1,29 +1,18 @@
-import React, {useContext, useState} from "react";
-import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
-import {getRepliesStyles, getReviewCardStyles, getVerifiedStyles} from "../../../helper";
-import {Badge} from "../../../../../ui/badge";
+import React from "react";
+import {getRepliesStyles} from "../../../helper";
 import ReviewIcon from "../../../../../ReviewIcon";
 
 const MosaicCardPreview = ({review}: any) => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
-
-    const [isHovered, setIsHovered] = useState<boolean>(false);
-
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
 
     return (
         <div
             key={review.id}
             className="r_pw_r_container r_pw_r_m_container"
-            style={getReviewCardStyles(widget)}
         >
             <div className={"r_pw_r_m_review-details-container"}>
-                <span>{review.title}</span>
                 <div className={"r_pw_r_m_review-details"}>
                     <span>{review.reviewer_name}</span>
                     {review.is_verified ? <span><span
-                        style={getVerifiedStyles(widget)}
                     >verified</span></span> : null}
                     <span>{review.date}</span>
                     <div className="r_pw_r_m_review-details--review-icons">
@@ -39,7 +28,7 @@ const MosaicCardPreview = ({review}: any) => {
             </div>
             {review.replies?.length > 0 ? (
                 <div className={"r_pw_r_reply_container r_pw_r_m_review-details--reply-container"}
-                     style={getRepliesStyles(widget)}>
+                >
                     {review.replies.map((reply: any, index: number) => {
                         return (
                             <div>

@@ -119,7 +119,6 @@ if (function_exists('flycart_review_is_woo_commerce_installed')) {
                 </div>
                 <?php
             }, 1);
-            error_log($message);
             return false;
         }
     } else {

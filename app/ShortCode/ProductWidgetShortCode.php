@@ -5,6 +5,8 @@ namespace Flycart\Review\App\ShortCode;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Widget;
 
 class ProductWidgetShortCode
 {
@@ -42,13 +44,19 @@ class ProductWidgetShortCode
 
     public static function getProductWidgetConfigValues()
     {
+        $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+        $widget = $widgetFactory->widget;
+
+        $header = $widget->getHeaderLayout();
+        $main_content = $widget->getMainContentLayout();
+
         return [
             'home_url' => get_home_url(),
             'admin_url' => admin_url(),
             'action' => is_user_logged_in() ? Route::AJAX_NAME : Route::AJAX_NO_PRIV_NAME,
             'ajax_url' => admin_url('admin-ajax.php'),
-            'widget_header_type' => 'minimal',
-            'widget_content_type' => 'list',
+            'widget_header_type' => $header,
+            'widget_content_type' => $main_content,
             'review_front_end_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             '_wp_nonce_key' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),

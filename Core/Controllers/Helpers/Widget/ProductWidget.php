@@ -29,6 +29,7 @@ class ProductWidget extends Widget implements WidgetInterface
 
             'colors' => [
                 'type' => $colors['type'] ?? 'custom',
+                'widget_wrapper' => $colors['widget_wrapper'] ?? '#FED2EA',
                 'header' => [
                     'text_and_icon_color' => $colors['header']['text_and_icon_color'] ?? '#E70680',
                     'bar_fill_color' => $colors['header']['bar_fill_color'] ?? '#E70680',
@@ -101,6 +102,87 @@ class ProductWidget extends Widget implements WidgetInterface
     public function getMainContentLayout()
     {
         return $this->settings['layout']['widget_layout'];
+    }
+
+    public function getProductWidgetStylesVars()
+    {
+        $vars = [
+            "--r-prw-wrapper-bg-color" => $this->settings['colors']['widget_wrapper'],
+            "--r-prw-btn-color" => $this->settings['colors']['button']['text_color'],
+            "--r-prw-btn-bg-color" => $this->settings['colors']['button']['bg_color'],
+            "--r-prw-btn-bg-hover-color" => $this->settings['colors']['button']['bg_hover_color'],
+            "--r-prw-btn-border-color" => $this->settings['colors']['button']['border_color'],
+            "--r-prw-progress-fill-color" => $this->settings['colors']['header']['bar_fill_color'],
+            "--r-prw-progress-bg-color" => $this->settings['colors']['header']['bar_bg_color'],
+            "--r-prw-header-text-icon-color" => $this->settings['colors']['header']['text_and_icon_color'],
+
+            //Review Colors
+            '--r-pw-review-color' => $this->settings['colors']['reviews']['text_color'],
+            '--r-pw-review-bg-color' => $this->settings['colors']['reviews']['bg_color'],
+            '--r-pw-review-bg-hover-color' => $this->settings['colors']['reviews']['bg_hover_color'],
+            '--r-pw--review-box-shadow' => $this->reviewShadows($this->settings['style']['review_card_shadow'], $this->settings['colors']['reviews']['shadow_color']),
+            '--r-pw-review-border-radius' => $this->reviewOpeners($this->settings['style']['review_card_openers']),
+
+            //Replies Color
+            '--r-pw-review-replies-color' => $this->settings['colors']['replies']['text_color'],
+            '--r-pw-review-replies-bg-color' => $this->settings['colors']['replies']['bg_color'],
+
+            //Verified Color
+            '--r-pw-review-verified-color' => $this->settings['colors']['verified_badge']['icon_color'],
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
+
+    public function reviewShadows($type, $color)
+    {
+        $shadows = [
+            'classic' => [
+                'box-shadow' => "0 0 8px {{color}}",
+            ],
+            'dark' => [
+                'box-shadow' => "0 6px 14px {{color}}"
+            ],
+            'light' => [
+                'box-shadow' => "0 6px 14px -4px {{color}}",
+            ],
+            'none' => [
+                'box-shadow' => "0 0 0 0 {{color}}",
+            ]
+        ];
+
+        $shadow = isset($shadows[$type]) ? $shadows[$type]['box-shadow'] : '';
+
+        return str_replace("{{color}}", $color, $shadow);
+    }
+
+    public function reviewOpeners($type)
+    {
+        $openers = [
+            'sharp' => [
+                'border-radius' => "2px",
+            ],
+            'slightly_rounded' => [
+                'border-radius' => "4px",
+            ],
+            'rounded' => [
+                'border-radius' => "8px",
+            ],
+            'extra_rounded' => [
+                'border-radius' => "16px"
+            ],
+            'none' => [
+                'border-radius' => "0px"
+            ]
+        ];
+
+        return isset($openers[$type]) ? $openers[$type]['border-radius'] : '';
     }
 }
 
