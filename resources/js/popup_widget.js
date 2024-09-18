@@ -1,0 +1,33 @@
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/popup-widget.ts":
+/*!*****************************!*\
+  !*** ./src/popup-widget.ts ***!
+  \*****************************/
+/***/ (() => {
+
+eval("\n//@ts-ignore\njQuery(document).ready(function ($) {\n    var settings = {\n        position: \"top-left\",\n        'corner_radius': \"sharp\",\n        'initial_delay': 3000,\n        'delay_between': 2000,\n        'display_time': 5000\n    };\n    (function POPUP_WIDGET_DEFAULT() {\n        var template = document.getElementById('r_rpw_popup_widget_container');\n        // Get the host element where the Shadow DOM will be attached\n        var host = document.getElementById('r_rpw_popup_widget_container_wrapper');\n        var shadowRoot = host.attachShadow({ mode: 'open' });\n        shadowRoot.appendChild(template.content.cloneNode(true));\n        template.remove();\n        //@ts-ignore\n        var review_popup_widget_js_data = window.review_popup_widget_js_data;\n        var POPUP_WIDGET = {\n            init: function () {\n                var container = shadowRoot.querySelector(\"#r_puw_container_wrapper\");\n                var fetchData = function () {\n                    $.ajax(\"http://localhost:9005/wp-admin/admin-ajax.php\", {\n                        method: \"POST\",\n                        data: {\n                            action: review_popup_widget_js_data.action,\n                            method: 'popup_widget_template',\n                            _wp_nonce: review_popup_widget_js_data._wp_nonce,\n                            _wp_nonce_key: review_popup_widget_js_data._wp_nonce_key,\n                        },\n                        contentType: 'application/x-www-form-urlencoded',\n                    }).then(function (response) {\n                        var _a, _b;\n                        var response_data = response.data;\n                        if (container) {\n                            var isHovered_1 = false;\n                            $(container).html(response_data.template);\n                            var closeIcon = shadowRoot.querySelector(\".r_puw_close-icon\");\n                            closeIcon.addEventListener('click', function () {\n                                $(container).hide();\n                            });\n                            var popupWidgetContainer_1 = shadowRoot.querySelector(\".r_puw_container\");\n                            //@ts-ignore\n                            if (settings.position == \"top-left\" || settings.position == \"bottom-left\") {\n                                (_a = $(popupWidgetContainer_1)) === null || _a === void 0 ? void 0 : _a.addClass(\"r_puw-popup_left_slide_in\").removeClass(\"r_puw_container_left_slide_out\");\n                            }\n                            else {\n                                (_b = $(popupWidgetContainer_1)) === null || _b === void 0 ? void 0 : _b.addClass(\"r_puw-popup_right_slide_in\").removeClass(\"r_puw_container_right_slide_out\");\n                            }\n                            $(container).show();\n                            container.addEventListener('mouseover', function () {\n                                console.log(\"I am callng\");\n                                isHovered_1 = true;\n                                console.log(isHovered_1);\n                            });\n                            if (!isHovered_1) {\n                                console.log(isHovered_1);\n                                setTimeout(function () {\n                                    var _a, _b;\n                                    //@ts-ignore\n                                    if (settings.position == \"top-left\" || settings.position == \"bottom-left\") {\n                                        (_a = $(popupWidgetContainer_1)) === null || _a === void 0 ? void 0 : _a.addClass(\"r_puw-popup_left_slide_out\").removeClass(\"r_puw-popup_left_slide_in\");\n                                    }\n                                    else {\n                                        (_b = $(popupWidgetContainer_1)) === null || _b === void 0 ? void 0 : _b.addClass(\"r_puw_container_right_slide_out\").removeClass(\"r_puw-popup_right_slide_in\");\n                                    }\n                                    setTimeout(function () {\n                                        $(container).hide();\n                                    }, 1000);\n                                    setTimeout(fetchData, settings.delay_between);\n                                }, settings.display_time);\n                            }\n                        }\n                    });\n                };\n                setTimeout(fetchData, settings.initial_delay);\n            }\n        };\n        POPUP_WIDGET.init();\n    })();\n});\n\n\n//# sourceURL=webpack://scripts/./src/popup-widget.ts?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./src/popup-widget.ts"]();
+/******/ 	
+/******/ })()
+;

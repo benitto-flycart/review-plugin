@@ -4,6 +4,8 @@ module.exports = {
     entry: {
         review_form: './src/review-form.ts', // Adjust the path to where your app1.ts is located
         product_widget: './src/product-widget.ts', // Adjust the path to where your app2.ts is located
+        popup_widget: './src/popup-widget.ts', // Adjust the path to where your app2.ts is located
+        snippet_widget: './src/snippet-widget.ts', // Adjust the path to where your app2.ts is located
     },
     module: {
         rules: [
