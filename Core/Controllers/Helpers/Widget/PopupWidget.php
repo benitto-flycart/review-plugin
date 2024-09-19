@@ -16,6 +16,7 @@ class PopupWidget extends Widget implements WidgetInterface
     {
         return [
             'corner_radius' => $this->request->get('corner_radius'),
+            'position' => $this->request->get('position'),
             'minimum_rating' => $this->request->get('minimum_rating'),
             'initial_delay' => $this->request->get('initial_delay'),
             'delay_between_popup' => $this->request->get('delay_between_popup'),
@@ -36,6 +37,7 @@ class PopupWidget extends Widget implements WidgetInterface
 
         return [
             'corner_radius' => $settings['corner_radius'] ?? 'sharp',
+            'position' => $settings['position'] ?? 'top_right',
             'minimum_rating' => $settings['minimum_rating'] ?? '3_stars',
             'initial_delay' => $settings['initial_delay'] ?? "1",
             'delay_between_popup' => $settings['delay_between_popup'] ?? "1",
@@ -61,5 +63,71 @@ class PopupWidget extends Widget implements WidgetInterface
                 ]
             ]
         ];
+    }
+
+    public function getPosition()
+    {
+        return $this->settings['position'];
+    }
+
+
+    public function showProductThumbnail()
+    {
+        return Functions::getBoolValue($this->settings['show_product_thumbnail']);
+    }
+
+    public function showOnHomePage()
+    {
+        return Functions::getBoolValue($this->settings['show_on_home_page']);
+    }
+
+    public function showOnCartPage()
+    {
+        return Functions::getBoolValue($this->settings['show_on_cart_page']);
+    }
+
+    public function showOnProductPage()
+    {
+        return Functions::getBoolValue($this->settings['show_on_product_page']);
+    }
+
+    public function hideOnMobile()
+    {
+        return Functions::getBoolValue($this->settings['hide_on_mobile']);
+    }
+
+    public function getWidgetStyles()
+    {
+        $vars = [
+            "--r-puw-text-color" => $this->settings['colors']['review']['text_color'],
+            "--r-puw-bg-color" => $this->settings['colors']['review']['bg_color'],
+            "--r-puw-product-text-color" => $this->settings['colors']['product']['text_color'],
+            "--r-puw-close-icon-color" => $this->settings['colors']['close_icon']['text_color'],
+            "--r-puw-close-icon-bg-color" => $this->settings['colors']['close_icon']['bg_color'],
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
+
+    public function getCornerRadiusClass()
+    {
+        switch ($this->settings['corner_radius']) {
+            case 'sharp':
+                return 'r_puw-sharp';
+            case 'slightly_rounded':
+                return 'r_puw-popup_slightly_rounded';
+            case 'rounded':
+                return 'r_puw-popup_rounded';
+            case 'extra_rounded':
+                return 'r_puw-popup_extra_rounded';
+            case 'none':
+                return 'r_puw-popup_none';
+        }
     }
 }

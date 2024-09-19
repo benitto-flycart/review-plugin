@@ -16,8 +16,6 @@ function ProductWidgetContextAPI({children}: { children: any }) {
 
     const {reviews, refetch} = useContext<any>(SampleReviewsContext)
 
-    console.log(reviews)
-
     const [widget, setWidget] = useState({
         widget_loading: true,
         view: 'desktop',

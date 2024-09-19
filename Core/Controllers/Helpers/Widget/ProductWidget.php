@@ -95,7 +95,6 @@ class ProductWidget extends Widget implements WidgetInterface
 
     public function getHeaderLayout()
     {
-        error_log(print_r($this->settings, true));
         return $this->settings['layout']['header_layout'];
     }
 

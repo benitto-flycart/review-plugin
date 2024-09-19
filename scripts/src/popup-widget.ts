@@ -16,7 +16,7 @@ jQuery(document).ready(($) => {
         // Get the host element where the Shadow DOM will be attached
         const host = document.getElementById('r_rpw_popup_widget_container_wrapper') as HTMLElement;
 
-        const shadowRoot = host.attachShadow({ mode: 'open' });
+        const shadowRoot = host.attachShadow({mode: 'open'});
 
         shadowRoot.appendChild(template.content.cloneNode(true));
         template.remove();
@@ -26,9 +26,9 @@ jQuery(document).ready(($) => {
 
         const POPUP_WIDGET: any = {
             init: () => {
-                let container:any = shadowRoot.querySelector("#r_puw_container_wrapper");
+                let container: any = shadowRoot.querySelector("#r_puw_container_wrapper");
                 const fetchData = () => {
-                    $.ajax("http://localhost:9005/wp-admin/admin-ajax.php", {
+                    $.ajax(review_popup_widget_js_data.ajax_url, {
                         method: "POST",
                         data: {
                             action: review_popup_widget_js_data.action,
@@ -40,37 +40,40 @@ jQuery(document).ready(($) => {
                     }).then((response: any) => {
                         const response_data = response.data;
                         if (container) {
-                            let isHovered=false
+                            let isHovered = false
                             $(container).html(response_data.template);
-                            let closeIcon:any=shadowRoot.querySelector(".r_puw_close-icon");
-                            closeIcon.addEventListener('click',()=>{
+
+                            let closeIcon: any = shadowRoot.querySelector(".r_puw_close-icon");
+
+                            closeIcon.addEventListener('click', () => {
                                 $(container).hide();
                             })
-                            let popupWidgetContainer:any=shadowRoot.querySelector(".r_puw_container")
-                            //@ts-ignore
-                            if(settings.position=="top-left" || settings.position=="bottom-left"){
+
+                            let popupWidgetContainer: any = shadowRoot.querySelector(".r_puw_container")
+                            // @ts-ignore
+                            if (settings.position == "top-left" || settings.position == "bottom-left") {
                                 $(popupWidgetContainer)?.addClass("r_puw-popup_left_slide_in").removeClass("r_puw_container_left_slide_out")
-                            } else{
+                            } else {
                                 $(popupWidgetContainer)?.addClass("r_puw-popup_right_slide_in").removeClass("r_puw_container_right_slide_out")
                             }
                             $(container).show();
-                            container.addEventListener('mouseover',()=>{
+                            container.addEventListener('mouseover', () => {
                                 console.log("I am callng")
-                                isHovered=true
+                                isHovered = true
                                 console.log(isHovered)
                             })
-                            if(!isHovered){
+                            if (!isHovered) {
                                 console.log(isHovered)
                                 setTimeout(() => {
                                     //@ts-ignore
-                                    if(settings.position=="top-left" || settings.position=="bottom-left"){
+                                    if (settings.position == "top-left" || settings.position == "bottom-left") {
                                         $(popupWidgetContainer)?.addClass("r_puw-popup_left_slide_out").removeClass("r_puw-popup_left_slide_in")
-                                    } else{
+                                    } else {
                                         $(popupWidgetContainer)?.addClass("r_puw_container_right_slide_out").removeClass("r_puw-popup_right_slide_in")
                                     }
-                                    setTimeout(()=>{
+                                    setTimeout(() => {
                                         $(container).hide();
-                                    },1000)
+                                    }, 1000)
                                     setTimeout(fetchData, settings.delay_between);
                                 }, settings.display_time);
                             }

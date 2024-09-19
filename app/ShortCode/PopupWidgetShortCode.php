@@ -22,7 +22,7 @@ class PopupWidgetShortCode
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-popup-widget-script";
             $registrationHandle = "{$pluginSlug}-popup-widget";
-            $storeConfig = static::getProductWidgetConfigValues();
+            $storeConfig = static::getCofigValues();
 
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/popup_widget.js", array('jquery'), F_Review_VERSION, true);
@@ -43,15 +43,18 @@ class PopupWidgetShortCode
         });
     }
 
-    public static function getProductWidgetConfigValues()
+    public static function getCofigValues()
     {
         return [
             'home_url' => get_home_url(),
             'admin_url' => admin_url(),
+            'ajax_url' => admin_url('admin-ajax.php'),
             'action' => is_user_logged_in() ? Route::AJAX_NAME : Route::AJAX_NO_PRIV_NAME,
             'review_front_end_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             '_wp_nonce_key' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
+            'is_product_page' => $is_product_page = is_product(),
+            'product_id' => get_the_ID(),
         ];
     }
 
@@ -60,13 +63,24 @@ class PopupWidgetShortCode
         try {
             $path = F_Review_PLUGIN_PATH . 'resources/templates/popup-widget/';
 
-//            $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(Widget::POPUP_WIDGET, get_locale(), null);
 //
-//            $widget = $widgetFactory->widget;
+            $widget = $widgetFactory->widget;
+
+            $styles = $widget->getWidgetStyles();
+
+            $reviews = require_once F_Review_PLUGIN_PATH . '/app/config/sample-reviews.php';
 //
+            $review = $reviews[random_int(0, 32)];
 //
-//            $header = $widget->getHeaderLayout(); //$settings['layout']['header_layout'];
-//            $main_content = $widget->getMainContentLayout(); //$settings['layout']['widget_layout'];
+            $position = $widget->getPosition();
+
+            $data = [
+                'ratings' => [
+                    'rating_icon' => 'gem',
+                    'rating_outline_icon' => 'gem-outline',
+                ]
+            ];
 
             ob_start(); // Start output buffering
             include $path . 'index.php'; // Include the PHP file

@@ -12,6 +12,7 @@ import SidebarDetailField from "../Sidebar/SidebarDetailField";
 const PopupWidgetConfigSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(PopupWidgetContext)
 
+    console.log(widget.position);
     return (
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>

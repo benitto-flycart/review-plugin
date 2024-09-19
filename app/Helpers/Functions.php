@@ -233,5 +233,9 @@ class Functions
         ];
     }
 
+    public static function isMobile() {
+        return preg_match('/(android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile)/i', $_SERVER['HTTP_USER_AGENT'] ?? '');
+    }
+
 
 }
