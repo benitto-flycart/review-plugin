@@ -1,11 +1,14 @@
 .r_sbw__container {
     display: flex;
-    position: absolute;
+    position: fixed;
     padding: 10px;
     gap: 10px;
     top: 46%;
     font-size: 20px;
     writing-mode: tb-rl;
+    color: var(--r-r_sbw-text-color);
+    background-color: var(--r-r_sbw-bg-color);
+    z-index: 1000;
 }
 
 .r_sbw__top_bottom {
@@ -51,7 +54,6 @@
 .r_sbw__pl_bt .r_sbw__btn_text {
     transform: rotateZ(0deg);
 }
-
 
 .r_sbw__pr_bt {
     flex-direction: row-reverse;

@@ -8,7 +8,6 @@ import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
 import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
 import SidebarDetailField from "../Sidebar/SidebarDetailField";
-import InputFontSize from "../utils/InputFontSize";
 
 const RatingWidgetConfigSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(RatingWidgetContext)
@@ -18,20 +17,6 @@ const RatingWidgetConfigSetting = ({name}: any) => {
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
             <SidebarDetail>
                 <SidebarDetailSection title={"General"}>
-                    <SidebarDetailField>
-                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch
-                                checked={widget.show_all_reviews}
-                                onCheckedChange={(value: boolean) => {
-                                    updateWidgetFields((draftState: any) => {
-                                        draftState.show_all_reviews = value;
-                                    })
-                                }}
-                            />
-                            <Label className={"frt-text-xs"} htmlFor="none">Show All Reviews</Label>
-                        </div>
-                        <p>When selected, shows combined store reviews</p>
-                    </SidebarDetailField>
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Text</Label>
                         <Textarea value={widget.text_content} onChange={(e: any) => {
@@ -55,20 +40,6 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                             <Label className={"frt-text-xs"} htmlFor="none">Hide Text</Label>
                         </div>
                         <p>Hide the Text Content</p>
-                    </SidebarDetailField>
-                    <SidebarDetailField>
-                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch
-                                checked={widget.open_floating_product_review}
-                                onCheckedChange={(value: boolean) => {
-                                    updateWidgetFields((draftState: any) => {
-                                        draftState.open_floating_product_review = value;
-                                    })
-                                }}
-                            />
-                            <Label className={"frt-text-xs"} htmlFor="none">Open Floating Product Review</Label>
-                        </div>
-                        <p>Open Floating Product Review on click</p>
                     </SidebarDetailField>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">

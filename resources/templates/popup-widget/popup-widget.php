@@ -1,7 +1,7 @@
 <style>
     #r_rpw_popup_widget_container_wrapper {
         position: fixed;
-        z-index: 99999;
+        z-index: 100;
     }
 
     .r_outer-puw-bottom_left {

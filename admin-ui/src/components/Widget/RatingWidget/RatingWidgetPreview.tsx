@@ -52,24 +52,22 @@ const RatingWidgetPreview = () => {
                     <h2 className={'r_rw__product_price'}>price</h2>
                     <p className={'r_rw__product_description'}>This is a simple, Virtual Product</p>
                     <button className={`r_rw__add_to_cart_button button wp-element-button`}>Add to Cart</button>
-                    <div className={'r_rw_rating_details'} style={methods.getRatingContainerStyle()}>
+                    <div className={'r_rw_rating_details'} style={methods.getWidgetVars()}>
                         {widget.layout == 'default' ? (
-                            <div className="r_rw_rating_icons"
-                                 style={methods.getRatingStyles()}>
+                            <div className="r_rw_rating_icons">
                                 <ReviewIcon/>
                                 <ReviewIcon/>
                                 <ReviewIcon/>
                                 <ReviewIcon/>
                                 <ReviewIcon/>
                             </div>) : (
-                            <div className="r_rw_single_rating_icon"
-                                 style={methods.getRatingStyles()}>
+                            <div className="r_rw_single_rating_icon">
                                 <ReviewIcon/>
                             </div>
                         )}
 
                         {!widget.hide_text_content ? (
-                            <div className={"r_rw_preview_element__text"} style={methods.getTextStyles()}>
+                            <div className={"r_rw_preview_element__text"}>
                                 {methods.getWidgetTextContent()}
                             </div>) : null}
                     </div>
