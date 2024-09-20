@@ -52,18 +52,27 @@ class Route
         $request = static::getRequestObject();
         $method = $request->get('method');
 
-        $nonce_key = $request->get('_wp_nonce_key');
-        $nonce = $request->get('_wp_nonce');
-
-        if ($method != 'get_local_data' && $method != 'playground') {
-            static::verifyNonce($nonce_key, $nonce); // to verify nonce
-        }
-
-        //loading auth routes
-        $handlers = PluginHelper::getAuthRoutes();
+        $isAuthRoute = false;
+        $handlers = require(PluginHelper::pluginRoutePath() . '/guest-api.php');
 
         if (!isset($handlers[$method])) {
-            Response::error(['message' => 'Method not exists']);
+            //loading auth routes
+            $handlers = PluginHelper::getAuthRoutes();
+            $isAuthRoute = true;
+        }
+
+        if ($isAuthRoute) {
+            $nonce_key = $request->get('_wp_nonce_key');
+            $nonce = $request->get('_wp_nonce');
+
+            if ($method != 'get_local_data' && $method != 'playground') {
+                static::verifyNonce($nonce_key, $nonce); // to verify nonce
+            }
+        }
+
+
+        if (!isset($handlers[$method])) {
+            Response::error(['message' => __('Method not exists', 'relaywp')]);
         }
 
         $targetAction = $handlers[$method];
