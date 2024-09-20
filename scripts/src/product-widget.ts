@@ -6,6 +6,7 @@ jQuery(document).ready(($) => {
 
     (function PRODUCT_WIDGET_DEFAULT() {
 
+
         const template = document.getElementById('r_rpw_product_widget_container') as HTMLTemplateElement;
 
         console.log(template)
@@ -16,6 +17,8 @@ jQuery(document).ready(($) => {
 
         shadowRoot.appendChild(template.content.cloneNode(true));
         template.remove();
+
+        let container = shadowRoot.querySelector('#r_rpw_container_wrapper') as HTMLElement;
 
         //@ts-ignore
         const review_product_widget_js_data = window.review_product_widget_js_data;
@@ -52,42 +55,129 @@ jQuery(document).ready(($) => {
         }
 
         const PRODUCT_WIDGET: any = {
-            init: () => {
-                let container = shadowRoot.querySelector('#r_rpw_container_wrapper') as HTMLElement;
-
-                $.ajax(review_product_widget_js_data.ajax_url, {
+            details: {
+                current_rating: 0,
+                current_sorting: 'highest',
+                current_page: 1
+            },
+            init: async () => {
+                await $.ajax(review_product_widget_js_data.ajax_url, {
                     method: 'POST',
                     data: {
                         action: review_product_widget_js_data.action,
                         method: 'product_widget_template',
                         _wp_nonce: review_product_widget_js_data._wp_nonce,
                         _wp_nonce_key: review_product_widget_js_data._wp_nonce_key,
+                        main_content: true,
+                        header: true,
+                        wrapper: true,
                     },
                     contentType: 'application/x-www-form-urlencoded',
                 }).then((response) => {
                     const response_data = response.data;
-                    $(container).html(response_data.template);
+                    $(container).html(response_data.template.wrapper);
 
-                    if (review_product_widget_js_data.widget_content_type == 'grid') {
-                        //@ts-ignore
-                        masnoryLayout();
-                        setTimeout(() => {
-                                masnoryLayout();
-                            },
-                            3000)
-                    } else if(review_product_widget_js_data.widget_content_type == 'mosaic') {
-                       //@ts-ignore
-                        mosaicLayout();
-                        setTimeout(() => {
-                                mosaicLayout();
-                            },
-                            3000)
-                    }
+                    let wrapper = shadowRoot.querySelector('.wd_preview_content') as HTMLElement
+                    $(wrapper).append(response_data.template.header);
+                    $(wrapper).append(response_data.template.main_content);
+
+                    PRODUCT_WIDGET.initHeaderAndRegisterEvents();
+                    PRODUCT_WIDGET.initLayoutAndRegisterEvents();
 
                 }).catch(() => {
                     console.log("error occurred while loading review template");
                 })
-            }
+            },
+            headerInit: () => {
+                shadowRoot.querySelectorAll('.r_pw_h_sorting-link')?.forEach((item: any) => {
+                    item.addEventListener('click', (e: any) => {
+                        let sorting = item.getAttribute('data-sorting');
+                        PRODUCT_WIDGET.current_rating = 0;
+                        PRODUCT_WIDGET.current_sorting = sorting;
+                        PRODUCT_WIDGET.filter();
+                    });
+                })
+            },
+            initHeaderAndRegisterEvents: () => {
+
+                PRODUCT_WIDGET.headerInit();
+                if (review_product_widget_js_data.widget_header_type == 'compact') {
+                    PRODUCT_WIDGET.compactHeaderInit();
+                }
+            },
+            initLayoutAndRegisterEvents: () => {
+                if (review_product_widget_js_data.widget_content_type == 'grid') {
+                    //@ts-ignore
+                    masnoryLayout();
+                    setTimeout(() => {
+                        masnoryLayout();
+                    }, 4000)
+                } else if (review_product_widget_js_data.widget_content_type == 'mosaic') {
+                    //@ts-ignore
+                    mosaicLayout();
+                    setTimeout(() => {
+                            mosaicLayout();
+                        },
+                        4000)
+                }
+
+                PRODUCT_WIDGET.registerPaginationEvents();
+            },
+            registerPaginationEvents: () => {
+                shadowRoot.querySelectorAll('.r_w_pagination-link')?.forEach((item: any) => {
+                    item.addEventListener('click', (e: any) => {
+                        let current_page = item.getAttribute('data-pagination-page');
+                        PRODUCT_WIDGET.current_page = current_page;
+                        PRODUCT_WIDGET.filter();
+                    });
+                })
+            },
+            compactHeaderInit: () => {
+                shadowRoot.querySelectorAll('.r_pw_ch_rd_detail')?.forEach((item: any) => {
+                    item.addEventListener('click', (e: any) => {
+                        let rating = item.getAttribute('data-rating');
+                        PRODUCT_WIDGET.current_rating = rating;
+                        PRODUCT_WIDGET.sorting = '';
+                        PRODUCT_WIDGET.current_page = 0;
+                        PRODUCT_WIDGET.filter();
+                    });
+                })
+            },
+            filter: async () => {
+                console.log('making request to filter the data');
+                await $.ajax(review_product_widget_js_data.ajax_url, {
+                    method: 'POST',
+                    data: {
+                        action: review_product_widget_js_data.action,
+                        method: 'product_widget_template',
+                        _wp_nonce: review_product_widget_js_data._wp_nonce,
+                        _wp_nonce_key: review_product_widget_js_data._wp_nonce_key,
+                        main_content: true,
+                        current_page: PRODUCT_WIDGET.current_page,
+                        rating: PRODUCT_WIDGET.current_rating,
+                        sorting: PRODUCT_WIDGET.current_sorting,
+                    },
+                    contentType: 'application/x-www-form-urlencoded',
+                }).then((response) => {
+                    const response_data = response.data;
+
+                    let mainContentWrapper = shadowRoot.querySelector('.r_pw_main_container') as HTMLElement
+                    $(mainContentWrapper).html(response_data.template.main_content);
+
+                    PRODUCT_WIDGET.initLayoutAndRegisterEvents();
+                    console.log('Updated main content');
+                }).catch(() => {
+                    console.log("error occurred while loading review template");
+                })
+            },
+            expandedHeaderInit: () => {
+
+            },
+            minimalHeaderInit: () => {
+
+            },
+
+
         }
 
         PRODUCT_WIDGET.init();

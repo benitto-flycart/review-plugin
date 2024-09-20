@@ -1,34 +1,26 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {ProductWidgetContext} from "../../../ProductReviewContextAPI";
 import {getRepliesStyles, getReviewCardStyles} from "../../../helper";
 import ReviewIcon from "../../../../../ReviewIcon";
 
 const ListCardPreview = ({review}: any) => {
 
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
-    // const [isHovered, setIsHovered] = useState<boolean>(false);
-
-    // const handleMouseEnter = () => setIsHovered(true);
-    // const handleMouseLeave = () => setIsHovered(false);
-
     return (
         <div
             key={review.id}
             className={"r_pw_r_container r_pw_r_l_container"}
-            style={getReviewCardStyles(widget)}
-            // onMouseEnter={handleMouseEnter}
-            // onMouseLeave={handleMouseLeave}
         >
             <div className={"r_pw_r_l_container--review_details"}>
                 <div className={"r_pw_r_l_container--review_details-overview"}>
-                    <span className={"r_pw_r_l_container--review_details-reviewer_name"}>{review.reviewer_name}</span>
-                    <span
-                        className={"r_pw_r_l_container--review_details-review_title"}>{review.review_title}</span>
-                    {review.is_verified ?
-                        <span className={"r_pw_r_l_container--review_details-review_verfied"}>Verified</span> : null}
+                    <div className={"r_pw_r_l_container--review_details-overview-header"}>
+                        <span
+                            className={"r_pw_r_l_container--review_details-reviewer_name"}>{review.reviewer_name}</span>
+                        {review.is_verified ? <span
+                            className={"r_pw_r_l_container--review_details-review_verfied"}>Verified</span> : null}
+                    </div>
+                    <span className={"r_pw_r_l_container--review_details--review-date"}>{review.date}</span>
                 </div>
                 <div className={"r_pw_r_l_container--review_details--rating_details"}>
-                    <span className={"r_pw_r_l_container--review_details--review-date"}>{review.date}</span>
                     <div className="r_pw_r_l_container--review_details--rating_details_icons">
                         <ReviewIcon/>
                         <ReviewIcon/>
@@ -46,7 +38,6 @@ const ListCardPreview = ({review}: any) => {
             </div>
             {review.replies?.length > 0 ? (
                 <div className={"r_pw_r_reply_container r_pw_r_l_container--reply_container"}
-                     style={getRepliesStyles(widget)}
                 >
                     {review.replies?.map((reply: any, index: number) => {
                         return (
@@ -72,8 +63,8 @@ const ListCardPreview = ({review}: any) => {
                 </div>
             ) : null}
 
-            <div>
-                <img src={review.product.src} alt={""} height={"50px"}
+            <div  className={"r_pw_r_l-product_container"}>
+                <img className={"r_pw_r_l-product_container-img"} src={review.product.src} alt={""} height={"50px"}
                      width={"50px"}/>
                 <span>{review.product.product_name}</span>
             </div>

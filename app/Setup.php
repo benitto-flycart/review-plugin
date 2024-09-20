@@ -26,6 +26,8 @@ class Setup
         error_log('Executing Activation Hook');
 
         static::create_custom_page_programmatically();
+
+        flush_rewrite_rules();
     }
 
     // Hook into theme activation

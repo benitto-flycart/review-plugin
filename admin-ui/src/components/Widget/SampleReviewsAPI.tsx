@@ -10,12 +10,14 @@ function SampleReviewsContextAPI({children}: { children: any }) {
 
     const [reviews, setReviews] = useState<any>([])
 
-    useEffect(() => {
+    const fetch = () => {
         axiosClient.post('', {
             method: 'get_sample_reviews',
             language: localState.current_locale,
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            current_page: reviews.current_page ?? 1,
+            per_page: 15,
         }).then((response: any) => {
             setReviews(response.data.data)
         }).catch((error: any) => {
@@ -23,11 +25,16 @@ function SampleReviewsContextAPI({children}: { children: any }) {
             toastrError('Unable to Load Sample Reviews');
         }).finally(() => {
         });
+    }
+
+    useEffect(() => {
+        fetch();
     }, []);
 
     return (
         <SampleReviewsContext.Provider value={{
             reviews: reviews,
+            refetch: fetch
         }}>
             {children}
         </SampleReviewsContext.Provider>

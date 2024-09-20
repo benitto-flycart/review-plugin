@@ -4,18 +4,17 @@ import {axiosClient} from "../../api/axios";
 import {useLocalState} from "../../zustand/localState";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {SampleReviewsContext} from "../SampleReviewsAPI";
+import {getReviewShadow, REVIEW_OPENERS} from "./Preview/preview-constants";
 
 export const ProductWidgetContext = createContext({});
 
 function ProductWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(false)
     const [saving, setSaving] = useState(false)
-   const [customStylesState,setCustomStylesState]=useState<any>()
+    const [customStylesState, setCustomStylesState] = useState<any>()
     const {localState} = useLocalState();
 
-    const {reviews} = useContext<any>(SampleReviewsContext)
-
-    console.log(reviews)
+    const {reviews, refetch} = useContext<any>(SampleReviewsContext)
 
     const [widget, setWidget] = useState({
         widget_loading: true,
@@ -32,32 +31,32 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         colors: {
             type: 'custom',
             header: {
-                text_and_icon_color: '#282828',
-                bar_fill_color: '#7b7b7b',
-                bar_bg_color: '#f5f5f5',
+                text_and_icon_color: '',
+                bar_fill_color: '',
+                bar_bg_color: '',
             },
-            widget_wrapper:{
-                background_color: '#ffffff',
+            widget_wrapper: {
+                background_color: '',
             },
             button: {
-                text_color: '#000000',
-                text_hover_color: '#000000',
-                bg_color: '#ffffff',
-                bg_hover_color: '#e8e8e8',
-                border_color: '#e8e8e8',
+                text_color: '',
+                text_hover_color: '',
+                bg_color: '',
+                bg_hover_color: '',
+                border_color: '',
             },
             reviews: {
-                text_color: '#020202',
-                bg_color: '#f5c6c6',
-                bg_hover_color: '#b45e5e',
-                shadow_color: '#ebacac'
+                text_color: '',
+                bg_color: '',
+                bg_hover_color: '',
+                shadow_color: ''
             },
             replies: {
-                text_color: '#000000',
-                bg_color: '#ffffff',
+                text_color: '',
+                bg_color: '',
             },
             verified_badge: {
-                icon_color: '#282828'
+                icon_color: ''
             }
         },
         preferences: {
@@ -92,9 +91,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
             draftState.colors = {
                 //colors
                 type: settings?.colors?.type,
-                widget_wrapper:{
-                    background_color: settings.colors.widget_wrapper.background_color,
-                },
+                widget_wrapper: settings.colors.widget_wrapper,
                 //colors header
                 header: {
                     text_and_icon_color: settings?.colors.header?.text_and_icon_color,
@@ -155,7 +152,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-             buildStateFromResponse(settings);
+            buildStateFromResponse(settings);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
@@ -174,7 +171,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-              // buildStateFromResponse(settings);
+            buildStateFromResponse(settings);
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
@@ -222,29 +219,11 @@ function ProductWidgetContextAPI({children}: { children: any }) {
         isRatingOptionsEnabled: () => {
             return widget.preferences.show_rating_options == true;
         },
-
-        getButtonStyles: () => {
-            return {
-                color: widget.colors.button.text_color,
-                backgroundColor: widget.colors.button.bg_color,
-                borderColor: widget.colors.button.border_color,
-            };
-        },
-        getHeaderTextColor: () => {
-            return {
-                color: widget.colors.header.text_and_icon_color
-            }
-        },
-        getBarBGColor: () => {
-            return widget.colors.header.bar_bg_color
-        },
-        getBarFillColor: () => {
-            return widget.colors.header.bar_fill_color
-        },
         saveSettings,
-        getProductReviewWidgetColors:()=>{
+        getProductReviewWidgetColors: () => {
+            let opener: any = REVIEW_OPENERS[widget.style.review_card_openers]
             return {
-                "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper.background_color,
+                "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper,
                 "--r-prw-btn-color": widget.colors.button.text_color,
                 "--r-prw-btn-bg-color": widget.colors.button.bg_color,
                 "--r-prw-btn-bg-hover-color": widget.colors.button.bg_hover_color,
@@ -252,6 +231,17 @@ function ProductWidgetContextAPI({children}: { children: any }) {
                 "--r-prw-progress-fill-color": widget.colors.header.bar_fill_color,
                 "--r-prw-progress-bg-color": widget.colors.header.bar_bg_color,
                 "--r-prw-header-text-icon-color": widget.colors.header.text_and_icon_color,
+
+                '--r-pw-review-color': widget.colors.reviews.text_color,
+                '--r-pw-review-bg-color': widget.colors.reviews.bg_color,
+                '--r-pw-review-bg-hover-color': widget.colors.reviews.bg_hover_color,
+
+                '--r-pw-review-replies-color': widget.colors.replies.text_color,
+                '--r-pw-review-replies-bg-color': widget.colors.replies.bg_color,
+                '--r-pw-review-verified-color': widget.colors.verified_badge.icon_color,
+
+                '--r-pw-review-border-radius': opener,
+                '--r-pw--review-box-shadow': getReviewShadow(widget.style.review_card_shadow, widget.colors.reviews.shadow_color),
             }
         },
     }
@@ -270,8 +260,9 @@ function ProductWidgetContextAPI({children}: { children: any }) {
             updateWidgetFields,
             methods: widgetMethods,
             loading,
-           saving,
-            sampleReviews: reviews
+            saving,
+            sampleReviews: reviews,
+            refetch: refetch
         }}>
             {children}
         </ProductWidgetContext.Provider>

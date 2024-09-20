@@ -1,104 +1,31 @@
 <div class="r_pw_eh_container">
     <div class="r_pw_header_rating_container r_pw_eh_rating_container">
-        <div class="r_pw_eh_rating_overview"><i class="review-icon review review-gem review-icon-filled "
-                                                style="font-size: inherit; color: inherit;"></i><span>4.7</span></div>
-        <span>20 Reviews</span></div>
+        <div class="r_pw_eh_rating_overview">
+            <i class="review-icon review review-gem review-icon-filled"></i>
+            <span><?php echo $data['ratings']['overall_rating'] ?></span>
+        </div>
+        <span><?php echo esc_attr__($data['total'] . " Reviews") ?></span></div>
     <div class="r_pw_header_rating_container r_pw_eh_rating_details_container">
-        <div class="r_pw_eh_rating_details">
-            <div class="r_pw_eh_rating_details--icons-info"><i class="review-icon review review-gem review-icon-filled "
-                                                               style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i></div>
-            <div class="r_pw_eh_rating_details--progress_bar_container">
-                <div class="r_pw_progress_bar_bg">
-                    <div class="r_pw_progress_bar_fill" style="width: 33%;"><span
-                                class="r_pw_progress_bar_label"></span></div>
+        <?php $rating = $data['ratings']; ?>
+        <?php foreach (range(0, 4) as $index) { ?>
+            <div class="r_pw_eh_rating_details">
+                <div class="r_pw_eh_rating_details--icons-info">
+                    <?php foreach (range(0, 4) as $i) { ?>
+                        <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                    <?php } ?>
+                </div>
+                <div class="r_pw_eh_rating_details--progress_bar_container">
+                    <div class="r_pw_progress_bar_bg">
+                        <div class="r_pw_progress_bar_fill"
+                             style="width: <?php echo $rating['details'][$index]['percentage'] . '%' ?>"><span
+                                    class="r_pw_progress_bar_label"></span></div>
+                    </div>
+                </div>
+                <div class="r_pw_eh_rating_details--review_count">
+                    <?php echo $rating['details'][$index]['count'] ?>
                 </div>
             </div>
-            <div class="r_pw_eh_rating_details--review_count">14</div>
-        </div>
-        <div class="r_pw_eh_rating_details">
-            <div class="r_pw_eh_rating_details--icons-info"><i class="review-icon review review-gem review-icon-filled "
-                                                               style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i></div>
-            <div class="r_pw_eh_rating_details--progress_bar_container">
-                <div class="r_pw_progress_bar_bg">
-                    <div class="r_pw_progress_bar_fill" style="width: 33%;"><span
-                                class="r_pw_progress_bar_label"></span></div>
-                </div>
-            </div>
-            <div class="r_pw_eh_rating_details--review_count">14</div>
-        </div>
-        <div class="r_pw_eh_rating_details">
-            <div class="r_pw_eh_rating_details--icons-info"><i class="review-icon review review-gem review-icon-filled "
-                                                               style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i></div>
-            <div class="r_pw_eh_rating_details--progress_bar_container">
-                <div class="r_pw_progress_bar_bg">
-                    <div class="r_pw_progress_bar_fill" style="width: 33%;"><span
-                                class="r_pw_progress_bar_label"></span></div>
-                </div>
-            </div>
-            <div class="r_pw_eh_rating_details--review_count">14</div>
-        </div>
-        <div class="r_pw_eh_rating_details">
-            <div class="r_pw_eh_rating_details--icons-info"><i class="review-icon review review-gem review-icon-filled "
-                                                               style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i></div>
-            <div class="r_pw_eh_rating_details--progress_bar_container">
-                <div class="r_pw_progress_bar_bg">
-                    <div class="r_pw_progress_bar_fill" style="width: 33%;"><span
-                                class="r_pw_progress_bar_label"></span></div>
-                </div>
-            </div>
-            <div class="r_pw_eh_rating_details--review_count">14</div>
-        </div>
-        <div class="r_pw_eh_rating_details">
-            <div class="r_pw_eh_rating_details--icons-info"><i class="review-icon review review-gem review-icon-filled "
-                                                               style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i><i
-                        class="review-icon review review-gem review-icon-filled "
-                        style="font-size: inherit; color: inherit;"></i></div>
-            <div class="r_pw_eh_rating_details--progress_bar_container">
-                <div class="r_pw_progress_bar_bg">
-                    <div class="r_pw_progress_bar_fill" style="width: 33%;"><span
-                                class="r_pw_progress_bar_label"></span></div>
-                </div>
-            </div>
-            <div class="r_pw_eh_rating_details--review_count">14</div>
-        </div>
+        <?php } ?>
     </div>
     <div class="r_pw_eh_actions_container">
         <div class="r_pw_eh_actions_container--btn_container">

@@ -71,7 +71,6 @@ function PopupWidgetContextAPI({children}: { children: any }) {
                     text_color: settings?.colors?.close_icon?.text_color,
                     bg_color: settings?.colors?.close_icon?.bg_color,
                 }
-
             }
         })
     }
@@ -129,22 +128,41 @@ function PopupWidgetContextAPI({children}: { children: any }) {
     }, []);
 
     const widgetMethods = {
-        getPopupPreviewStyles: () => {
+        getPopupVars: () => {
             return {
-                color: widget.colors.review.text_color,
-                backgroundColor: widget.colors.review.bg_color,
-                display: 'block'
-            };
+                "--r-puw-text-color": widget.colors.review.text_color,
+                "--r-puw-bg-color": widget.colors.review.bg_color,
+                "--r-puw-product-text-color": widget.colors.product.text_color,
+                "--r-puw-close-icon-color": widget.colors.close_icon.text_color,
+                "--r-puw-close-icon-bg-color": widget.colors.close_icon.bg_color,
+            }
+
         },
-        getPopupProductStyles: () => {
-            return {
-                color: widget.colors.product.text_color,
-            };
+        getPopupPosition: () => {
+            switch (widget.position) {
+                case 'top_right':
+                    return 'r_puw-top_right r_puw-popup_right_slide_in'
+                case 'top_left':
+                    return 'r_puw-top_left r_puw-popup_left_slide_in'
+                case 'bottom_right':
+                    return 'r_puw-bottom_right r_puw-popup_right_slide_in'
+                case 'bottom_left':
+                    return 'r_puw-bottom_left r_puw-popup_left_slide_in'
+            }
         },
-        getCloseIconStyles: () => {
-            return {
-                color: widget.colors.close_icon.text_color,
-                backgroundColor: widget.colors.close_icon.bg_color,
+
+        getCornerRadius: () => {
+            switch (widget.corner_radius) {
+                case 'sharp':
+                    return 'r_puw-sharp'
+                case 'slightly_rounded':
+                    return 'r_puw-popup_slightly_rounded'
+                case 'rounded':
+                    return 'r_puw-popup_rounded'
+                case 'extra_rounded':
+                    return 'r_puw-popup_extra_rounded'
+                case 'none':
+                    return 'r_puw-popup_none'
             }
         },
         saveSettings,

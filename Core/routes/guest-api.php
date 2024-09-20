@@ -9,7 +9,7 @@ return [
     'review_form_template' => ['callable' => [ReviewFormController::class, 'getReviewFormTemplate']],
     'upload_review_image' => ['callable' => [ReviewFormController::class, 'uploadImage']],
     'save_customer_review' => ['callable' => [ReviewFormController::class, 'saveReview']],
-
+    'popup_widget_template' => ['callable' => [\Flycart\Review\App\ShortCode\PopupWidgetShortCode::class, 'getTemplate']],
     'product_widget_template' => ['callable' => [ProductWidgetController::class, 'getProductWidgetTemplate']],
 ];
 

@@ -4,7 +4,7 @@ import {ProductWidgetContext} from "../../ProductReviewContextAPI";
 
 const ListWidgetPreview = () => {
     const context = useContext<any>(ProductWidgetContext)
-    const items: any = context.sampleReviews;
+    const items: any = context.sampleReviews.reviews;
 
     return (
         <div

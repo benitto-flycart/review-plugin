@@ -1,4 +1,4 @@
-.wd_preview_content{
+.wd_preview_content {
     background-color: white;
 }
 
@@ -7,17 +7,23 @@
     position: absolute;
     border-radius: .5rem;
     width: 200px;
+    display: block;
+    color: var(--r-puw-text-color);
+    background-color: var(--r-puw-bg-color);
 }
 
-
 .r_puw_close-icon {
-    border-radius: 1em;
+    border-radius: 50%;
     padding: .5em;
     position: absolute;
     right: -12px;
     top: -12px;
+    display: flex;
+    justify-content: center;
     opacity: 0.2;
     cursor: pointer;
+    color: var(--r-puw-close-icon-color);
+    background-color: var(--r-puw-close-icon-bg-color);
 }
 
 .r_puw_close-icon:hover {
@@ -60,6 +66,7 @@
 
 .r_puw-product_details_wrapper {
     padding: .5rem;
+    color: var(--r-puw-product-text-color)
 }
 
 .r_puw-product_details-img_wrapper {
@@ -69,6 +76,7 @@
 .r_puw-product_details-img {
     width: 50px;
     height: 50px;
+    border-radius: 5px;
 }
 
 .r_puw-product_details-product_title {
@@ -82,6 +90,14 @@
 
 .r_puw-popup_right_slide_in {
     animation: r_puw-popup-right-slide-in 1000ms;
+}
+
+.r_puw-popup_left_slide_out {
+    animation: r_puw-popup-left-slide-out 1000ms;
+}
+
+.r_puw-popup_right_slide_out {
+    animation: r_puw-popup-right-slide-out 1000ms;
 }
 
 .r_puw-bottom_left {
@@ -130,7 +146,7 @@
 
 @keyframes r_puw-popup-left-slide-in {
     from {
-        transform: translateX(-100%);
+        transform: translateX(-120%);
     }
     to {
         transform: translateX(0%);
@@ -139,10 +155,28 @@
 
 @keyframes r_puw-popup-right-slide-in {
     from {
-        transform: translate(100%);
+        transform: translate(120%);
     }
     to {
         transform: translateX(0%);
+    }
+}
+
+@keyframes r_puw-popup-left-slide-out {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-120%);
+    }
+}
+
+@keyframes r_puw-popup-right-slide-out {
+    from {
+        transform: translate(0%);
+    }
+    to {
+        transform: translateX(120%);
     }
 }
 
@@ -150,6 +184,7 @@
     .r_puw_container {
         width: 150px;
     }
+
     .r_puw-review_image_wrapper {
         max-height: 200px;
         overflow: hidden;

@@ -21,66 +21,37 @@ const PreviewPopupWidget = () => {
         })
 
         // setTimeout(() => {
-            //@ts-ignore
-            let iframe: any = window.frames['widget_preview_iframe'];
+        //@ts-ignore
+        let iframe: any = window.frames['widget_preview_iframe'];
 
-            let linkElement: any = document.createElement('link');
-            linkElement.rel = 'stylesheet';
-            linkElement.href = localState.iframe_styles?.popup_widget?.widget_css; // Replace with the URL of your stylesheet
+        let linkElement: any = document.createElement('link');
+        linkElement.rel = 'stylesheet';
+        linkElement.href = localState.iframe_styles?.popup_widget?.widget_css; // Replace with the URL of your stylesheet
 
-            let head = iframe.contentDocument.head;
-            let body = iframe.contentDocument.body;
-            head.appendChild(linkElement);
+        let head = iframe.contentDocument.head;
+        let body = iframe.contentDocument.body;
+        head.appendChild(linkElement);
 
-            let another = document.createElement('link');
-            another.rel = 'stylesheet';
-            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-            head.appendChild(another);
+        let another = document.createElement('link');
+        another.rel = 'stylesheet';
+        another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
+        head.appendChild(another);
 
-            updateWidgetFields((draftState: any) => {
-                draftState.widget_loading = false
-            })
+        updateWidgetFields((draftState: any) => {
+            draftState.widget_loading = false
+        })
 
         // }, 2000)
 
     }, [widget.layout]);
 
-    const getPopupPosition = () => {
-        switch (widget.position) {
-            case 'top_right':
-                return 'r_puw-top_right r_puw-popup_right_slide_in'
-            case 'top_left':
-                return 'r_puw-top_left r_puw-popup_left_slide_in'
-            case 'bottom_right':
-                return 'r_puw-bottom_right r_puw-popup_right_slide_in'
-            case 'bottom_left':
-                return 'r_puw-bottom_left r_puw-popup_left_slide_in'
-        }
-    }
-
-    const getCornerRadius = () => {
-        switch (widget.corner_radius) {
-            case 'sharp':
-                return 'r_puw-sharp'
-            case 'slightly_rounded':
-                return 'r_puw-popup_slightly_rounded'
-            case 'rounded':
-                return 'r_puw-popup_rounded'
-            case 'extra_rounded':
-                return 'r_puw-popup_extra_rounded'
-            case 'none':
-                return 'r_puw-popup_none'
-        }
-    }
     return (
         <div
-            className={`wd_preview_content review-preview-wrap`}>
-            <div className={`r_puw_container ${getPopupPosition()} ${getCornerRadius()}`}
-                 style={methods.getPopupPreviewStyles()}
+            className={`wd_preview_content review-preview-wrap`} style={methods.getPopupVars()}>
+            <div className={`r_puw_container ${methods.getPopupPosition()} ${methods.getCornerRadius()}`}
                  key={widget.position}
             >
                 <span className="r_puw_close-icon"
-                      style={methods.getCloseIconStyles()}
                 ><Cross1Icon/></span>
                 <div className="r_puw-review_wrapper">
                     <div className="r_puw-review_image_wrapper">
@@ -109,19 +80,16 @@ const PreviewPopupWidget = () => {
                             nice snowboard, awesome
                         </div>
                     </div>
-                    <div data-product-url=""
-                         style={methods.getPopupProductStyles()}>
-                        <div className={'r_puw-product_details_wrapper'}>
-                            <div className={'r_puw-product_details-img_wrapper'}>
-                                <img
-                                    src={'https://cdn.shopify.com/s/files/1/0664/4262/5197/files/snowboard_sky_x50.png?v=1720513923'}
-                                    alt={""}
-                                    className={'r_puw-product_details-img'}/>
-                            </div>
-                            <div title="The Compare at Price Snowboard"
-                                 className={'r_puw-product_details-product_title'}>
-                                The Compare at Price S...
-                            </div>
+                    <div className={'r_puw-product_details_wrapper'}>
+                        <div className={'r_puw-product_details-img_wrapper'}>
+                            <img
+                                src={'https://cdn.shopify.com/s/files/1/0664/4262/5197/files/snowboard_sky_x50.png?v=1720513923'}
+                                alt={""}
+                                className={'r_puw-product_details-img'}/>
+                        </div>
+                        <div title="The Compare at Price Snowboard"
+                             className={'r_puw-product_details-product_title'}>
+                            The Compare at Price S...
                         </div>
                     </div>
                 </div>
