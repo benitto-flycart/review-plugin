@@ -1,7 +1,7 @@
 <style>
     #r_rpw_popup_widget_container_wrapper {
         position: fixed;
-        z-index: 100;
+        z-index: 99999;
     }
 
     .r_outer-puw-bottom_left {
@@ -29,7 +29,7 @@
     }
 </style>
 
-<div id="r_rpw_popup_widget_container_wrapper" class="r_outer-puw-top_left">
+<div id="r_rpw_popup_widget_container_wrapper" class="">
     <template id="r_rpw_popup_widget_container">
         <link rel="stylesheet"
               href="<?php echo $popup_widget_css ?>">

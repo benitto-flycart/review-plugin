@@ -84,21 +84,47 @@
 }
 
 
-.r_puw-popup_left_slide_in {
-    animation: r_puw-popup-left-slide-in 1000ms;
+.r_puw-popup_top-left_slide-in {
+    transform: translateX(0%);
+    animation: r_puw-popup_top-left_slide-in-anime 1000ms;
 }
 
-.r_puw-popup_right_slide_in {
-    animation: r_puw-popup-right-slide-in 1000ms;
+.r_puw-popup_top-right_slide-in {
+    transform: translateX(-110%);
+    animation: r_puw-popup_top-right_slide-in-anime 1000ms;
 }
 
-.r_puw-popup_left_slide_out {
-    animation: r_puw-popup-left-slide-out 1000ms;
+.r_puw-popup_bottom-left_slide-in {
+    transform: translate(0%,-100%);
+    animation: r_puw-popup_bottom-left_slide-in-anime 1000ms;
 }
 
-.r_puw-popup_right_slide_out {
-    animation: r_puw-popup-right-slide-out 1000ms;
+.r_puw-popup_bottom-right_slide-in {
+    transform: translate(-110%,-100%);
+    animation: r_puw-popup_bottom-right_slide-in-anime 1000ms;
 }
+
+
+.r_puw-popup_top-left_slide-out {
+    animation: r_puw-popup_top-left_slide-out-anime 1000ms;
+}
+
+.r_puw-popup_top-right_slide-out {
+    transform: translateX(10%);
+    animation: r_puw-popup_top-right_slide-out-anime 1000ms;
+}
+
+.r_puw-popup_bottom-left_slide-out {
+    transform: translate(-120%,-100%);
+    animation: r_puw-popup_bottom-left_slide-out-anime 1000ms;
+}
+
+.r_puw-popup_bottom-right_slide-out {
+    transform: translate(10%,-100%);
+    animation: r_puw-popup_bottom-right_slide-out-anime 1000ms;
+}
+
+
 
 .r_puw-bottom_left {
     transition: bottom 0.5s ease, left 0.5s ease;
@@ -144,7 +170,7 @@
     border-radius: 0px;
 }
 
-@keyframes r_puw-popup-left-slide-in {
+@keyframes r_puw-popup_top-left_slide-in-anime {
     from {
         transform: translateX(-120%);
     }
@@ -153,16 +179,8 @@
     }
 }
 
-@keyframes r_puw-popup-right-slide-in {
-    from {
-        transform: translate(120%);
-    }
-    to {
-        transform: translateX(0%);
-    }
-}
 
-@keyframes r_puw-popup-left-slide-out {
+@keyframes r_puw-popup_top-left_slide-out-anime {
     from {
         transform: translateX(0%);
     }
@@ -171,12 +189,58 @@
     }
 }
 
-@keyframes r_puw-popup-right-slide-out {
+@keyframes r_puw-popup_top-right_slide-in-anime {
     from {
         transform: translate(0%);
     }
     to {
-        transform: translateX(120%);
+        transform: translateX(-110%);
+    }
+}
+
+@keyframes r_puw-popup_top-right_slide-out-anime {
+    from {
+        transform: translate(-110%);
+    }
+    to {
+        transform: translateX(10%);
+    }
+}
+
+@keyframes r_puw-popup_bottom-left_slide-in-anime {
+    from {
+        transform: translate(-120%,-100%);
+    }
+    to {
+        transform: translate(0%,-100%);
+    }
+}
+
+@keyframes r_puw-popup_bottom-left_slide-out-anime {
+    from {
+        transform: translate(0%,-100%);
+    }
+    to {
+        transform: translate(-120%,-100%);
+    }
+}
+
+
+@keyframes r_puw-popup_bottom-right_slide-in-anime {
+    from {
+        transform: translate(0%,-100%);
+    }
+    to {
+        transform: translate(-110%,-100%);
+    }
+}
+
+@keyframes r_puw-popup_bottom-right_slide-out-anime {
+    from {
+        transform: translate(-110%,-100%);
+    }
+    to {
+        transform: translate(10%,-100%);
     }
 }
 
