@@ -6,6 +6,7 @@ module.exports = {
         product_widget: './src/product-widget.ts', // Adjust the path to where your app2.ts is located
         popup_widget: './src/popup-widget.ts', // Adjust the path to where your app2.ts is located
         snippet_widget: './src/snippet-widget.ts', // Adjust the path to where your app2.ts is located
+        floating_widget: './src/floating-widget.ts', // Adjust the path to where your app2.ts is located
     },
     module: {
         rules: [

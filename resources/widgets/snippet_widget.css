@@ -47,27 +47,41 @@
 
 /*Carosal Logic*/
 
-.r_sw__carousel {
+.r_sw_container_wrapper {
     max-width: 900px;
     position: relative;
     margin: 0 auto;
 }
 
-.r_sw__carousel .r_sw__carousel-item,
-.r_sw__carousel .r_sw__carousel-item-hidden {
-    display: none; /* hide all slide images not currently being viewed */
+.r_sw__carousel {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+    padding: 1em;
+    gap: 1em;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
 }
 
-.r_sw__carousel .r_sw__carousel-item-visible {
+.r_sw__carousel .r_sw__carousel-item
+{
+    min-width: 100%;
+    scroll-snap-align: start;
+}
+
+.r_sw__carousel .r_sw__carousel-item{
     display: flex; /* show current slide image */
     animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
     text-overflow: ellipsis;
-    padding: 1rem;
+    padding: .5em;
     background-color: lightgray;
     border-radius: 16px;
     box-shadow: #E5E4E7;
     flex-direction: row;
     gap: 0.5rem;
+    align-items:center;
+    /*transform: translateX(100%);*/
 }
 
 .r_sw__carousel-item-visible .r_sw__review_text {
@@ -78,7 +92,7 @@
 }
 
 /* Navigation control styles */
-.r_sw__carousel .r_sw__carousel-actions {
+ .r_sw__carousel-actions {
     display: flex;
     width: 100%;
     justify-content: space-between; /* put space between the navigation buttons */
@@ -87,9 +101,9 @@
     transform: translateY(-50%); /* align navigation buttons */
 }
 
-.r_sw__carousel .r_sw__carousel-actions button {
+ .r_sw__carousel-actions button {
     border: 0;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     position: relative;
@@ -98,13 +112,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+     padding: .2em;
 }
 
-.r_sw__carousel .r_sw__carousel-actions button svg {
+.r_sw__carousel-actions button svg {
     width: 100px;
 }
 
-.r_sw__carousel .r_sw__carousel-actions button.disabled {
+ .r_sw__carousel-actions button.disabled {
     opacity: 0.3;
     cursor: not-allowed;
 }
@@ -114,7 +129,7 @@
 }
 
 .r_sw__carousel-button-next {
-    right: -12px;
+    right:  -12px;
 }
 
 .r_sw__carousel-dots {
@@ -123,10 +138,11 @@
 
 .r_sw__carousel-item_imgae {
     width: 50px;
+    height: 80px;
 }
 
 .r_sw__review_details_wrapper {
-    padding: .5rem;
+    /*padding: .5rem;*/
 }
 
 .r_sw__review_details {
@@ -154,7 +170,6 @@
         opacity: 1;
     }
 }
-
 
 @media screen and (max-width: 650px) {
     .r_sw__product_wrapper {

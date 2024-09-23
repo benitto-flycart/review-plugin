@@ -31,8 +31,6 @@ class WidgetFactory
 
     public function getWidgetObject()
     {
-        error_log('Logging widget type');
-       error_log($this->type) ;
         switch ($this->type) {
             case 'product_widget':
                 return ProductWidget::make($this->language, $this->request);

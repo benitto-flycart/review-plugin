@@ -2,11 +2,12 @@
 namespace Flycart\Review\App;
 
 
+use Flycart\Review\App\ShortCode\FloatingProductWidgetShortCode;
 use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
 use Flycart\Review\App\ShortCode\ProductWidgetShortCode;
 use Flycart\Review\App\ShortCode\RatingWidgetShortCode;
 use Flycart\Review\App\ShortCode\SidebarWidgetShortCode;
-use Flycart\Review\App\ShortCode\SnippetWidgetShortode;
+use Flycart\Review\App\ShortCode\SnippetWidgetShortCode;
 
 class App extends Container
 {
@@ -40,9 +41,10 @@ class App extends Container
 
         ProductWidgetShortCode::register();
         PopupWidgetShortCode::register();
-        SnippetWidgetShortode::register();
+        SnippetWidgetShortCode::register();
         RatingWidgetShortCode::register();
         SidebarWidgetShortCode::register();
+        FloatingProductWidgetShortCode::register();
 
     }
 }

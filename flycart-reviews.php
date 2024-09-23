@@ -217,6 +217,11 @@ function execute_product_widget_short_code()
 }
 
 add_action('wp_footer', 'execute_popup_widget');
+add_action('wp_footer', 'execute_floating_product_widget');
+
+function execute_floating_product_widget() {
+    echo do_shortcode('[review_floating_widget_shortcode]');
+}
 
 function execute_popup_widget()
 {
@@ -225,11 +230,16 @@ function execute_popup_widget()
 
 add_filter('woocommerce_after_add_to_cart_form', function () {
     echo do_shortcode('[review_snippet_widget]');
-});
+}, 10);
+
 
 add_filter('woocommerce_after_add_to_cart_form', function () {
     echo do_shortcode('[review_rating_shortcode]');
-});
+}, 11);
+
+add_filter('woocommerce_after_add_to_cart_form', function () {
+    echo do_shortcode('[review_snippet_widget]');
+}, 12);
 
 //add_filter('woocommerce_product_tabs', 'delete_tab_wc_review_tab', 98);
 function delete_tab_wc_review_tab($tabs)

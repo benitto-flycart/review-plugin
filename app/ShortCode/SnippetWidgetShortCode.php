@@ -6,7 +6,7 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 
-class SnippetWidgetShortode
+class SnippetWidgetShortCode
 {
     public static function register()
     {

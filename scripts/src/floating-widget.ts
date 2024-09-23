@@ -4,23 +4,43 @@
 
 jQuery(document).ready(($) => {
 
-    (function PRODUCT_WIDGET_DEFAULT() {
+    (function FLOATING_WIDGET_DEFAULT() {
 
-        const template = document.getElementById('r_rpw_product_widget_container') as HTMLTemplateElement;
+        const floatingDialog = document.querySelector('#r_rfw_floating_widget_dialog_wrapper') as HTMLDialogElement;
+        floatingDialog?.showModal();
 
-        console.log(template)
+        console.log('Floating dialog opened');
+
+        const template = document.getElementById('r_rfw_floating_widget_container') as HTMLTemplateElement;
+
 // Step 2: Get the host element where the Shadow DOM will be attached
-        const host = document.getElementById('r_rpw_product_widget_container_wrapper') as HTMLElement;
+        const host = document.getElementById('r_rfw_floating_widget_container_wrapper') as HTMLElement;
 
-        const shadowRoot = host.attachShadow({mode: 'open'});
+        const floatingShadowRoot = host.attachShadow({mode: 'open'});
 
-        shadowRoot.appendChild(template.content.cloneNode(true));
+        floatingShadowRoot.appendChild(template.content.cloneNode(true));
         template.remove();
+
+
+
+
+        const productWidgetTemplate = floatingShadowRoot.getElementById('r_rpw_product_widget_container') as HTMLTemplateElement;
+
+// Step 2: Get the host element where the Shadow DOM will be attached
+        const productWidgetShadowHost = floatingShadowRoot.getElementById('r_rpw_product_widget_container_wrapper') as HTMLElement;
+
+        const shadowRoot = productWidgetShadowHost.attachShadow({mode: 'open'});
+
+        shadowRoot.appendChild(productWidgetTemplate.content.cloneNode(true));
+
+        productWidgetTemplate.remove();
 
         let container = shadowRoot.querySelector('#r_rpw_container_wrapper') as HTMLElement;
 
         //@ts-ignore
         const review_product_widget_js_data = window.review_product_widget_js_data;
+
+        //TODO Update the Product widget Shadow Root
 
         function masnoryLayout() {
             var elem = shadowRoot.querySelector('.r_pw_g_all_reviews_container');
@@ -35,9 +55,6 @@ jQuery(document).ready(($) => {
 
             console.log(msnry)
         }
-
-// masnoryLayout();
-
 
         function mosaicLayout() {
             var elem = shadowRoot.querySelector('.r_pw_r_m_all_reviews_container');
@@ -174,8 +191,6 @@ jQuery(document).ready(($) => {
             minimalHeaderInit: () => {
 
             },
-
-
         }
 
         PRODUCT_WIDGET.init();
