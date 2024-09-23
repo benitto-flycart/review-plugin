@@ -42,4 +42,48 @@ class SidebarWidget extends Widget implements WidgetInterface
             'show_on_product_page' => Functions::getBoolValue($this->request->get('show_on_product_page')),
         ];
     }
+
+
+    public function getSidebarPositionClass()
+    {
+        switch ($this->settings['position']) {
+            case 'right':
+                return 'r_sbw__right';
+            case 'left':
+                return 'r_sbw__left';
+        }
+    }
+
+    public function getOrientationClass()
+    {
+        $position = $this->settings['position'];
+        $orientation = $this->settings['orientation'];
+
+        if ($position == "left" && $orientation == "top_bottom") {
+            return "r_sbw__pl_tb";
+        } else if ($position == "right" && $orientation == "top_bottom") {
+            return "r_sbw__pr_tb";
+        } else if ($position == "left" && $orientation == "bottom_top") {
+            return "r_sbw__pl_bt";
+        } else {
+            return "r_sbw__pr_bt";
+        }
+    }
+
+    public function getStyleVars()
+    {
+        $vars = [
+            '--r-r_sbw-text-color' => $this->settings['button_text_color'],
+            '--r-r_sbw-bg-color' => $this->settings['button_bg_color'],
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
+
 }

@@ -25,8 +25,8 @@ class SnippetWidgetShortode
 
             wp_localize_script($registrationScriptHandle, 'review_snippet_widget_js_data', $storeConfig);
 
-            $snippet_widget_css = home_url() . "wp-content/plugins/flycart-reviews/resources/widgets/snippet_widget.css?ver=3.0";
-            $snippet_widget_font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
+            $snippet_widget_css = $resourcePath. "/widgets/snippet_widget.css?ver=3.0";
+            $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/snippet-widget';
 

@@ -42,33 +42,12 @@ const PreviewSidebarWidget = () => {
 
     }, [widget.layout]);
 
-    const getSidebarPosition = () => {
-        switch (widget.position) {
-            case 'right':
-                return 'r_sbw__right'
-            case 'left':
-                return 'r_sbw__left'
-        }
-    }
-
-    const getPositionAndOrientation = () => {
-        if (widget.position == "left" && widget.orientation == "top_bottom") {
-            return "r_sbw__pl_tb"
-        } else if (widget.position == "right" && widget.orientation == "top_bottom") {
-            return "r_sbw__pr_tb"
-        } else if (widget.position == "left" && widget.orientation == "bottom_top") {
-            return "r_sbw__pl_bt"
-        } else {
-            return "r_sbw__pr_bt"
-        }
-    }
-
     return (
 
         <div
             className={'r_sb_wrapper'}>
             <div style={methods.getReviewSidebarPreviewStyles()}
-                 className={`r_sbw__container ${getSidebarPosition()} ${getPositionAndOrientation()}`}>
+                 className={`r_sbw__container ${methods.getSidebarPosition()} ${methods.getPositionAndOrientation()}`}>
                <span className={"r_sbw__btn_icon"}>
                    <ReviewIcon/>
                </span>

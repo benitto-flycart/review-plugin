@@ -21,5 +21,7 @@ class Container
         if (isset($this->bindings[$key])) {
             return $this->bindings[$key];
         }
+
+        return null;
     }
 }

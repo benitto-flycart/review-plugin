@@ -4,6 +4,8 @@ namespace Flycart\Review\App;
 
 use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
 use Flycart\Review\App\ShortCode\ProductWidgetShortCode;
+use Flycart\Review\App\ShortCode\RatingWidgetShortCode;
+use Flycart\Review\App\ShortCode\SidebarWidgetShortCode;
 use Flycart\Review\App\ShortCode\SnippetWidgetShortode;
 
 class App extends Container
@@ -39,6 +41,8 @@ class App extends Container
         ProductWidgetShortCode::register();
         PopupWidgetShortCode::register();
         SnippetWidgetShortode::register();
+        RatingWidgetShortCode::register();
+        SidebarWidgetShortCode::register();
 
     }
 }

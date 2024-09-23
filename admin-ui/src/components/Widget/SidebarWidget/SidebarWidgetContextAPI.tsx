@@ -12,7 +12,7 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
-        widget_loading:true,
+        widget_loading: true,
         show_setting: '',
         view: 'mobile',
         position: 'left',
@@ -73,6 +73,7 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         axiosClient.post('', {
             method: 'save_widget_settings',
             widget_type: 'sidebar_widget',
+            ...widget,
             language: localState.current_locale,
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
@@ -93,6 +94,33 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
             return {
                 color: widget.button_text_color,
                 backgroundColor: widget.button_bg_color,
+            };
+        },
+
+        getSidebarPosition : () => {
+            switch (widget.position) {
+                case 'right':
+                    return 'r_sbw__right'
+                case 'left':
+                    return 'r_sbw__left'
+            }
+        },
+
+        getPositionAndOrientation : () => {
+            if (widget.position == "left" && widget.orientation == "top_bottom") {
+                return "r_sbw__pl_tb"
+            } else if (widget.position == "right" && widget.orientation == "top_bottom") {
+                return "r_sbw__pr_tb"
+            } else if (widget.position == "left" && widget.orientation == "bottom_top") {
+                return "r_sbw__pl_bt"
+            } else {
+                return "r_sbw__pr_bt"
+            }
+        },
+        getStyleVars: () => {
+            return {
+                '--r-r_sbw-text-color': widget.button_text_color,
+                '--r-r_sbw-bg-color': widget.button_bg_color,
             };
         },
         saveSettings

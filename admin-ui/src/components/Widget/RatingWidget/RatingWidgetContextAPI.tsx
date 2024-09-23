@@ -20,8 +20,6 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         direction: 'icon_first',
         text_content: "{{rating}} - ({{count}})",
         hide_text_content: false,
-        font_size: 25,
-        rating_icon_size: 25,
         style: {},
         colors: {
             text_color: '#141010',
@@ -50,46 +48,35 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         });
     }
 
+    const getWidgetAlignment = () => {
+        let justifyContent = 'start';
+        switch (widget.widget_alignment) {
+            case 'right':
+                justifyContent = 'end'
+                break;
+            case 'left':
+                justifyContent = 'start'
+                break;
+            case 'center':
+                justifyContent = 'center'
+                break;
+        }
+
+        return justifyContent;
+    }
+
     const widgetMethods = {
         getWidgetTextContent: () => {
             let content = widget.text_content;
             return content.replace("{{rating}}", "3.5").replace("{{count}}", "20");
         },
-        getTextStyles: () => {
+        getWidgetVars: () => {
             return {
-                color: widget.colors.text_color,
-                fontSize: widget.font_size + 'px'
+                "--r-rw-icon-color": widget.colors.rating_icon_color,
+                "--r-rw-text-color": widget.colors.text_color,
+                "--r-rw-flex-direction": widget.direction == 'text_first' ? 'row-reverse' : 'row',
+                "--r-rw-flex-justify-content": getWidgetAlignment(),
             };
-        },
-        getRatingContainerStyle: () => {
-            let justifyContent = 'start';
-            let rowReverse = false;
-            switch (widget.widget_alignment) {
-                case 'right':
-                    justifyContent = 'end'
-                    break;
-                case 'left':
-                    justifyContent = 'start'
-                    break;
-                case 'center':
-                    justifyContent = 'center'
-                    break;
-            }
-
-            if (widget.direction == 'text_first') {
-                rowReverse = true;
-            }
-
-            return {
-                justifyContent: justifyContent,
-                flexDirection: rowReverse ? 'row-reverse' : 'row'
-            }
-        },
-        getRatingStyles: () => {
-            return {
-                fontSize: widget.rating_icon_size + 'px',
-                color: widget.colors.rating_icon_color,
-            }
         },
         saveSettings
     }

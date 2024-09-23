@@ -77,35 +77,6 @@ const RatingWidgetStyleSetting = ({name}: any) => {
                         </Select>
                     </SidebarDetailField>
 
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Text Font Size</Label>
-                        <InputFontSize
-                            min={10}
-                            max={30}
-                            step={1}
-                            value={widget.font_size}
-                            onChange={(value: number) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.font_size = value;
-                                })
-                            }}
-                        />
-                    </SidebarDetailField>
-
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Rating Size</Label>
-                        <InputFontSize
-                            min={10}
-                            max={30}
-                            step={1}
-                            value={widget.rating_icon_size}
-                            onChange={(value: number) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.rating_icon_size = value;
-                                })
-                            }}
-                        />
-                    </SidebarDetailField>
 
                     <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
                         <SidebarDetailField>

@@ -213,6 +213,7 @@ add_filter('woocommerce_after_main_content', 'execute_product_widget_short_code'
 function execute_product_widget_short_code()
 {
     echo do_shortcode('[review_product_widget_shortcode]');
+    echo do_shortcode('[review_sidebar_widget_shortcode]');
 }
 
 add_action('wp_footer', 'execute_popup_widget');
@@ -226,7 +227,11 @@ add_filter('woocommerce_after_add_to_cart_form', function () {
     echo do_shortcode('[review_snippet_widget]');
 });
 
-add_filter('woocommerce_product_tabs', 'delete_tab_wc_review_tab', 98);
+add_filter('woocommerce_after_add_to_cart_form', function () {
+    echo do_shortcode('[review_rating_shortcode]');
+});
+
+//add_filter('woocommerce_product_tabs', 'delete_tab_wc_review_tab', 98);
 function delete_tab_wc_review_tab($tabs)
 {
     if (isset($tabs['reviews']))
@@ -235,3 +240,11 @@ function delete_tab_wc_review_tab($tabs)
     return $tabs;
 }
 
+add_action('woocommerce_after_shop_loop_item_title', function () {
+    echo do_shortcode("[review_rating_shortcode]");
+});
+
+add_filter('woocommerce_product_get_rating_html', function ($content) {
+    return $content;
+//    return 'benitto';
+});
