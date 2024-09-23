@@ -2,11 +2,11 @@
 jQuery(document).ready(($) => {
 
     const settings: any = {
-        position: "top-left",
+        position: "bottom-right",
         'corner_radius': "sharp",
         'initial_delay': 3000,
         'delay_between': 2000,
-        'display_time': 5000
+        'display_time': 30000
     };
 
     (function POPUP_WIDGET_DEFAULT() {
@@ -51,10 +51,18 @@ jQuery(document).ready(($) => {
 
                             let popupWidgetContainer: any = shadowRoot.querySelector(".r_puw_container")
                             // @ts-ignore
-                            if (settings.position == "top-left" || settings.position == "bottom-left") {
-                                $(popupWidgetContainer)?.addClass("r_puw-popup_left_slide_in").removeClass("r_puw_container_left_slide_out")
+                            if (settings.position == "top-left") {
+                                $(popupWidgetContainer)?.addClass("r_puw-popup_top-left_slide-in").removeClass("r_puw-popup_top-left_slide-out")
+                                $(host).addClass("r_outer-puw-top_left")
+                            } else if(settings.position=="bottom-right") {
+                                $(popupWidgetContainer)?.addClass("r_puw-popup_bottom-right_slide-in").removeClass("r_puw-popup_bottom-right_slide-out")
+                                $(host).addClass("r_outer-puw-bottom_right")
+                            } else if(settings.position=="top-right") {
+                                $(popupWidgetContainer)?.addClass("r_puw-popup_top-right_slide-in").removeClass("r_puw-popup_top-right_slide-out")
+                                $(host).addClass("r_outer-puw-top_right")
                             } else {
-                                $(popupWidgetContainer)?.addClass("r_puw-popup_right_slide_in").removeClass("r_puw_container_right_slide_out")
+                                $(popupWidgetContainer)?.addClass("r_puw-popup_bottom-left_slide-in").removeClass("r_puw-popup_bottom-left_slide-out")
+                                $(host).addClass("r_outer-puw-bottom_left")
                             }
                             $(container).show();
                             container.addEventListener('mouseover', () => {
@@ -66,10 +74,18 @@ jQuery(document).ready(($) => {
                                 console.log(isHovered)
                                 setTimeout(() => {
                                     //@ts-ignore
-                                    if (settings.position == "top-left" || settings.position == "bottom-left") {
-                                        $(popupWidgetContainer)?.addClass("r_puw-popup_left_slide_out").removeClass("r_puw-popup_left_slide_in")
+                                    if (settings.position == "top-left") {
+                                        $(popupWidgetContainer)?.addClass("r_puw-popup_top-left_slide-out").removeClass("r_puw-popup_top-left_slide-in")
+                                        $(host).addClass("r_outer-puw-top_left")
+                                    } else if(settings.position=="bottom-right") {
+                                        $(popupWidgetContainer)?.addClass("r_puw-popup_bottom-right_slide-out").removeClass("r_puw-popup_bottom-right_slide-in")
+                                        $(host).addClass("r_outer-puw-bottom_right")
+                                    } else if(settings.position=="top-right") {
+                                        $(popupWidgetContainer)?.addClass("r_puw-popup_top-right_slide-out").removeClass("r_puw-popup_top-right_slide-in")
+                                        $(host).addClass("r_outer-puw-top_right")
                                     } else {
-                                        $(popupWidgetContainer)?.addClass("r_puw_container_right_slide_out").removeClass("r_puw-popup_right_slide_in")
+                                        $(popupWidgetContainer)?.addClass("r_puw-popup_bottom-left_slide-out").removeClass("r_puw-popup_bottom-left_slide-in")
+                                        $(host).addClass("r_outer-puw-bottom_left")
                                     }
                                     setTimeout(() => {
                                         $(container).hide();
