@@ -2,11 +2,11 @@
 jQuery(document).ready(($) => {
 
     const settings: any = {
-        position: "bottom-right",
+        position: "bottom-left",
         'corner_radius': "sharp",
         'initial_delay': 3000,
         'delay_between': 2000,
-        'display_time': 30000
+        'display_time': 2000
     };
 
     (function POPUP_WIDGET_DEFAULT() {
