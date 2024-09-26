@@ -2,7 +2,7 @@
 jQuery(document).ready(($) => {
 
     const settings: any = {
-        position: "bottom-left",
+        position: "top-right",
         'corner_radius': "sharp",
         'initial_delay': 3000,
         'delay_between': 2000,
