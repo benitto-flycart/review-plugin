@@ -35,9 +35,7 @@ function ProductWidgetContextAPI({children}: { children: any }) {
                 bar_fill_color: '',
                 bar_bg_color: '',
             },
-            widget_wrapper: {
-                background_color: '',
-            },
+            widget_wrapper: '',
             button: {
                 text_color: '',
                 text_hover_color: '',

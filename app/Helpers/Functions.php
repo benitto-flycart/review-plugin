@@ -233,9 +233,18 @@ class Functions
         ];
     }
 
-    public static function isMobile() {
+    public static function isMobile()
+    {
         return preg_match('/(android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile)/i', $_SERVER['HTTP_USER_AGENT'] ?? '');
     }
 
+    public static function convertMBToKB($mb)
+    {
+        if (is_int($mb)) {
+            return $mb * 1024 * 1024;
+        }
 
+        throw new \Exception('Argument must be an integer');
+
+    }
 }

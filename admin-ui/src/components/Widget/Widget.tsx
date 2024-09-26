@@ -23,6 +23,8 @@ import {produce} from "immer";
 import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {axiosClient} from "../api/axios";
 import SampleReviewsContextAPI from "./SampleReviewsAPI";
+import ReviewDetailWidgetContextAPI from "./ReviewDetailWidget/ReviewDetailWidgetContextAPI";
+import ReviewDetailDialogWidget from "./ReviewDetailWidget/ReviewDetailDialogWidget";
 
 type WidgetState = {
     product_reviews_widget: { is_enabled: boolean };
@@ -32,6 +34,7 @@ type WidgetState = {
     snippet_widget: { is_enabled: boolean };
     rating_review_widget: { is_enabled: boolean };
     review_form_widget: { is_enabled: boolean };
+    review_detail_widget: { is_enabled: boolean };
 };
 
 const Widget = () => {
@@ -62,6 +65,9 @@ const Widget = () => {
             is_enabled: false
         },
         review_form_widget: {
+            is_enabled: true
+        },
+        review_detail_widget: {
             is_enabled: true
         },
     })
@@ -130,6 +136,16 @@ const Widget = () => {
                 <ReviewFormWidgetDialog show={true} toggle={reset} currentLocale={currentLocale}/>
             </ReviewFormWidgetContextAPI>
         },
+        {
+            title: "Review Detail Widget",
+            slug: "review_detail_widget",
+            description: "Customize the Review Detail Widget",
+            detailed_description: "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+            route: "/emails/review-detail",
+            viewComponent: <ReviewDetailWidgetContextAPI>
+                <ReviewDetailDialogWidget show={true} toggle={reset} currentLocale={currentLocale}/>
+            </ReviewDetailWidgetContextAPI>
+        }
     ]
 
     const getWidgetStatus = () => {

@@ -28,4 +28,67 @@ class Review extends Model
                 ) {$charset};";
     }
 
+
+
+
+
+    public function has_user_purchased_product( $product_id ) {
+        global $wpdb;
+
+        // Get the current user ID
+        $user_id = get_current_user_id();
+
+        if ( !$user_id ) {
+            return false;
+        }
+
+        // Custom SQL query to check if the user has purchased the product
+        $results = $wpdb->get_var( $wpdb->prepare(
+            "
+        SELECT COUNT(*)
+        FROM {$wpdb->prefix}woocommerce_order_items AS order_items
+        JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS itemmeta ON order_items.order_item_id = itemmeta.order_item_id
+        JOIN {$wpdb->prefix}posts AS posts ON order_items.order_id = posts.ID
+        WHERE itemmeta.meta_key = '_product_id'
+        AND itemmeta.meta_value = %d
+        AND posts.post_type = 'shop_order'
+        AND posts.post_status = 'wc-completed'
+        AND posts.post_author = %d
+        ",
+            $product_id, $user_id
+        ));
+
+        return $results > 0; // Return true if at least one order contains the product
+    }
+
+
+    public function has_user_purchased_product_hpos( $product_id ) {
+        global $wpdb;
+
+        // Get the current user ID
+        $user_id = get_current_user_id();
+        if ( !$user_id ) {
+            return false;
+        }
+
+        // Custom SQL query to check if the user has purchased the product (for HPOS-enabled sites)
+        $results = $wpdb->get_var( $wpdb->prepare(
+            "
+        SELECT COUNT(*)
+        FROM {$wpdb->prefix}wc_order_items AS order_items
+        JOIN {$wpdb->prefix}wc_order_itemmeta AS itemmeta ON order_items.order_item_id = itemmeta.order_item_id
+        JOIN {$wpdb->prefix}wc_orders AS orders ON order_items.order_id = orders.id
+        WHERE itemmeta.meta_key = '_product_id'
+        AND itemmeta.meta_value = %d
+        AND orders.customer_id = %d
+        AND orders.status = 'wc-completed'
+        ",
+            $product_id, $user_id
+        ));
+
+        return $results > 0; // Return true if at least one order contains the product
+    }
+
+
+
 }

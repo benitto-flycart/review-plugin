@@ -13,6 +13,7 @@ class SnippetWidgetShortCode
 
         add_shortcode('review_snippet_widget', function () {
 
+            return '';
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-snippet-widget-script";
             $registrationHandle = "{$pluginSlug}-snippet-widget";

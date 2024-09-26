@@ -217,9 +217,22 @@ function execute_product_widget_short_code()
 }
 
 add_action('wp_footer', 'execute_popup_widget');
+add_action('wp_footer', 'view_review_details');
 add_action('wp_footer', 'execute_floating_product_widget');
+add_action('wp_footer', 'execute_review_form_widget');
 
-function execute_floating_product_widget() {
+
+//function view_review_details() {
+//    echo do_shortcode('[view_review_details_shortcode]');
+//}
+
+function execute_review_form_widget()
+{
+    echo do_shortcode('[review_form_widget]');
+}
+
+function execute_floating_product_widget()
+{
     echo do_shortcode('[review_floating_widget_shortcode]');
 }
 

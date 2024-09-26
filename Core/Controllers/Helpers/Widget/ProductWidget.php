@@ -184,9 +184,3 @@ class ProductWidget extends Widget implements WidgetInterface
         return isset($openers[$type]) ? $openers[$type]['border-radius'] : '';
     }
 }
-
-
-
-/*
- *
- */

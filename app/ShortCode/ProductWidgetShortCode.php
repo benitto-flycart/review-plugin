@@ -25,7 +25,6 @@ class ProductWidgetShortCode
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/product_widget.js", array('jquery'), F_Review_VERSION, true);
             wp_enqueue_script($masonryJsHandleHelper, "{$resourcePath}/admin/js/product_widget.js", array('jquery'), F_Review_VERSION, true);
-
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
 
             wp_enqueue_script($masonryJsHandle, "{$resourcePath}/widgets/js/masonry.min.js", array('jquery'), F_Review_VERSION, true);

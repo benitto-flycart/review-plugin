@@ -1,12 +1,10 @@
 export const WIDGET_COLOR_DEFAULTS = {
     dark_text: {
+        widget_wrapper: '#ffffff',
         header: {
             text_and_icon_color: '#282828',
             bar_fill_color: '#7b7b7b',
             bar_bg_color: '#f5f5f5',
-        },
-        widget_wrapper:{
-            background_color: '#ffffff',
         },
         button: {
             text_color: '#000000',
@@ -30,13 +28,11 @@ export const WIDGET_COLOR_DEFAULTS = {
         }
     },
     light_text: {
+        widget_wrapper: '#000000',
         header: {
             text_and_icon_color: '##ffffff',
             bar_fill_color: '#7b7b7b',
             bar_bg_color: '#000000',
-        },
-        widget_wrapper:{
-            background_color: '#000000',
         },
         button: {
             text_color: '#ffffff',
@@ -62,8 +58,8 @@ export const WIDGET_COLOR_DEFAULTS = {
 }
 
 
-export const REVIEW_SHADOWS: {[index: string]:any} = {
-    classic : {
+export const REVIEW_SHADOWS: { [index: string]: any } = {
+    classic: {
         boxShadow: "0 0 8px {{color}}"
     },
     dark: {
@@ -77,8 +73,8 @@ export const REVIEW_SHADOWS: {[index: string]:any} = {
     }
 };
 
-export const REVIEW_OPENERS: {[index: string]:any} = {
-    sharp : {
+export const REVIEW_OPENERS: { [index: string]: any } = {
+    sharp: {
         borderRadius: "2px"
     },
     slightly_rounded: {

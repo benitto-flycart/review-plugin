@@ -66,12 +66,9 @@ jQuery(document).ready(($) => {
                             }
                             $(container).show();
                             container.addEventListener('mouseover', () => {
-                                console.log("I am callng")
                                 isHovered = true
-                                console.log(isHovered)
                             })
                             if (!isHovered) {
-                                console.log(isHovered)
                                 setTimeout(() => {
                                     //@ts-ignore
                                     if (settings.position == "top-left") {

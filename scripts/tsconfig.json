@@ -10,6 +10,6 @@
     "strict": true,                        // Enable strict type-checking options
     "sourceMap": true                      // Generate source maps
   },
-  "include": ["src/**/*"],                 // Include files in `src` folder
+  "include": ["src/**/*", "globals.d.ts"],                 // Include files in `src` folder
   "exclude": ["node_modules"]              // Exclude `node_modules`
 }

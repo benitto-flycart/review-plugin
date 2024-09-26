@@ -53,7 +53,7 @@
                             <div class="r_sw__review_details_icons"
                                  style="color: rgb(231, 6, 128); font-size: 16px;">
                                 <?php foreach (range(0, 4) as $index) { ?>
-                                    <i class="review review-<?php echo $index < $review['rating'] ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                    <i class="review review-<?php echo $index < 4 ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                                 <?php } ?>
                             </div>
                         </div>

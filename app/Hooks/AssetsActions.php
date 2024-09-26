@@ -3,6 +3,7 @@
 namespace Flycart\Review\App\Hooks;
 
 use Flycart\Review\App\Helpers\AssetHelper;
+use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 
@@ -43,17 +44,13 @@ class AssetsActions
     {
         $resourceUrl = AssetHelper::getResourceURL();
 
-        error_log(get_page_template_slug());
-
         $storeConfig = static::getStoreConfigValues();
 
         wp_enqueue_style('flycart-review-styles-font-awesomee', "{$resourceUrl}/admin/css/review-fonts.css", [], F_Review_VERSION);
 
-        if (is_page()) {
-            $handle = 'flycart-review-form-plugin-script';
-            wp_enqueue_script($handle, "{$resourceUrl}/js/review_form.js", array('jquery'), F_Review_VERSION, true);
-            wp_localize_script($handle, 'review_form_store_config', $storeConfig);
-        }
+        $handle = 'flycart-review-form-plugin-script';
+        wp_enqueue_script($handle, "{$resourceUrl}/js/review_form.js", array('jquery'), F_Review_VERSION, true);
+        wp_localize_script($handle, 'review_form_store_config', $storeConfig);
     }
 
     public static function getStoreConfigValues()
@@ -66,6 +63,7 @@ class AssetsActions
             'review_front_end_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             '_wp_nonce_key' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
+            'is_product_page' => is_product(),
         ];
     }
 }

@@ -31,7 +31,7 @@ class BrandSettings extends ReviewSettings
             'corner_radius' => $settings['corner_radius'] ?? '',
             'enable_logo' => Functions::getBoolValue($settings['enable_logo']) ?? false,
             'logo_url' => $settings['logo_url'] ?? '',
-            'rating_icon_style' => $settings['rating_icon_style'] ?? '',
+            'rating_icon' => $settings['rating_icon'] ?? '',
             'enable_review_branding' => Functions::getBoolValue($settings['enable_review_branding']) ?? false,
             'enable_email_banners' => $settings['enable_email_banners'] ?? false,
             'banner_src' => $settings['banner_src'] ?? '',
@@ -60,13 +60,18 @@ class BrandSettings extends ReviewSettings
         return $this->brandSettings['appearance_options']['email_background_color'] ?? '#fff';
     }
 
+    public function getIcon()
+    {
+        return $this->brandSettings['rating_icon'];
+    }
+
     public function getFromRequest($request)
     {
         $data = [
             'corner_radius' => $request->get('corner_radius'),
             'enable_logo' => Functions::getBoolValue($request->get('enable_logo')),
             'logo_url' => $request->get('logo_url'),
-            'rating_icon_style' => $request->get('rating_icon_style'),
+            'rating_icon' => $request->get('rating_icon'),
             'enable_review_branding' => $request->get('enable_review_branding'),
             'enable_email_banners' => Functions::getBoolValue($request->get('enable_email_banners')),
             'banner_src' => $request->get('banner_src'),

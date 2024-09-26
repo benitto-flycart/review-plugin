@@ -44,6 +44,8 @@ class WidgetFactory
                 return SnippetWidget::make($this->language, $this->request);
             case 'rating_widget':
                 return RatingWidget::make($this->language, $this->request);
+            case 'review_form_widget':
+                return ReviewFormWidget::make($this->language, $this->request);
             default:
                 throw new \Error('Unknown widget type');
         }

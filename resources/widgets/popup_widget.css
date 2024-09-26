@@ -1,15 +1,13 @@
-.wd_preview_content {
-    background-color: white;
-}
 
 .r_puw_container {
     margin: .5rem;
     position: absolute;
     border-radius: .5rem;
-    width: 200px;
+    width: var(--r-puw-container-width, 150px);
     display: block;
     color: var(--r-puw-text-color);
     background-color: var(--r-puw-bg-color);
+    font-size: var(--r-puw-font-size, 10px)
 }
 
 .r_puw_close-icon {

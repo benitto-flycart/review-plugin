@@ -1,4 +1,4 @@
-<div class="r_pw_g_all_reviews_container">
+<div class="r_pw_all_reviews_container r_pw_g_all_reviews_container">
     <?php foreach ($data['reviews'] as $review) { ?>
         <div class="r_pw_r_container r_pw_r_g_container">
             <div class="r_pw_r_g_container--review-details">
@@ -6,7 +6,7 @@
                 <?php if (isset($review['images']) && count($review['images']) > 0) { ?>
                     <img src="<?php echo $review['images'][0]['src'] ?>"
                          class="r_pw_r_g_container--review-details--image"
-                         alt="" onError="function remove(e) {e?.target?.remove();}"/>
+                         alt=""/>
                 <?php } ?>
                 <div class="r_pw_r_g_container--review-info"><span
                             class="r_pw_r_g_container--review-info-name"><?php echo $review['reviewer_name'] ?></span>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <?php if (isset($review['replies']) && count($review['replies']) > 0) { ?>
-                <div class="r_pw_r_g_container--reply-container">
+                <div class="r_pw_r_reply_container r_pw_r_g_container--reply-container">
                     <?php foreach ($review['replies'] as $reply) { ?>
                         <div>
                             <span class="r_pw_r_g_container--reply--reviewer_name"><?php echo $reply['reviewer_name'] ?> replied!</span>
@@ -32,10 +32,7 @@
             <?php if (isset($review['product'])) { ?>
                 <div class="r_pw_r_g_container--product_container">
                     <div class="r_pw_r_g_container--product_container--img_container">
-                        <img
-                                src="<?php echo $review['product']['src'] ?>" alt="" width="100px" height="50px"
-                                onError="function(e) {e?.target?.remove();}"
-                        >
+                        <img src="<?php echo $review['product']['src'] ?>" alt="" width="100px" height="50px">
                     </div>
                     <div class="r_pw_r_g_container--product_container--product_name">
                         <span><?php echo $review['product']['product_name'] ?></span></div>

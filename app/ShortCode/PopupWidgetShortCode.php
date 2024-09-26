@@ -18,6 +18,7 @@ class PopupWidgetShortCode
     {
 
         add_shortcode('review_popup_widget', function () {
+            if(!is_product())  return '';
 
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-popup-widget-script";

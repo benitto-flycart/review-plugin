@@ -7,14 +7,6 @@
     padding: .5rem;
 }
 
-.r_pw_ch_container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0.5rem;
-    padding: 0.25rem;
-    gap: 1rem;
-}
 
 .r_pw_header_rating_container {
     color: var(--r-prw-header-text-icon-color)
@@ -51,11 +43,15 @@
     gap: .5rem;
     align-items: center;
     border-radius: 2px;
+
+}
+
+.r_pw_h_rd_detail {
     padding: 0 .25rem;
     cursor: pointer;
 }
 
-.r_pw_ch_rd_detail:hover {
+.r_pw_h_rd_detail:hover {
     background-color: var(--r-prw-btn-bg-color);
 }
 
@@ -217,7 +213,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 0.5rem;
+    margin: 0 0.5rem;
     padding: 0.25rem;
     gap: 1rem;
 }
@@ -280,6 +276,7 @@
 }
 
 .r_pw_eh_actions_container--sorting_container {
+    position: relative;
 }
 
 .r_pw_eh_actions_container--sorting_container-btn {
@@ -288,14 +285,12 @@
 
 /*EXPANDED HEADER ENDING*/
 
-
 /*compact Header*/
-
 .r_pw_ch_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0.5rem;
+    margin: 0 0.5rem;
     padding: 0.25rem;
     gap: 1rem;
 }
@@ -363,6 +358,7 @@
     background-color: var(--r-prw-btn-bg-color);
     color: var(--r-prw-btn-color);
     border-color: var(--r-prw-btn-border-color);
+    cursor: pointer;
 }
 
 .r_pw_header_button:hover {
@@ -408,6 +404,7 @@
     flex-wrap: wrap;
     gap: 1em;
     margin: 0 auto;
+    transition: all 1s ease-in;
 }
 
 .r_pw_r_g_container {
@@ -612,6 +609,7 @@
 .r_pw_r_l_container--review_details-review_title {
     padding: .25rem;
 }
+
 .r_pw_r_l_container--review_details-reviewer_name {
     font-weight: bold;
     letter-spacing: 2px;
@@ -672,11 +670,18 @@
     border-radius: 5px;
 }
 
-
 /*LIST REVIEW ITEM ENDING*/
 
-
 /*Mosaic Review Section*/
+.r_pw_r_m_all_reviews_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 0 auto;
+    transition: all 1s ease-in;
+}
+
 .r_pw_r_m_container {
     width: 45%;
     margin-bottom: 1rem;
@@ -736,7 +741,7 @@
     /*It should set using style tag   */
     width: 50%;
     border-radius: inherit;
-    text-align: right
+    text-align: right;
 }
 
 .r_pw_progress_bar_label {
@@ -763,6 +768,7 @@
 .r_pw_h_popover-content ul li:hover:not(:first-child) {
     background-color: var(--r-prw-btn-bg-color);
 }
+
 .r_pw_h_popover-content ul li.active {
     background-color: var(--r-prw-btn-bg-color);
 }
@@ -787,10 +793,10 @@
 
 .r_w_pagination .r_w_pagination-link.active {
     background-color: var(--r-prw-btn-bg-hover-color);
-    color:  var(--r-prw-btn-hover-color, 'white');
+    color: var(--r-prw-btn-hover-color, 'white');
 }
 
-.r_w_pagination  .r_w_pagination-link.disabled {
+.r_w_pagination .r_w_pagination-link.disabled {
     cursor: not-allowed;
     pointer-events: none;
     opacity: 0.3;
@@ -798,9 +804,20 @@
 
 .r_w_pagination .r_w_pagination-link:hover:not(.active) {
     background-color: var(--r-prw-btn-bg-hover-color);
-    color:  var(--r-prw-btn-hover-color, 'white');
+    color: var(--r-prw-btn-hover-color, 'white');
 }
 
 .r_pw_mh_filter_open_icon {
     rotate: 270deg;
+}
+
+
+/* CSS for shrink-in/shrink-out animation */
+.shrink-animation {
+    transform: scale(0); /* Shrink-out initially */
+    transition: transform 0.5s ease-out; /* Smooth transition */
+}
+
+.shrink-animation.shrinked-in {
+    transform: scale(1); /* Expand back in */
 }

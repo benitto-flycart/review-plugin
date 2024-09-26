@@ -15,7 +15,6 @@ import ReviewFormWidgetThankyouSetting from "./ReviewFormWidgetThankyouSetting";
 import RatingWidgetPreview from "../RatingWidget/RatingWidgetPreview";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 
-
 const ReviewFormWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(ReviewFormWidgetContext)

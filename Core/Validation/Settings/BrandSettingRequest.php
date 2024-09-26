@@ -15,7 +15,7 @@ class BrandSettingRequest implements FormRequest
         $rules = [
             'corner_radius' => ['required'],
             'enable_logo' => ['required'],
-            'rating_icon_style' => ['required'],
+            'rating_icon' => ['required'],
             'enable_review_branding' => ['required'],
             'enable_email_banners' => ['required'],
             'rating_rgb_color' => ['required'],

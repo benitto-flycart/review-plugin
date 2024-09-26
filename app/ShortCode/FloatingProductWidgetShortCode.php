@@ -40,6 +40,7 @@ class FloatingProductWidgetShortCode
             $resourcePath = AssetHelper::getResourceURL();
             $registrationHandle = "{$pluginSlug}-floating-widget";
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/floating_widget.js", array('jquery'), F_Review_VERSION, true);
+            wp_localize_script($registrationScriptHandle, 'review_product_widget_js_data', $storeConfig);
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/floating-widget';
 
@@ -58,10 +59,18 @@ class FloatingProductWidgetShortCode
 
     public static function getWidgetConfigValues()
     {
+        $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+        $widget = $widgetFactory->widget;
+
+        $header = $widget->getHeaderLayout();
+        $main_content = $widget->getMainContentLayout();
+
         return [
             'home_url' => get_home_url(),
             'admin_url' => admin_url(),
             'action' => is_user_logged_in() ? Route::AJAX_NAME : Route::AJAX_NO_PRIV_NAME,
+            'widget_header_type' => $header,
+            'widget_content_type' => $main_content,
             'ajax_url' => admin_url('admin-ajax.php'),
             'review_front_end_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             '_wp_nonce_key' => 'review_frontend_nonce',

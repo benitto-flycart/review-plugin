@@ -6,6 +6,7 @@ use Flycart\Review\App\ShortCode\FloatingProductWidgetShortCode;
 use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
 use Flycart\Review\App\ShortCode\ProductWidgetShortCode;
 use Flycart\Review\App\ShortCode\RatingWidgetShortCode;
+use Flycart\Review\App\ShortCode\ReviewFormWidgetShortCode;
 use Flycart\Review\App\ShortCode\SidebarWidgetShortCode;
 use Flycart\Review\App\ShortCode\SnippetWidgetShortCode;
 
@@ -45,6 +46,7 @@ class App extends Container
         RatingWidgetShortCode::register();
         SidebarWidgetShortCode::register();
         FloatingProductWidgetShortCode::register();
-
+        ReviewFormWidgetShortCode::register();
+//        ViewReviewDetailWidgetShortCode::register();
     }
 }
