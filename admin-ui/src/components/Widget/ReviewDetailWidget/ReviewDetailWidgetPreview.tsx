@@ -132,35 +132,32 @@ const ReviewDetailWidgetPreview = () => {
                                 info
                             </button>
                             <div
-                                className="i-verified-notification">
+                                className="r_rdw-i-verified-notification">
                                 <span>This review was written by a site visitor.</span>
                                 <a href=""
                                 className="r-rdw-rverified-notification-learn-more-trigger">Learn more</a></div>
                         </div>
                     </div>
-                    <div className="spread-container">
+                    <div className="r_rdw-spread-container">
                         <div data-time="1727350327063" data-testid="qv-review-date" className="time"
                              data-upgraded="true">26/09/2024
                         </div>
                     </div>
                 </div>
-                <div className="review-content-wrapper">
-                    <div data-testid="qv-review-content" className="review-content">
-                        <div className="pre-wrap normal-text">"I’ve been using this product for a month now, and it has
+                <div className="r_rdw-review-content-wrapper">
+                    <div className="r_rdw-review-content">
+                        <div className="r_rdw-review-content-text">"I’ve been using this product for a month now, and it has
                             completely transformed the way I work. The build quality is top-notch, and the features are
                             exactly what I needed. It exceeded my expectations in every way, and I couldn’t be happier
                             with the results. I highly recommend this to anyone looking for reliability and performance.
                             Great job to the team!"
                         </div>
                     </div>
-                    <div className="item-reply top-margin">
-                        <div  data-testid="qv-review-reply-title"
-                             className="item-reply-title secondary-title"><strong
-                            className="small-text font-weight-bold">review-wprelay</strong> replied:
+                    <div className="r_rdw-review-item-reply">
+                        <div className="item-reply-title secondary-title">
+                            <strong className="r_rdw-small-text r_rdw-font-weight-bold">review-wprelay</strong> replied:
                         </div>
-                        <div data-testid="qv-review-reply-text" className="pre-wrap normal-text">Your reply is captured
-                            thank you
-                        </div>
+                        <div className="r_rdw-normal-text">Your reply is captured thank you</div>
                     </div>
                 </div>
             </div>
