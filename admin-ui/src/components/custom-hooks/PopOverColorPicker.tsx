@@ -8,10 +8,17 @@ import {Input} from "../ui/input";
 const PopoverPicker = ({color, onChange}: any) => {
     const popover = useRef<any>();
     const [isOpen, toggle] = useState<boolean>(false);
-
+   const colorInputFieldRef=useRef<any>()
     const close = useCallback(() => toggle(false), []);
-    useClickOutside(popover, close);
 
+    const isFieldContainsEmptyData=()=>{
+        if(!color){
+            onChange("transparent")
+        }
+    }
+
+    useClickOutside(popover, close);
+    useClickOutside(colorInputFieldRef,isFieldContainsEmptyData );
     return (
 
         <div className="review-color-picker">
@@ -21,17 +28,18 @@ const PopoverPicker = ({color, onChange}: any) => {
                         style={{backgroundColor: color ? color : 'transparent'}}
                         onClick={() => toggle(true)}
                 ></button>
-                <div className={"frt-flex-basis-[80%]"}>
-                    {color ? (<Input
+                <div className={"frt-flex-basis-[80%]"}
+                    >
+                     <Input ref={colorInputFieldRef}
                         value={color}
                         onChange={(e: any) => {
                             onChange(e.target.value)
-                        }}/>) : <span>Transparent</span>}
+                        }}/>
                 </div>
             </div>
             {isOpen && (
                 <div className="review-color-popover" ref={popover}>
-                    <HexColorPicker color={color ? color : ''} onChange={onChange}/>
+                    <HexColorPicker className={"frt-z-50"} color={color ? color : ''} onChange={onChange}/>
                 </div>
             )}
         </div>
