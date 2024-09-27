@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {Label} from "../../ui/label";
 import {ReviewFormWidgetContext} from "./ReviewFormWidgetContextAPI";
 import {Input} from "../../ui/input";
-import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
 import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
 import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
