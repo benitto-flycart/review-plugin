@@ -24,10 +24,10 @@ const InputFontSize = ({onChange, value, min, max, step}: any) => {
             />
             <div className={"frt-basis-[40%] frt-flex frt-gap-1 frt-items-center"}>
                 <Input
+                    type={"number"}
                     min={16}
                     max={50}
                     value={value}
-                    type={"number"}
                     onChange={(e: any) => {
                         onChange(getValidatedValue(e.target.value))
                     }}/>

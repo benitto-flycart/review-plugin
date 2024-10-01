@@ -21,8 +21,8 @@ const RatingWidgetRatingSetting = ({name}: any) => {
                         <div className={"frt-flex frt-flex-row frt-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
+                                type={"text"}
                                 defaultValue={widget.reviewer.title}
                                 onChange={(e: any) => {
                                     updateWidgetFields((draftState: any) => {

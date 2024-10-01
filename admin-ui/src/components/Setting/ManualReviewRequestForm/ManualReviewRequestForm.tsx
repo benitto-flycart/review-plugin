@@ -171,7 +171,7 @@ const ManualReviewRequestForm = () => {
                                 </Label>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                <Input type="text" placeholder="Please let us know what you think!"
+                                <Input type={"text"} placeholder="Please let us know what you think!"
                                        onChange={(e: any) => {
                                            updateSettingFields((draftState: any) => {
                                                draftState.email_subject = e.target.value;

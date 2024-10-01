@@ -45,7 +45,7 @@ const RatingWidgetPreview = () => {
         >
             <div className={'r_rw__product_wrapper'}>
                 <div className={"r_rw__product_image_wrapper"}>
-                    <img src="http://localhost:8004/wp-content/uploads/2023/11/album-1.jpg" alt=""/>
+                    <img src="https://unsplash.it/200/200" alt=""/>
                 </div>
                 <div className={'r_rw__product_details'}>
                     <h2 className={'r_rw__product_title'}>Album</h2>

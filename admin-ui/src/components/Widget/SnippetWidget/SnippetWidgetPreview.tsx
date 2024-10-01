@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
 import {SnippetWidgetContext} from "./SnippetWidgetContextAPI";
 // import "./carosual.css";
@@ -10,6 +10,8 @@ const PreviewSnippetWidget = () => {
     const [index, setIndex] = useState<any>(0);
     const {localState} = useLocalState()
     const [loading, setLoading] = useState(true)
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const itemRef = useRef<HTMLDivElement>(null);
 
     const reviews = [
         {
@@ -96,14 +98,21 @@ const PreviewSnippetWidget = () => {
 
     const length = 3;
     const handlePrevious = () => {
-        const newIndex = index - 1;
-        setIndex(newIndex < 0 ? length - 1 : newIndex);
+        setIndex(index-1)
+        if (carouselRef.current && itemRef.current) {
+            const itemWidth = itemRef.current.offsetWidth;
+            carouselRef.current.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+        }
     };
 
     const handleNext = () => {
-        const newIndex = index + 1;
-        setIndex(newIndex >= length ? 0 : newIndex);
+        setIndex(index+1)
+        if (carouselRef.current && itemRef.current) {
+            const itemWidth = itemRef.current.offsetWidth;
+            carouselRef.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
     };
+
 
     useEffect(() => {
 
@@ -144,7 +153,7 @@ const PreviewSnippetWidget = () => {
                     <div className={'r_sw__product_img_wrapper'}>
                         <img
                             className={"r_sw__product_img"}
-                            src="http://localhost:8004/wp-content/uploads/2023/11/album-1.jpg"
+                            src="https://unsplash.it/200/200"
                             alt=""/>
                     </div>
                     <div className={'r_sw_product_details_wrapper'}>
@@ -152,13 +161,14 @@ const PreviewSnippetWidget = () => {
                         <h2 className={'r_sw__product_price'}>price</h2>
                         <p className={'r_sw__product_description'}>This is a simple, Virtual Product</p>
                         <button className={`r_sw__add_to_cart_button`}>Add to Cart</button>
-                        <div>
-                            <div className="r_sw__carousel">
+                        <div className={"r_sw_admin_container_wrapper"}>
+                            <div className="r_sw__carousel" ref={carouselRef}>
                                 {reviews.map((item: any, i: number) => {
                                     return (
                                         <div
                                             key={i}
-                                            className={`r_sw__carousel-item ${i == index ? 'r_sw__carousel-item-visible' : ''}`}
+                                            className={`r_sw__carousel-item r_sw__carousel-item-visible`}
+                                            ref={itemRef}
                                             style={methods.getStyles()}>
                                             {widget.show_review_image && (item.images?.length > 0) ? (
                                                 <React.Fragment>
@@ -196,33 +206,21 @@ const PreviewSnippetWidget = () => {
                                         </div>
                                     )
                                 })}
-                                <div className="r_sw__carousel-actions">
-                                    <button
-                                        className={`${index == 0 ? 'disabled' : ''} r_sw__carousel-button-prev`}
-                                        style={methods.getCarosualActionStyle()}
-                                        disabled={index == 0} onClick={(e: any) => {
-                                        setIndex(index - 1);
-                                    }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                             viewBox="0 0 24 24">
-                                            <path
-                                                d="M11.05 12 16 7.05l-1.414-1.414L8.222 12l6.364 6.364L16 16.95 11.05 12Z"></path>
-                                        </svg>
-                                    </button>
-                                    <button
-                                        className={`${index == (reviews.length - 1) ? 'disabled' : ''} r_sw__carousel-button-next`}
-                                        disabled={index == (reviews.length - 1)}
-                                        style={methods.getCarosualActionStyle()}
-                                        onClick={(e: any) => {
-                                            setIndex(index + 1)
-                                        }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                             viewBox="0 0 24 24">
-                                            <path
-                                                d="m13.172 12-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414 4.95-4.95Z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="r_sw__carousel-actions">
+                                <button
+                                    className={`${index == 0 ? 'disabled' : ''} r_sw__carousel-button-prev`}
+                                    style={methods.getCarosualActionStyle()}
+                                    disabled={index == 0} onClick={handlePrevious}>
+                                    <i className="review review-caret-left"></i>
+                                </button>
+                                <button
+                                    className={`${index == (reviews.length - 1) ? 'disabled' : ''} r_sw__carousel-button-next`}
+                                    disabled={index == (reviews.length - 1)}
+                                    style={methods.getCarosualActionStyle()}
+                                    onClick={handleNext}>
+                                    <i className="review review-caret-right"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

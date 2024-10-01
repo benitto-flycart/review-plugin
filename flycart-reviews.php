@@ -217,9 +217,9 @@ function execute_product_widget_short_code()
 }
 
 add_action('wp_footer', 'execute_popup_widget');
-add_action('wp_footer', 'view_review_details');
+//add_action('wp_footer', 'view_review_details');
 add_action('wp_footer', 'execute_floating_product_widget');
-add_action('wp_footer', 'execute_review_form_widget');
+//add_action('wp_footer', 'execute_review_form_widget');
 
 
 //function view_review_details() {

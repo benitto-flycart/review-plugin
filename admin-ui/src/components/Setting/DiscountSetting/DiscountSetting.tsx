@@ -172,7 +172,7 @@ const DiscountSetting = () => {
                                             purchase</Label>
                                     </SettingsColWrapper>
                                     <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                        <Input type="number" placeholder="Value"
+                                        <Input type={"number"} placeholder="Value"
                                                value={settingsState.photo_discount_value}
                                                onChange={(e: any) => {
                                                    updateSettingFields((draftState: any) => {
@@ -250,7 +250,8 @@ const DiscountSetting = () => {
                                             purchase</Label>
                                     </SettingsColWrapper>
                                     <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                        <Input type="number"
+                                        <Input
+                                               type={"number"}
                                                value={settingsState.video_discount_value}
                                                placeholder="Value"
                                                onChange={(e: any) => {

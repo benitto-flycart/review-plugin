@@ -21,8 +21,8 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                         <div className={"frt-flex frt-flex-row frt-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
+                                type={"text"}
                                 defaultValue={widget.thank_you.title}
                                 onChange={(e: any) => {
                                     updateWidgetFields((draftState: any) => {
@@ -38,8 +38,8 @@ const ReviewFormWidgetThankyouSetting = ({name}: any) => {
                         <div className={"frt-flex frt-flex-row frt-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
+                                type={"text"}
                                 defaultValue={widget.thank_you.description}
                                 onChange={(e: any) => {
                                     updateWidgetFields((draftState: any) => {

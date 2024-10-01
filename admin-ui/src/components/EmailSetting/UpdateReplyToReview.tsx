@@ -110,7 +110,8 @@ const UpdateReplyToReview = () => {
                             <label>Subject</label>
                             <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
                                 <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                    <Input type="text"
+                                    <Input
+                                           type="text"
                                            placeholder={"In response to your review of {product}"}
                                            value={state.subject}
                                            onChange={(e: any) => {

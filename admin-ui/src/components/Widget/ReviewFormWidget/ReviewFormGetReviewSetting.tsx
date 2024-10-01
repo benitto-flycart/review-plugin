@@ -23,7 +23,6 @@ const ReviewFormGetReviewSetting = ({name}: any) => {
                         <div className={"frt-grid frg-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
                                 value={widget.review_content.title}
                                 onChange={(e: any) => {
@@ -40,7 +39,6 @@ const ReviewFormGetReviewSetting = ({name}: any) => {
                         <div className={"frt-grid frg-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
                                 value={widget.review_content.placeholder}
                                 onChange={(e: any) => {
