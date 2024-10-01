@@ -22,9 +22,7 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         show_rating: true,
         show_review_image: true,
         hide_arrows_on_mobile: true,
-        font_size: 16,
-        name_font_size: 16,
-        icon_font_size: 16,
+        position_to_show:"before_product",
         no_of_reviews_to_display: 10,
         style: {
             review_card_shadow: 'dark',
@@ -106,9 +104,6 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
             draftState.show_rating = settings?.show_rating;
             draftState.show_review_image = settings?.show_review_image;
             draftState.hide_arrows_on_mobile = settings?.hide_arrows_on_mobile;
-            draftState.font_size = settings?.font_size;
-            draftState.name_font_size = settings?.name_font_size;
-            draftState.icon_font_size = settings?.icon_font_size;
             draftState.no_of_reviews_to_display = settings?.no_of_reviews_to_display;
             draftState.style = {
                 review_card_shadow: settings?.style?.review_card_shadow,
@@ -175,19 +170,16 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         getReviewStyles: () => {
             return {
                 color: widget.colors.text_color,
-                fontSize: widget.font_size + 'px',
             }
         },
         getReviewerNameStyle: () => {
             return {
                 color: widget.colors.name_color,
-                fontSize: widget.name_font_size + 'px'
             }
         },
         getRatingIconStyles: () => {
             return {
                 color: widget.colors.rating_icon_color,
-                fontSize: widget.icon_font_size + 'px'
             }
         },
         getCarosualActionStyle: () => {

@@ -113,7 +113,35 @@ const PreviewSnippetWidget = () => {
         }
     };
 
+    const positionDynamicDiv = (setting: any) => {
+        const textBlock = document.getElementById('r_sw__product_title');
+        const dynamicDiv = document.getElementById('r_sw_admin_container_wrapper');
+        const button = document.getElementById('r_sw__add_to_cart_button');
+        const desc = document.getElementById('r_sw__product_description');
 
+        if (!textBlock || !dynamicDiv || !button || !desc) {
+            console.warn("One or more elements not found in the DOM.");
+            return;
+        }
+
+        console.log("calling")
+        if (setting === 'before_product') {
+            textBlock.before(dynamicDiv); // Place dynamic div below text
+        } else if (setting === 'after_product') {
+            textBlock.after(dynamicDiv); // Place dynamic div after text but before the button
+            desc.before(dynamicDiv);
+        } else if (setting === 'after_product_desc') {
+            desc.after(dynamicDiv); // Place dynamic div just before the button
+            button.before(dynamicDiv);
+        } else if (setting === "after_add_to_cart") {
+            button.after(dynamicDiv);
+        }
+    };
+
+
+    useEffect(() => {
+        positionDynamicDiv(widget.position_to_show);
+    }, [widget]);
     useEffect(() => {
 
         updateWidgetFields((draftState: any) => {
