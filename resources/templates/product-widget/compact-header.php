@@ -9,7 +9,7 @@
     <div class="r_pw_ch_rd_container">
         <?php $rating = $data['ratings']; ?>
         <?php foreach (range(0, 4) as $index) { ?>
-            <div class="r_pw_ch_rd_detail" data-rating="<?php echo $index+1 ?>">
+            <div class="r_pw_h_rd_detail r_pw_ch_rd_detail" data-rating="<?php echo $index + 1 ?>">
                 <div class="r_pw_ch_rd_detail_icon">
                     <?php foreach (range(0, 4) as $i) { ?>
                         <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
@@ -30,18 +30,20 @@
     </div>
     <div class="r_pw_ch_actions">
         <div class="r_pw_ch_actions_new_review_btn_container">
-            <button type="button" class="r_pw_header_button r_pw_ch_actions_new_review_btn_container_btn">Write a
+            <button type="button"
+                    class="r_pw_write_a_review_btn r_pw_header_button r_pw_ch_actions_new_review_btn_container_btn">
+                Write a
                 Review
             </button>
         </div>
         <div class="r_pw_ch_actions_sorting_container" style="position:relative">
             <div class="r_pw_h_popover-container">
-                <span class="r_pw_h_popover-trigger" aria-haspopup="true"
-                      aria-expanded="false" aria-controls="popover-content">
+                <div class="r_pw_h_popover-trigger" aria-haspopup="true"
+                     aria-expanded="false" aria-controls="popover-content">
                     <button type="button" class="r_pw_header_button r_pw_ch_actions_sorting_container_btn">
                         <i class="review review-rocket"></i>
                     </button>
-                </span>
+                </div>
             </div>
             <div id="r_pw_h_popover-content"
                  class="r_pw_h_popover-content r_pw_hide"

@@ -53,4 +53,28 @@ class DiscountSettings extends ReviewSettings
 
         return $this->mergeWithDefault($data);
     }
+
+    public function isPhotoDiscountEnabled()
+    {
+        return $this->discountSettings['enable_photo_discount'];
+    }
+
+    public function isVideoDiscountEnabled()
+    {
+        return $this->discountSettings['enable_video_discount'];
+    }
+
+    public function photoDiscountString()
+    {
+        $discount_type = $this->discountSettings['photo_discount_type'];
+        $discount_value = $this->discountSettings['photo_discount_value'];
+
+        if ($discount_type == 'fixed') {
+            $label = get_woocommerce_currency_symbol() . ' Fixed';
+        } else {
+            $label = '% Percentage';
+        }
+        /* translators: placeholder description */
+        return vsprintf(esc_html__('%s %s', 'f-review'), [$discount_value, $label]);
+    }
 }

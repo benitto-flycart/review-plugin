@@ -4,7 +4,11 @@ namespace Flycart\Review\Core\Controllers\StoreFront;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\Core\Controllers\Helpers\Review\Comment;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -13,26 +17,49 @@ class ReviewFormController
     public function getReviewFormTemplate(Request $request)
     {
         try {
+            $order_id = $request->get('order_id') ?? null;
 
-            $order_id = $request->get('order_id') ?? 0;
             $product_id = $request->get('product_id') ?? 0;
 
+            $is_comment_open = comments_open();
+
             $path = F_Review_PLUGIN_PATH . 'resources/templates/';
+
+            // Only validate if option is enabled.
+            if ('yes' == get_option('woocommerce_review_rating_verification_required') && !isset($order_id)) {
+                if (!wc_customer_bought_product('', get_current_user_id(), $product_id)) {
+                    ob_start(); // Start output buffering
+                    include $path . 'review-form/authorization-error.php'; // Include the PHP file
+                    $template_content = ob_get_clean();
+
+                    Response::error([
+                        'template' => $template_content
+                    ], 401);
+                }
+            }
+
+            // Skip if is a verified owner.
+
             $order = wc_get_order($order_id);
+
             $product = wc_get_product($product_id);
 
-            $comment = new Comment($order_id, $product_id);
-//        $comment = new OrderComment($order_id, $product_id);
+            $comment = new Comment($product_id, $order_id);
 
             $review_added = $comment->isCommentAlreadyAddedForProductOrder();
 
             $photo_enabled = $comment->isEnableAddPhotos();
             $next_review_items = $comment->getNextReviewItems();
-
             $enabled = [];
+
+            $brandSettings = (new BrandSettings());
+            $discountSettings = (new DiscountSettings());
+
+            $icon = PluginHelper::getCurrentReviewIcon($brandSettings->getIcon());
+
             $slides = [
                 [
-                    'enabled' => $enabled['rating'] = !empty($review_added),
+                    'enabled' => $enabled['rating'] = !$review_added,
                     'name' => 'rating',
                     'may_have_done_btn' => false,
                 ],
@@ -42,12 +69,12 @@ class ReviewFormController
                     'may_have_done_btn' => true,
                 ],
                 [
-                    'enabled' => $enabled['review'] = !empty($review_added),
+                    'enabled' => $enabled['review'] = !$review_added,
                     'name' => 'review',
                     'may_have_done_btn' => true,
                 ],
                 [
-                    'enabled' => $enabled['reviewer'] = !isset($order),
+                    'enabled' => $enabled['reviewer'] = empty($order),
                     'name' => 'reviewer',
                     'may_have_done_btn' => true,
                 ],
@@ -63,7 +90,6 @@ class ReviewFormController
                 ]
             ];
 
-
             $slides = array_values(array_filter($slides, function ($item) {
                 return $item['enabled'];
             }));
@@ -76,6 +102,14 @@ class ReviewFormController
                 }
 
                 $last_slide = $slide['name'];
+            }
+
+            $widget = flycart_review_app()->get('review_form_widget_object');
+
+            if (empty($widget)) {
+                $widgetFactory = new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null);
+                $widget = $widgetFactory->widget;
+                flycart_review_app()->set('review_form_widget_object', $widget);
             }
 
             ob_start(); // Start output buffering
@@ -134,41 +168,93 @@ class ReviewFormController
             $order_id = $request->get('order_id');
             $product_id = $request->get('product_id');
 
-            $order = wc_get_order($order_id);
+            if (!empty($order_id)) {
+                $order = wc_get_order($order_id);
+            }
+
             $product = wc_get_product($product_id);
 
-            $id = wp_insert_comment([
-                'comment_author' => $order->get_formatted_billing_full_name(),
-                'comment_author_email' => $order->get_billing_email(),
-                'comment_author_ip' => $_SERVER['REMOTE_ADDR'],
-                'comment_post_ID' => $product->get_id(),
-                'comment_content' => $request->get('review_text'),
-                'comment_approved' => 1,
-                'comment_agent' => wc_get_user_agent(),
-                'comment_type' => 'review',
-                'comment_meta' => [
-                    'verified' => 1,
+            $comment = new Comment($product_id, $order_id);
+
+            $review_added = $comment->isCommentAlreadyAddedForProductOrder();
+
+            $submit_slide = $request->get('submit_slide');
+
+            if (!$review_added) {
+                $comment_data = static::getReviewData($product_id, $request, $order);
+
+                $comment_meta_data = [
+                    'verified' => !empty($order) ? 1 : 0,
                     'rating' => $request->get('rating'),
                     '_review_order_id' => $order_id,
-                    'review_attachments' => Functions::jsonEncode([
+                    '_review_attachments' => Functions::jsonEncode([
                         'photos' => array_map(function ($attachment) {
                             return [
                                 'attachment_id' => $attachment['id']
                             ];
                         }, $request->get('photos') ?? [])
                     ])
-                ]
-            ]);
+                ];
 
-            error_log('Stored Comment Id');
+                $comment->updateComment($comment_data, $comment_meta_data);
+
+            } else {
+                if ($submit_slide == 'photo') {
+
+                    $attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
+
+                    $attachments = Functions::jsonDecode($attachments);
+
+                    $attachments['photos'] = array_merge($attachments['photos'], array_map(function ($attachment) {
+                        return [
+                            'attachment_id' => $attachment['id']
+                        ];
+                    }, $request->get('photos') ?? []));
+
+                    $comment->updateComment([], [
+                        '_review_attachments' => Functions::jsonEncode($attachments),
+                    ]);
+                }
+            }
 
             return Response::success([
-                'message' => 'method exists processing',
-                'comment_id' => $id,
+                'message' => 'Comment Stored Successfully',
             ]);
+
         } catch (\Exception|\Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
+    }
+
+    public static function getReviewData($product_id, $request, $order = null)
+    {
+        if ($order) {
+            $comment_author = $order->get_formatted_billing_full_name();
+            $comment_author_email = $order->get_billing_email();
+            $user_id = $order->get_customer_id();
+        } else if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+
+            $comment_author = $user->first_name . ' ' . $user->last_name;
+            $comment_author_email = $user->user_email;
+            $user_id = $user->ID;
+        } else {
+            $comment_author = $request->get('first_name') . ' ' . $request->get('last_name');
+            $comment_author_email = $request->email;
+            $user_id = 0;
+        }
+
+        return [
+            'comment_author' => $comment_author,
+            'comment_author_email' => $comment_author_email,
+            'comment_author_ip' => $_SERVER['REMOTE_ADDR'],
+            'comment_post_ID' => $product_id,
+            'comment_content' => $request->get('review_text'),
+            'comment_approved' => 0,
+            'comment_agent' => wc_get_user_agent(),
+            'comment_type' => 'review',
+            'user_id' => $user_id,
+        ];
     }
 }

@@ -9,7 +9,32 @@ $items = [
         'date' => "31/03/2024",
         'rating' => 5,
         "content" => "This product totally exceeded my expectations! The quality is off the charts and it's made my life so much easier. Seriously, I'm shouting from the rooftops!",
-        "images" => [],
+        'images' => [
+            [
+                'id' => 1,
+                'src' => 'https://unsplash.it/500/987'
+            ],
+            [
+                'id' => 2,
+                'src' => 'https://unsplash.it/300/800'
+            ],
+            [
+                'id' => 3,
+                'src' => 'https://unsplash.it/500/900'
+            ],
+            [
+                'id' => 4,
+                'src' => 'https://unsplash.it/200/300'
+            ],
+            [
+                'id' => 4,
+                'src' => 'https://unsplash.it/453/567'
+            ],
+            [
+                'id' => 5,
+                'src' => 'https://unsplash.it/210/450'
+            ],
+        ],
         "replies" => [],
         "product" => [
             "product_name" => 'Sample Product',

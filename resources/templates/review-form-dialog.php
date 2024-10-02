@@ -3,14 +3,15 @@
 
 <div class="wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative rating-widget-preview-desktop">
     <div class="r_rfw_container"
-         style="--r-rfw-dialog-bg-color: #fffafd; --r-rfw-rating-icon-color: #f178bb; --r-rfw-input-label-color: #ff47d7; --r-rfw-input-border-color: #f4d4ed; --r-rfw-input-error-color: #ff0808; --r-rfw-title-color: #f20ba9; --r-rfw-description-color: #ec07a3; --r-rfw-btn-text-color: #f20ba9; --r-rfw-btn-bg-color: #fbddef;"
+         style="<?php echo $widget->getProductWidgetStylesVars() ?>"
     >
         <div class="r_rfw_header">
-            <button class="r_rfw_btn r_rfw_dialog_close_icon"
-                    style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234);"><span
-                        class="review review-cross-icon"></span></button>
+            <button class="r_rfw_btn r_rfw_dialog_close_icon">
+                <span class="review review-cross-icon"></span>
+            </button>
         </div>
-        <div class="r_rfw_main_content_wrapper" style="transform: translateX(0%);">
+
+        <div class="r_rfw_main_content_wrapper">
             <?php if ($enabled['rating']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_rating_container">
@@ -24,23 +25,25 @@
                                  alt="Product Image">
                         </div>
                         <p class="r_rfw_rating_preview_title">How would you rate
-                            {<?php echo $product->get_name() ?>?}</p>
+                            <span class="r_rfw_rating-title__product_name "><?php echo $product->get_name() ?></span>
+                        </p>
                         <div class="r_rfw_rating_icons_wrapper">
-                            <div class="r_rwf_rating_icons_wrapper_with_text"><i
-                                        class="r_rfw_rating_icon review-icon review  review_rating review_rating_1 review-gem"></i><span
-                                        class="r_rwf_rating_icons_text">Dislike it</span></div>
-                            <div class="r_rwf_rating_icons_wrapper_with_text"><i
-                                        class="r_rfw_rating_icon review-icon review  review_rating review_rating_2 review-gem"></i>
+                            <div class="r_rwf_rating_icons_wrapper_with_text">
+                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
+                                <span class="r_rwf_rating_icons_text">Dislike it</span></div>
+                            <div class="r_rwf_rating_icons_wrapper_with_text">
+                                <i class="r_rfw_rating_icon review-icon review  review-<?php echo $icon['outlined'] ?>"></i>
                             </div>
-                            <div class="r_rwf_rating_icons_wrapper_with_text"><i
-                                        class="r_rfw_rating_icon review-icon review  review_rating review_rating_3 review-gem"></i>
+                            <div class="r_rwf_rating_icons_wrapper_with_text">
+                                <i class="r_rfw_rating_icon review-icon review  review-<?php echo $icon['outlined'] ?>"></i>
                             </div>
-                            <div class="r_rwf_rating_icons_wrapper_with_text"><i
-                                        class="r_rfw_rating_icon review-icon review  review_rating review_rating_4 review-gem"></i>
+                            <div class="r_rwf_rating_icons_wrapper_with_text">
+                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
                             </div>
-                            <div class="r_rwf_rating_icons_wrapper_with_text"><i
-                                        class="r_rfw_rating_icon review-icon review  review_rating review_rating_5 review-gem"></i><span
-                                        class="r_rwf_rating_icons_text">Love it!</span></div>
+                            <div class="r_rwf_rating_icons_wrapper_with_text">
+                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
+                                <span class="r_rwf_rating_icons_text">Love it!</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -50,9 +53,7 @@
             <?php if ($enabled['photo']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_photo_slide_container">
-                        <input type="file" accept="image/*"
-                               class="r_frw_file_input"
-                               style="display: none;">
+                        <input type="file" accept="image/*" class="r_frw_file_input">
                         <div class="r_frw_photo_slide__text_container"><span
                                     class="r_frw_photo_title">Show it Off</span><span
                                     class="r_frw_photo_description">We'd love to see it again</span></div>
@@ -60,20 +61,19 @@
                             <div class="r_frw_view_photos_container r_rfw_hide">
                                 <div class="r_frw_photos_list">
                                     <div class="r_frw_img_container r_rfw_hide"
-                                    ><span
-                                                class="review review-cross-icon r_frw_img_close_icon"></span><img
-                                                src="#" alt="Uploaded Preview 1"
-                                                style="height: 100%; object-fit: cover; margin-right: 10px;">
+                                    ><span class="review review-cross-icon r_frw_img_close_icon"></span>
+                                        <img class="r_frw_img-uploaded" src="#" alt="Uploaded Preview 1">
                                     </div>
-                                    <div class="r_rfw_add_photos_div wd_add_photos_btn "
-                                         style="border-width: 1px; border-style: dashed; border-color: rgb(242, 11, 169); color: rgb(242, 11, 169);">
+                                    <div class="r_rfw_add_photos_div wd_add_photos_btn">
                                         <i class="review-plus frt-text-inherit review-icon review"></i></div>
+
                                 </div>
                             </div>
                             <!--                                    Initally it will show when minmum one photo added it will hided-->
-                            <div class="r_rfw_empty_photo_section"><p
-                                        class="r_rfw_photo_discount_text">Get {{discount_value}} off your next
-                                    purchase!</p>
+                            <div class="r_rfw_empty_photo_section">
+                                <p class="r_rfw_photo_discount_text">Get <?php echo $discountSettings->photoDiscountString();  ?> off your next
+                                    purchase!
+                                </p>
                                 <button class="r_frw_add_photos_btn wd_add_photos_btn">Add Photos</button>
                             </div>
                         </div>
@@ -169,11 +169,15 @@
             <?php } ?>
         </div>
         <div class="r_rfw_footer_wrapper r_rfw_footer_wrapper_down">
-            <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn "><span
-                        class="review review-arrow-left"></span></button>
-            <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn">Continue</button>
+            <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn ">
+                <span class="review review-arrow-left"></span>
+            </button>
+            <button class="r_rfw-submit_button r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn">
+                <span class="r_rfw-button__text">Continue</span>
+            </button>
         </div>
     </div>
 </div>
+
 
 

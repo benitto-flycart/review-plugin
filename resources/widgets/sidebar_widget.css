@@ -9,6 +9,7 @@
     color: var(--r-r_sbw-text-color);
     background-color: var(--r-r_sbw-bg-color);
     z-index: 1000;
+    cursor: pointer;
 }
 
 .r_sbw__top_bottom {

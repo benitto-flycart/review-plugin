@@ -5,18 +5,32 @@ namespace Flycart\Review\App\ShortCode;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Models\Review;
 
-class SnippetWidgetShortode
+class SnippetWidgetShortCode
 {
     public static function register()
     {
-
         add_shortcode('review_snippet_widget', function () {
+            return '';
+            if (!is_product()) return null;
 
+            global $product;
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-snippet-widget-script";
             $registrationHandle = "{$pluginSlug}-snippet-widget";
             $storeConfig = static::getProductWidgetConfigValues();
+
+
+            $reviews = Review::getReviews([
+//                'product_id' => $product->get_id(),
+                'type' => 'comment',
+                'paged' => $filters['current_page'] ?? 1,
+                'parent' => $filters['parent'] ?? 0,
+                'number' => $filters['per_page'] ?? 50,
+                'status' => $filters['status'] ?? 'all',
+                'update_comment_meta_cache' => true,
+            ]);
 
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/snippet_widget.js", array('jquery'), F_Review_VERSION, true);
@@ -25,7 +39,7 @@ class SnippetWidgetShortode
 
             wp_localize_script($registrationScriptHandle, 'review_snippet_widget_js_data', $storeConfig);
 
-            $snippet_widget_css = $resourcePath. "/widgets/snippet_widget.css?ver=3.0";
+            $snippet_widget_css = $resourcePath . "/widgets/snippet_widget.css?ver=3.0";
             $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/snippet-widget';

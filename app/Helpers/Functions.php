@@ -157,7 +157,7 @@ class Functions
 
         if ($value === 0) return false;
 
-        return (bool)$value;
+        return !empty($value);
     }
 
     public static function getUniqueKey($id = null)
@@ -233,9 +233,22 @@ class Functions
         ];
     }
 
-    public static function isMobile() {
+    public static function isMobile()
+    {
         return preg_match('/(android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile)/i', $_SERVER['HTTP_USER_AGENT'] ?? '');
     }
 
+    public static function convertMBToKB($mb)
+    {
+        if (is_int($mb)) {
+            return $mb * 1024 * 1024;
+        }
 
+        throw new \Exception('Argument must be an integer');
+    }
+
+    public static function getWcTimeFromGMT($gmt_time)
+    {
+        return !empty($gmt_time) ? self::formatDate($gmt_time, 'Y-m-d') : null;
+    }
 }

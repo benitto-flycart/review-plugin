@@ -27,11 +27,17 @@ class TemplateController
             if (empty($order_id) || empty($product_id)) {
                 $template = get_404_template();
             } else {
-                $template = plugin_dir_path(F_Review_PLUGIN_FILE) . 'resources/templates/review-form.php';
+                $template = plugin_dir_path(F_Review_PLUGIN_FILE) . 'resources/templates/review-form/review-form.php';
             }
-
-
         }
         return $template;
     }
+
+    public function removeDefaultCommentsTab($tabs)
+    {
+        if (isset($tabs['reviews']))
+            unset($tabs['reviews']);
+        return $tabs;
+    }
 }
+

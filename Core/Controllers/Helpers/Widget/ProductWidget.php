@@ -59,14 +59,14 @@ class ProductWidget extends Widget implements WidgetInterface
             'preferences' => [
                 'icon_size' => $preferences['icon_size'] ?? 'small',
                 'product_review_widget' => $preferences['product_review_widget'] ?? '',
-                'show_write_a_review' => $preferences['show_write_a_review'] ?? true,
-                'show_review_date' => $preferences['show_review_date'] ?? true,
-                'show_item_type' => $preferences['show_item_type'] ?? true,
+                'show_write_a_review' => Functions::getBoolValue($preferences['show_write_a_review']) ?? true,
+                'show_review_date' => Functions::getBoolValue($preferences['show_review_date']) ?? true,
+                'show_item_type' => Functions::getBoolValue($preferences['show_item_type']) ?? true,
                 'thumbnail_size' => $preferences['thumbnail_size'] ?? 'medium',
                 'reviews_per_page' => $preferences['reviews_per_page'] ?? 5,
-                'show_sorting_options' => $preferences['show_sorting_options'] ?? true,
+                'show_sorting_options' => Functions::getBoolValue($preferences['show_sorting_options']) ?? true,
                 'default_sorting' => $preferences['default_sorting'] ?? 'newest',
-                'show_rating_options' => $preferences['show_rating_options'] ?? true
+                'show_rating_options' => Functions::getBoolValue($preferences['show_rating_options']) ?? true
             ]
         ];
 
@@ -119,7 +119,7 @@ class ProductWidget extends Widget implements WidgetInterface
             '--r-pw-review-color' => $this->settings['colors']['reviews']['text_color'],
             '--r-pw-review-bg-color' => $this->settings['colors']['reviews']['bg_color'],
             '--r-pw-review-bg-hover-color' => $this->settings['colors']['reviews']['bg_hover_color'],
-            '--r-pw--review-box-shadow' => $this->reviewShadows($this->settings['style']['review_card_shadow'], $this->settings['colors']['reviews']['shadow_color']),
+            '--r-pw-review-box-shadow' => $this->reviewShadows($this->settings['style']['review_card_shadow'], $this->settings['colors']['reviews']['shadow_color']),
             '--r-pw-review-border-radius' => $this->reviewOpeners($this->settings['style']['review_card_openers']),
 
             //Replies Color
@@ -185,8 +185,3 @@ class ProductWidget extends Widget implements WidgetInterface
     }
 }
 
-
-
-/*
- *
- */

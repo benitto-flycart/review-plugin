@@ -300,10 +300,10 @@ const ProductWidgetColorSetting = ({name}: { name: string }) => {
                     <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
                         <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Background color</Label>
-                            <PopOverColorPicker color={colors.widget_wrapper.background_color} onChange={(color: string) => {
+                            <PopOverColorPicker color={colors.widget_wrapper ?? ''} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
                                     draftState.colors.type = 'custom'
-                                    draftState.colors.widget_wrapper.background_color = color;
+                                    draftState.colors.widget_wrapper = color;
                                 })
                             }}/>
                         </SidebarDetailField>

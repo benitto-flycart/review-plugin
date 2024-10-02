@@ -92,4 +92,47 @@ class PluginHelper
         $id = get_option($page_meta_key);
         return get_permalink($id);
     }
+
+    public static function reviewIcons()
+    {
+        return [
+            'gem' => [
+                'filled' => 'gem',
+                'outlined' => 'gem-outline',
+            ],
+            'heart' => [
+                'filled' => 'heart',
+                'outlined' => 'heart-outline'
+            ],
+            'leaf' => [
+                'filled' => 'leaf',
+                'outlined' => 'leaf-outline',
+            ],
+            'rocket' => [
+                'filled' => 'rocket',
+                'outlined' => 'rocket-outline',
+            ],
+            'round-star' => [
+                'filled' => 'round-star',
+                'outlined' => 'round-star-outline',
+            ],
+            'star-sharp' => [
+                'filled' => 'star-sharp',
+                'outlined' => 'star-sharp-outline',
+            ]
+        ];
+    }
+
+
+    public static function getCurrentReviewIcon($name)
+    {
+       $icons = static::reviewIcons();
+
+       if(isset($icons[$name])) {
+           return $icons[$name];
+       }
+
+       //fallback to gem icons
+       return $icons['heart'];
+    }
 }

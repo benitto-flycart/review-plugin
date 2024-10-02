@@ -26,10 +26,6 @@ class EmailController
 
             $emails = wc()->mailer()->get_emails();
 
-            error_log('printing all data');
-
-            error_log(print_r($data, true));
-
             if (isset($emails['ReviewRequestWCEmail'])) {
                 $emails['ReviewRequestWCEmail']->trigger($data);
             }

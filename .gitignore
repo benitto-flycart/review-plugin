@@ -8,3 +8,5 @@
 /scripts/node_modules/
 /scripts/dist/
 /admin-ui/dist/
+/scripts/.idea
+/templates

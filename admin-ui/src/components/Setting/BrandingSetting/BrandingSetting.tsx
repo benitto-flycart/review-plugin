@@ -32,7 +32,6 @@ const BrandingSetting = () => {
         enable_logo: true,
         logo_url: '',
         rating_icon: 'gem',
-        rating_icon_style: 'rounded',
         enable_review_branding: true,
         enable_email_banners: false,
         banner_src: '',
@@ -61,7 +60,7 @@ const BrandingSetting = () => {
         enable_logo: yup.boolean().required("Enable logo is required"),
         logo: yup.string().optional(),
         corner_radius: yup.string().required("Corner Radius is required"),
-        rating_icon_style: yup.string().required("Rating Icon Style is required"),
+        rating_icon: yup.string().required("Rating Icon required"),
         rating_rgb_color: yup.string().required("Rating color is required"),
         enable_review_branding: yup.boolean().required("Enable Review Branding is required"),
         enable_email_banners: yup.boolean().required("Enable email Banners is required"),
@@ -91,8 +90,6 @@ const BrandingSetting = () => {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            settings.rating_icon = 'gem';
-            console.log(settings)
             setSettingsState(settings)
             toastrSuccess(data.message);
         }).catch((error: any) => {
@@ -104,6 +101,7 @@ const BrandingSetting = () => {
 
     const saveBrandSettings = () => {
         setSaveChangesLoading(true)
+        console.log(settingsState);
         schema.validate(settingsState, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_brand_settings',
@@ -127,6 +125,7 @@ const BrandingSetting = () => {
                 setSaveChangesLoading(false)
             });
         }).catch((validationError: any) => {
+            console.log(validationError);
             setSaveChangesLoading(false)
             toastrError('Validation Failed')
             const validationErrors = {}
@@ -259,7 +258,7 @@ const BrandingSetting = () => {
                                                 <ReviewIcon icon={settingsState.rating_icon}
                                                             color={settingsState.rating_rgb_color}
                                                 ></ReviewIcon> </span> : null}
-                                            <Button variant="outline">Rating Icon</Button>
+                                            <Button variant="outline">Choose</Button>
                                         </div>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-80">
@@ -270,7 +269,7 @@ const BrandingSetting = () => {
                                                               style={{color: settingsState.rating_rgb_color}}
                                                               onClick={() => {
                                                                   updateSettingFields((draftState: any) => {
-                                                                      draftState.rating_icon = iconData.filled;
+                                                                      draftState.rating_icon = iconName;
                                                                   })
                                                               }}>
                                                     <ReviewIcon icon={iconData.filled}/></span>);

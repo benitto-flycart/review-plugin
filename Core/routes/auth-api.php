@@ -52,6 +52,8 @@ return [
     'get_sample_reviews' => ['callable' => [WidgetController::class, 'sampleReviewsforAdmin']],
     'get_widget_settings' => ['callable' => [WidgetController::class, 'getWidgetSettings']],
     'save_widget_settings' => ['callable' => [WidgetController::class, 'saveWidgetSettings']],
+    'widget_update_status' => ['callable' => [WidgetController::class, "updateWidgetStatus"]],
+    'get_widget_status' => ['callable' => [WidgetController::class, "getWidgetStatuses"]],
 
 
     //Widgets Settings
