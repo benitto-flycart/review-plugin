@@ -7,7 +7,9 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Controllers\Helpers\Widget\PopupWidget;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -16,16 +18,32 @@ class PopupWidgetShortCode
 {
     public static function register()
     {
-
         add_shortcode('review_popup_widget', function () {
-            if(!is_product())  return '';
+            $widgetFactory = new WidgetFactory(Widget::POPUP_WIDGET, get_locale(), null);
+            $widget = $widgetFactory->widget;
+
+            $is_cart_page = is_cart();
+            $is_shop_page = is_shop();
+            $is_product_page = is_product();
+
+            $enabled_pages = [
+                $is_cart_page && $widget->showOnCartPage(),
+                $is_product_page && $widget->showOnProductPage(),
+                $is_shop_page && $widget->showOnShopPage(),
+            ];
+
+
+            if (count(array_filter($enabled_pages)) <= 0) {
+                return null;
+            }
 
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-popup-widget-script";
             $registrationHandle = "{$pluginSlug}-popup-widget";
-            $storeConfig = static::getCofigValues();
+            $storeConfig = static::getCofigValues($widget);
 
             $resourcePath = AssetHelper::getResourceURL();
+
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/popup_widget.js", array('jquery'), F_Review_VERSION, true);
 
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
@@ -44,9 +62,14 @@ class PopupWidgetShortCode
         });
     }
 
-    public static function getCofigValues()
+    public static function getCofigValues(PopupWidget $widget)
     {
         return [
+            "position" => $widget->getPosition('position'), // review_popup_widget_js_data.position ?? "top-right",
+            "corner_radius" => $widget->getCornerRadiusClass('corner_radius'), // review_popup_widget_js_data.corner_radius ?? "sharp",
+            "initial_delay" => $widget->getInitialDelay('initial_delay'), // review_popup_widget_js_data.initial_delay ?? 3000,
+            "delay_between" => $widget->getDelayBetween('delay_between'), // review_popup_widget_js_data.delay_between ?? 2000,
+            "display_time" => $widget->getDisplayTime('display_time'), // "$widget->get(' => '), //review_popup_widget_js_data".display_time ?? 2000,
             'home_url' => get_home_url(),
             'admin_url' => admin_url(),
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -64,16 +87,44 @@ class PopupWidgetShortCode
         try {
             $path = F_Review_PLUGIN_PATH . 'resources/templates/popup-widget/';
 
+            $is_product_page = Functions::getBoolValue($request->get('is_product_page'));
+            $product_id = $request->get('product_id');
+            $per_page = 1;
+            $current_page = $request->get('current_page', 1);
+
+            $filters = [
+                'current_page' => $current_page,
+                'per_page' => 1,
+                'product_id' => $is_product_page ? $product_id : null,
+            ];
+
+            if ($is_product_page) {
+                $comment_count = wp_count_comments($product_id);
+                $approved_comment = $comment_count->approved;
+            } else {
+                $comment_count = get_comment_count();
+                $approved_comment = $comment_count['approved'];
+            }
+
+
+            if ($current_page >= $approved_comment) {
+                return
+                    Response::error([
+                        'message' => __("No More reviews available", 'f-review')
+                    ], 400);
+            }
+
+
+            $reviews = Review::getReviews($filters);
+
+            $review = $reviews[0];
+
             $widgetFactory = new WidgetFactory(Widget::POPUP_WIDGET, get_locale(), null);
-//
+
             $widget = $widgetFactory->widget;
 
             $styles = $widget->getWidgetStyles();
 
-            $reviews = require_once F_Review_PLUGIN_PATH . '/app/config/sample-reviews.php';
-//
-            $review = $reviews[random_int(0, 32)];
-//
             $position = $widget->getPosition();
 
             $data = [
@@ -89,9 +140,9 @@ class PopupWidgetShortCode
 
             Response::success([
                 'template' => $template_content,
+                'total_approved_comment' => $approved_comment
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }

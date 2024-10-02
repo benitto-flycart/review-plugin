@@ -15,8 +15,10 @@ class Widget extends Model
     public const SNIPPET_WIDGET = 'snippet_widget';
     public const RATING_WIDGET = 'rating_widget';
     public const REVIEW_FORM_WIDGET = 'review_form_widget';
+    public const REVIEW_DETAIL_WIDGET = 'review_detail_widget';
 
     public const ACTIVE = 'active';
+    public const DRAFT = 'draft';
 
     public function createTable()
     {
@@ -35,5 +37,19 @@ class Widget extends Model
                 updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
                 PRIMARY KEY (id)
                 ) {$charset};";
+    }
+
+    public static function getDefaultWidgetStatues()
+    {
+        return [
+            'product_widget' => ['is_enabled' => true],
+            'popup_widget' => ['is_enabled' => true],
+            'sidebar_widget' => ['is_enabled' => true],
+            'floating_product_widget' => ['is_enabled' => true],
+            'snippet_widget' => ['is_enabled' => true],
+            'rating_widget' => ['is_enabled' => true],
+            'review_form_widget' => ['is_enabled' => true],
+            'review_detail_widget' => ['is_enabled' => true],
+        ];
     }
 }

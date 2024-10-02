@@ -6,6 +6,7 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Core\Validation\Widgets\WidgetRequest;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -22,8 +23,7 @@ class WidgetController
             $widget = new WidgetFactory($widget_type, $language, $request);
 
             return $widget->get();
-
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -46,7 +46,7 @@ class WidgetController
             Database::commit();
 
             Response::success($data);
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
@@ -58,7 +58,9 @@ class WidgetController
         $data = require_once F_Review_PLUGIN_PATH . '/app/config/sample-reviews.php';
         return $data;
     }
-
+    /**
+     * @return array<string,mixed>
+     */
     public static function sampleReviewsforAdmin(Request $request)
     {
         $allReviews = static::getSampleReviews();
@@ -114,7 +116,9 @@ class WidgetController
 
         return $data;
     }
-
+    /**
+     * @return int<0, max>
+     */
     public static function getCountOfRatings($rating, $reviews)
     {
         return count(array_filter($reviews, function ($review) use ($rating) {
@@ -126,7 +130,9 @@ class WidgetController
     {
         return static::getRandomElements($reviews, $filter['per_page']) ?? [];
     }
-
+    /**
+     * @return array
+     */
     public static function getRandomElements($array, $num)
     {
         // Ensure $num doesn't exceed the array size
@@ -146,5 +152,48 @@ class WidgetController
         return array_map(function ($key) use ($array) {
             return $array[$key];
         }, $randomKeys);
+    }
+
+
+    public static function updateWidgetStatus(Request $request)
+    {
+        try {
+            $widget_type = $request->get('widget_type');
+            $language = $request->get('language');
+            $widget = new WidgetFactory($widget_type, $language, $request);
+            $widget = $widget->widget;
+
+            $widget->updateWidgetStatus();
+
+            Response::success([
+                'message' => __('Widget Status Updated'),
+            ], 200);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public static function getWidgetStatuses(Request $request)
+    {
+        try {
+            $language = $request->get('language');
+
+            $widgets = Widget::query()
+                ->where("language = %s", [$language])->get();
+
+            $statuses = Widget::getDefaultWidgetStatues();
+
+            foreach ($widgets as $widget) {
+                $statuses[$widget->widget_type] = [
+                    'is_enabled' => $widget->status == Widget::ACTIVE
+                ];
+            }
+
+            Response::success($statuses, 200);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
     }
 }

@@ -10,7 +10,7 @@ export const ReviewDetailWidgetContext = createContext({});
 
 function ReviewDetailWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [saving ,setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const {reviews, refetch} = useContext<any>(SampleReviewsContext)
@@ -20,11 +20,11 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
         view: 'desktop',
         show_setting: '',
         colors: {
-            dialog_bg_color: '#fbbfe2',
-            rating_icon_color: '#f20ba9',
-            text_color: '#f20ba9',
-            button_text_color: '#fcf9fb',
-            button_bg_color: '#f20ba9',
+            dialog_bg_color: '#fffcfe',
+            rating_icon_color: '#040304',
+            text_color: '#040304',
+            button_text_color: '#000000',
+            button_bg_color: '#9e9e9e',
         }
     })
 
@@ -111,6 +111,7 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
             updateWidgetFields,
             methods: widgetMethods,
             loading,
+            saving,
             sampleReviews: reviews,
         }}>
             {children}

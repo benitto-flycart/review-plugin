@@ -1,178 +1,175 @@
-
 * {
-    all: unset;
-    box-sizing: border-box;
+  all: unset;
+  box-sizing: border-box;
 }
 
 .r_sw__product_wrapper {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
 .r_sw__product_img_wrapper {
-    flex: 1;
-    max-width: 50%
+  flex: 1;
+  max-width: 50%;
 }
 
 .r_sw__product_img {
-    width: 100%;
+  width: 100%;
 }
 
 .r_sw_product_details_wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    gap: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
 }
 
 .r_sw__product_title {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .r_sw__product_price {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .r_sw__product_description {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .r_sw__add_to_cart_button {
-    background-color: lightgray !important;
-    width: max-content;
-    padding: 1em;
+  background-color: lightgray !important;
+  width: max-content;
+  padding: 1em;
 }
 
 /*Carosal Logic*/
 
 .r_sw_container_wrapper {
-    max-width: 900px;
-    position: relative;
-    margin: 0 auto;
+  max-width: 900px;
+  position: relative;
+  margin: 0 auto;
 }
 
 .r_sw__carousel {
-    display: flex;
-    flex-direction: row;
-    overflow: scroll;
-    padding: 1em;
-    gap: 1em;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  padding: 1em;
+  gap: 1em;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
 }
 
-.r_sw__carousel .r_sw__carousel-item
-{
-    min-width: 100%;
-    scroll-snap-align: start;
+.r_sw__carousel .r_sw__carousel-item {
+  min-width: 100%;
+  scroll-snap-align: start;
 }
 
-.r_sw__carousel .r_sw__carousel-item{
-    display: flex; /* show current slide image */
-    animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
-    text-overflow: ellipsis;
-    padding: .5em;
-    background-color: lightgray;
-    border-radius: 16px;
-    box-shadow: #E5E4E7;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items:center;
-    /*transform: translateX(100%);*/
+.r_sw__carousel .r_sw__carousel-item {
+  display: flex; /* show current slide image */
+  animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
+  text-overflow: ellipsis;
+  padding: 0.5em;
+  background-color: lightgray;
+  border-radius: 16px;
+  box-shadow: #e5e4e7;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  /*transform: translateX(100%);*/
 }
 
 .r_sw__carousel-item-visible .r_sw__review_text {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
 /* Navigation control styles */
- .r_sw__carousel-actions {
-    display: flex;
-    width: 100%;
-    justify-content: space-between; /* put space between the navigation buttons */
-    position: absolute; /* position navigation buttons on top */
-    top: 50%; /* center navigation buttons on the slide */
-    transform: translateY(-50%); /* align navigation buttons */
+.r_sw__carousel-actions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between; /* put space between the navigation buttons */
+  position: absolute; /* position navigation buttons on top */
+  top: 50%; /* center navigation buttons on the slide */
+  transform: translateY(-50%); /* align navigation buttons */
 }
 
- .r_sw__carousel-actions button {
-    border: 0;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    width: 25px;
-    color: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-     padding: .2em;
+.r_sw__carousel-actions button {
+  border: 0;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  width: 25px;
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em;
 }
 
 .r_sw__carousel-actions button svg {
-    width: 100px;
+  width: 100px;
 }
 
- .r_sw__carousel-actions button.disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+.r_sw__carousel-actions button.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .r_sw__carousel-button-prev {
-    left: -12px;
+  left: -12px;
 }
 
 .r_sw__carousel-button-next {
-    right:  -12px;
+  right: -12px;
 }
 
 .r_sw__carousel-dots {
-    text-align: center;
+  text-align: center;
 }
 
 .r_sw__carousel-item_imgae {
-    width: 50px;
-    height: 80px;
+  width: 50px;
+  height: 80px;
 }
 
 .r_sw__review_details_wrapper {
-    /*padding: .5rem;*/
+  /*padding: .5rem;*/
 }
 
 .r_sw__review_details {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .r_sw__review_details_icons {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: .5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 0.5rem;
 }
-
-
 
 /* hanlde smooth transitions between slides */
 @keyframes r_sw_fadeVisibility {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 650px) {
-    .r_sw__product_wrapper {
-        flex-direction: column;
-    }
+  .r_sw__product_wrapper {
+    flex-direction: column;
+  }
 }

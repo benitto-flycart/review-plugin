@@ -6,5 +6,9 @@ $product_id = $data['product_id'];
 
 include F_Review_PLUGIN_PATH . 'resources/templates/review-form/template.php';
 
-wp_footer()
-?>
+if (true) { ?>
+  <div> benitto </div>
+<?php } ?>
+<?php wp_footer() ?>
+
+<div>html goes here</div>

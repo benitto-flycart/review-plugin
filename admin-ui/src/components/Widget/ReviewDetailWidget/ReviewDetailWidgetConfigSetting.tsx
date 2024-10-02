@@ -44,15 +44,15 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                     </div>
                 </SidebarDetailSection>
                 <SidebarDetailSection title={"Button"}>
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
-                        <PopOverColorPicker color={widget.colors.button_text_color} onChange={(color: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.colors.button_text_color = color;
-                            })
-                        }}/>
-                    </SidebarDetailField>
                     <div className="frt-grid frt-grid-cols-2 frt-gap-2">
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
+                            <PopOverColorPicker color={widget.colors.button_text_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.button_text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
                         <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Background Color </Label>
                             <PopOverColorPicker color={widget.colors.button_bg_color} onChange={(color: string) => {

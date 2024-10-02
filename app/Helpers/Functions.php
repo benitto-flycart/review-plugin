@@ -157,7 +157,7 @@ class Functions
 
         if ($value === 0) return false;
 
-        return (bool)$value;
+        return !empty($value);
     }
 
     public static function getUniqueKey($id = null)
@@ -245,6 +245,10 @@ class Functions
         }
 
         throw new \Exception('Argument must be an integer');
+    }
 
+    public static function getWcTimeFromGMT($gmt_time)
+    {
+        return !empty($gmt_time) ? self::formatDate($gmt_time, 'Y-m-d') : null;
     }
 }

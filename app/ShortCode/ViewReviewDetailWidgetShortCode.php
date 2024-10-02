@@ -10,7 +10,7 @@ class ViewReviewDetailWidgetShortCode
 {
     public static function register()
     {
-        add_shortcode('review_sidebar_widget_shortcode', function () {
+        add_shortcode('review_detail_widget_shortcode', function () {
 
             $pluginSlug = F_Review_PLUGIN_SLUG;
 
@@ -20,6 +20,12 @@ class ViewReviewDetailWidgetShortCode
 
             $resourcePath = AssetHelper::getResourceURL();
 
+            $resourcePath = AssetHelper::getResourceURL();
+            wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/review_detail.js", array('jquery'), F_Review_VERSION, true);
+            wp_localize_script($registrationScriptHandle, 'review_detail_store_config', $storeConfig);
+
+
+
             $rating_widget_css = home_url() . "wp-content/plugins/flycart-reviews/resources/";
 
             $rating_widget_font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
@@ -27,7 +33,7 @@ class ViewReviewDetailWidgetShortCode
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
             wp_enqueue_style('flycart-reviews-review-detail-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
 
-            $path = F_Review_PLUGIN_PATH . 'resources/templates/review-detail-widget';
+            $path = F_Review_PLUGIN_PATH . 'resources/templates/review-detail';
 
             $data = [
                 'ratings' => [
@@ -37,7 +43,7 @@ class ViewReviewDetailWidgetShortCode
             ];
 
             ob_start(); // Start output buffering
-            include $path . '/review-detail-widget.php'; // Include the PHP file
+            include $path . '/review-detail.php'; // Include the PHP file
             return ob_get_clean();
         });
     }

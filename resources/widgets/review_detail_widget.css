@@ -9,21 +9,25 @@
     background-color: var(--r-rdw-dialog-bg-color);
     border-radius: 15px;
     padding: 1rem;
-    margin: .5rem;
 }
 
 .r_rdw-main_content {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     height: 100%;
+    justify-content: center;
 }
+
+.r_rdw-main_content > div {
+    width: 100%;
+}
+
 
 .r_rdw-review-icons {
     color: var(--r-rdw-rating-icon-color);
 }
 
 .r_rdw-main_content > div {
-    width: 50%;
     padding: 1rem;
 }
 
@@ -85,6 +89,7 @@
     display: flex;
     justify-content: center;
     flex-shrink: 0;
+    max-height: 150px;
 }
 
 .mySlides.active {
@@ -128,7 +133,9 @@ img {
 .r_rdw-detail-wrapper {
     display: flex;
     flex-direction: column;
-    color: var(--r-rdw-text-color)
+    color: var(--r-rdw-text-color);
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .r_rdw-review-details {
@@ -145,10 +152,31 @@ img {
     gap: .5rem;
 }
 
+.r_rdw-spread-container__review-date {
+    font-size: 12px;
+    opacity: .7;
+}
+
 .r_rdw-i-verified-notification {
+    top: -2rem;
+    position: absolute;
+    text-wrap: nowrap;
+    transform: translateX(-90%);
     display: flex;
     flex-direction: column;
+    left: .5rem;
+    background: white;
+    border-radius: 5px;
+    padding: .5rem;
+    box-shadow: 10px 10px transparent;
+    transition: opacity .5s;
+    z-index: 10;
 }
+
+.r_rdw_verified-notification-info-toggle {
+    opacity: 0;
+}
+
 
 .r_rdw-button-info {
     font-weight: bold;
@@ -157,6 +185,7 @@ img {
 }
 
 .r_rdw-overview {
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -168,8 +197,8 @@ img {
 
 .r_rdw-review-content {
     margin-bottom: 1rem;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .r_rdw-review-content:before {
@@ -177,7 +206,7 @@ img {
 }
 
 .r_rdw-review-content:after {
-    content: open-quote;
+    content: close-quote;
 }
 
 .r_rdw-item-reply-title {
@@ -197,6 +226,7 @@ img {
     align-items: center;
     width: max-content;
     z-index: 1;
+    cursor: pointer;
 }
 
 .r_rdw_close_icon i {
@@ -212,11 +242,6 @@ img {
 
 @media screen and (max-width: 600px) {
     .r_rdw-main_content {
-        flex-direction: column-reverse;
         overflow: scroll;
-    }
-
-    .r_rdw-main_content > div {
-        width: 100%;
     }
 }

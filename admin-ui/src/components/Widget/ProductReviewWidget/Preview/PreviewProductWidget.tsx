@@ -8,7 +8,6 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
     const context = useContext<any>(ProductWidgetContext)
     const {widget, updateWidgetFields, methods} = context;
     const {localState} = useLocalState();
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
