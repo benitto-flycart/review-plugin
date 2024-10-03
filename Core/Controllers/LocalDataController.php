@@ -81,6 +81,7 @@ class LocalDataController
             return Response::success($localize);
         } catch (\Exception|Error $exception) {
 
+            error_log($exception->getMessage());
             return Response::error([
                 'message' => 'Unable to Fetch the Local Data'
             ]);

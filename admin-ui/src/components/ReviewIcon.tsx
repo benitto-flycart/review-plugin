@@ -2,7 +2,7 @@ import React from "react";
 import {useLocalState} from "./zustand/localState";
 import {reviewIcons} from "../helpers/icons";
 
-const ReviewIcon = ({icon = '', color = 'inherit', fontSize = 'inherit', filled = true, className=''}: {
+const ReviewIcon = ({icon = 'gem', color = 'inherit', fontSize = 'inherit', filled = true, className=''}: {
     icon?: string,
     color?: string,
     fontSize?: string,
@@ -12,9 +12,17 @@ const ReviewIcon = ({icon = '', color = 'inherit', fontSize = 'inherit', filled 
     const {localState} = useLocalState();
 
     //@ts-ignore
-    const reviewicon: string = icon ? reviewIcons[icon].filled : reviewIcons['gem'].filled;
+    let reviewicon;
+
+    if(filled){
+        //@ts-ignore
+        reviewicon=reviewIcons[icon].filled
+    }else{
+        //@ts-ignore
+        reviewicon=reviewIcons[icon].outlined
+    }
     return (
-        <i className={`review-icon review review-${reviewicon} ${filled ? 'review-icon-filled' : 'review-icon-empty'} ${className}`}
+        <i className={`review-icon review review-${reviewicon} ${className}`}
            style={{fontSize: fontSize, color: color}}></i>
     );
 }
