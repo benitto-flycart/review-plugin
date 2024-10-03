@@ -7,7 +7,6 @@ use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class Widget
 {
-
     public $language;
     public $request;
     public $settings;
@@ -26,6 +25,7 @@ class Widget
 
     public function retrieveSettings()
     {
+        //phpcs:ignore
         $widgetType = $this->getWidgetType();
 
         $widget = WidgetModel::query()
@@ -83,5 +83,37 @@ class Widget
         ];
 
         return $data;
+    }
+
+    public function updateWidgetStatus()
+    {
+        $widgetType = $this->getWidgetType();
+
+        error_log($this->language);
+        $widget = WidgetModel::query()
+            ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
+            ->first();
+
+
+        $status = Functions::getBoolValue($this->request->get('is_enabled')) ? WidgetModel::ACTIVE : WidgetModel::DRAFT;
+
+        if (empty($widget)) {
+            $settings = $this->getSettings([]);
+            $settings = Functions::jsonEncode($settings);
+
+            WidgetModel::query()->create([
+                'language' => $this->language,
+                'widget_type' => $widgetType,
+                'status' => $status,
+                'theme' => 'default',
+                'settings' => $settings
+            ]);
+        } else {
+            WidgetModel::query()->update([
+                'status' => $status
+            ], [
+                'id' => $widget->id
+            ]);
+        }
     }
 }

@@ -71,7 +71,7 @@ class LocalDataController
                         // 'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
                      ],
                     'review_detail_widget' => [
-                        'widget_css' => plugins_url('resources/widgets/review_detail_widget.css', F_Review_PLUGIN_FILE),
+                        'widget_css' => plugins_url('resources/widgets/review_detail_widget.css?time=' . time() , F_Review_PLUGIN_FILE),
                     ],
                 ]
             ];

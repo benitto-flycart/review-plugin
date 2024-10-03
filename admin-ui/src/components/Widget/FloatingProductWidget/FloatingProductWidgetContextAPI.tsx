@@ -8,7 +8,7 @@ export const FloatingProductWidgetContext = createContext({});
 
 function FloatingProductWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(false)
-    const [saving, setSaving] = useState(true)
+    const [saving, setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
@@ -94,7 +94,8 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving,
         }}>
             {children}
         </FloatingProductWidgetContext.Provider>

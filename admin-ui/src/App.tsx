@@ -10,6 +10,7 @@ import {toastrError} from "./helpers/ToastrHelper";
 import {useLocalState} from "./components/zustand/localState";
 import {Toaster} from "./components/ui/sonner";
 import {LoadingSpinner} from "./components/ui/loader";
+import ErrorBoundary from "./ErrorBoundary";
 
 const App: FC = (props) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -42,7 +43,8 @@ const App: FC = (props) => {
 
     // @ts-ignore
     return (
-        <React.Fragment>
+
+        <ErrorBoundary fallback={"error occurred"}>
             {loading ? (
                 <div className={"frt-grid frt-justify-center frt-items-center frt-h-[100vh]"}>
                     <LoadingSpinner/>
@@ -59,7 +61,7 @@ const App: FC = (props) => {
                     </HashRouter>
                 </React.Suspense>
             )}
-        </React.Fragment>
+        </ErrorBoundary>
     );
 };
 

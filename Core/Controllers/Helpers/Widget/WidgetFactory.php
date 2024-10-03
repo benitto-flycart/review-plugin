@@ -27,8 +27,10 @@ class WidgetFactory
     {
         return $this->widget->get();
     }
-
-
+    /**
+     * widget object
+     * @return WidgetInterface 
+     */
     public function getWidgetObject()
     {
         switch ($this->type) {
@@ -46,9 +48,11 @@ class WidgetFactory
                 return RatingWidget::make($this->language, $this->request);
             case 'review_form_widget':
                 return ReviewFormWidget::make($this->language, $this->request);
+            case 'review_detail_widget':
+                return ReviewDetailWidget::make($this->language, $this->request);
             default:
                 throw new \Error('Unknown widget type');
         }
     }
-
 }
+

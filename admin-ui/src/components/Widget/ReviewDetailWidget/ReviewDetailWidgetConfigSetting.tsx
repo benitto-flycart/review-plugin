@@ -15,21 +15,49 @@ const RatingWidgetConfigSetting = ({name}: any) => {
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
             <SidebarDetail>
-                <SidebarDetailSection title={"Dialog"}>
+                <SidebarDetailSection title={"General"}>
                     <div className="frt-grid frt-grid-cols-2 frt-gap-2">
                         <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Background Color </Label>
-                            <PopOverColorPicker color={widget.general.dialog_bg_color} onChange={(color: string) => {
+                            <PopOverColorPicker color={widget.colors.dialog_bg_color} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
-                                    draftState.general.dialog_bg_color = color;
+                                    draftState.colors.dialog_bg_color = color;
                                 })
                             }}/>
                         </SidebarDetailField>
                         <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Rating Icon Color</Label>
-                            <PopOverColorPicker color={widget.general.rating_icon_color} onChange={(color: string) => {
+                            <PopOverColorPicker color={widget.colors.rating_icon_color} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
-                                    draftState.general.rating_icon_color = color;
+                                    draftState.colors.rating_icon_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
+                            <PopOverColorPicker color={widget.colors.rating_icon_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                    </div>
+                </SidebarDetailSection>
+                <SidebarDetailSection title={"Button"}>
+                    <div className="frt-grid frt-grid-cols-2 frt-gap-2">
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Color</Label>
+                            <PopOverColorPicker color={widget.colors.button_text_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.button_text_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Background Color </Label>
+                            <PopOverColorPicker color={widget.colors.button_bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.button_bg_color = color;
                                 })
                             }}/>
                         </SidebarDetailField>

@@ -43,7 +43,13 @@ class ProductWidgetController
                 "per_page" => $perPage,
                 "total_pages" => ceil($totalCount / $perPage),
                 "current_page" => $currentPage,
-                'reviews' => WidgetController::getRandomElements($reviews, $perPage),
+                'reviews' => Review::getReviews([
+                        'type' => 'review',
+                        'current_page' => $currentPage,
+                        'per_page' => $perPage,
+                        'parent' => 0,
+                        'status' => 'approve',
+                ]),
                 'ratings' => [
                     'rating_icon' => 'gem',
                     'rating_outline_icon' => 'gem-outline',

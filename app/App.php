@@ -9,6 +9,7 @@ use Flycart\Review\App\ShortCode\RatingWidgetShortCode;
 use Flycart\Review\App\ShortCode\ReviewFormWidgetShortCode;
 use Flycart\Review\App\ShortCode\SidebarWidgetShortCode;
 use Flycart\Review\App\ShortCode\SnippetWidgetShortCode;
+use Flycart\Review\App\ShortCode\ViewReviewDetailWidgetShortCode;
 
 class App extends Container
 {
@@ -47,6 +48,6 @@ class App extends Container
         SidebarWidgetShortCode::register();
         FloatingProductWidgetShortCode::register();
         ReviewFormWidgetShortCode::register();
-//        ViewReviewDetailWidgetShortCode::register();
+        ViewReviewDetailWidgetShortCode::register();
     }
 }
