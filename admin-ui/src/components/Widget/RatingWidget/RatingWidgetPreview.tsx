@@ -9,12 +9,9 @@ const RatingWidgetPreview = () => {
     const {localState} = useLocalState()
 
     useEffect(() => {
-
-        updateWidgetFields((draftState: any) => {
-            draftState.widget_loading = true
-        })
-
-        setTimeout(() => {
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = true
+            })
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -34,8 +31,6 @@ const RatingWidgetPreview = () => {
             updateWidgetFields((draftState: any) => {
                 draftState.widget_loading = false
             })
-
-        }, 2000)
 
     }, [widget.layout]);
 

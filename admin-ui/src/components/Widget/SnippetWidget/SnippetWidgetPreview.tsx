@@ -113,42 +113,11 @@ const PreviewSnippetWidget = () => {
         }
     };
 
-    const positionDynamicDiv = (setting: any) => {
-        const textBlock = document.getElementById('r_sw__product_title');
-        const dynamicDiv = document.getElementById('r_sw_admin_container_wrapper');
-        const button = document.getElementById('r_sw__add_to_cart_button');
-        const desc = document.getElementById('r_sw__product_description');
-
-        if (!textBlock || !dynamicDiv || !button || !desc) {
-            console.warn("One or more elements not found in the DOM.");
-            return;
-        }
-
-        console.log("calling")
-        if (setting === 'before_product') {
-            textBlock.before(dynamicDiv); // Place dynamic div below text
-        } else if (setting === 'after_product') {
-            textBlock.after(dynamicDiv); // Place dynamic div after text but before the button
-            desc.before(dynamicDiv);
-        } else if (setting === 'after_product_desc') {
-            desc.after(dynamicDiv); // Place dynamic div just before the button
-            button.before(dynamicDiv);
-        } else if (setting === "after_add_to_cart") {
-            button.after(dynamicDiv);
-        }
-    };
-
-
-    useEffect(() => {
-        positionDynamicDiv(widget.position_to_show);
-    }, [widget]);
     useEffect(() => {
 
-        updateWidgetFields((draftState: any) => {
-            draftState.widget_loading = true
-        })
-
-        setTimeout(() => {
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = true
+            })
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -169,10 +138,78 @@ const PreviewSnippetWidget = () => {
                 draftState.widget_loading = false
             })
 
-        }, 2000)
-
     }, [widget.layout]);
 
+    console.log(widget)
+
+    const snippetWidgetContent=()=>{
+        return (
+            <>
+                <div className={"r_sw_admin_container_wrapper"}>
+                    <div className="r_sw__carousel" ref={carouselRef}>
+                        {reviews.map((item: any, i: number) => {
+                            return (
+                                <div
+                                    key={i}
+                                    className={`r_sw__carousel-item r_sw__carousel-item-visible r_sw__admin_carousel-item`}
+                                    ref={itemRef}
+                                    style={methods.getStyles()}>
+                                    {widget.show_review_image && (item.images?.length > 0) ? (
+                                        <React.Fragment>
+                                            <img
+                                                className={"r_sw__carousel-item_image"}
+                                                src={item.images[0].src}
+                                                alt="Alternative Text"
+                                                width={"50px"}
+                                                onError={(e) => {
+                                                    //@ts-ignore
+                                                    e?.target?.remove();
+                                                }}
+                                            />
+                                        </React.Fragment>
+                                    ) : null}
+                                    <div className={"r_sw__review_details_wrapper"}>
+                                        <div
+                                            className={"r_sw__review_details"}>
+                                            <div
+                                                style={methods.getReviewerNameStyle()}>{item.reviewer_name}</div>
+                                            {widget.show_rating ? (
+                                                <div
+                                                    className="r_sw__review_details_icons"
+                                                    style={methods.getRatingIconStyles()}>
+                                                    <ReviewIcon/>
+                                                    <ReviewIcon/>
+                                                    <ReviewIcon/>
+                                                    <ReviewIcon/>
+                                                    <ReviewIcon/>
+                                                </div>) : null}
+                                        </div>
+                                        <div className={"r_sw__review_text "}
+                                             style={methods.getReviewStyles()}>{item.content}</div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className={`r_sw__carousel-actions ${(widget.hide_arrows_on_mobile && widget.view=="mobile") ? "r_sw__hide" : ""}`}>
+                        <button
+                            className={`${index == 0 ? 'disabled' : ''} r_sw__carousel-button-prev`}
+                            style={methods.getCarosualActionStyle()}
+                            disabled={index == 0} onClick={handlePrevious}>
+                            <i className="review review-caret-left"></i>
+                        </button>
+                        <button
+                            className={`${index == (reviews.length - 1) ? 'disabled' : ''} r_sw__carousel-button-next`}
+                            disabled={index == (reviews.length - 1)}
+                            style={methods.getCarosualActionStyle()}
+                            onClick={handleNext}>
+                            <i className="review review-caret-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </>
+        )
+    }
     return (
         <div
             className={`wd_snippet_preview wd_preview_content review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-min-h-[90vh] frt-relative ${widget.view == 'mobile' ? 'snippet-widget-preview-mobile' : 'snippet-widget-preview-desktop'}`}>
@@ -185,72 +222,14 @@ const PreviewSnippetWidget = () => {
                             alt=""/>
                     </div>
                     <div className={'r_sw_product_details_wrapper'}>
+                        {widget.position_to_show=="before_product" ? snippetWidgetContent():null}
                         <h2 className={'r_sw__product_title'}>Album</h2>
+                        {widget.position_to_show=="after_product" ? snippetWidgetContent():null}
                         <h2 className={'r_sw__product_price'}>price</h2>
                         <p className={'r_sw__product_description'}>This is a simple, Virtual Product</p>
+                        {widget.position_to_show=="after_product_desc" ? snippetWidgetContent():null}
                         <button className={`r_sw__add_to_cart_button`}>Add to Cart</button>
-                        <div className={"r_sw_admin_container_wrapper"}>
-                            <div className="r_sw__carousel" ref={carouselRef}>
-                                {reviews.map((item: any, i: number) => {
-                                    return (
-                                        <div
-                                            key={i}
-                                            className={`r_sw__carousel-item r_sw__carousel-item-visible`}
-                                            ref={itemRef}
-                                            style={methods.getStyles()}>
-                                            {widget.show_review_image && (item.images?.length > 0) ? (
-                                                <React.Fragment>
-                                                    <img
-                                                        className={"r_sw__carousel-item_imgae"}
-                                                        src={item.images[0].src}
-                                                        alt="Alternative Text"
-                                                        width={"50px"}
-                                                        onError={(e) => {
-                                                            //@ts-ignore
-                                                            e?.target?.remove();
-                                                        }}
-                                                    />
-                                                </React.Fragment>
-                                            ) : null}
-                                            <div className={"r_sw__review_details_wrapper"}>
-                                                <div
-                                                    className={"r_sw__review_details"}>
-                                                    <div
-                                                        style={methods.getReviewerNameStyle()}>{item.reviewer_name}</div>
-                                                    {widget.show_rating ? (
-                                                        <div
-                                                            className="r_sw__review_details_icons"
-                                                            style={methods.getRatingIconStyles()}>
-                                                            <ReviewIcon/>
-                                                            <ReviewIcon/>
-                                                            <ReviewIcon/>
-                                                            <ReviewIcon/>
-                                                            <ReviewIcon/>
-                                                        </div>) : null}
-                                                </div>
-                                                <div className={"r_sw__review_text "}
-                                                     style={methods.getReviewStyles()}>{item.content}</div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            <div className="r_sw__carousel-actions">
-                                <button
-                                    className={`${index == 0 ? 'disabled' : ''} r_sw__carousel-button-prev`}
-                                    style={methods.getCarosualActionStyle()}
-                                    disabled={index == 0} onClick={handlePrevious}>
-                                    <i className="review review-caret-left"></i>
-                                </button>
-                                <button
-                                    className={`${index == (reviews.length - 1) ? 'disabled' : ''} r_sw__carousel-button-next`}
-                                    disabled={index == (reviews.length - 1)}
-                                    style={methods.getCarosualActionStyle()}
-                                    onClick={handleNext}>
-                                    <i className="review review-caret-right"></i>
-                                </button>
-                            </div>
-                        </div>
+                        {widget.position_to_show=="after_add_to_cart" ? snippetWidgetContent():null}
                     </div>
                 </div>
             </div>

@@ -16,52 +16,6 @@ const SnippetWidgetStyleSetting = ({name}: any) => {
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
             <SidebarDetail>
-                <SidebarDetailSection name={"General"}>
-                    <SidebarDetailField>
-
-                        <Label className={"frt-text-xs"} htmlFor="none">Widget Alignment</Label>
-                        <Select value={widget.widget_alignment} onValueChange={(value: string) => {
-                            updateWidgetFields((draftState: any) => {
-                                draftState.widget_alignment = value;
-                            })
-                        }}>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Alignment"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="left">Left</SelectItem>
-                                    <SelectItem value="right">Right</SelectItem>
-                                    <SelectItem value="center">Center</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-
-                    </SidebarDetailField>
-
-                    <SidebarDetailField>
-
-                        <Label className={"frt-text-xs"} htmlFor="none">Widget Width</Label>
-                        <Select value=''
-                                onValueChange={(value: string) => {
-
-                                }}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Widget Width"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="fill">Fill</SelectItem>
-                                    <SelectItem value="small">Small</SelectItem>
-                                    <SelectItem value="medium">Medium</SelectItem>
-                                    <SelectItem value="large">Large</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-
-                    </SidebarDetailField>
-                </SidebarDetailSection>
                 <SidebarDetailSection title={"Card Shadow"}>
                     <SidebarDetailField>
                         <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>

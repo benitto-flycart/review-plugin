@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 
 import "./popup.css";
 import {PopupWidgetContext} from "./PopupWidgetContextAPI";
@@ -8,7 +8,6 @@ import {useLocalState} from "../../zustand/localState";
 
 const PreviewPopupWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(PopupWidgetContext)
-    const [loading, setLoading] = useState(true)
     const {localState} = useLocalState()
 
     function getRandomNumber(min: number, max: number) {
@@ -19,8 +18,6 @@ const PreviewPopupWidget = () => {
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = true
         })
-
-        // setTimeout(() => {
         //@ts-ignore
         let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -40,8 +37,6 @@ const PreviewPopupWidget = () => {
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = false
         })
-
-        // }, 2000)
 
     }, [widget.layout]);
 

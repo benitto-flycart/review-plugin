@@ -132,6 +132,7 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
 
     return (
         <SidebarWidgetContext.Provider value={{
+            loading,
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,

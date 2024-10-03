@@ -16,8 +16,6 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
         widget_loading: true,
         view: 'desktop',
         show_setting: '',
-        widget_alignment: 'left',
-        width: 'fill',
         shadow_type: 'spread',
         show_rating: true,
         show_review_image: true,
@@ -37,46 +35,6 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
             shadow_color: '#ab5d5d'
         }
     })
-
-    const getAlignmentStyle = () => {
-        let alignment = '0 0 0 auto';
-        switch (widget.widget_alignment) {
-            case 'left' :
-                alignment = '0 auto 0 0';
-                break;
-            case 'right':
-                alignment = '0 0 0 auto';
-                break
-            case 'center':
-                alignment = '0 0 0 auto'
-                break;
-        }
-        return {
-            margin: alignment
-        }
-    }
-
-    const getWidgetWidth = () => {
-
-        if (widget.width == 'fill') {
-            return {};
-        }
-        let width = "736px";
-        switch (widget.width) {
-            case 'small':
-                width = '364px';
-                break
-            case 'medium':
-                width = '544px'
-                break;
-            case 'large':
-                width = '736px'
-                break;
-        }
-        return {
-            maxWidth: width
-        }
-    }
 
     const getOtherStyles = () => {
         return {
@@ -161,8 +119,6 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
     const widgetMethods = {
         getStyles: () => {
             return {
-                ...getAlignmentStyle(),
-                ...getWidgetWidth(),
                 ...getOtherStyles(),
 
             };
