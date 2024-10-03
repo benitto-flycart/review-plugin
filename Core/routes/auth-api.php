@@ -5,6 +5,7 @@
 use Flycart\Review\Core\Controllers\Api\EmailSettingsController;
 use Flycart\Review\Core\Controllers\Api\FloatingProductReviewWidgetController;
 use Flycart\Review\Core\Controllers\Api\OrderApiController;
+use Flycart\Review\Core\Controllers\Api\ReviewApiController;
 use Flycart\Review\Core\Controllers\Api\SettingsController;
 use Flycart\Review\Core\Controllers\Api\SidebarWidgetController;
 use Flycart\Review\Core\Controllers\Api\Widget\WidgetController;
@@ -13,6 +14,8 @@ use Flycart\Review\Core\Controllers\LocalDataController;
 return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],
     'get_wc_orders' => ['callable' => [OrderApiController::class, 'getAllOrders']],
+    'get_all_reviews' => ['callable' => [ReviewApiController::class, 'getAllReviews']],
+
     //Review Request
     'get_review_request' => ['callable' => [EmailSettingsController::class, 'getReviewRequest']],
     'save_review_request' => ['callable' => [EmailSettingsController::class, 'saveReviewRequest']],

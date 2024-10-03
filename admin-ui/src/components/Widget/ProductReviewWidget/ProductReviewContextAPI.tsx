@@ -4,18 +4,13 @@ import { axiosClient } from "../../api/axios";
 import { useLocalState } from "../../zustand/localState";
 import { toastrError, toastrSuccess } from "../../../helpers/ToastrHelper";
 import { SampleReviewsContext } from "../SampleReviewsAPI";
-import {
-  getReviewOpener,
-  getReviewShadow,
-  REVIEW_OPENERS,
-} from "./Preview/preview-constants";
+import { getReviewOpener, getReviewShadow } from "./Preview/preview-constants";
 
 export const ProductWidgetContext = createContext({});
 
 function ProductWidgetContextAPI({ children }: { children: any }) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [customStylesState, setCustomStylesState] = useState<any>();
   const { localState } = useLocalState();
 
   const { reviews, refetch } = useContext<any>(SampleReviewsContext);
@@ -75,10 +70,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
     },
   });
 
-  console.log(widget);
-
   const buildStateFromResponse = (settings: any) => {
-    console.log(settings);
     updateWidgetFields((draftState: any) => {
       draftState.layout = {
         widget_layout: settings?.layout?.widget_layout,
@@ -219,6 +211,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
     isReviewDateEnabled: () => {
       return widget.preferences.show_review_date;
     },
+
     getThumbnailSize: () => {
       return {
         width: "50px",
@@ -231,8 +224,6 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
     },
     saveSettings,
     getProductReviewWidgetColors: () => {
-      console.log(getReviewOpener(widget.style.review_card_openers));
-
       return {
         "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper,
         "--r-prw-btn-color": widget.colors.button.text_color,

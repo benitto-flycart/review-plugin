@@ -31,8 +31,10 @@ class Review extends Model
                 PRIMARY KEY (id)
                 ) {$charset};";
     }
-
-
+    /**
+     * @return bool|<missing>
+     * @param mixed $product_id
+     */
     public function has_user_purchased_product($product_id)
     {
         global $wpdb;
@@ -63,8 +65,10 @@ class Review extends Model
 
         return $results > 0; // Return true if at least one order contains the product
     }
-
-
+    /**
+     * @return bool|<missing>
+     * @param mixed $product_id
+     */
     public function has_user_purchased_product_hpos($product_id)
     {
         global $wpdb;
@@ -93,7 +97,10 @@ class Review extends Model
 
         return $results > 0; // Return true if at least one order contains the product
     }
-
+    /**
+     * @return array
+     * @param mixed $filters
+     */
     public static function getReviews($filters)
     {
 
@@ -129,6 +136,13 @@ class Review extends Model
         return $response;
     }
 
+    /**
+     * Build Comment Array
+     *
+     * @param mixed $comment
+     *
+     * @return array<string,mixed>
+     */
     public static function buildCommentArray($comment)
     {
         return [
@@ -138,7 +152,9 @@ class Review extends Model
             'is_verified' => (bool)$comment['comment_approved'],
             'date' => Functions::getWcTimeFromGMT($comment['comment_date_gmt']),
             'content' => $comment['comment_content'],
+            'is_approved' => Functions::getBoolValue($comment['comment_approved']),
             'images' => static::getReviewImages($comment['comment_meta']),
+            'from_order' => static::getCommentMeta($comment['comment_meta'], '_review_order_id'),
             'replies' => static::getReviews([
                 'per_page' => 100,
                 'current_page' => 1,
@@ -150,6 +166,12 @@ class Review extends Model
         ];
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $meta
+     * @return mixed|null
+     */
+
     public static function getCommentMeta($meta, $key)
     {
         if (isset($meta[$key])) {
@@ -159,6 +181,10 @@ class Review extends Model
         return null;
     }
 
+    /**
+     * @return array|<missing>
+     * @param mixed $meta
+     */
     public static function getReviewImages($meta)
     {
         $attachments = static::getCommentMeta($meta, '_review_attachments');
@@ -181,14 +207,35 @@ class Review extends Model
             );
 
             $posts = get_posts($args);
-            $images = static::getReviewImageDetails($posts);
-            return $images;
+
+            $response = [];
+
+            foreach ($posts as $index => $post) {
+                $post = (array)$post;
+                $post_meta = get_post_meta($post->ID);
+
+                $response[] = static::buildPostArray($post, $post_meta);
+            }
+
+            return $response;
         }
         return [];
     }
 
+    public static function buildPostArray($post, $post_meta)
+    {
+        $image = static::getReviewImageDetails($post, $post_meta);
+        return $image;
+    }
+
+    /**
+     * @return array|array<string,mixed>
+     * @param mixed $product
+     */
     public static function getReviewProductDetails($product)
     {
+        if (empty($product)) return [];
+
         $attachment_id = $product->get_image_id(); // Get the image attachment ID
         if ($attachment_id) {
             $product_image_url = wp_get_attachment_image_url($attachment_id, 'small'); // Get the image URL for a specific size
@@ -204,22 +251,26 @@ class Review extends Model
         ];
     }
 
-    public static function getReviewImageDetails($posts)
+    /**
+     * @return array
+     * @param mixed $posts
+     */
+    public static function getReviewImageDetails($attachment)
     {
-        $attachments = [];
+        $attachment['variants'] = static::get_image_sizes_urls($attachment["ID"]);
+        $attachment['id'] =  $attachment["ID"];
+        $attachment['date'] = Functions::getWcTimeFromGMT($attachment['post_date_gmt']);
+        $attachment['title'] = $attachment['post_title'];
+        $attachment['status'] = $attachment['post_status'];
+        $attachment['modified_date'] = Functions::getWcTimeFromGMT($attachment['post_modified_gmt']);
+        $attachment['is_cover_photo'] = Functions::getBoolValue(static::getCommentMeta($attachment['post_meta'], '_review_cover_photo'));
 
-        foreach ($posts as $index => $attachment) {
-            $attachments[$index]['variants'] = static::get_image_sizes_urls($attachment->ID);
-            $attachments[$index]['id'] = $attachment->ID;
-            $attachments[$index]['date'] = Functions::getWcTimeFromGMT($attachment->post_date_gmt);
-            $attachments[$index]['title'] = $attachment->post_title;
-            $attachments[$index]['status'] = $attachment->post_status;
-            $attachments[$index]['modified_date'] = Functions::getWcTimeFromGMT($attachment->post_modified_gmt);
-        }
-
-        return $attachments;
+        return $attachment;
     }
-
+    /**
+     * @return array
+     * @param mixed $attachment_id
+     */
     public static function get_image_sizes_urls($attachment_id)
     {
         $sizes = array('thumbnail', 'medium', 'large', 'full'); // Specify image sizes

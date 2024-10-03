@@ -16,8 +16,8 @@
  * WC requires at least: 7.0
  */
 
-// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 
+// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 
 defined('ABSPATH') or exit;
 
@@ -208,18 +208,3 @@ function delete_tab_wc_review_tab($tabs)
 
     return $tabs;
 }
-
-add_action('wp_loaded', function () {
-    if (isset($_GET['comments'])) {
-        wp_send_json_success(Flycart\Review\Core\Models\Review::getReviews(
-            [
-                'type' => 'review',
-                'current_page' => 1,
-                'per_page' => 20,
-                'parent' => 0,
-                'status' => 'approve',
-                'search' => $filters['search'] ?? '',
-            ]
-        ));
-    }
-});
