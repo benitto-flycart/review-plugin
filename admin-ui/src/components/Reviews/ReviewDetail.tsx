@@ -2,16 +2,34 @@ import {Checkbox} from "../ui/checkbox";
 import {CardContent, CardFooter, CardHeader} from "../ui/card";
 import ReviewIcon from "../ReviewIcon";
 import {Button} from "../ui/button";
-import React from "react";
+import React, {useState} from "react";
 import {ReviewDetailImage} from "./ReviewDetailImage";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "../ui/dropdown-menu";
+import {axiosClient} from "../api/axios";
+import {AxiosResponse} from "axios";
+import {toastrSuccess} from "../../helpers/ToastrHelper";
+import {ApiErrorResponse} from "../api/api.types";
+import {useLocalState} from "../zustand/localState";
+import {ChevronDown, MoreHorizontal} from "lucide-react";
+import {LoadingSpinner} from "../ui/loader";
+import ReviewReplyDialog from "./ReviewReplyDialog";
 
+interface BulkActionReviewIdsType{
+    val:any,
+    set:any
+}
 interface ReviewDetailPropTypes {
-    review: any
+    review: any,
+    bulkActionReviewIds:BulkActionReviewIdsType,
+    getReviews:()=>void
 }
 
-export const ReviewDetail = <T extends ReviewDetailPropTypes>({review}: T) => {
+export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkActionReviewIds,getReviews}: T) => {
 
+    const {localState}=useLocalState()
+    const [approveActionLoading,setApproveActionLoading]=useState<boolean>(false)
+    const [showReplyDialog,setShowReplyDialog]=useState(false)
+    const [deleteReplyLoading,setDeleteReplyLoading]=useState(false)
     const replyAddButtonLabel = [
         {
             label: "Add",
@@ -32,19 +50,88 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review}: T) => {
         ? [{ label: "Disapprove", value: "disapprove" }]
         : [{ label: "Approve", value: "approve" }];
 
+
+    const moreOptions=[
+        { "label": "Change product", "value": "change_product" },
+        { "label": "See order details", "value": "see_order_details" },
+        { "label": "See discount details", "value": "see_discount_details" },
+        { "label": "Tag as featured", "value": "tag_as_featured" },
+        { "label": "Remove verified badge", "value": "remove_verified_badge" },
+        { "label": "Add to Carousel", "value": "add_to_carousel" },
+        { "label": "Add to Video Slider", "value": "add_to_video_slider" },
+        { "label": "Delete review", "value": "delete_review" }
+    ]
+
+
+    const handleAddSingeBulkActionId=(id:number,isChecked:any)=>{
+        if(isChecked){
+            bulkActionReviewIds.set([...bulkActionReviewIds.val,id])
+        } else{
+            const filteredBulkActionReviewIds=bulkActionReviewIds.val.filter((reviewId:any)=>{
+                return  reviewId!==id
+            })
+            bulkActionReviewIds.set(filteredBulkActionReviewIds)
+        }
+    }
+
+    const handleDeleteReply=()=>{
+        setDeleteReplyLoading(true)
+        axiosClient.post(``, {
+            method: "handle_delete_reply",
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            id:review.id
+        }).then((response: AxiosResponse) => {
+            const data:any = response.data.data
+            toastrSuccess(data.message)
+            getReviews();
+        }).catch((error: AxiosResponse<ApiErrorResponse>) => {
+            // @ts-ignore
+            toastrError(getErrorMessage(error));
+        }).finally(() => {
+            setDeleteReplyLoading(false)
+        })
+    }
+
+    const handleReplyButtonAction=(value:string)=>{
+        if(value=="delete"){
+            handleDeleteReply()
+        } else{
+            setShowReplyDialog(true)
+        }
+    }
+
     const handleApproveAction=(status:any)=>{
-     console.log(status)
+        setApproveActionLoading(true)
+        axiosClient.post(``, {
+            method: "review_approve_action",
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            status:status,
+            id:review.id
+        }).then((response: AxiosResponse) => {
+            const data:any = response.data.data
+            toastrSuccess(data.message)
+            getReviews();
+        }).catch((error: AxiosResponse<ApiErrorResponse>) => {
+            // @ts-ignore
+            toastrError(getErrorMessage(error));
+        }).finally(() => {
+            setApproveActionLoading(false)
+        })
     }
 
     return <>
         <div className={"frt-flex frt-gap-3"}>
             <div>
-                <Checkbox checked={true}/>
+                <Checkbox defaultChecked={false}  checked={bulkActionReviewIds.val.includes(review.id)} onCheckedChange={(isChecked)=>{
+                    handleAddSingeBulkActionId(review.id,isChecked)
+                }}/>
             </div>
             <div
                 className={`frt-flex frt-bg-gray-100 frt-w-full frt-flex-col frt-border-l-4 frt-border-solid ${review.is_approved ? 'frt-border-l-green-500' : 'frt-border-l-gray-500'}`}>
-                <div className={`frt-flex ${review.replies.length>0 ? 'frt-border-b frt-border-solid frt-border-b-gray-300' : ''}`}>
-                    <div className={` ${review.images.length > 0 ? 'frt-w-[70%]' : 'frt-w-full'} `}>
+                <div className={`frt-flex md:frt-flex-row frt-flex-col-reverse ${review.replies.length>0 ? 'frt-border-b frt-border-solid frt-border-b-gray-300' : ''}`}>
+                    <div className={` ${review.images.length > 0 ? 'md:frt-w-[70%]' : 'frt-w-full'} `}>
                         <CardHeader className="frt-flex frt-flex-row frt-justify-between frt-items-start">
                             <div>
                                 <h2 className="frt-text-xl frt-font-semibold">
@@ -87,37 +174,67 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review}: T) => {
                     </>
                 }) : null}
                 <CardFooter className="frt-flex frt-items-center frt-gap-x-4">
-                    <div className="frt-flex frt-justify-between frt-items-center frt-mb-4">
+                    <div className="frt-flex frt-justify-between frt-items-center">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline">
-                                    {review.is_approved ? "Approved" : "Not Approved"}
+                                <Button variant="outline" className={"frt-flex frt-gap-x-1"}>
+                                    {review.is_approved ? "Approved" : "Not Approved"} <ChevronDown/>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                                 {
                                     statusOptions.map((option) => (
                                         <DropdownMenuItem
+                                            className={"frt-flex frt-gap-x-1"}
                                             key={option.value}
                                             onClick={() => handleApproveAction(option.value)}
                                         >
-                                            {option.label}
+                                            {approveActionLoading ? <LoadingSpinner/> : null} {option.label}
                                         </DropdownMenuItem>
                                     ))
                                 }
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                    <div className="frt-flex frt-justify-between frt-items-center frt-mb-4">
+                    <div className="frt-flex frt-justify-between frt-items-center">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline">Reply</Button>
+                                <Button variant="outline"
+                                        className={"frt-flex frt-gap-x-1"}>Reply <ChevronDown/></Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                                 {
                                     (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
-                                        <DropdownMenuItem key={label.value} defaultValue={label.value}>
-                                            {label.label}
+                                        <DropdownMenuItem key={label.value} defaultValue={label.value}
+                                                          className={`${label.value == "delete" ? 'frt-text-destructive' : ''}`}
+                                                          onClick={() => {
+                                                              handleReplyButtonAction(label.value)
+                                                          }}>
+                                            {label.value == "delete" ? deleteReplyLoading &&
+                                                <LoadingSpinner/> : ''} {label.label}
+                                        </DropdownMenuItem>
+                                    ))
+                                }
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                    <div className="frt-flex frt-justify-between frt-items-center">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="icon" className={"frt-bg-white !frt-w-6 !frt-h-6"}>
+                                    <MoreHorizontal className="frt-h-4 frt-w-4 "/>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"start"}>
+                                {
+                                    moreOptions.map((item: any) => (
+                                        <DropdownMenuItem
+                                            key={item.value}
+                                            defaultValue={item.value}
+                                            className={`${item.value === "delete_review" ? 'frt-text-destructive' : ''}`}
+                                        >
+                                            {item.value === "delete_review" ? deleteReplyLoading && <LoadingSpinner/> : ''}
+                                            {item.label}
                                         </DropdownMenuItem>
                                     ))
                                 }
@@ -125,7 +242,8 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review}: T) => {
                         </DropdownMenu>
                     </div>
                 </CardFooter>
-
+                <ReviewReplyDialog review={review} replyContent={review.replies[0]?.content} show={showReplyDialog}
+                                   toggle={setShowReplyDialog} getReviews={getReviews}/>
             </div>
         </div>
     </>

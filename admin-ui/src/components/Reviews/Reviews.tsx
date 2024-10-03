@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Button} from "../../components/ui/button"
 import {Input} from "../../components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../components/ui/select"
@@ -6,9 +6,18 @@ import {ProductReview} from "./ReviewsList";
 //@ts-ignore
 import data from './data.json'
 import {ReviewRatings} from "./ReviewRatings";
+import {Pagination} from "../custom-hooks/pagination/Pagination";
+import usePaginationHook from "../custom-hooks/pagination/usePaginationHook";
+import {axiosClient} from "../api/axios";
+import {AxiosResponse} from "axios";
+import {ApiErrorResponse, ApiResponse} from "../api/api.types";
+import {TOrderList} from "../Orders/Order.types";
+import {useLocalState} from "../zustand/localState";
 
 export const Reviews=()=>{
     const [reviewState,setReviewState] = useState<any>(data.data)
+    const {localState}=useLocalState()
+    const [reviewLoading,setReviewLoading]=useState<boolean>(false)
     const [filter,setFilter] = useState({
          search:"",
         status:"all",
@@ -16,6 +25,10 @@ export const Reviews=()=>{
         seperate_filter:""
     })
     console.log(reviewState)
+    const {
+        handlePagination, updatePerPage,
+        selectedLimit, perPage, currentPage
+    } = usePaginationHook();
 
     const statusLabels=[
         { label: "Published & Pending", value: "published_and_pending" },
@@ -46,8 +59,31 @@ export const Reviews=()=>{
     ];
 
     const getReviews=()=>{
-        console.log(filter)
+        setReviewLoading(true);
+        axiosClient.post(``, {
+            method: "get_reviews",
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            per_page: perPage,
+            current_page: currentPage,
+            search: filter.search,
+            status:filter.status,
+            rating:filter.rating,
+            seperate_filter:filter.seperate_filter
+        }).then((response: AxiosResponse<ApiResponse<TOrderList>>) => {
+            setReviewState(response.data.data)
+        }).catch((error: AxiosResponse<ApiErrorResponse>) => {
+            // @ts-ignore
+            toastrError(getErrorMessage(error));
+        }).finally(() => {
+            setReviewLoading(false)
+        })
     }
+
+    useEffect(() => {
+        getReviews()
+    }, [perPage,currentPage]);
+
     return (
         <div className="frt-container frt-mx-auto frt-p-6 frt-max-w-4xl">
             <h1 className="!frt-text-4xl !frt-font-bold !frt-text-gray-900 frt-mb-2">Reviews</h1>
@@ -115,7 +151,8 @@ export const Reviews=()=>{
                     <Button onClick={getReviews}>Search</Button>
                 </div>
             </div>
-            <ProductReview reviewState={reviewState}/>
+            <ProductReview reviewState={reviewState} getReviews={getReviews}/>
+            <Pagination handlePageClick={handlePagination} selectedLimit={selectedLimit} forcePage={currentPage-1} pageCount={reviewState.total_pages} updatePerPage={updatePerPage} limit={reviewState.per_page} loading={false}/>
         </div>
     )
 }
