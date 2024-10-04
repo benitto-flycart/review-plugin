@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 
 import "./sidebar.css";
 import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
@@ -7,16 +7,11 @@ import {useLocalState} from "../../zustand/localState";
 
 const PreviewSidebarWidget = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(SidebarWidgetContext)
-
-    const [loading, setLoading] = useState(true)
     const {localState} = useLocalState()
     useEffect(() => {
-
-        updateWidgetFields((draftState: any) => {
-            draftState.widget_loading = true;
-        })
-
-        setTimeout(() => {
+            updateWidgetFields((draftState: any) => {
+                  draftState.widget_loading = true;
+            })
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -37,9 +32,6 @@ const PreviewSidebarWidget = () => {
             updateWidgetFields((draftState: any) => {
                 draftState.widget_loading = false;
             })
-
-        }, 2000)
-
     }, [widget.layout]);
 
     return (

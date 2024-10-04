@@ -153,8 +153,9 @@ const UpdatePhotoRequest = () => {
                                         <label>Subject</label>
                                         <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
                                             <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                                <Input type="text"
+                                                <Input
                                                        defaultValue={state.subject}
+                                                       type="text"
                                                        onChange={(e: any) => {
                                                            updatePhotoRequestState((emailState) => {
                                                                emailState.subject = e.target.value;
@@ -191,7 +192,8 @@ const UpdatePhotoRequest = () => {
                                         <label>Discount Text</label>
                                         <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
                                             <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                                <Input type="text"
+                                                <Input
+                                                        type="text"
                                                        defaultValue={state.discount_text}
                                                        onChange={(e: any) => {
                                                            updatePhotoRequestState((emailState) => {
@@ -212,7 +214,7 @@ const UpdatePhotoRequest = () => {
                                         <label>Button Text</label>
                                         <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                                             <Input
-                                                type="text"
+                                                type={"text"}
                                                 placeholder={"Write a Review"}
                                                 defaultValue={state.button_text}
                                                 onChange={(e: any) => {

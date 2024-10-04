@@ -33,7 +33,7 @@ class TemplateController
         return $template;
     }
 
-    public function removeDefaultCommentsTab($tabs)
+    public static function removeDefaultCommentsTab($tabs)
     {
         if (isset($tabs['reviews']))
             unset($tabs['reviews']);

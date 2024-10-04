@@ -7,7 +7,7 @@ import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
 import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
 import SidebarDetailField from "../Sidebar/SidebarDetailField";
-import InputFontSize from "../utils/InputFontSize";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
 
 const SnippetWidgetConfigSetting = ({name}: any) => {
     const {widget, updateWidgetFields} = useContext<any>(SnippetWidgetContext)
@@ -18,58 +18,27 @@ const SnippetWidgetConfigSetting = ({name}: any) => {
             <SidebarDetail>
                 <SidebarDetailSection title={"General"}>
                     <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Review Font Size</Label>
-                        <InputFontSize min={12}
-                                       max={16}
-                                       step={1}
-                                       value={widget.font_size}
-                                       onChange={(value: number) => {
-                                           updateWidgetFields((draftState: any) => {
-                                               draftState.font_size = value;
-                                           })
-                                       }}/>
+                        <Label className={"frt-text-xs"} htmlFor="none">Position to show</Label>
+                        <Select value={widget.position_to_show}
+                                onValueChange={(value: string) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.position_to_show = value;
+                                    })
+                                }}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Widget Width"/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="before_product">Before product name</SelectItem>
+                                    <SelectItem value="after_product">After product name</SelectItem>
+                                    <SelectItem value="after_product_desc">After product description</SelectItem>
+                                    <SelectItem value="after_add_to_cart">After add to cart</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </SidebarDetailField>
-
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Name Font Size</Label>
-                        <InputFontSize min={12}
-                                       max={30}
-                                       step={1}
-                                       value={widget.name_font_size}
-                                       onChange={(value: number) => {
-                                           updateWidgetFields((draftState: any) => {
-                                               draftState.name_font_size = value;
-                                           })
-                                       }}/>
-                    </SidebarDetailField>
-
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Icon Font Size</Label>
-                        <InputFontSize min={12}
-                                       max={30}
-                                       step={1}
-                                       value={widget.icon_font_size}
-                                       onChange={(value: number) => {
-                                           updateWidgetFields((draftState: any) => {
-                                               draftState.icon_font_size = value;
-                                           })
-                                       }}/>
-                    </SidebarDetailField>
-
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">No of Reviews to Display</Label>
-                        <InputFontSize
-                            min={5}
-                            max={10}
-                            value={widget.no_of_reviews_to_display}
-                            onChange={(value: number) => {
-                                updateWidgetFields((draftState: any) => {
-                                    draftState.no_of_reviews_to_display = value;
-                                })
-                            }}
-                        />
-                    </SidebarDetailField>
-
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
                             <Switch

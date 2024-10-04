@@ -20,8 +20,8 @@ const RatingWidgetRatingSetting = ({name}: any) => {
                         <div className={"frt-flex frt-flex-row frt-gap-2"}>
                             <Input
                                 className={"frt-grow-2 frt-bg-primary"}
-                                type={"text"}
                                 id="title"
+                                type={"text"}
                                 value={widget.rating.title}
                                 onChange={(e: any) => {
                                     updateWidgetFields((draftState: any) => {

@@ -74,17 +74,25 @@ class WordpressHelper
         if ( ! function_exists( 'get_available_languages' ) ) {
             return [];
         }
+        error_log('before get available language');
+
         $return_languages = get_available_languages();
 
         if ( ! in_array( 'en_US', $return_languages ) ) {
             array_unshift( $return_languages, 'en_US' );
         }
 
+        error_log('after unshifting array');
+
+
         $available_languages = [];
 
         foreach ( $return_languages as $language ) {
-            $available_languages[] = [ 'label' => self::getLanguageLabel($language), 'value' => $language ];
+            $available_languages[] = [ 'label' =>  $language ?? self::getLanguageLabel($language), 'value' => $language ];
         }
+
+        error_log('after foreach');
+
         $wpml_available_languages = apply_filters( 'wpml_active_languages', null, [] );
         if ( ! empty( $wpml_available_languages ) && is_array( $wpml_available_languages ) ) {
             foreach ( $wpml_available_languages as $lang_code => $language ) {
@@ -129,10 +137,16 @@ class WordpressHelper
     }
 
     public static function getWpAvailableTranslations() {
+        try {
         require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
-        if ( function_exists( 'wp_get_available_translations' ) ) {
-            return wp_get_available_translations();
+
+            if ( function_exists( 'wp_get_available_translations' ) ) {
+                return wp_get_available_translations();
+            }
+        } catch(\Error $error) {
+            return [];
         }
+
         return [];
     }
 }

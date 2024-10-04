@@ -10,6 +10,7 @@ import UpdatePhotoRequest from "../EmailSetting/UpdatePhotoRequest";
 import UpdateDiscountReminder from "../EmailSetting/UpdateDiscountReminder";
 import UpdateReplyToReview from "../EmailSetting/UpdateReplyToReview";
 import Orders from "../Orders";
+import {Reviews} from "../Reviews/Reviews";
 
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
             <Route path="/emails/discount-reminder" element={<UpdateDiscountReminder/>}/>
             <Route path="/emails/reply-to-review" element={<UpdateReplyToReview/>}/>
             <Route path="/orders" element={<Orders/>}/>
+            <Route path="/manage" element={<Reviews/>}/>
 
             {/*<Route  path="/emails/discount-reminder" element={<UpdateDiscountReminder/>}/>*/}
             {/*<Route  path="/emails/reply-to-review" element={<UpdateReplyToReview/>}/>*/}

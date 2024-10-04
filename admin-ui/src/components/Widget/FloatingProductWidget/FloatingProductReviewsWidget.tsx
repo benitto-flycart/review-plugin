@@ -144,7 +144,8 @@ export const FloatingProductReviewsWidget = () => {
                                                             <div>
                                                                 <FormControl>
                                                                     <div className="frt-flex frt-justify-items-start">
-                                                                        <Input type="text"
+                                                                        <Input
+                                                                               type={"text"}
                                                                                placeholder={"Reviews"}
                                                                                defaultValue={values.title}
                                                                                onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -173,8 +174,8 @@ export const FloatingProductReviewsWidget = () => {
                                                                     <div
                                                                         className={"frt-grid frt-grid-flow-col frt-grid-cols-[85%_15%]"}>
                                                                         <Input
+                                                                            type={"text"}
                                                                             className="!rwt-w-3/4 !rwt-rounded-e-none "
-                                                                            type="text"
                                                                             value={values.title_bg_color}
                                                                             readOnly={true}
                                                                         />
@@ -209,8 +210,8 @@ export const FloatingProductReviewsWidget = () => {
                                                                     <div
                                                                         className={" frt-grid frt-grid-flow-col frt-grid-cols-[85%_15%]"}>
                                                                         <Input
+                                                                            type={"text"}
                                                                             className="!rwt-w-3/4 !rwt-rounded-e-none "
-                                                                            type="text"
                                                                             value={values.title_text_color}
                                                                             readOnly={true}
                                                                         />

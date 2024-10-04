@@ -20,6 +20,7 @@ const FloatingProductWidgetConfigSetting = ({name}: any) => {
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="none">Title</Label>
                         <Input
+                            type={"text"}
                             onChange={(e: any) => {
                                 let value = e.target.value;
                                 if (!value) value = 'Reviews';

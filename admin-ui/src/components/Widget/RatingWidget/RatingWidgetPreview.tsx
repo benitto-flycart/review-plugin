@@ -9,12 +9,9 @@ const RatingWidgetPreview = () => {
     const {localState} = useLocalState()
 
     useEffect(() => {
-
-        updateWidgetFields((draftState: any) => {
-            draftState.widget_loading = true
-        })
-
-        setTimeout(() => {
+            updateWidgetFields((draftState: any) => {
+                draftState.widget_loading = true
+            })
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
 
@@ -35,8 +32,6 @@ const RatingWidgetPreview = () => {
                 draftState.widget_loading = false
             })
 
-        }, 2000)
-
     }, [widget.layout]);
 
     return (
@@ -45,7 +40,7 @@ const RatingWidgetPreview = () => {
         >
             <div className={'r_rw__product_wrapper'}>
                 <div className={"r_rw__product_image_wrapper"}>
-                    <img src="http://localhost:8004/wp-content/uploads/2023/11/album-1.jpg" alt=""/>
+                    <img src="https://unsplash.it/200/200" alt=""/>
                 </div>
                 <div className={'r_rw__product_details'}>
                     <h2 className={'r_rw__product_title'}>Album</h2>

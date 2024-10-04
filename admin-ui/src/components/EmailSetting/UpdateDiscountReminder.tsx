@@ -162,7 +162,8 @@ const UpdateDiscountReminder = () => {
                                     <label>Button Text</label>
                                     <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                                         <Input
-                                            type="text"
+                                            type="text
+                                            "
                                             placeholder={"Shop Now"}
                                             onChange={(e: any) => {
                                                 updateDiscountReminderState((emailState) => {
