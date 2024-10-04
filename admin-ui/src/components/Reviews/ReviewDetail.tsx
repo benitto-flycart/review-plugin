@@ -10,7 +10,7 @@ import {AxiosResponse} from "axios";
 import {toastrSuccess} from "../../helpers/ToastrHelper";
 import {ApiErrorResponse} from "../api/api.types";
 import {useLocalState} from "../zustand/localState";
-import {ChevronDown, MoreHorizontal} from "lucide-react";
+import {BadgeCheck, ChevronDown, MoreHorizontal} from "lucide-react";
 import {LoadingSpinner} from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
 
@@ -52,13 +52,12 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
 
 
     const moreOptions=[
-        { "label": "Change product", "value": "change_product" },
         { "label": "See order details", "value": "see_order_details" },
-        { "label": "See discount details", "value": "see_discount_details" },
-        { "label": "Tag as featured", "value": "tag_as_featured" },
+        // { "label": "See discount details", "value": "see_discount_details" },
+        // { "label": "Tag as featured", "value": "tag_as_featured" },
         { "label": "Remove verified badge", "value": "remove_verified_badge" },
-        { "label": "Add to Carousel", "value": "add_to_carousel" },
-        { "label": "Add to Video Slider", "value": "add_to_video_slider" },
+        // { "label": "Add to Carousel", "value": "add_to_carousel" },
+        // { "label": "Add to Video Slider", "value": "add_to_video_slider" },
         { "label": "Delete review", "value": "delete_review" }
     ]
 
@@ -101,10 +100,19 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
         }
     }
 
-    const handleApproveAction=(status:any)=>{
-        setApproveActionLoading(true)
+    const handleReviewStatusActions=(status:any)=>{
+        if(status =="see_order_details"){
+            review.order_id && window.open(review.order_id,"_blank")
+            return;
+        }
+        if( status=="see_discount_details"){
+            return;
+        }
+        if(status=="approve" || status=="disapprove"){
+            setApproveActionLoading(true)
+        }
         axiosClient.post(``, {
-            method: "review_approve_action",
+            method: "review_action",
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
             status:status,
@@ -117,7 +125,9 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
             // @ts-ignore
             toastrError(getErrorMessage(error));
         }).finally(() => {
+            if(status=="approve" || status=="disaapprove"){
             setApproveActionLoading(false)
+           }
         })
     }
 
@@ -139,20 +149,22 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                                     href={review.product.product_url}>{review.product.name}</a>
                                 </h2>
                                 <p className="frt-text-sm frt-text-gray-500">Display name: {review.reviewer_name}</p>
-                                <div className="frt-flex frt-items-baseline frt-mt-2">
-                                    {[...Array(5)].map((_, i) => (
-                                        <ReviewIcon
-                                            key={i}
-                                            filled={i < review.rating}
-                                            className="frt-w-5 frt-h-5"
-                                        />
-                                    ))}
-                                    <span className="frt-ml-2 frt-text-sm frt-text-gray-600">
+                                <div className="frt-flex frt-items-center frt-mt-2 frt-gap-x-2">
+                                    <span className={"frt-flex"}>
+                                         {[...Array(5)].map((_, i) => (
+                                             <ReviewIcon
+                                                 key={i}
+                                                 filled={i < review.rating}
+                                                 className="frt-w-5 frt-h-5"
+                                             />
+                                         ))}
+                                    </span>
+                                    <span className="frt-text-sm frt-text-gray-600">
                                    {review.date}
                                   </span>
-                                    {/*<span>*/}
-                                    {/*    <TickIcon*/}
-                                    {/*</span>*/}
+                                  <span>
+                                     {review.is_verified ? <BadgeCheck/> : null}
+                                  </span>
                                 </div>
                             </div>
                         </CardHeader>
@@ -163,7 +175,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                         </CardContent>
                     </div>
                     { review.images.length >0 ?
-                        <ReviewDetailImage review={review}/> : null}
+                        <ReviewDetailImage review={review} getReviews={getReviews}/> : null}
                 </div>
                 {review.replies.length ? review.replies.map((reply: any) => {
                     return <>
@@ -187,7 +199,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                                         <DropdownMenuItem
                                             className={"frt-flex frt-gap-x-1"}
                                             key={option.value}
-                                            onClick={() => handleApproveAction(option.value)}
+                                            onClick={() => handleReviewStatusActions(option.value)}
                                         >
                                             {approveActionLoading ? <LoadingSpinner/> : null} {option.label}
                                         </DropdownMenuItem>
@@ -229,6 +241,9 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                                 {
                                     moreOptions.map((item: any) => (
                                         <DropdownMenuItem
+                                            onClick={()=>{
+                                                handleReviewStatusActions(item.value)
+                                            }}
                                             key={item.value}
                                             defaultValue={item.value}
                                             className={`${item.value === "delete_review" ? 'frt-text-destructive' : ''}`}
