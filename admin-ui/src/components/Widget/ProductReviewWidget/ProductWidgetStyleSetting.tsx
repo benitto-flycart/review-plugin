@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import { ProductWidgetContext } from "./ProductReviewContextAPI";
-import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Label } from "../../ui/label";
 import { Checkbox } from "../../ui/checkbox";
-import { Cross1Icon } from "@radix-ui/react-icons";
 import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
 import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
@@ -406,4 +404,3 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
 };
 
 export default ProductWidgetStyleSetting;
-

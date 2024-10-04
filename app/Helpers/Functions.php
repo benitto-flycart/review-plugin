@@ -38,7 +38,6 @@ class Functions
         ]);
 
         return html_entity_decode(wp_strip_all_tags($price));
-
     }
 
     public static function utcToWPTime($datetime, $format = 'Y-m-d H:i:s')
@@ -50,7 +49,6 @@ class Functions
         $timestamp = $date->format('U');
 
         return wp_date($format, $timestamp);
-
     }
 
     public static function wpToUTCTime($datetime, $format = 'Y-m-d H:i:s')
@@ -64,7 +62,6 @@ class Functions
 
         // Format the date and time in UTC using wp_date
         return wp_date($format, $date->getTimestamp(), new DateTimeZone('UTC'));
-
     }
 
     public static function getWcTime($datetime, $format = 'Y-m-d H:i:s')
@@ -252,3 +249,4 @@ class Functions
         return !empty($gmt_time) ? self::formatDate($gmt_time, 'Y-m-d') : null;
     }
 }
+

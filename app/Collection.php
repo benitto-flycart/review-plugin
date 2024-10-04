@@ -19,3 +19,4 @@ abstract class Collection
         return $response;
     }
 }
+

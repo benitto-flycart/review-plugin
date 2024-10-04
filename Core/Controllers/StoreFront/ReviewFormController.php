@@ -122,7 +122,7 @@ class ReviewFormController
                 'submit_button_slide' => $submit_button_on,
                 'last_slide' => $last_slide
             ]);
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -146,7 +146,6 @@ class ReviewFormController
                         'attachment_id' => $attachment_id,
                         'attachment_url' => $attachment_url
                     ]);
-
                 } else {
 
                     Response::error([
@@ -155,8 +154,7 @@ class ReviewFormController
                     ], 400);
                 }
             }
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -197,7 +195,6 @@ class ReviewFormController
                 ];
 
                 $comment->updateComment($comment_data, $comment_meta_data);
-
             } else {
                 if ($submit_slide == 'photo') {
 
@@ -220,8 +217,7 @@ class ReviewFormController
             return Response::success([
                 'message' => 'Comment Stored Successfully',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -258,3 +254,4 @@ class ReviewFormController
         ];
     }
 }
+
