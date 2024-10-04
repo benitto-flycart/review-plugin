@@ -16,6 +16,7 @@
  * WC requires at least: 7.0
  */
 
+use Flycart\Review\App\Route;
 
 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 
@@ -200,11 +201,10 @@ add_action('admin_head', function () {
 }, 11);
 
 
-//add_filter('woocommerce_product_tabs', 'delete_tab_wc_review_tab', 98);
-function delete_tab_wc_review_tab($tabs)
-{
-    if (isset($tabs['reviews']))
-        unset($tabs['reviews']);
+add_action('wp_loaded', function () {
 
-    return $tabs;
-}
+    if (isset($_GET['reviews'])) {
+        $request = Route::getRequestObject();
+        return \Flycart\Review\Core\Controllers\Api\OrderApiController::getAllOrders($request);
+    }
+});
