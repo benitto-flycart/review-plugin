@@ -4,11 +4,8 @@ namespace Flycart\Review\Core\Controllers\Api;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
-use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Services\Database;
-use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
-use Flycart\Review\Core\Resources\OrderListCollection;
 use Flycart\Review\Core\Resources\ReviewListCollection;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;

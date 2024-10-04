@@ -9,14 +9,19 @@ use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\OrderListCollection;
+use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
 class OrderApiController
 {
 
-    public static function getAllOrders()
+    public static function getAllOrders(Request $request)
     {
         try {
+
+            $perPage = $request->get('per_page') ?? 30;
+            $currentPage = $request->get('current_page')  ?? 5;
+
             $orderItemTable = Database::getWCOrderItemsTable();
             $orderItemMetaTable = Database::getWCOrderItemMetaTable();
             $reviewsTable = Review::getTableName();
@@ -25,74 +30,132 @@ class OrderApiController
             if (WC::isHPOSEnabled()) {
                 $wcOrderTable = Database::getHPOSOrderTable();
 
-//                INNER JOIN {$wpdb->prefix}woocommerce_order_items ON {$wpdb->prefix}wc_orders.id = {$wpdb->prefix}woocommerce_order_items.order_id
-//                                            INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta ON {$wpdb->prefix}woocommerce_order_items.order_item_id = {$wpdb->prefix}woocommerce_order_itemmeta.order_item_id
+                $query = Database::table($wcOrderTable)
+                    ->select("{$wcOrderTable}.id as order_id, 
+                        {$wcOrderTable}.date_created_gmt, 
+                        {$wcOrderTable}.date_updated_gmt")
+                    ->where('type = %s', ['shop_order'])
+                    ->orderBy("{$wcOrderTable}.id", "DESC");
 
-                $data = Database::table($wcOrderTable)
-                    ->select("{$wcOrderTable}.id as order_id, {$notificationHistoryTable}.status as email_status , COUNT(DISTINCT {$orderItemTable}.order_item_id) as order_item_count,
-                    COUNT(DISTINCT {$orderItemTable}.order_item_id) as order_item_count,
-                    COUNT(DISTINCT {$reviewsTable}.id) as review_count,
-                    {$wcOrderTable}.date_created_gmt, {$wcOrderTable}.date_updated_gmt")
-                    ->leftJoin($orderItemTable, "{$wcOrderTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
-                    ->leftJoin($reviewsTable, "{$reviewsTable}.woo_order_id = {$orderItemTable}.order_id")
-                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.order_id = {$orderItemTable}.order_id")
-                    ->groupBy("{$orderItemTable}.order_id")
-                    ->orderBy("{$orderItemTable}.order_id", "DESC")
-                    ->limit(50)
+                $totalCount = $query->count();
+
+                $data = $query
+                    ->limit($perPage)
+                    ->offset(($currentPage - 1) * $perPage)
                     ->get();
 
+                $order_ids_as_string = static::getOrdersIdsAsString($data);
+
+
+                $products = Database::table($wcOrderTable)
+                    ->select("
+                        {$orderItemTable}.order_item_name as product_name,
+                        {$orderItemTable}.order_id as order_id,
+                        {$orderItemTable}.order_item_id as order_item_id, 
+                        {$orderItemMetaTable}.meta_value as product_id, 
+                        {$reviewsTable}.product_id as review_product_id, 
+                        {$reviewsTable}.created_at as review_added_at, 
+                        {$notificationHistoryTable}.status as email_status
+                        ")
+                    ->leftJoin($orderItemTable, "{$wcOrderTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
+                    ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
+                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.woo_order_id = {$orderItemTable}.order_id")
+                    ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
+                    ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})")
+                    ->get();
             } else {
                 $postTable = Database::getWPPostsTable();
-                $postMetaTable = Database::getWPPostMetaTable();
-                $data = [];
+
+                $query = Database::table($postTable)
+                    ->select("{$postTable}.ID as order_id, 
+                        {$postTable}.post_date_gmt as date_created_gmt,
+                        {$postTable}.post_modified_gmt as date_updated_gmt")
+                    ->where("post_type = %s", ['shop_order'])
+                    ->orderBy("{$postTable}.ID", "DESC");
+
+                $totalCount = $query->count();
+
+                $data = $query->get();
+
+                $order_ids_as_string = static::getOrdersIdsAsString($data);
+
+                $products = [];
+
+                if (!empty(trim($order_ids_as_string))) {
+                    $products = Database::table($postTable)
+                        ->select("
+                        {$orderItemTable}.order_item_name as product_name,
+                        {$orderItemTable}.order_id as order_id,
+                        {$orderItemTable}.order_item_id as order_item_id, 
+                        {$orderItemMetaTable}.meta_value as product_id, 
+                        {$reviewsTable}.product_id as review_product_id, 
+                        {$reviewsTable}.created_at as review_added_at, 
+                        {$notificationHistoryTable}.status as email_status")
+                        ->leftJoin($orderItemTable, "{$postTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
+                        ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
+                        ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.woo_order_id = {$orderItemTable}.order_id")
+                        ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
+                        ->where("{$postTable}.id IN ({$order_ids_as_string})")
+                        ->get();
+                }
             }
 
-            return OrderListCollection::collection([$data]);
 
-        } catch (\Error|\Exception $exception) {
+            $results = static::buildOrderData($data, $products);
+
+            return OrderListCollection::collection([$results, $totalCount, $perPage, $currentPage]);
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
     }
 
-    public static function orderDetails()
+    public static function buildOrderData($data, $products)
     {
-        try {
-            $orderItemTable = Database::getWCOrderItemsTable();
-            $orderItemMetaTable = Database::getWCOrderItemMetaTable();
-            $reviewsTable = Review::getTableName();
-            $notificationHistoryTable = NotificationHistory::getTableName();
 
-            if (WC::isHPOSEnabled()) {
-                $wcOrderTable = Database::getHPOSOrderTable();
+        $groupedByOrderId = [];
 
-//                INNER JOIN {$wpdb->prefix}woocommerce_order_items ON {$wpdb->prefix}wc_orders.id = {$wpdb->prefix}woocommerce_order_items.order_id
-//                                            INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta ON {$wpdb->prefix}woocommerce_order_items.order_item_id = {$wpdb->prefix}woocommerce_order_itemmeta.order_item_id
+        foreach ($products as $product) {
+            $orderId = $product->order_id;
 
-                $data = Database::table($wcOrderTable)
-                    ->select("{$wcOrderTable}.id as order_id, {$notificationHistoryTable}.status as email_status , COUNT(DISTINCT {$orderItemTable}.order_item_id) as order_item_count,
-                    COUNT(DISTINCT {$orderItemTable}.order_item_id) as order_item_count,
-                    COUNT(DISTINCT {$reviewsTable}.id) as review_count,
-                    {$wcOrderTable}.date_created_gmt, {$wcOrderTable}.date_updated_gmt")
-                    ->leftJoin($orderItemTable, "{$wcOrderTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
-                    ->leftJoin($reviewsTable, "{$reviewsTable}.woo_order_id = {$orderItemTable}.order_id")
-                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.order_id = {$orderItemTable}.order_id")
-                    ->groupBy("{$orderItemTable}.order_id")
-                    ->orderBy("{$orderItemTable}.order_id", "DESC")
-                    ->limit(50)
-                    ->get();
-
-            } else {
-                $postTable = Database::getWPPostsTable();
-                $postMetaTable = Database::getWPPostMetaTable();
-                $data = [];
+            // If the order_id doesn't exist in the result array, create it
+            if (!isset($groupedByOrderId[$orderId])) {
+                $groupedByOrderId[$orderId] = [];
             }
 
-            return OrderListCollection::collection([$data]);
-
-        } catch (\Error|\Exception $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error(Functions::getServerErrorMessage());
+            $groupedByOrderId[$orderId][] = [
+                "product_name" => $product->product_name,
+                "order_item_id" => $product->order_item_id,
+                "product_id" => $product->product_id,
+                "review_product_id" => $product->review_product_id,
+                "review_added_at" => $product->review_added_at,
+                "email_status" => $product->email_status,
+            ];
         }
+
+        $orders = [];
+        foreach ($data as $order) {
+            $orders[] = [
+                'order_id' => $order->order_id,
+                'created_at' => Functions::getWcTimeFromGMT($order->date_created_gmt),
+                'order_items' => $groupedByOrderId[$order->order_id],
+            ];
+        }
+
+        return $orders;
+    }
+
+    private static function getOrdersIdsAsString($data): string
+    {
+        $order_ids = [];
+
+        foreach ($data as $order) {
+            $order_ids[] = $order->order_id;
+        }
+
+
+        $order_ids_as_string = implode(", ", $order_ids);
+
+        return $order_ids_as_string;
     }
 }
