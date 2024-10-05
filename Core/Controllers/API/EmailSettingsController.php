@@ -109,8 +109,7 @@ class EmailSettingsController
             return Response::success([
                 'message' => 'Review Request Updated for Selected Language',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -127,8 +126,7 @@ class EmailSettingsController
                 ->get();
 
             return ReviewRequestEmailSettingsCollection::collection([$list]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -165,8 +163,7 @@ class EmailSettingsController
 
             //Returning Review Data
             return ReviewRemainderResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -217,8 +214,7 @@ class EmailSettingsController
             return Response::success([
                 'message' => 'Review Request Updated for Selected Language',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -235,8 +231,7 @@ class EmailSettingsController
                 ->get();
 
             return ReviewRemainderEmailSettingsCollection::collection([$list]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -274,8 +269,7 @@ class EmailSettingsController
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -330,8 +324,7 @@ class EmailSettingsController
             return Response::success([
                 'message' => 'Review Photo Request Updated for Selected Language',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -348,8 +341,7 @@ class EmailSettingsController
                 ->get();
 
             return ReviewPhotoRequestEmailSettingsCollection::collection([$list]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -386,8 +378,7 @@ class EmailSettingsController
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -438,8 +429,7 @@ class EmailSettingsController
             return Response::success([
                 'message' => 'Review Discount Request Updated for Selected Language',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -456,8 +446,7 @@ class EmailSettingsController
                 ->get();
 
             return ReviewDiscountRequestEmailSettingsCollection::collection([$list]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -494,8 +483,7 @@ class EmailSettingsController
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -544,8 +532,7 @@ class EmailSettingsController
             return Response::success([
                 'message' => 'Review Reply Request Updated for Selected Language',
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -562,8 +549,7 @@ class EmailSettingsController
                 ->get();
 
             return ReviewReplyToRequestEmailSettingsCollection::collection([$list]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -602,13 +588,12 @@ class EmailSettingsController
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
             ]);
         }
     }
-
 }
+
