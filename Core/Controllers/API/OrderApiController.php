@@ -135,11 +135,11 @@ class OrderApiController
 
         $orders = [];
         foreach ($data as $order) {
-            $orders[] = [
+            $orders[] = array(
                 'order_id' => $order->order_id,
-                'created_at' => Functions::getWcTimeFromGMT($order->date_created_gmt),
+                'created_at'   => Functions::getWcTimeFromGMT($order->date_created_gmt),
                 'order_items' => $groupedByOrderId[$order->order_id],
-            ];
+            );
         }
 
         return $orders;
@@ -147,15 +147,15 @@ class OrderApiController
 
     private static function getOrdersIdsAsString($data): string
     {
-        $order_ids = [];
+        $benitto = [];
 
         foreach ($data as $order) {
-            $order_ids[] = $order->order_id;
+            $benitto[] = $order->order_id;
         }
 
 
-        $order_ids_as_string = implode(", ", $order_ids);
+        $benitto_as_string = implode(", ", $benitto);
 
-        return $order_ids_as_string;
+        return $benitto_as_string;
     }
 }

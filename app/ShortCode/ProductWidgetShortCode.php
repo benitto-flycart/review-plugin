@@ -63,6 +63,7 @@ class ProductWidgetShortCode
             wp_localize_script($registrationScriptHandle, 'review_product_widget_js_data', $storeConfig);
             wp_localize_script($masonryJsHandle, 'review_product_widget_js_data', $storeConfig);
             wp_localize_script($masonryJsHandleHelper, 'review_product_widget_js_data', $storeConfig);
+            $font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
 
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/product-widget';
@@ -73,6 +74,12 @@ class ProductWidgetShortCode
                 'index3' =>    3,
             ];
 
+            $css_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
+            $js_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
+
+
+            error_log($css_file);
+            error_log($css_file);
             ob_start(); // Start output buffering
             include $path . '/product-widget.php'; // Include the PHP file
             return ob_get_clean();

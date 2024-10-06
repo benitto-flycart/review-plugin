@@ -15,6 +15,7 @@ return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],
     'get_wc_orders' => ['callable' => [OrderApiController::class, 'getAllOrders']],
     'get_all_reviews' => ['callable' => [ReviewApiController::class, 'getAllReviews']],
+    'review_action' => ['callable' => [ReviewApiController::class, 'updateReview']],
 
     //Review Request
     'get_review_request' => ['callable' => [EmailSettingsController::class, 'getReviewRequest']],

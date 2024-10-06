@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Plugin Name:          Flycart Reviews
  * Description:          Reviews for Woo Commerce
@@ -16,7 +17,6 @@
  * WC requires at least: 7.0
  */
 
-use Flycart\Review\App\Route;
 
 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 
@@ -199,12 +199,3 @@ add_action('admin_head', function () {
 <?php
     }
 }, 11);
-
-
-add_action('wp_loaded', function () {
-
-    if (isset($_GET['reviews'])) {
-        $request = Route::getRequestObject();
-        return \Flycart\Review\Core\Controllers\Api\OrderApiController::getAllOrders($request);
-    }
-});

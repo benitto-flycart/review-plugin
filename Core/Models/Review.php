@@ -119,7 +119,9 @@ class Review extends Model
             'number' => $filters['per_page'] ?? 50,
             'status' => $filters['status'] ?? 'all',
             'search' => $filters['search'] ?? '',
+            'meta_query' => $filters['meta_query'] ?? [],
         ];
+
 
         $comments = get_comments(array_merge($default_filters, $filters));
 
@@ -148,13 +150,13 @@ class Review extends Model
         return [
             'id' => $comment['comment_ID'],
             'reviewer_name' => $comment['comment_author'],
-            'rating' => static::getCommentMeta($comment['comment_meta'], 'rating'),
-            'is_verified' => (bool)$comment['comment_approved'],
+            'rating' => static::getMeta($comment['comment_meta'], 'rating'),
+            'is_verified' => static::getMeta($comment['comment_meta'], 'verified'),
             'date' => Functions::getWcTimeFromGMT($comment['comment_date_gmt']),
             'content' => $comment['comment_content'],
             'is_approved' => Functions::getBoolValue($comment['comment_approved']),
             'images' => static::getReviewImages($comment['comment_meta']),
-            'from_order' => static::getCommentMeta($comment['comment_meta'], '_review_order_id'),
+            'from_order' => static::getMeta($comment['comment_meta'], '_review_order_id'),
             'replies' => static::getReviews([
                 'per_page' => 100,
                 'current_page' => 1,
@@ -172,7 +174,7 @@ class Review extends Model
      * @return mixed|null
      */
 
-    public static function getCommentMeta($meta, $key)
+    public static function getMeta($meta, $key)
     {
         if (isset($meta[$key])) {
             return $meta[$key][0] ?? null;
@@ -187,7 +189,7 @@ class Review extends Model
      */
     public static function getReviewImages($meta)
     {
-        $attachments = static::getCommentMeta($meta, '_review_attachments');
+        $attachments = static::getMeta($meta, '_review_attachments');
 
         $attachments = Functions::jsonDecode($attachments);
 
@@ -212,7 +214,7 @@ class Review extends Model
 
             foreach ($posts as $index => $post) {
                 $post = (array)$post;
-                $post_meta = get_post_meta($post->ID);
+                $post_meta = get_post_meta($post['ID']);
 
                 $response[] = static::buildPostArray($post, $post_meta);
             }
@@ -255,15 +257,16 @@ class Review extends Model
      * @return array
      * @param mixed $posts
      */
-    public static function getReviewImageDetails($attachment)
+    public static function getReviewImageDetails($attachment, $post_meta)
     {
+
         $attachment['variants'] = static::get_image_sizes_urls($attachment["ID"]);
         $attachment['id'] =  $attachment["ID"];
         $attachment['date'] = Functions::getWcTimeFromGMT($attachment['post_date_gmt']);
         $attachment['title'] = $attachment['post_title'];
         $attachment['status'] = $attachment['post_status'];
         $attachment['modified_date'] = Functions::getWcTimeFromGMT($attachment['post_modified_gmt']);
-        $attachment['is_cover_photo'] = Functions::getBoolValue(static::getCommentMeta($attachment['post_meta'], '_review_cover_photo'));
+        $attachment['is_cover_photo'] = Functions::getBoolValue(static::getMeta($post_meta, '_review_cover_photo'));
 
         return $attachment;
     }
@@ -284,5 +287,23 @@ class Review extends Model
         }
 
         return $image_urls;
+    }
+
+    public static function deleteReview($review_id)
+    {
+        //delete review here
+        wp_delete_comment($review_id);
+    }
+
+    public static function updateApproveStatus($review_id, $value)
+    {
+        wp_set_comment_status($review_id, $value ? 'approve' : 'hold');
+        //update review approval status
+    }
+
+    public static function updateVerifiedStatus($review_id, $value)
+    {
+        //update review verified status
+        $status = update_comment_meta($review_id, 'verified', $value ? 1 : 0);
     }
 }

@@ -44,11 +44,11 @@ class ProductWidgetController
                 "total_pages" => ceil($totalCount / $perPage),
                 "current_page" => $currentPage,
                 'reviews' => Review::getReviews([
-                        'type' => 'review',
-                        'current_page' => $currentPage,
-                        'per_page' => $perPage,
-                        'parent' => 0,
-                        'status' => 'approve',
+                    'type' => 'review',
+                    'current_page' => $currentPage,
+                    'per_page' => $perPage,
+                    'parent' => 0,
+                    'status' => 'approve',
                 ]),
                 'ratings' => [
                     'rating_icon' => 'gem',
@@ -108,8 +108,7 @@ class ProductWidgetController
             Response::success([
                 'template' => $template,
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -145,3 +144,4 @@ class ProductWidgetController
         }));
     }
 }
+

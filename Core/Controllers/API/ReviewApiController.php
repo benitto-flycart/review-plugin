@@ -16,7 +16,6 @@ class ReviewApiController
     public static function getAllReviews(Request $request)
     {
         try {
-
             $comment_count = get_comments([
                 'count' => true
             ]);
@@ -44,11 +43,11 @@ class ReviewApiController
                 'others' => 0,
             ];
 
-
             $total_count = 0;
             $total_sum = 0;
 
             foreach ($results as $result) {
+
                 if ($result->rating == 1) {
                     $ratings['single_star'] = (int)$result->rating_count;
                 } else if ($result->rating == 2) {
@@ -98,20 +97,20 @@ class ReviewApiController
                 }, $users);
 
                 $products = Database::table($postTable)
-                    ->select("ID as user_id, user_email as user_email")
+                    ->select("ID as post_id, post_title as post_title")
                     ->where("post_type = %s", ['product'])
                     ->where("post_title like %s", ["{$search}"])
                     ->get();
 
                 $product_ids = array_map(function ($product) {
-                    return $product->user_id;
-                }, $users);
+                    return $product->post_id;
+                }, $products);
             }
 
 
             $filters = [
                 'current_page' => $current_page,
-                'per_page' => 100 ?? $per_page
+                'per_page' => $per_page
             ];
 
             if (!empty($product_ids)) {
@@ -120,6 +119,18 @@ class ReviewApiController
 
             if (!empty($user_ids)) {
                 $filters['author_in'] = $user_ids;
+            }
+
+            if ($rating > 0) {
+                $filters['meta_query'] = [
+
+                    [
+                        'key'     => 'rating', // Assuming the meta key for rating is 'rating'
+                        'value'   => $rating,
+                        'compare' => '=',
+                        'type'    => 'NUMERIC', // Rating is stored as a number
+                    ]
+                ];
             }
 
             $totalCount = get_comments(array_merge($filters, ['count' => true]));
@@ -133,6 +144,54 @@ class ReviewApiController
             ];
 
             return ReviewListCollection::collection([$review_overview, $reviews, $totalCount, $per_page, $current_page]);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public static function updateReview(Request $request)
+    {
+        try {
+            $type = $request->get('type');
+            $value = Functions::getBoolValue($request->get('value'));
+            $review_id = $request->get('id');
+
+            if (empty($review_id)) {
+                return Response::error([
+                    'message' => "Review Id is required",
+                ], 422);
+            }
+
+            if (empty($type)) {
+                return Response::error([
+                    'message' => "type required",
+                ], 422);
+            }
+
+            if ($type == 'delete_review') {
+                Review::deleteReview($review_id);
+
+                return Response::success([
+                    'message' => 'Review Deleted Successfully'
+                ]);
+            } else if ($type == 'approve') {
+                Review::updateApproveStatus($review_id, $value);
+
+                return Response::success([
+                    'message' => 'Review Updated Successfully'
+                ]);
+            } else if ($type == 'verified_badge') {
+                Review::updateVerifiedStatus($review_id, $value);
+
+                return Response::success([
+                    'message' => 'Review Updated Successfully'
+                ]);
+            }
+
+            return Response::success([
+                'message' => 'Unable to Update right now, please try again later'
+            ], 500);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());

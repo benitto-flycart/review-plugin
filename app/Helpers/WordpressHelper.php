@@ -65,21 +65,23 @@ class WordpressHelper
         return $password;
     }
 
-    public static function generateRandomString($length = 10) {
+    public static function generateRandomString($length = 10)
+    {
 
         return substr(md5(time()), 0, $length);
     }
 
-    public static function getAvailableLanguages() {
-        if ( ! function_exists( 'get_available_languages' ) ) {
+    public static function getAvailableLanguages()
+    {
+        if (! function_exists('get_available_languages')) {
             return [];
         }
         error_log('before get available language');
 
         $return_languages = get_available_languages();
 
-        if ( ! in_array( 'en_US', $return_languages ) ) {
-            array_unshift( $return_languages, 'en_US' );
+        if (! in_array('en_US', $return_languages)) {
+            array_unshift($return_languages, 'en_US');
         }
 
         error_log('after unshifting array');
@@ -87,63 +89,65 @@ class WordpressHelper
 
         $available_languages = [];
 
-        foreach ( $return_languages as $language ) {
-            $available_languages[] = [ 'label' =>  $language ?? self::getLanguageLabel($language), 'value' => $language ];
+        foreach ($return_languages as $language) {
+            $available_languages[] = ['label' =>  $language ?? self::getLanguageLabel($language), 'value' => $language];
         }
 
         error_log('after foreach');
 
-        $wpml_available_languages = apply_filters( 'wpml_active_languages', null, [] );
-        if ( ! empty( $wpml_available_languages ) && is_array( $wpml_available_languages ) ) {
-            foreach ( $wpml_available_languages as $lang_code => $language ) {
+        $wpml_available_languages = apply_filters('wpml_active_languages', null, []);
+        if (! empty($wpml_available_languages) && is_array($wpml_available_languages)) {
+            foreach ($wpml_available_languages as $lang_code => $language) {
                 $key_exists = false;
-                foreach ( $available_languages as $check_language ) {
+                foreach ($available_languages as $check_language) {
                     // Check if the key exists in the current sub-array
-                    if ( isset( $check_language['value'] ) && $check_language['value'] === $language['default_locale'] ) {
+                    if (isset($check_language['value']) && $check_language['value'] === $language['default_locale']) {
                         $key_exists = true;
                         break; // Exit the loop since the key is found
                     }
                 }
-                if ( ! $key_exists ) {
+                if (! $key_exists) {
                     $available_languages[] = [
-                        'label' => ( ! empty( $language['native_name'] ) ) ? $language['native_name'] : $lang_code,
-                        'value' => ( ! empty( $language['default_locale'] ) ) ? $language['default_locale'] : $lang_code
+                        'label' => (! empty($language['native_name'])) ? $language['native_name'] : $lang_code,
+                        'value' => (! empty($language['default_locale'])) ? $language['default_locale'] : $lang_code
                     ];
                 }
             }
         }
-        return apply_filters( 'flycart_review_get_available_languages', $available_languages );
+        return apply_filters('flycart_review_get_available_languages', $available_languages);
     }
 
-    public static function getLanguageLabel( $language_code ) {
+    public static function getLanguageLabel($language_code)
+    {
         $label        = '';
         $translations = self::getWpAvailableTranslations();
-        if ( isset( $translations[ $language_code ]['native_name'] ) ) {
-            $label = $translations[ $language_code ]['native_name'];
+        if (isset($translations[$language_code]['native_name'])) {
+            $label = $translations[$language_code]['native_name'];
         } else {
-            foreach ( $translations as $lang_code => $lang_details ) {
-                if ( isset( $lang_details['iso'] ) && is_array( $lang_details['iso'] ) && in_array( $language_code, $lang_details['iso'] ) ) {
+            foreach ($translations as $lang_code => $lang_details) {
+                if (isset($lang_details['iso']) && is_array($lang_details['iso']) && in_array($language_code, $lang_details['iso'])) {
                     $label = $lang_details['native_name'];
                     break;
                 }
             }
-            if ( empty( $label ) && ( $language_code == 'en_US' || $language_code == 'en' || $language_code == 'en_GB' ) ) {
+            if (empty($label) && ($language_code == 'en_US' || $language_code == 'en' || $language_code == 'en_GB')) {
                 $label = "English";
-            } elseif ( empty( $label ) ) {
+            } elseif (empty($label)) {
                 $label = $language_code . "(Name unknown)";
             }
         }
-        return apply_filters( "eca_get_language_label", $label, $language_code );
+        return apply_filters("eca_get_language_label", $label, $language_code);
     }
 
-    public static function getWpAvailableTranslations() {
+    public static function getWpAvailableTranslations()
+    {
         try {
-        require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+            require_once(ABSPATH . 'wp-admin/includes/translation-install.php');
 
-            if ( function_exists( 'wp_get_available_translations' ) ) {
+            if (function_exists('wp_get_available_translations')) {
                 return wp_get_available_translations();
             }
-        } catch(\Error $error) {
+        } catch (\Error $error) {
             return [];
         }
 

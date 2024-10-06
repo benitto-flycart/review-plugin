@@ -12,8 +12,9 @@ class SnippetWidgetShortCode
     public static function register()
     {
         add_shortcode('review_snippet_widget', function () {
-            return '';
-            if (!is_product()) return null;
+            /* if (!is_product()) return null; */
+
+            error_log('executing snippte widget');
 
             global $product;
             $pluginSlug = F_Review_PLUGIN_SLUG;
@@ -23,7 +24,7 @@ class SnippetWidgetShortCode
 
 
             $reviews = Review::getReviews([
-//                'product_id' => $product->get_id(),
+                //                'product_id' => $product->get_id(),
                 'type' => 'comment',
                 'paged' => $filters['current_page'] ?? 1,
                 'parent' => $filters['parent'] ?? 0,
@@ -65,3 +66,4 @@ class SnippetWidgetShortCode
         ];
     }
 }
+
