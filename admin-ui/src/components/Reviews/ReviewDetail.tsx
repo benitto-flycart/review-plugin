@@ -14,22 +14,23 @@ import {BadgeCheck, ChevronDown, MoreHorizontal} from "lucide-react";
 import {LoadingSpinner} from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
 
-interface BulkActionReviewIdsType{
-    val:any,
-    set:any
+interface BulkActionReviewIdsType {
+    val: any,
+    set: any
 }
+
 interface ReviewDetailPropTypes {
     review: any,
-    bulkActionReviewIds:BulkActionReviewIdsType,
-    getReviews:()=>void
+    bulkActionReviewIds: BulkActionReviewIdsType,
+    getReviews: () => void
 }
 
-export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkActionReviewIds,getReviews}: T) => {
+export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActionReviewIds, getReviews}: T) => {
 
-    const {localState}=useLocalState()
-    const [approveActionLoading,setApproveActionLoading]=useState<boolean>(false)
-    const [showReplyDialog,setShowReplyDialog]=useState(false)
-    const [deleteReplyLoading,setDeleteReplyLoading]=useState(false)
+    const {localState} = useLocalState()
+    const [approveActionLoading, setApproveActionLoading] = useState<boolean>(false)
+    const [showReplyDialog, setShowReplyDialog] = useState(false)
+    const [deleteReplyLoading, setDeleteReplyLoading] = useState(false)
     const replyAddButtonLabel = [
         {
             label: "Add",
@@ -47,41 +48,41 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
         },
     ]
     const statusOptions = review.is_approved
-        ? [{ label: "Disapprove", value: "disapprove" }]
-        : [{ label: "Approve", value: "approve" }];
+        ? [{label: "Disapprove", value: "disapprove"}]
+        : [{label: "Approve", value: "approve"}];
 
 
-    const moreOptions=[
-        { "label": "See order details", "value": "see_order_details" },
+    const moreOptions = [
+        {"label": "See order details", "value": "see_order_details"},
         // { "label": "See discount details", "value": "see_discount_details" },
         // { "label": "Tag as featured", "value": "tag_as_featured" },
-        { "label": "Remove verified badge", "value": "remove_verified_badge" },
+        {"label": "Remove verified badge", "value": "remove_verified_badge"},
         // { "label": "Add to Carousel", "value": "add_to_carousel" },
         // { "label": "Add to Video Slider", "value": "add_to_video_slider" },
-        { "label": "Delete review", "value": "delete_review" }
+        {"label": "Delete review", "value": "delete_review"}
     ]
 
 
-    const handleAddSingeBulkActionId=(id:number,isChecked:any)=>{
-        if(isChecked){
-            bulkActionReviewIds.set([...bulkActionReviewIds.val,id])
-        } else{
-            const filteredBulkActionReviewIds=bulkActionReviewIds.val.filter((reviewId:any)=>{
-                return  reviewId!==id
+    const handleAddSingeBulkActionId = (id: number, isChecked: any) => {
+        if (isChecked) {
+            bulkActionReviewIds.set([...bulkActionReviewIds.val, id])
+        } else {
+            const filteredBulkActionReviewIds = bulkActionReviewIds.val.filter((reviewId: any) => {
+                return reviewId !== id
             })
             bulkActionReviewIds.set(filteredBulkActionReviewIds)
         }
     }
 
-    const handleDeleteReply=()=>{
+    const handleDeleteReply = () => {
         setDeleteReplyLoading(true)
         axiosClient.post(``, {
             method: "handle_delete_reply",
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            id:review.id
+            id: review.id
         }).then((response: AxiosResponse) => {
-            const data:any = response.data.data
+            const data: any = response.data.data
             toastrSuccess(data.message)
             getReviews();
         }).catch((error: AxiosResponse<ApiErrorResponse>) => {
@@ -92,55 +93,57 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
         })
     }
 
-    const handleReplyButtonAction=(value:string)=>{
-        if(value=="delete"){
+    const handleReplyButtonAction = (value: string) => {
+        if (value == "delete") {
             handleDeleteReply()
-        } else{
+        } else {
             setShowReplyDialog(true)
         }
     }
 
-    const handleReviewStatusActions=(status:any)=>{
-        if(status =="see_order_details"){
-            review.order_id && window.open(review.order_id,"_blank")
+    const handleReviewStatusActions = (status: any) => {
+        if (status == "see_order_details") {
+            review.order_id && window.open(review.order_id, "_blank")
             return;
         }
-        if( status=="see_discount_details"){
+        if (status == "see_discount_details") {
             return;
         }
-        if(status=="approve" || status=="disapprove"){
+        if (status == "approve" || status == "disapprove") {
             setApproveActionLoading(true)
         }
         axiosClient.post(``, {
             method: "review_action",
             _wp_nonce_key: 'flycart_review_nonce',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            status:status,
-            id:review.id
+            status: status,
+            id: review.id
         }).then((response: AxiosResponse) => {
-            const data:any = response.data.data
+            const data: any = response.data.data
             toastrSuccess(data.message)
             getReviews();
         }).catch((error: AxiosResponse<ApiErrorResponse>) => {
             // @ts-ignore
             toastrError(getErrorMessage(error));
         }).finally(() => {
-            if(status=="approve" || status=="disaapprove"){
-            setApproveActionLoading(false)
-           }
+            if (status == "approve" || status == "disaapprove") {
+                setApproveActionLoading(false)
+            }
         })
     }
 
     return <>
         <div className={"frt-flex frt-gap-3"}>
             <div>
-                <Checkbox defaultChecked={false}  checked={bulkActionReviewIds.val.includes(review.id)} onCheckedChange={(isChecked)=>{
-                    handleAddSingeBulkActionId(review.id,isChecked)
-                }}/>
+                <Checkbox defaultChecked={false} checked={bulkActionReviewIds.val.includes(review.id)}
+                          onCheckedChange={(isChecked) => {
+                              handleAddSingeBulkActionId(review.id, isChecked)
+                          }}/>
             </div>
             <Card
                 className={`frt-flex frt-bg-white frt-w-full frt-flex-col frt-border-l-4 frt-border-solid ${review.is_approved ? 'frt-border-l-green-500' : 'frt-border-l-gray-500'}`}>
-                <div className={`frt-flex md:frt-flex-row frt-flex-col-reverse ${review.replies.length>0 ? 'frt-border-b frt-border-solid frt-border-b-gray-300' : ''}`}>
+                <div
+                    className={`frt-flex md:frt-flex-row frt-flex-col-reverse ${review.replies.length > 0 ? 'frt-border-b frt-border-solid frt-border-b-gray-300' : ''}`}>
                     <div className={` ${review.images.length > 0 ? 'md:frt-w-[70%]' : 'frt-w-full'} `}>
                         <CardHeader className="frt-flex frt-flex-row frt-justify-between frt-items-start">
                             <div>
@@ -162,7 +165,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                                     <span className="frt-text-sm frt-text-gray-600">
                                    {review.date}
                                   </span>
-                                  <span>
+                                    <span>
                                      {review.is_verified ? <BadgeCheck/> : null}
                                   </span>
                                 </div>
@@ -174,7 +177,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                             </p>
                         </CardContent>
                     </div>
-                    { review.images.length >0 ?
+                    {review.images.length > 0 ?
                         <ReviewDetailImage review={review} getReviews={getReviews}/> : null}
                 </div>
                 {review.replies.length ? review.replies.map((reply: any) => {
@@ -241,14 +244,15 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review,bulkAction
                                 {
                                     moreOptions.map((item: any) => (
                                         <DropdownMenuItem
-                                            onClick={()=>{
+                                            onClick={() => {
                                                 handleReviewStatusActions(item.value)
                                             }}
                                             key={item.value}
                                             defaultValue={item.value}
                                             className={`${item.value === "delete_review" ? 'frt-text-destructive' : ''}`}
                                         >
-                                            {item.value === "delete_review" ? deleteReplyLoading && <LoadingSpinner/> : ''}
+                                            {item.value === "delete_review" ? deleteReplyLoading &&
+                                                <LoadingSpinner/> : ''}
                                             {item.label}
                                         </DropdownMenuItem>
                                     ))
