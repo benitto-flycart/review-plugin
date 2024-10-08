@@ -6,6 +6,7 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountRequestEmailSettingsCollection;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewPhotoRequestEmailSettingsCollection;
@@ -31,34 +32,18 @@ class EmailSettingsController
         try {
             $language = $request->get('language');
 
-            $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::REVIEW_REQUEST_TYPE])
-                ->first();
+            $reviewRequest = new ReviewRequest($language);
 
-            if (!empty($previous)) {
-                $data = [
-                    'language' => $previous->language,
-                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
-                    'status' => $previous->status,
-                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
-                ];
-            } else {
-                $settings = EmailSetting::getDefaultReviewRequestSettings($language);
-
-                $data = [
-                    'language' => $language,
-                    'language_label' => WordpressHelper::getLanguageLabel($language),
-                    'status' => 'active',
-                    'settings' => $settings,
-                ];
-            }
-
-            error_log(print_r($data, true));
+            $data = [
+                'language' => $reviewRequest->locale,
+                'language_label' => WordpressHelper::getLanguageLabel($reviewRequest->locale),
+                'status' => $reviewRequest->status,
+                'settings' =>  $reviewRequest->getSettings()
+            ];
 
             //Returning Review Data
             return ReviewRequestResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -596,4 +581,3 @@ class EmailSettingsController
         }
     }
 }
-

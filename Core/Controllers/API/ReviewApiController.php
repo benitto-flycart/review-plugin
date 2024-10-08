@@ -16,10 +16,6 @@ class ReviewApiController
     public static function getAllReviews(Request $request)
     {
         try {
-            $comment_count = get_comments([
-                'count' => true
-            ]);
-
             $commentsTable = Database::getCommentsTable();
             $commentsMetaTable = Database::getCommentsMetaTable();
 
@@ -34,14 +30,14 @@ class ReviewApiController
                 ->get();
 
 
-            $ratings = [
+            $ratings = array(
                 'single_star' => 0,
                 'two_star' => 0,
                 'three_star' => 0,
                 'four_star' => 0,
                 'five_star' => 0,
                 'others' => 0,
-            ];
+            );
 
             $total_count = 0;
             $total_sum = 0;
@@ -84,12 +80,12 @@ class ReviewApiController
 
                 $users = Database::table($userTable)
                     ->select("ID as user_id, user_email as user_email")
-                    ->where("user_login LIKE %s OR user_email LIKE %s OR display_name LIKE %s OR user_nicename like %s", [
+                    ->where("user_login LIKE %s OR user_email LIKE %s OR display_name LIKE %s OR user_nicename like %s", array(
                         "%{$search}%",
                         "%{$search}%",
                         "%{$search}%",
                         "%{$search}%"
-                    ])
+                    ))
                     ->get();
 
                 $user_ids = array_map(function ($user) {

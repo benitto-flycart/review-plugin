@@ -3,12 +3,17 @@
 namespace Flycart\Review\Core\Emails;
 
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
+use Flycart\Review\Core\Emails\Settings\ReviewRequest;
+use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use WC_Email;
+use WC_Order;
 
 class ReviewRequestWCEmail extends WC_Email
 {
-    public $woo_order;
+    public WC_Order $woo_order;
+
     public function __construct()
     {
         // Email slug we can use to filter other data.
@@ -34,28 +39,18 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function trigger($data)
     {
-
-        error_log('printing notification');
-        error_log(print_r($data, true));
-
-
         $notification_id = $data['notification_id'] ?? '';
-
-        error_log('printing notificationid');
-
-        error_log($notification_id);
 
         $notification = NotificationHistory::query()->find($notification_id);
 
         if (empty($notification) || !NotificationHistory::isReviewRequestType($notification->notify_type) || NotificationHistory::isAlreadySent($notification->status)) {
-            error_log('Returning');
             return;
         }
 
         $this->woo_order = wc_get_order($notification->order_id);
 
         $short_codes = [
-            '{{email}}' => 'benitto@cartrabbit.in',
+            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
         ];
 
         $html = $this->get_content();
@@ -66,7 +61,7 @@ class ReviewRequestWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
             'notification_content' => $html,
@@ -89,14 +84,20 @@ class ReviewRequestWCEmail extends WC_Email
     public function get_content_string($plain_text = false)
     {
         $brandSettings = (new BrandSettings());
+        $generalSettings = (new GeneralSettings());
 
+        $reviewRequest = new ReviewRequest(get_locale());
+
+        $this->woo_order->get_formatted_billing_full_name();
         return wc_get_template_html($this->template_plain, array(
             'order' => $this->woo_order,
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,
             'plain_text' => $plain_text,
             'email' => $this,
-            'brandSettings' => $brandSettings
+            'brandSettings' => $brandSettings,
+            'generalSettings' => $generalSettings,
+            'reviewRequest' => $reviewRequest
         ), '', $this->template_base);
     }
 }

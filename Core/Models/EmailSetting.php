@@ -34,7 +34,6 @@ class EmailSetting extends Model
                 deleted_at TIMESTAMP NULL,
                 PRIMARY KEY (id)
                 ) {$charset};";
-
     }
 
     public static function getReviewSettingsAsArray($settings)
@@ -44,28 +43,7 @@ class EmailSetting extends Model
         return Functions::jsonDecode($settings);
     }
 
-    public static function getDefaultReviewRequestSettings($language)
-    {
-        $data = [
-            'body' => __('Review Request Body', 'flycart-review'),
-            'subject' => __('Review Request Subject', 'flycart-review'),
-            'button_text' => __('Review Request Button Text', 'flycart-review'),
-        ];
 
-        if ($data['body'] == 'Review Request Body') {
-            $data['body'] = 'Order #{order_number}, how did it go?';
-        }
-
-        if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'Order #{order_number}, how did it go?';
-        }
-
-        if ($data['button_text'] == 'Review Request Button Text') {
-            $data['button_text'] = 'Write a Review';
-        }
-
-        return apply_filters('flycart_review_review_request_data', $data, $language);
-    }
 
     public static function getDefaultReviewRemainderSettings($language)
     {
@@ -161,4 +139,11 @@ class EmailSetting extends Model
         return apply_filters('flycart_review_review_reply_request_data', $data, $language);
     }
 
+
+    public function getSettings($reviewRequest)
+    {
+
+        //code
+    }
 }
+

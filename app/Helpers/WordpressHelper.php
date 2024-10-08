@@ -76,7 +76,6 @@ class WordpressHelper
         if (! function_exists('get_available_languages')) {
             return [];
         }
-        error_log('before get available language');
 
         $return_languages = get_available_languages();
 
@@ -84,16 +83,11 @@ class WordpressHelper
             array_unshift($return_languages, 'en_US');
         }
 
-        error_log('after unshifting array');
-
-
         $available_languages = [];
 
         foreach ($return_languages as $language) {
-            $available_languages[] = ['label' =>  $language ?? self::getLanguageLabel($language), 'value' => $language];
+            $available_languages[] = ['label' =>  self::getLanguageLabel($language), 'value' => $language];
         }
-
-        error_log('after foreach');
 
         $wpml_available_languages = apply_filters('wpml_active_languages', null, []);
         if (! empty($wpml_available_languages) && is_array($wpml_available_languages)) {

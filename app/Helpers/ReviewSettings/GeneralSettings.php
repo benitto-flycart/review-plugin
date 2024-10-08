@@ -56,4 +56,16 @@ class GeneralSettings extends ReviewSettings
 
         return $this->mergeWithDefault($data);
     }
+
+    public function isFooterEnabled()
+    {
+        return Functions::getBoolValue($this->generalSettings['footer_text']);
+    }
+
+    public function getFooterText()
+    {
+
+        return $this->generalSettings['footer_text'];
+    }
 }
+

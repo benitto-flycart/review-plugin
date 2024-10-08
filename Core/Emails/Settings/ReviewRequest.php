@@ -1,0 +1,95 @@
+<?php
+
+namespace Flycart\Review\Core\Emails\Settings;
+
+use Flycart\Review\Core\Models\EmailSetting;
+use WC_Order;
+
+class ReviewRequest extends Emails
+{
+
+    public $settings = [];
+
+    public function __construct($language)
+    {
+        $this->locale = $language;
+
+        $reviewRequest = EmailSetting::query()
+            ->where("language = %s", [$this->locale])
+            ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
+            ->first();
+
+        if (empty($reviewRequest)) {
+            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
+            $this->status = 'active';
+        } else {
+            $settings = $reviewRequest->settings;
+            $settings = EmailSetting::getReviewSettingsAsArray($settings);
+
+            $this->status = $reviewRequest->status;
+        }
+
+        $this->settings = $settings;
+    }
+
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+
+    public function getSubject()
+    {
+        return $this->settings['subject'];
+    }
+
+    public function getBodyText()
+    {
+        return $this->settings['body'];
+    }
+
+    public function getButtonText()
+    {
+        return $this->settings['button_text'];
+    }
+
+    public function getDefaultReviewRequestSettings()
+    {
+        $data = [
+            'body' => __('Review Request Body', 'flycart-review'),
+            'subject' => __('Review Request Subject', 'flycart-review'),
+            'button_text' => __('Review Request Button Text', 'flycart-review'),
+        ];
+
+        if ($data['body'] == 'Review Request Body') {
+            $data['body'] = 'Order #{order_number}, how did it go?';
+        }
+
+        if ($data['subject'] == 'Review Request Subject') {
+            $data['subject'] = 'Order #{order_number}, how did it go?';
+        }
+
+        if ($data['button_text'] == 'Review Request Button Text') {
+            $data['button_text'] = 'Write a Review';
+        }
+
+        return apply_filters('flycart_review_review_request_data', $data, $this->locale);
+    }
+
+    public function getCustomerIntro(WC_Order $order)
+    {
+        $message = "Hi {$order->get_billing_first_name()}";
+        return apply_filters('f_review_review_reqest_email_customer_intro_title', $message, $order);
+    }
+
+    public function getBody(WC_Order $order)
+    {
+        $message = $this->getBodyText();
+
+        $order_id = $order->get_id();
+
+        $message = str_replace(['[order_id]'], [$order_id], $message);
+
+        return $message;
+    }
+}

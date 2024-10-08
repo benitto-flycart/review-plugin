@@ -73,7 +73,7 @@ export const Reviews = () => {
 
   const getReviews = () => {
     setReviewLoading(true);
-    console.log(filter);
+
     axiosClient
       .post(``, {
         method: "get_all_reviews",
