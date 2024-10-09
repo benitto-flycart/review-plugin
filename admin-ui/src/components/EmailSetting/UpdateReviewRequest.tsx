@@ -29,13 +29,13 @@ const UpdateReviewRequest = () => {
 
     const [loading, setLoading] = useState<boolean>(false)
     const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
-    const [state,setState]=useState({
+    const [state, setState] = useState({
         language: currentLocale,
         subject: "Order #{order_number}, how did it go?",
         body: "Order #{order_number}, how did it go?",
         button_text: 'Write a Review',
     })
-    const [errors,setErrors]=useState<any>()
+    const [errors, setErrors] = useState<any>()
 
     const schema = yup.object().shape({
         language: yup.string().required("Language is required"),
@@ -67,9 +67,10 @@ const UpdateReviewRequest = () => {
         });
     }
 
-    const saveReviewRequest = () => {
+    const saveReviewRequest = (event: React.MouseEvent) => {
+        event.preventDefault()
         setUpdating(true)
-        schema.validate(state,{abortEarly:false}).then(()=>{
+        schema.validate(state, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_review_request',
                 _wp_nonce_key: 'flycart_review_nonce',
@@ -99,6 +100,10 @@ const UpdateReviewRequest = () => {
         })
     };
 
+    const handlePreviewAction = (event: React.MouseEvent) => {
+        event.preventDefault()
+    }
+
     const updateReviewRequestState = (cb: (state: any) => void) => {
         setState(prevState => produce(prevState, cb));
     };
@@ -106,7 +111,6 @@ const UpdateReviewRequest = () => {
     useEffect(() => {
         fetchReviewRequest();
     }, [currentLocale])
-console.log(errors)
     return (
         <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
             <EmailNavigation to={'/emails/review-request'} title={"Review Request"}/>
@@ -115,85 +119,84 @@ console.log(errors)
                           availableLanguages={availableLanguages}/>
             {
                 loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
-                        <form>
-                            <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
-                                <h3 className="frt-font-extrabold">Content</h3>
-                                <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Subject</label>
-                                        <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
-                                            <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
-                                                <Input
-                                                       type="text"
-                                                       placeholder={"Subject"}
-                                                       value={state.subject}
-                                                       onChange={(e: any) => {
-                                                           updateReviewRequestState((emailState) => {
-                                                               emailState.subject = e.target.value;
-                                                           });
-                                                       }}
-                                                />
-                                                {showValidationError(errors,"subject")}
-                                            </div>
-                                            <div>
-                                                Notes:
-                                                <p>Use [order_number] for the customer's order
-                                                    number
-                                                </p>
-                                                <p>Use [name] or [last_name] as a placeholder for
-                                                    the user's
-                                                    first or last name</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Body</label>
-                                            <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
-                                                <Textarea onChange={(e: any) => {
+                    <form>
+                        <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
+                            <h3 className="frt-font-extrabold">Content</h3>
+                            <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Subject</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
+                                        <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
+                                            <Input
+                                                type="text"
+                                                placeholder={"Subject"}
+                                                value={state.subject}
+                                                onChange={(e: any) => {
                                                     updateReviewRequestState((emailState) => {
-                                                        emailState.body = e.target.value;
+                                                        emailState.subject = e.target.value;
                                                     });
                                                 }}
-                                                value={state.body}
-                                                ></Textarea>
-                                                {showValidationError(errors,"body")}
-                                            </div>
-                                    </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Button Text</label>
+                                            />
+                                            {showValidationError(errors, "subject")}
+                                        </div>
                                         <div>
-                                            <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                                <Input
-                                                       type="text"
-                                                       value={state.button_text}
-                                                       onChange={(e: any) => {
-                                                           updateReviewRequestState((emailState) => {
-                                                               emailState.button_text = e.target.value;
-                                                           })
-                                                       }}
-                                                />
-                                                {showValidationError(errors,"button_text")}
-                                            </div>
+                                            Notes:
+                                            <p>Use [order_number] for the customer's order
+                                                number
+                                            </p>
+                                            <p>Use [name] or [last_name] as a placeholder for
+                                                the user's
+                                                first or last name</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className={"frt-flex frt-gap-x-5  frt-my-4"}>
-                                    <Button onClick={saveReviewRequest}
-                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
-                                        {updating ? (<span><LoadingSpinner/></span>) : null}
-                                        <span>Save Changes</span>
-                                    </Button>
-                                    <Button type={"submit"}
-                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
-                                        {updating ? (<span><LoadingSpinner/></span>) : null}
-                                        <span>Preview</span>
-                                    </Button>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Body</label>
+                                    <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
+                                        <Textarea onChange={(e: any) => {
+                                            updateReviewRequestState((emailState) => {
+                                                emailState.body = e.target.value;
+                                            });
+                                        }}
+                                                  value={state.body}
+                                        ></Textarea>
+                                        {showValidationError(errors, "body")}
+                                    </div>
                                 </div>
-                            </Card>
-                        </form>)
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Button Text</label>
+                                    <div>
+                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                            <Input
+                                                type="text"
+                                                value={state.button_text}
+                                                onChange={(e: any) => {
+                                                    updateReviewRequestState((emailState) => {
+                                                        emailState.button_text = e.target.value;
+                                                    })
+                                                }}
+                                            />
+                                            {showValidationError(errors, "button_text")}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={"frt-flex frt-gap-x-5  frt-my-4"}>
+                                <Button onClick={saveReviewRequest}
+                                        className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    {updating ? (<span><LoadingSpinner/></span>) : null}
+                                    <span>Save Changes</span>
+                                </Button>
+                                <Button onClick={handlePreviewAction}
+                                        className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    <span>Preview</span>
+                                </Button>
+                            </div>
+                        </Card>
+                    </form>)
             }
         </div>
     )

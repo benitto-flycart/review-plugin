@@ -13,7 +13,6 @@ import {Label} from "../../ui/label";
 import SettingsRowWrapper from "../SettingsRowWrapper";
 import SettingsColWrapper from "../SettingsColWrapper";
 import PopOverColorPicker from "../../custom-hooks/PopOverColorPicker";
-import InputFontSize from "../../Widget/utils/InputFontSize";
 import {produce} from "immer";
 import * as yup from 'yup'
 import {showValidationError} from "../../../helpers/html";
@@ -32,7 +31,6 @@ const BrandingSetting = () => {
         enable_logo: true,
         logo_url: '',
         rating_icon: 'gem',
-        enable_review_branding: true,
         enable_email_banners: false,
         banner_src: '',
         rating_rgb_color: '#ff224f',
@@ -44,8 +42,6 @@ const BrandingSetting = () => {
             button_bg_color: '#fffff',
             button_border_color: '#fffff',
             button_title_color: '#fffff',
-            font_type: 'arial',
-            font_size: 10,
         },
     });
 
@@ -62,7 +58,6 @@ const BrandingSetting = () => {
         corner_radius: yup.string().required("Corner Radius is required"),
         rating_icon: yup.string().required("Rating Icon required"),
         rating_rgb_color: yup.string().required("Rating color is required"),
-        enable_review_branding: yup.boolean().required("Enable Review Branding is required"),
         enable_email_banners: yup.boolean().required("Enable email Banners is required"),
         banner_src: yup.string().optional(),
         appearance: yup.string().required("Appearance is required"),
@@ -73,11 +68,6 @@ const BrandingSetting = () => {
             button_bg_color: yup.string().required("Button Background color is required"),
             button_border_color: yup.string().required("Button Border color is required"),
             button_title_color: yup.string().required("Button title color is required"),
-            font_type: yup.string().required("Font type is required"),
-            font_size: yup.number()
-                .min(5, 'Minimum it should be 5')
-                .max(50, 'Maximum it should be 50')
-                .required("Font size is required"),
         })
     });
 
@@ -182,20 +172,18 @@ const BrandingSetting = () => {
                                         {
                                             settingsState.logo_url ? <div className={"frt-w-24 frt-relative"}>
                                                 <img src={settingsState.logo_url} alt="logo"/>
-                                                <span>
-                                                </span>
                                                 <i onClick={() => {
                                                     updateSettingFields((draftState: any) => {
                                                         draftState.logo_url = ""
                                                     })
                                                 }}
-                                                   className={"review review-cross-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                                   className={"review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review frt-absolute -frt-top-2 -frt-right-2"}></i>
                                             </div> : null
                                         }
                                         <div
                                             className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
-                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                                                className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
                                                 onClick={(e => {
                                                     runUploader(e, (data: any) => {
                                                         updateSettingFields((draftState: any) => {
@@ -300,25 +288,6 @@ const BrandingSetting = () => {
                         </SettingsRowWrapper>
                         <SettingsRowWrapper>
                             <SettingsColWrapper>
-                                <Label>Review Branding</Label>
-                                <Label className={"frt-text-xs frt-text-grayprimary"}>
-                                    Customize how your brand is represented in the review widget, including logo, colors, and other branding elements. Any updates will be applied to new reviews.
-                                </Label>
-                            </SettingsColWrapper>
-                            <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                <Switch id="review-branding"
-                                        checked={settingsState.enable_review_branding}
-                                        onCheckedChange={(value: any) => {
-                                            updateSettingFields((draftState: any) => {
-                                                draftState.enable_review_branding = value;
-                                            })
-                                        }}
-                                />
-                                {showValidationError(errors, "enable_review_branding")}
-                            </SettingsColWrapper>
-                        </SettingsRowWrapper>
-                        <SettingsRowWrapper>
-                            <SettingsColWrapper>
                                 <Label>Enable Email Banners</Label>
                                 <Label className={"frt-text-xs frt-text-grayprimary"}>
                                     Toggle the inclusion of banners in review-related emails. This feature helps highlight your brand and promotions in email communications with customers.
@@ -356,13 +325,13 @@ const BrandingSetting = () => {
                                                             draftState.banner_src = ""
                                                         })
                                                     }}
-                                                       className={"review review-cross-icon frt-cursor-pointer frt-absolute frt-top-0 frt-right-0"}></i>
+                                                       className={"review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review frt-absolute -frt-top-2 -frt-right-2"}></i>
                                                 </div> : null
                                             }
                                             <div
                                                 className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
-                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                                                className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
                                                 onClick={(e: any) => {
                                                     runUploader(e, (data: any) => {
                                                         updateSettingFields((draftState: any) => {
@@ -509,64 +478,6 @@ const BrandingSetting = () => {
                                             </SettingsColWrapper>
                                         </SettingsRowWrapper>
                                     </>
-                                    <SettingsRowWrapper>
-                                        <SettingsColWrapper>
-                                            <Label>Font Type</Label>
-                                            <Label className={"frt-text-xs frt-text-grayprimary"}>select which
-                                                reviews you want
-                                                to
-                                                auto-publish, Any changes will only affect new
-                                                reviews</Label>
-                                        </SettingsColWrapper>
-                                        <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                            <Select
-                                                value={settingsState.appearance_options.font_type}
-                                                onValueChange={(value: string) => {
-                                                    updateSettingFields((draftState: any) => {
-                                                        draftState.appearance_options.font_type = value;
-                                                    })
-                                                }}
-                                            >
-                                                <SelectTrigger className="w-[180px]">
-                                                    <SelectValue placeholder="Corner Radius"/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem
-                                                            value="arial">Arial</SelectItem>
-                                                        <SelectItem value="times_new_roman">Times
-                                                            New
-                                                            Roman</SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                            {showValidationError(errors, "appearance_options.font_type")}
-                                        </SettingsColWrapper>
-                                    </SettingsRowWrapper>
-                                    <SettingsRowWrapper>
-                                        <SettingsColWrapper>
-                                            <Label>Font Size</Label>
-                                            <Label className={"frt-text-xs frt-text-grayprimary"}>select which
-                                                reviews you want
-                                                to
-                                                auto-publish, Any changes will only affect new
-                                                reviews</Label>
-                                        </SettingsColWrapper>
-                                        <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                            <InputFontSize
-                                                min={10}
-                                                max={50}
-                                                step={1}
-                                                value={settingsState.appearance_options.font_size}
-                                                onChange={(value: any) => {
-                                                    updateSettingFields((draftState: any) => {
-                                                        draftState.appearance_options.font_size = value;
-                                                    })
-                                                }}
-                                            />
-                                            {showValidationError(errors, "appearance_options.font_size")}
-                                        </SettingsColWrapper>
-                                    </SettingsRowWrapper>
                                 </>
                             ) : null
                         }

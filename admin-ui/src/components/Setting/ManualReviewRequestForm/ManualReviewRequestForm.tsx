@@ -142,13 +142,13 @@ const ManualReviewRequestForm = () => {
                                                     draftState.logo_url = ""
                                                 })
                                             }}
-                                               className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                               className={"review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review review-Heart frt-absolute -frt-top-2 -frt-right-2"}></i>
                                         </div> : null
                                     }
                                     <div
                                         className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
-                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                                                className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
                                                 onClick={(e) => {
                                                     runUploader(e, (data: any) => {
                                                         updateSettingFields((draftState: any) => {

@@ -1,22 +1,17 @@
-import { Checkbox } from "../ui/checkbox";
-import { CardContent, CardFooter, CardHeader } from "../ui/card";
+import {Checkbox} from "../ui/checkbox";
+import {CardContent, CardFooter, CardHeader} from "../ui/card";
 import ReviewIcon from "../ReviewIcon";
-import { Button } from "../ui/button";
-import React, { useState } from "react";
-import { ReviewDetailImage } from "./ReviewDetailImage";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { axiosClient } from "../api/axios";
-import { AxiosResponse } from "axios";
-import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
-import { ApiErrorResponse } from "../api/api.types";
-import { useLocalState } from "../zustand/localState";
-import { BadgeCheck, ChevronDown, MoreHorizontal } from "lucide-react";
-import { LoadingSpinner } from "../ui/loader";
+import {Button} from "../ui/button";
+import React, {useState} from "react";
+import {ReviewDetailImage} from "./ReviewDetailImage";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "../ui/dropdown-menu";
+import {axiosClient} from "../api/axios";
+import {AxiosResponse} from "axios";
+import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
+import {ApiErrorResponse} from "../api/api.types";
+import {useLocalState} from "../zustand/localState";
+import {BadgeCheck, ChevronDown, MoreHorizontal} from "lucide-react";
+import {LoadingSpinner} from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
 
 interface BulkActionReviewIdsType {
@@ -220,7 +215,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                         <ReviewIcon
                           key={index}
                           filled={index < review.rating}
-                          className="frt-w-5 frt-h-5"
+                          className="frt-w-5"
                         />
                       ))}
                     </span>
