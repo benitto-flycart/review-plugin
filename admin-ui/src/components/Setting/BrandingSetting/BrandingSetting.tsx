@@ -67,7 +67,7 @@ const BrandingSetting = () => {
             email_text_color: yup.string().required("Email text color is required"),
             button_bg_color: yup.string().required("Button Background color is required"),
             button_border_color: yup.string().required("Button Border color is required"),
-            button_title_color: yup.string().required("Button title color is required"),
+            button_title_color: yup.string().required("Button text color is required"),
         })
     });
 
@@ -458,7 +458,7 @@ const BrandingSetting = () => {
                                         </SettingsRowWrapper>
                                         <SettingsRowWrapper>
                                             <SettingsColWrapper>
-                                                <Label>Button Title Color</Label>
+                                                <Label>Button Text Color</Label>
                                                 <Label className={"frt-text-xs frt-text-grayprimary"}>select which
                                                     reviews you want
                                                     to

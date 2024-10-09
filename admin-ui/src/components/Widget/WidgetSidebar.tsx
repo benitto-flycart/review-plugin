@@ -22,6 +22,8 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
         return widget.show_setting == '';
     }
 
+    const locale = localState.current_locale;
+    const currentLanguage = availableLanguages.find((item: any) => item.value === locale);
 
     const getPreviousStyles = () => {
         setLoading(true)
@@ -31,7 +33,8 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
                 _wp_nonce_key: "flycart_review_nonce",
                 _wp_nonce: localState?.nonces?.flycart_review_nonce,
                 widget_slug:settings.widget_slug,
-                lang:whichLanguage
+                from_lang:whichLanguage.value,
+                to_lang:currentLanguage.value
             })
             .then((response: AxiosResponse) => {
                 const data: any = response.data.data;
@@ -98,7 +101,7 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
                     }
                 )}
             </div>
-            {
+            { (widget.show_setting=="" && availableLanguages.length>1) ?
                 <div className={"frt-flex frt-flex-col frt-gap-y-3"}>
                     <span className={"frt-mx-4"}> Choose language to apply previous style for this widget</span>
                     <div className={"frt-flex frt-gap-5 frt-justify-center"}>
@@ -128,7 +131,7 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
                         </DropdownMenu>
                         <Button disabled={loading} onClick={getPreviousStyles}>{loading ? <LoadingSpinner/>: null}Apply</Button>
                     </div>
-                </div>
+                </div> : null
             }
         </>
     )

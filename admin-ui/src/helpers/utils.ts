@@ -62,6 +62,13 @@ export const isValidJSON = (jsonString: any): boolean => {
         return false;
     }
 }
+export const getReviewWidth = (totalReviews: number, currentReview: number): string => {
+    if (totalReviews === 0) {
+        return "0%";
+    }
+    const calculatedWidth = Math.round((currentReview / totalReviews) * 100);
+    return `${calculatedWidth}%`;
+};
 
 export const getJSONData = (json: any, start: string = "{", end: string = "}") => {
     if (isValidJSON(json)) {

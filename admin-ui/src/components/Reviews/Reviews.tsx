@@ -14,14 +14,11 @@ import {ApiErrorResponse, ApiResponse} from "../api/api.types";
 import {useLocalState} from "../zustand/localState";
 import {TReviewData} from "./ReviewsType.type";
 import {LoadingSpinner} from "../ui/loader";
-import useInputSearch from "../custom-hooks/useInputSearch";
 import {ReviewListEmpty} from "./ReviewListEmpty";
-import {ReviewListSearchEmpty} from "./ReviewListSearchEmpty";
 
 export const Reviews = () => {
     const [reviewState, setReviewState] =
         useState<TReviewData>(data.data);
-    const {searched, setIsSearched} = useInputSearch()
     const {localState} = useLocalState();
     const [reviewLoading, setReviewLoading] = useState<boolean>(false);
     const [filter, setFilter] = useState({
@@ -156,54 +153,33 @@ export const Reviews = () => {
                                     })}
                                 </SelectContent>
                             </Select>
-                            {/* <Select */}
-                            {/*   value={filter.seperate_filter} */}
-                            {/*   onValueChange={(value) => { */}
-                            {/*     setFilter({ ...filter, seperate_filter: value }); */}
-                            {/*   }} */}
-                            {/* > */}
-                            {/*   <SelectTrigger className="frt-w-full frt-sm:w-[200px]"> */}
-                            {/*     <SelectValue placeholder="Filter" /> */}
-                            {/*   </SelectTrigger> */}
-                            {/*   <SelectContent> */}
-                            {/*     {reviewTypeSelectItems.map( */}
-                            {/*       (reviewTypeSelectItem: any, index: number) => { */}
-                            {/*         return ( */}
-                            {/*           <SelectItem value={reviewTypeSelectItem.value} key={index}> */}
-                            {/*             {reviewTypeSelectItem.label} */}
-                            {/*           </SelectItem> */}
-                            {/*         ); */}
-                            {/*       }, */}
-                            {/*     )} */}
-                            {/*   </SelectContent> */}
-                            {/* </Select> */}
                         </div>
                         <div className="frt-flex frt-justify-end">
-                            <Button onClick={() => {
-                                setIsSearched(true)
-                                getReviews()
-                            }}>Search</Button>
+                            <Button onClick={getReviews}>Search</Button>
                         </div>
                     </div>
                     {reviewLoading ? (
                         <span>
-          <LoadingSpinner/>
-        </span>
+                         <LoadingSpinner/>
+                       </span>
                     ) : (
                         <>
-                            {reviewState.reviews.length > 0 ?
-                                <ProductReview reviewState={reviewState} getReviews={getReviews}/> :
-                                !searched ? <ReviewListEmpty/> : <ReviewListSearchEmpty/>
+                            {
+                                reviewState.reviews.length == 0 ?
+                                    <ReviewListEmpty/> :
+                                    <>
+                                        <ProductReview reviewState={reviewState} getReviews={getReviews}/>
+                                        <Pagination
+                                            handlePageClick={handlePagination}
+                                            selectedLimit={selectedLimit}
+                                            forcePage={currentPage - 1}
+                                            pageCount={reviewState.total_pages}
+                                            updatePerPage={updatePerPage}
+                                            limit={reviewState.per_page}
+                                            loading={false}
+                                        />
+                                    </>
                             }
-                            <Pagination
-                                handlePageClick={handlePagination}
-                                selectedLimit={selectedLimit}
-                                forcePage={currentPage - 1}
-                                pageCount={reviewState.total_pages}
-                                updatePerPage={updatePerPage}
-                                limit={reviewState.per_page}
-                                loading={false}
-                            />
                         </>
                     )}
                 </div>
