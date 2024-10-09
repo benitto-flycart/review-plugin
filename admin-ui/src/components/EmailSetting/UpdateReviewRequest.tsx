@@ -25,6 +25,7 @@ const UpdateReviewRequest = () => {
   const { localState } = useLocalState();
 
   const [updating, setUpdating] = useState<boolean>(false);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [currentLocale, setCurrentLocale, availableLanguages] = useLocale();
@@ -42,6 +43,28 @@ const UpdateReviewRequest = () => {
     body: yup.string().required("Body is required"),
     button_text: yup.string().required("Button Text is required"),
   });
+  const loadPreview = (e: any) => {
+    e.preventDefault();
+    setLoadingPreview(true);
+    axiosClient
+      .post("", {
+        method: "get_email_preview",
+        email_type: "review_request",
+        _wp_nonce_key: "flycart_review_nonce",
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        language: currentLocale,
+      })
+      .then((response: any) => {
+        let data = response.data.data;
+        console.log(response.data);
+      })
+      .catch((error: any) => {
+        toastrError("Server Error Occurred");
+      })
+      .finally(() => {
+        setLoadingPreview(false);
+      });
+  };
 
   const fetchReviewRequest = () => {
     setLoading(true);
@@ -70,7 +93,8 @@ const UpdateReviewRequest = () => {
       });
   };
 
-  const saveReviewRequest = () => {
+  const saveReviewRequest = (e: any) => {
+    e.preventDefault();
     setUpdating(true);
     schema
       .validate(state, { abortEarly: false })
@@ -205,14 +229,16 @@ const UpdateReviewRequest = () => {
                 <span>Save Changes</span>
               </Button>
               <Button
+                onClick={loadPreview}
                 type={"submit"}
                 className={"frt-flex frt-justify-between frt-gap-2  "}
               >
-                {updating ? (
+                {loadingPreview ? (
                   <span>
                     <LoadingSpinner />
                   </span>
                 ) : null}
+
                 <span>Preview</span>
               </Button>
             </div>
