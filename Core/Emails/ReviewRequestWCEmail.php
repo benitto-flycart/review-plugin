@@ -13,6 +13,9 @@ use WC_Order;
 class ReviewRequestWCEmail extends WC_Email
 {
     public WC_Order $woo_order;
+    public BrandSettings $brandSettings;
+    public GeneralSettings $generalSettings;
+    public  ReviewRequest  $reviewRequest;
 
     public function __construct()
     {
@@ -55,6 +58,16 @@ class ReviewRequestWCEmail extends WC_Email
 
         $html = $this->get_content();
 
+        $short_codes = [
+            '{logo_src}' => $this->brandSettings->getLogoSrc(),
+            '{banner_src}' => $this->brandSettings->getEmailBanner(),
+            '{customer_name}' => $this->reviewRequest->getCustomerName($this->woo_order),
+            '{body}' => $this->reviewRequest->getBody($this->woo_order),
+            '{footer_text}' => $this->generalSettings->getFooterText(),
+            '{unsubscribe_link}' => 'https://localhost:8004',
+
+        ];
+
         $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);
 
         foreach ($short_codes as $short_code => $short_code_value) {
@@ -83,21 +96,23 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function get_content_string($plain_text = false)
     {
-        $brandSettings = (new BrandSettings());
-        $generalSettings = (new GeneralSettings());
+        $this->brandSettings = (new BrandSettings);
+        $this->generalSettings = (new GeneralSettings);
 
-        $reviewRequest = new ReviewRequest(get_locale());
+        $this->reviewRequest = new ReviewRequest(get_locale());
+
 
         $this->woo_order->get_formatted_billing_full_name();
+
         return wc_get_template_html($this->template_plain, array(
             'order' => $this->woo_order,
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,
             'plain_text' => $plain_text,
             'email' => $this,
-            'brandSettings' => $brandSettings,
-            'generalSettings' => $generalSettings,
-            'reviewRequest' => $reviewRequest
+            'brandSettings' => $this->brandSettings,
+            'generalSettings' => $this->generalSettings,
+            'reviewRequest' => $this->reviewRequest
         ), '', $this->template_base);
     }
 }

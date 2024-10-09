@@ -2,7 +2,7 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
-class Emails
+abstract class Emails
 {
     public $status;
     public $locale;
@@ -16,4 +16,12 @@ class Emails
     {
         return $this->locale;
     }
+
+    public static function make($language)
+    {
+        return new static($language);
+    }
+
+
+    abstract public function getTemplatePreview();
 }

@@ -37,7 +37,7 @@ class BrandSettings extends ReviewSettings
             'banner_src' => $settings['banner_src'] ?? '',
             'rating_rgb_color' => $settings['rating_rgb_color'] ?? '',
             'appearance' => $appearance = $settings['appearance'] ?? 'default',
-            'appearance_options' => $appearance ? [
+            'appearance_options' => $appearance != "default" ? [
                 'email_background_color' => $settings['appearance_options']['email_background_color'] ?? '',
                 'content_background_color' => $settings['appearance_options']['content_background_color'] ?? '',
                 'email_text_color' => $settings['appearance_options']['email_text_color'] ?? '',
@@ -46,24 +46,26 @@ class BrandSettings extends ReviewSettings
                 'button_title_color' => $settings['appearance_options']['button_title_color'] ?? '',
                 'font_type' => $settings['appearance_options']['font_type'] ?? '',
                 'font_size' => $settings['appearance_options']['font_size'] ?? '',
-            ] : [],
+            ] : $this->getDefaultAppearanceOptions(),
         ];
     }
 
-    public function getEmailBgColor()
+
+    public function getDefaultAppearanceOptions()
     {
-        return $this->brandSettings['appearance_options']['email_background_color'] ?? '#fff';
+        return  [
+            'email_background_color' => '#ffffff',
+            'content_background_color' => '#f6f6f6',
+            'email_text_color' => '#000000',
+            'button_bg_color' => '#000000',
+            'button_border_color' => '#000000',
+            'button_title_color' => '#ffffff',
+            'font_type' => 'aerial',
+            'font_size' => '14',
+        ];
     }
 
-    public function getContentBGColor()
-    {
-        return $this->brandSettings['appearance_options']['email_background_color'] ?? '#fff';
-    }
 
-    public function getIcon()
-    {
-        return $this->brandSettings['rating_icon'];
-    }
 
     public function getFromRequest($request)
     {
@@ -94,7 +96,7 @@ class BrandSettings extends ReviewSettings
 
     public function isEmailBannerEnabled()
     {
-     return $this->brandSettings['enable_email_banners'];
+        return $this->brandSettings['enable_email_banners'];
     }
 
     public function getEmailBanner()
@@ -105,11 +107,55 @@ class BrandSettings extends ReviewSettings
     public function isLogoEnabled()
     {
         return $this->brandSettings['enable_logo'];
-
     }
 
     public function getLogoSrc()
     {
         return $this->brandSettings['logo_url'];
+    }
+
+    public function getEmailBgColor()
+    {
+        return $this->brandSettings['appearance_options']['email_background_color'];
+    }
+
+    public function getContentBgColor()
+    {
+        return $this->brandSettings['appearance_options']['content_background_color'];
+    }
+
+    public function getTextColor()
+    {
+        return $this->brandSettings['appearance_options']['email_text_color'];
+    }
+
+    public function getButtonBgColor()
+    {
+        return $this->brandSettings['appearance_options']['button_bg_color'];
+    }
+
+    public function getButtonBorderColor()
+    {
+        return $this->brandSettings['appearance_options']['button_border_color'];
+    }
+
+    public function getButtonTextColor()
+    {
+        return $this->brandSettings['appearance_options']['button_title_color'];
+    }
+
+    public function getIcon()
+    {
+        return $this->brandSettings['rating_icon'];
+    }
+
+    public function getFontType()
+    {
+        return $this->brandSettings['font_type'];
+    }
+
+    public function getFontSize()
+    {
+        return $this->brandSettings['font_size'];
     }
 }

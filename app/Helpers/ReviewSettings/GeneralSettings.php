@@ -68,4 +68,3 @@ class GeneralSettings extends ReviewSettings
         return $this->generalSettings['footer_text'];
     }
 }
-
