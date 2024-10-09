@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {useLocalState} from "../zustand/localState";
-import {OrderListEmpty} from "./OrderListEmpty";
 import usePaginationHook from "../custom-hooks/pagination/usePaginationHook";
 import useInputSearch from "../custom-hooks/useInputSearch";
 import {OrderEntry} from "./OrderEntry";
@@ -15,7 +14,7 @@ import {Button} from "@/src/components/ui/button";
 import {Input} from "@/src/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/src/components/ui/select";
 import {paginationDefault} from "../custom-hooks/pagination/TPagination";
-import {OrderListSearchEmpty} from "./OrderListSearchEmpty";
+import {OrderListEmpty} from "./OrderListEmpty";
 
 interface Option {
     value: string;
@@ -193,9 +192,9 @@ const Orders = () => {
                     <div className="frt-flex frt-flex-col frt-gap-4">
                         {!loading ? (
                             <div>
-                                {searched && orders.orders.length === 0 ? (
-                                    <OrderListSearchEmpty/>
-                                ) : !searched && orders.orders.length == 0 ? <OrderListEmpty/> : (
+                                { orders.orders.length === 0 ? (
+                                    <OrderListEmpty/>
+                                ) : (
                                     <div>
                                         {orders.orders.map((order: any, index) => (
                                             <OrderEntry key={index} order={order} fetchOrders={fetchOrders}/>
