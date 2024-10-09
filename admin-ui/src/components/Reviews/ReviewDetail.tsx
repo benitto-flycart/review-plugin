@@ -7,7 +7,7 @@ import {ReviewDetailImage} from "./ReviewDetailImage";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "../ui/dropdown-menu";
 import {axiosClient} from "../api/axios";
 import {AxiosResponse} from "axios";
-import {toastrSuccess} from "../../helpers/ToastrHelper";
+import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
 import {ApiErrorResponse} from "../api/api.types";
 import {useLocalState} from "../zustand/localState";
 import {BadgeCheck, ChevronDown, MoreHorizontal} from "lucide-react";
@@ -51,89 +51,126 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
         ? [{label: "Disapprove", value: "disapprove"}]
         : [{label: "Approve", value: "approve"}];
 
+  const moreOptions = [
+    {
+      label: "See order details",
+      value: "see_order_details",
+      show: review.from_order,
+    },
+    // { "label": "See discount details", "value": "see_discount_details" },
+    // { "label": "Tag as featured", "value": "tag_as_featured" },
+    {
+      label: review.is_verified
+        ? "Remove verified badge"
+        : "Add verified badge",
+      value: "verified_badge",
+      show: true,
+    },
+    // { "label": "Add to Carousel", "value": "add_to_carousel" },
+    // { "label": "Add to Video Slider", "value": "add_to_video_slider" },
+    {
+      label: "Delete review",
+      value: "delete_review",
+      show: true,
+    },
+  ];
 
-    const moreOptions = [
-        {"label": "See order details", "value": "see_order_details"},
-        // { "label": "See discount details", "value": "see_discount_details" },
-        // { "label": "Tag as featured", "value": "tag_as_featured" },
-        {"label": "Remove verified badge", "value": "remove_verified_badge"},
-        // { "label": "Add to Carousel", "value": "add_to_carousel" },
-        // { "label": "Add to Video Slider", "value": "add_to_video_slider" },
-        {"label": "Delete review", "value": "delete_review"}
-    ]
+  const getValueBasedOnType = (type: any) => {
+    let value = false;
 
-
-    const handleAddSingeBulkActionId = (id: number, isChecked: any) => {
-        if (isChecked) {
-            bulkActionReviewIds.set([...bulkActionReviewIds.val, id])
-        } else {
-            const filteredBulkActionReviewIds = bulkActionReviewIds.val.filter((reviewId: any) => {
-                return reviewId !== id
-            })
-            bulkActionReviewIds.set(filteredBulkActionReviewIds)
-        }
+    if (type == "verified_badge") {
+      value = !review.is_verified;
+    } else if (type == "approve") {
+      value = !review.is_approved;
     }
 
-    const handleDeleteReply = () => {
-        setDeleteReplyLoading(true)
-        axiosClient.post(``, {
-            method: "handle_delete_reply",
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            id: review.id
-        }).then((response: AxiosResponse) => {
-            const data: any = response.data.data
-            toastrSuccess(data.message)
-            getReviews();
-        }).catch((error: AxiosResponse<ApiErrorResponse>) => {
-            // @ts-ignore
-            toastrError(getErrorMessage(error));
-        }).finally(() => {
-            setDeleteReplyLoading(false)
-        })
+    return value;
+  };
+
+  const handleAddSingeBulkActionId = (id: number, isChecked: any) => {
+    if (isChecked) {
+      bulkActionReviewIds.set([...bulkActionReviewIds.val, id]);
+    } else {
+      const filteredBulkActionReviewIds = bulkActionReviewIds.val.filter(
+        (reviewId: any) => {
+          return reviewId !== id;
+        },
+      );
+      bulkActionReviewIds.set(filteredBulkActionReviewIds);
+    }
+  };
+
+  const handleDeleteReply = () => {
+    setDeleteReplyLoading(true);
+    axiosClient
+      .post(``, {
+        method: "handle_delete_reply",
+        _wp_nonce_key: "flycart_review_nonce",
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        id: review.id,
+      })
+      .then((response: AxiosResponse) => {
+        const data: any = response.data.data;
+        toastrSuccess(data.message);
+        getReviews();
+      })
+      .catch((error: AxiosResponse<ApiErrorResponse>) => {
+        // @ts-ignore
+        toastrError(getErrorMessage(error));
+      })
+      .finally(() => {
+        setDeleteReplyLoading(false);
+      });
+  };
+
+  const handleReplyButtonAction = (value: string) => {
+      if (value == "delete") {
+          handleDeleteReply();
+      } else {
+          setShowReplyDialog(true);
+      }
+  }
+  const handleReviewStatusActions = (type: any) => {
+    if (type == "see_order_details") {
+      review.order_id && window.open(review.order_url, "_blank");
+      return;
     }
 
-    const handleReplyButtonAction = (value: string) => {
-        if (value == "delete") {
-            handleDeleteReply()
-        } else {
-            setShowReplyDialog(true)
-        }
+    if (type == "see_discount_details") {
+      return;
     }
 
-    const handleReviewStatusActions = (status: any) => {
-        if (status == "see_order_details") {
-            review.order_id && window.open(review.order_id, "_blank")
-            return;
-        }
-        if (status == "see_discount_details") {
-            return;
-        }
-        if (status == "approve" || status == "disapprove") {
-            setApproveActionLoading(true)
-        }
-        axiosClient.post(``, {
-            method: "review_action",
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            status: status,
-            id: review.id
-        }).then((response: AxiosResponse) => {
-            const data: any = response.data.data
-            toastrSuccess(data.message)
-            getReviews();
-        }).catch((error: AxiosResponse<ApiErrorResponse>) => {
-            // @ts-ignore
-            toastrError(getErrorMessage(error));
-        }).finally(() => {
-            if (status == "approve" || status == "disaapprove") {
-                setApproveActionLoading(false)
-            }
-        })
+    if (type == "approve" || type == "disapprove") {
+      setApproveActionLoading(true);
     }
 
-    return <>
-        <div className={"frt-flex frt-gap-3"}>
+    const value = getValueBasedOnType(type);
+
+    axiosClient
+      .post(``, {
+        method: "review_action",
+        _wp_nonce_key: "flycart_review_nonce",
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        type: type,
+        value: value,
+        id: review.id,
+      })
+      .then((response: AxiosResponse) => {
+        const data: any = response.data.data;
+        toastrSuccess(data.message);
+        getReviews();
+      })
+      .catch((error: AxiosResponse<ApiErrorResponse>) => {
+          toastrError("Error Occurred");
+      })
+      .finally(() => {
+        if (type == "approve" || type == "disaapprove") {
+          setApproveActionLoading(false);
+        }
+      });
+  };
+
+    return (<div className={"frt-flex frt-gap-3"}>
             <div>
                 <Checkbox defaultChecked={false} checked={bulkActionReviewIds.val.includes(review.id)}
                           onCheckedChange={(isChecked) => {
@@ -158,7 +195,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                                              <ReviewIcon
                                                  key={i}
                                                  filled={i < review.rating}
-                                                 className="frt-w-5 frt-h-5"
+                                                 className="frt-w-5"
                                              />
                                          ))}
                                     </span>
@@ -264,6 +301,5 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                 <ReviewReplyDialog review={review} replyContent={review.replies[0]?.content} show={showReplyDialog}
                                    toggle={setShowReplyDialog} getReviews={getReviews}/>
             </Card>
-        </div>
-    </>
+        </div>)
 }

@@ -23,15 +23,15 @@ const UpdatePhotoRequest = () => {
 
     const [updating, setUpdating] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [errors,setErrors]=useState<any>()
-   const [state,setState]=useState({
-       language: localState.current_locale,
-       subject: '',
-       minimum_star: '5_stars',
-       body: '',
-       button_text: '',
-       discount_text: '',
-   })
+    const [errors, setErrors] = useState<any>()
+    const [state, setState] = useState({
+        language: localState.current_locale,
+        subject: '',
+        minimum_star: '5_stars',
+        body: '',
+        button_text: '',
+        discount_text: '',
+    })
 
     const schema = yup.object().shape({
         language: yup.string().required("Language is required"),
@@ -62,14 +62,15 @@ const UpdatePhotoRequest = () => {
             toastrSuccess(data.message);
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
-        }).finally(() =>{
+        }).finally(() => {
             setLoading(false)
         });
     }
 
-    const saveReviewPhotoRequest = () => {
+    const saveReviewPhotoRequest = (event: React.MouseEvent) => {
+        event.preventDefault()
         setUpdating(true)
-        schema.validate(state,{abortEarly:false}).then(()=>{
+        schema.validate(state, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_photo_request',
                 _wp_nonce_key: 'flycart_review_nonce',
@@ -106,6 +107,10 @@ const UpdatePhotoRequest = () => {
         setState(prevState => produce(prevState, cb));
     };
 
+    const handlePreviewAction = (event: React.MouseEvent) => {
+        event.preventDefault()
+    }
+
     useEffect(() => {
         fetchReviewPhotoRequest();
     }, []);
@@ -118,129 +123,128 @@ const UpdatePhotoRequest = () => {
                           availableLanguages={availableLanguages}/>
             {
                 loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
-                        <form>
-                            <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
-                                <h3 className="frt-font-extrabold">Content</h3>
-                                <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Send Photo Reminder</label>
-                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                            <Select defaultValue={state.minimum_star}
-                                                    onValueChange={(value: string) => {
-                                                        updatePhotoRequestState((emailState) => {
-                                                            emailState.minimum_star = value;
-                                                        });
-                                                    }}>
-                                                <SelectTrigger className="w-[180px]">
-                                                    <SelectValue placeholder="Select Type"/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem value="5_stars">For 5 star reviews
-                                                            only</SelectItem>
-                                                        <SelectItem value="4_stars">For Reviews 4 star
-                                                            and above</SelectItem>
-                                                        <SelectItem value="never">Never</SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                            {showValidationError(errors,"minimum_star")}
-                                        </div>
+                    <form>
+                        <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
+                            <h3 className="frt-font-extrabold">Content</h3>
+                            <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Send Photo Reminder</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                        <Select defaultValue={state.minimum_star}
+                                                onValueChange={(value: string) => {
+                                                    updatePhotoRequestState((emailState) => {
+                                                        emailState.minimum_star = value;
+                                                    });
+                                                }}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Select Type"/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="5_stars">For 5 star reviews
+                                                        only</SelectItem>
+                                                    <SelectItem value="4_stars">For Reviews 4 star
+                                                        and above</SelectItem>
+                                                    <SelectItem value="never">Never</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        {showValidationError(errors, "minimum_star")}
                                     </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Subject</label>
-                                        <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
-                                            <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                                <Input
-                                                       defaultValue={state.subject}
-                                                       type="text"
-                                                       onChange={(e: any) => {
-                                                           updatePhotoRequestState((emailState) => {
-                                                               emailState.subject = e.target.value;
-                                                           });
-                                                       }}
-                                                       placeholder={"Reminder: Order #{order_number}, how did it go?"}
-                                                />
-                                                {showValidationError(errors,"subject")}
-                                            </div>
-                                            <div className={"frt-flex frt-flex-col"}>
+                                </div>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Subject</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
+                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                            <Input
+                                                defaultValue={state.subject}
+                                                type="text"
+                                                onChange={(e: any) => {
+                                                    updatePhotoRequestState((emailState) => {
+                                                        emailState.subject = e.target.value;
+                                                    });
+                                                }}
+                                                placeholder={"Reminder: Order #{order_number}, how did it go?"}
+                                            />
+                                            {showValidationError(errors, "subject")}
+                                        </div>
+                                        <div className={"frt-flex frt-flex-col"}>
                                                             <span>
                                                             Notes:
                                                             Use [order_number] for the customer's order number
                                                             </span>
-                                                <span>Use [name] or [last_name] as a placeholder for the user's
+                                            <span>Use [name] or [last_name] as a placeholder for the user's
                                                                 first or last name</span>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Body</label>
-                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                            <Textarea onChange={(e: any) => {
-                                                updatePhotoRequestState((emailState) => {
-                                                    emailState.body = e.target.value;
-                                                });
-                                            }} value={state.body}></Textarea>
-                                            {showValidationError(errors,"body")}
-                                        </div>
+                                </div>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Body</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                        <Textarea onChange={(e: any) => {
+                                            updatePhotoRequestState((emailState) => {
+                                                emailState.body = e.target.value;
+                                            });
+                                        }} value={state.body}></Textarea>
+                                        {showValidationError(errors, "body")}
                                     </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Discount Text</label>
-                                        <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
-                                            <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                                <Input
-                                                        type="text"
-                                                       defaultValue={state.discount_text}
-                                                       onChange={(e: any) => {
-                                                           updatePhotoRequestState((emailState) => {
-                                                               emailState.discount_text = e.target.value;
-                                                           });
-                                                       }}
-                                                       placeholder={"Add photo/Video review to get the discount off on next purchase"}
-                                                />
-                                                {showValidationError(errors,"discount_text")}
-                                            </div>
-                                            <div>Note: Added when a text review is eligible for
-                                                a photo review discount
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="frt-grid frt-gap-3">
-                                        <label>Button Text</label>
+                                </div>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Discount Text</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
                                         <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                                             <Input
-                                                type={"text"}
-                                                placeholder={"Write a Review"}
-                                                defaultValue={state.button_text}
+                                                type="text"
+                                                defaultValue={state.discount_text}
                                                 onChange={(e: any) => {
                                                     updatePhotoRequestState((emailState) => {
-                                                        emailState.button_text = e.target.value;
+                                                        emailState.discount_text = e.target.value;
                                                     });
                                                 }}
+                                                placeholder={"Add photo/Video review to get the discount off on next purchase"}
                                             />
-                                            {showValidationError(errors,"button_text")}
+                                            {showValidationError(errors, "discount_text")}
+                                        </div>
+                                        <div>Note: Added when a text review is eligible for
+                                            a photo review discount
                                         </div>
                                     </div>
                                 </div>
-                                <div className={"frt-flex frt-gap-x-5 frt-my-4"}>
-                                    <Button onClick={saveReviewPhotoRequest}
-                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
-                                        {updating ? (<span><LoadingSpinner/></span>) : null}
-                                        <span>Save Changes</span>
-                                    </Button>
-                                    <Button type={"submit"}
-                                            className={"frt-flex frt-justify-between frt-gap-2  "}>
-                                        {updating ? (<span><LoadingSpinner/></span>) : null}
-                                        <span>Preview</span>
-                                    </Button>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Button Text</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                        <Input
+                                            type={"text"}
+                                            placeholder={"Write a Review"}
+                                            defaultValue={state.button_text}
+                                            onChange={(e: any) => {
+                                                updatePhotoRequestState((emailState) => {
+                                                    emailState.button_text = e.target.value;
+                                                });
+                                            }}
+                                        />
+                                        {showValidationError(errors, "button_text")}
+                                    </div>
                                 </div>
-                            </Card>
-                        </form>)
+                            </div>
+                            <div className={"frt-flex frt-gap-x-5 frt-my-4"}>
+                                <Button onClick={saveReviewPhotoRequest}
+                                        className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    {updating ? (<span><LoadingSpinner/></span>) : null}
+                                    <span>Save Changes</span>
+                                </Button>
+                                <Button onClick={handlePreviewAction}
+                                        className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    <span>Preview</span>
+                                </Button>
+                            </div>
+                        </Card>
+                    </form>)
             }
         </div>
     )
