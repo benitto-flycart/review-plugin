@@ -59,8 +59,6 @@ const EmailSetting = () => {
         },
     ];
 
-    const EmailComponent = activeEmail?.viewComponent;
-
     return (
         <div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
             <div className="frt-grid frt-grid-cols-1 frt-gap-4">
@@ -75,7 +73,7 @@ const EmailSetting = () => {
                             </div>
                             <div className="frt-flex frt-justify-end frt-gap-1 frt-col-span-1">
                                 <Button>
-                                    <NavLink to={item.route}>
+                                    <NavLink to={item.route} className={"hover:frt-text-white"}>
                                         Update
                                     </NavLink>
                                 </Button>

@@ -1,13 +1,14 @@
 import {Card, CardContent} from "../ui/card";
 import ReviewIcon from "../ReviewIcon";
 import React from "react";
+import {getReviewWidth} from "../../helpers/utils";
 
 export interface ReviewRatingsPropType{
     reviewState:any
 }
 export const ReviewRatings = <T extends ReviewRatingsPropType>({ reviewState }: T) => {
     return (
-        <div className="frt-flex frt-flex-col md:frt-flex-row frt-gap-6 frt-mb-6">
+        <div className="frt-flex frt-flex-col frt-gap-6 frt-mb-6 md:frt-h-max md:frt-w-[30%]">
             <Card className="frt-flex-1">
                 <CardContent className="frt-pt-6">
                     <div
@@ -28,14 +29,14 @@ export const ReviewRatings = <T extends ReviewRatingsPropType>({ reviewState }: 
                         <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
-                                className="frt-bg-blue-600 frt-h-2.5 frt-rounded-full"
+                                className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: `${Math.round((reviewState.ratings.five_star / reviewState.total_review_count) * 100)}%`
+                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.five_star)
                                 }}
                             ></div>
                         </div>
                         <span className="frt-ml-2 frt-text-sm">
-                             {Math.round((reviewState.ratings.five_star / reviewState.total_review_count) * 100)}%
+                            {getReviewWidth(reviewState.total_review_count,reviewState.ratings.five_star)}
                               </span>
                     </div>
 
@@ -44,56 +45,56 @@ export const ReviewRatings = <T extends ReviewRatingsPropType>({ reviewState }: 
                         <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
-                                className="frt-bg-blue-600 frt-h-2.5 frt-rounded-full"
+                                className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: `${Math.round((reviewState.ratings.four_star / reviewState.total_review_count) * 100)}%`
+                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.four_star)
                                 }}
                             ></div>
                         </div>
                         <span
-                            className="frt-ml-2 frt-text-sm">{Math.round((reviewState.ratings.four_star / reviewState.total_review_count) * 100)}%</span>
+                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.four_star)}</span>
                     </div>
                     <div className="frt-flex frt-items-center frt-mb-2">
                         <span className="frt-w-4">3</span>
                         <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
-                                className="frt-bg-blue-600 frt-h-2.5 frt-rounded-full"
+                                className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: `${Math.round((reviewState.ratings.three_star / reviewState.total_review_count) * 100)}%`
+                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.three_star)
                                 }}
                             ></div>
                         </div>
                         <span
-                            className="frt-ml-2 frt-text-sm">{Math.round((reviewState.ratings.three_star / reviewState.total_review_count) * 100)}%</span>
+                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.three_star)}</span>
                     </div>
                     <div className="frt-flex frt-items-center frt-mb-2">
                         <span className="frt-w-4">2</span>
                         <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
-                                className="frt-bg-blue-600 frt-h-2.5 frt-rounded-full"
+                                className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: `${Math.round((reviewState.ratings.two_star / reviewState.total_review_count) * 100)}%`
+                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.two_star)
                                 }}
                             ></div>
                         </div>
                         <span
-                            className="frt-ml-2 frt-text-sm">{Math.round((reviewState.ratings.two_star / reviewState.total_review_count) * 100)}%</span>
+                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.two_star)}</span>
                     </div>
                     <div className="frt-flex frt-items-center frt-mb-2">
                         <span className="frt-w-4">1</span>
                         <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
-                                className="frt-bg-blue-600 frt-h-2.5 frt-rounded-full"
+                                className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: `${Math.round((reviewState.ratings.single_star / reviewState.total_review_count) * 100)}%`
+                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.single_star)
                                 }}
                             ></div>
                         </div>
                         <span
-                            className="frt-ml-2 frt-text-sm">{Math.round((reviewState.ratings.single_star / reviewState.total_review_count) * 100)}%</span>
+                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.single_star)}</span>
                     </div>
                 </CardContent>
             </Card>

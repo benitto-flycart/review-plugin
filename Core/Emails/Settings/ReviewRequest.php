@@ -19,7 +19,7 @@ class ReviewRequest extends Emails
             ->first();
 
         if (empty($reviewRequest)) {
-            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
+            $settings = $this->getDefaultReviewRequestSettings($this->locale);
             $this->status = 'active';
         } else {
             $settings = $reviewRequest->settings;

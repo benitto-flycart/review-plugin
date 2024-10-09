@@ -66,9 +66,10 @@ const UpdateReviewReminder = () => {
         });
     }
 
-    const saveReviewRemainderRequest = () => {
+    const saveReviewRemainderRequest = (event: React.MouseEvent) => {
+        event.preventDefault()
         setUpdating(true)
-        schema.validate(state,{abortEarly:false}).then(()=>{
+        schema.validate(state, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_review_remainder',
                 _wp_nonce_key: 'flycart_review_nonce',
@@ -99,10 +100,13 @@ const UpdateReviewReminder = () => {
 
     };
 
-    const updateReviewReminderState= (cb: (state: any) => void) => {
+    const updateReviewReminderState = (cb: (state: any) => void) => {
         setState(prevState => produce(prevState, cb));
     };
 
+    const handlePreviewAction = (event: React.MouseEvent) => {
+        event.preventDefault()
+    }
 
     useEffect(() => {
         fetchReviewRemainderRequest();
@@ -126,16 +130,16 @@ const UpdateReviewReminder = () => {
                                     <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
                                         <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                                             <Input
-                                                   type="text"
-                                                   placeholder={"Reminder: Order #{order_number}, how did it go?"}
-                                                   value={state.subject}
-                                                   onChange={(e: any) => {
-                                                    updateReviewReminderState((emailState)=>{
+                                                type="text"
+                                                placeholder={"Reminder: Order #{order_number}, how did it go?"}
+                                                value={state.subject}
+                                                onChange={(e: any) => {
+                                                    updateReviewReminderState((emailState) => {
                                                         emailState.subject = e.target.value;
                                                     })
-                                                   }}
+                                                }}
                                             />
-                                            {showValidationError(errors,"subject")}
+                                            {showValidationError(errors, "subject")}
                                         </div>
                                         <div>
                                             Notes:
@@ -153,13 +157,13 @@ const UpdateReviewReminder = () => {
                                         <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                                             <Textarea
                                                 onChange={(e: any) => {
-                                                    updateReviewReminderState((emailState)=>{
+                                                    updateReviewReminderState((emailState) => {
                                                         emailState.body = e.target.value;
                                                     })
                                                 }}
                                                 value={state.body}
                                             ></Textarea>
-                                            {showValidationError(errors,"body")}
+                                            {showValidationError(errors, "body")}
                                         </div>
                                     </div>
                                 </div>
@@ -172,13 +176,13 @@ const UpdateReviewReminder = () => {
                                                 type="text"
                                                 value={state.button_text}
                                                 onChange={(e: any) => {
-                                                    updateReviewReminderState((emailState)=>{
+                                                    updateReviewReminderState((emailState) => {
                                                         emailState.button_text = e.target.value;
                                                     })
                                                 }}
                                                 placeholder={"Write a Review"}
                                             />
-                                            {showValidationError(errors,"button_text")}
+                                            {showValidationError(errors, "button_text")}
                                         </div>
                                     </div>
                                 </div>
@@ -189,9 +193,8 @@ const UpdateReviewReminder = () => {
                                     {updating ? (<span><LoadingSpinner/></span>) : null}
                                     <span>Save Changes</span>
                                 </Button>
-                                <Button type={"submit"}
+                                <Button onClick={handlePreviewAction}
                                         className={"frt-flex frt-justify-between frt-gap-2  "}>
-                                    {updating ? (<span><LoadingSpinner/></span>) : null}
                                     <span>Preview</span>
                                 </Button>
                             </div>

@@ -19,12 +19,12 @@ const UpdateReplyToReview = () => {
     const [updating, setUpdating] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const {localState} = useLocalState();
-    const [state,setState]=useState({
+    const [state, setState] = useState({
         language: localState.current_locale,
         subject: "",
         body: "",
     })
-    const [errors,setErrors]=useState<any>()
+    const [errors, setErrors] = useState<any>()
     const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
 
 
@@ -53,13 +53,14 @@ const UpdateReplyToReview = () => {
         });
     }
 
-    const updateReplyToReviewState= (cb: (state: any) => void) => {
+    const updateReplyToReviewState = (cb: (state: any) => void) => {
         setState(prevState => produce(prevState, cb));
     };
 
-    const saveReviewReplyRequest = () => {
+    const saveReviewReplyRequest = (event: React.MouseEvent) => {
+        event.preventDefault()
         setUpdating(true)
-        schema.validate(state,{abortEarly:false}).then(()=>{
+        schema.validate(state, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_review_reply_request',
                 _wp_nonce_key: 'flycart_review_nonce',
@@ -89,6 +90,10 @@ const UpdateReplyToReview = () => {
 
     };
 
+    const handlePreviewAction = (event: React.MouseEvent) => {
+        event.preventDefault()
+    }
+
     useEffect(() => {
         fetchReviewReplyRequest()
     }, [currentLocale]);
@@ -101,70 +106,69 @@ const UpdateReplyToReview = () => {
                           availableLanguages={availableLanguages}/>
             {
                 loading ? (<div className={"frt-m-auto frt-h-[50vh] frt-w-full"}><LoadingSpinner/></div>) : (
-            <form>
-                <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
-                    <h3 className="frt-font-extrabold">Content</h3>
-                    <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
-                        <div
-                            className="frt-grid frt-gap-3">
-                            <label>Subject</label>
-                            <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
-                                <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                    <Input
-                                           type="text"
-                                           placeholder={"In response to your review of {product}"}
-                                           value={state.subject}
-                                           onChange={(e: any) => {
-                                               updateReplyToReviewState((emailState)=>{
-                                                   emailState.subject = e.target.value;
-                                               })
-                                           }}
-                                    />
-                                    {showValidationError(errors,"subject")}
+                    <form>
+                        <Card className="frt-p-4 frt-flex frt-flex-col frt-gap-y-2">
+                            <h3 className="frt-font-extrabold">Content</h3>
+                            <div className={"frt-flex frt-flex-col frt-gap-y-5"}>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Subject</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
+                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                            <Input
+                                                type="text"
+                                                placeholder={"In response to your review of {product}"}
+                                                value={state.subject}
+                                                onChange={(e: any) => {
+                                                    updateReplyToReviewState((emailState) => {
+                                                        emailState.subject = e.target.value;
+                                                    })
+                                                }}
+                                            />
+                                            {showValidationError(errors, "subject")}
+                                        </div>
+                                        <div>
+                                            Notes:
+                                            <p>{"Use {product_name} for the product name"}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    Notes:
-                                    <p>{"Use {product_name} for the product name"}</p>
+                                <div
+                                    className="frt-grid frt-gap-3">
+                                    <label>Body</label>
+                                    <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
+                                        <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
+                                            <Textarea rows={6}
+                                                      onChange={(e: any) => {
+                                                          updateReplyToReviewState((emailState) => {
+                                                              emailState.body = e.target.value;
+                                                          })
+                                                      }}
+                                                      value={state.body}
+                                            ></Textarea>
+                                            {showValidationError(errors, "body")}
+                                        </div>
+                                        <div>
+                                            Notes:
+                                            <span>{"Use {reply_content} for your reply text"}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div
-                            className="frt-grid frt-gap-3">
-                            <label>Body</label>
-                            <div className={"frt-flex frt-flex-col frt-gap-y-2"}>
-                                <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
-                                    <Textarea rows={6}
-                                              onChange={(e: any) => {
-                                                  updateReplyToReviewState((emailState)=>{
-                                                      emailState.body = e.target.value;
-                                                  })
-                                              }}
-                                              value={state.body}
-                                    ></Textarea>
-                                    {showValidationError(errors,"body")}
-                                </div>
-                                <div>
-                                    Notes:
-                                    <span>{"Use {reply_content} for your reply text"}</span>
-                                </div>
+                            <div className={"frt-flex frt-gap-x-5   frt-my-4"}>
+                                <Button
+                                    onClick={saveReviewReplyRequest}
+                                    className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    {updating ? (<span><LoadingSpinner/></span>) : null}
+                                    <span>Save Changes</span>
+                                </Button>
+                                <Button onClick={handlePreviewAction}
+                                        className={"frt-flex frt-justify-between frt-gap-2  "}>
+                                    <span>Preview</span>
+                                </Button>
                             </div>
-                        </div>
-                    </div>
-                    <div className={"frt-flex frt-gap-x-5   frt-my-4"}>
-                        <Button type={"submit"}
-                                onClick={saveReviewReplyRequest}
-                                className={"frt-flex frt-justify-between frt-gap-2  "}>
-                            {updating ? (<span><LoadingSpinner/></span>) : null}
-                            <span>Save Changes</span>
-                        </Button>
-                        <Button type={"submit"}
-                                className={"frt-flex frt-justify-between frt-gap-2  "}>
-                            {updating ? (<span><LoadingSpinner/></span>) : null}
-                            <span>Preview</span>
-                        </Button>
-                    </div>
-                </Card>
-            </form>)
+                        </Card>
+                    </form>)
             }
         </div>
     )
