@@ -31,6 +31,7 @@ class Review extends Model
                 PRIMARY KEY (id)
                 ) {$charset};";
     }
+
     /**
      * @return bool|<missing>
      * @param mixed $product_id

@@ -52,13 +52,10 @@ class ReviewRequestWCEmail extends WC_Email
 
         $this->woo_order = wc_get_order($notification->order_id);
 
-        $short_codes = [
-            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
-        ];
-
         $html = $this->get_content();
 
         $short_codes = [
+            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
             '{customer_name}' => $this->reviewRequest->getCustomerName($this->woo_order),
