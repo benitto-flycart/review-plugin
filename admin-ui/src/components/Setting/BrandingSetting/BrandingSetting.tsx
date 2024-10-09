@@ -91,7 +91,6 @@ const BrandingSetting = () => {
 
     const saveBrandSettings = () => {
         setSaveChangesLoading(true)
-        console.log(settingsState);
         schema.validate(settingsState, {abortEarly: false}).then(() => {
             axiosClient.post('', {
                 method: 'save_brand_settings',

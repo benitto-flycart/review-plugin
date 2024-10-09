@@ -94,7 +94,6 @@ export const Reviews = () => {
             });
     };
 
-    console.log(searched)
     useEffect(() => {
         getReviews();
     }, [perPage, currentPage]);
