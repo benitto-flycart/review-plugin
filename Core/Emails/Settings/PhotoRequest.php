@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
-class ReviewRequest extends Emails
+class PhotoRequest extends Emails
 {
     public $settings = [];
 
@@ -15,7 +15,7 @@ class ReviewRequest extends Emails
 
         $reviewRequest = EmailSetting::query()
             ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
+            ->where("type = %s", [EmailSetting::PHOTO_REQUEST_TYPE])
             ->first();
 
         if (empty($reviewRequest)) {
@@ -93,6 +93,6 @@ class ReviewRequest extends Emails
 
     public function getTemplatePreview()
     {
-        return 'review request email template';
+        return 'review photo request email template';
     }
 }

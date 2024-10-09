@@ -580,4 +580,23 @@ class EmailSettingsController
             ]);
         }
     }
+
+    public function getEmailPreview(Request $request)
+    {
+        try {
+            $language = $request->get('language');
+            $email_type = $request->get('email_type');
+
+            $object = EmailSetting::resolveObjectByType($language, $email_type);
+
+            return Response::success([
+                'content' => $object->getTemplatePreview()
+            ]);
+        } catch (\Exception | \Error $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error([
+                'message' => 'Server Error Occurred'
+            ]);
+        }
+    }
 }

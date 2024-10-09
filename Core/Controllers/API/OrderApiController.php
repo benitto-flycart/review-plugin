@@ -33,6 +33,7 @@ class OrderApiController
                 $query = Database::table($wcOrderTable)
                     ->select("{$wcOrderTable}.id as order_id, 
                         {$wcOrderTable}.date_created_gmt, 
+                        {$wcOrderTable}.billing_email as order_email, 
                         {$wcOrderTable}.date_updated_gmt")
                     ->where('type = %s', ['shop_order'])
                     ->orderBy("{$wcOrderTable}.id", "DESC");
@@ -135,8 +136,12 @@ class OrderApiController
 
         $orders = [];
         foreach ($data as $order) {
+            $orderObj = wc_get_order($order->order_id);
+
             $orders[] = array(
                 'order_id' => $order->order_id,
+                'order_url' => admin_url('post.php?post=' . $order->order_id . '&action=edit'),
+                'email' => $orderObj->get_billing_email(),
                 'created_at'   => Functions::getWcTimeFromGMT($order->date_created_gmt),
                 'order_items' => $groupedByOrderId[$order->order_id],
             );
