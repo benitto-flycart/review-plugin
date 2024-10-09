@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
-class ReviewRequest extends Emails
+class ReviewRemainder extends Emails
 {
     public $settings = [];
 
@@ -15,11 +15,11 @@ class ReviewRequest extends Emails
 
         $reviewRequest = EmailSetting::query()
             ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
+            ->where("type = %s", [EmailSetting::REVIEW_REMINDER_TYPE])
             ->first();
 
         if (empty($reviewRequest)) {
-            $settings = $this->getDefaultReviewRequestSettings($this->locale);
+            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
             $this->status = 'active';
         } else {
             $settings = $reviewRequest->settings;
@@ -80,19 +80,10 @@ class ReviewRequest extends Emails
         return $order->get_billing_first_name();
     }
 
-    public function getBody(WC_Order $order)
-    {
-        $message = $this->getBodyText();
 
-        $order_id = $order->get_id();
-
-        $message = str_replace(['[order_id]'], [$order_id], $message);
-
-        return $message;
-    }
 
     public function getTemplatePreview()
     {
-        return 'review request email template';
+        return 'Review Remainder Email Template';
     }
 }

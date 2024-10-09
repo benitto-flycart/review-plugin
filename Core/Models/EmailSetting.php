@@ -4,6 +4,11 @@ namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Model;
+use Flycart\Review\Core\Emails\Settings\DiscountRequest;
+use Flycart\Review\Core\Emails\Settings\ReplyRequest;
+use Flycart\Review\Core\Emails\Settings\PhotoRequest;
+use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
+use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 
 class EmailSetting extends Model
 {
@@ -145,5 +150,20 @@ class EmailSetting extends Model
 
         //code
     }
-}
 
+    public static function resolveObjectByType($language, $type)
+    {
+        switch ($type) {
+            case static::REVIEW_REQUEST_TYPE:
+                return ReviewRequest::make($language);
+            case static::REVIEW_REMINDER_TYPE:
+                return ReviewRemainder::make($language);
+            case static::PHOTO_REQUEST_TYPE;
+                return PhotoRequest::make($language);
+            case static::DISCOUNT_REQUEST_TYPE:
+                return DiscountRequest::make($language);
+            case static::REPLY_REQUEST_TYPE:
+                return ReplyRequest::make($language);
+        }
+    }
+}
