@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState } from "react";
-import { produce } from "immer";
-import { axiosClient } from "../../api/axios";
-import { useLocalState } from "../../zustand/localState";
-import { toastrError, toastrSuccess } from "../../../helpers/ToastrHelper";
-import { SampleReviewsContext } from "../SampleReviewsAPI";
-import { getReviewOpener, getReviewShadow } from "./Preview/preview-constants";
+import React, {createContext, useContext, useState} from "react";
+import {produce} from "immer";
+import {axiosClient} from "../../api/axios";
+import {useLocalState} from "../../zustand/localState";
+import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
+import {SampleReviewsContext} from "../SampleReviewsAPI";
+import {getReviewOpener, getReviewShadow} from "./Preview/preview-constants";
 
 export const ProductWidgetContext = createContext({});
 
@@ -223,6 +223,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
       return widget.preferences.show_rating_options == true;
     },
     saveSettings,
+    getSettings:fetchProductWidget,
     getProductReviewWidgetColors: () => {
       return {
         "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper,

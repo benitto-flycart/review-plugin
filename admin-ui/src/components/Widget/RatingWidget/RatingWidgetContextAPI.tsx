@@ -65,6 +65,26 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         return justifyContent;
     }
 
+    const getSettings = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'get_widget_settings',
+            widget_type: 'rating_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
     const widgetMethods = {
         getWidgetTextContent: () => {
             let content = widget.text_content;
@@ -78,7 +98,8 @@ function RatingWidgetContextAPI({children}: { children: any }) {
                 "--r-rw-flex-justify-content": getWidgetAlignment(),
             };
         },
-        saveSettings
+        saveSettings,
+        getSettings
     }
 
     const updateWidgetFields = (cb: any) => {
@@ -113,25 +134,6 @@ function RatingWidgetContextAPI({children}: { children: any }) {
                 shadow_color: settings?.colors?.shadow_color,
             }
         })
-    }
-    const getSettings = () => {
-        setLoading(true)
-        axiosClient.post('', {
-            method: 'get_widget_settings',
-            widget_type: 'rating_widget',
-            language: localState.current_locale,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setLoading(false)
-        });
     }
 
     useEffect(() => {

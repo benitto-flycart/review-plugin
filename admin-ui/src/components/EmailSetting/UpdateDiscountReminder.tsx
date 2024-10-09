@@ -13,12 +13,15 @@ import EmailNavigation from "./utils/EmailNavigation";
 import LanguageList from "./utils/LanguageList";
 import {produce} from "immer";
 import {showValidationError} from "../../helpers/html";
+import PreviewEmailDialog from "./PreviewEmailDialog";
 
 const UpdateDiscountReminder = () => {
     const {localState} = useLocalState();
     const [currentLocale, setCurrentLocale, availableLanguages] = useLocale();
-
+    const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
+    const [emailPreviewContent, setEmailPreviewContent] = useState<any>();
     const [updating, setUpdating] = useState<boolean>(false);
+    const [showEmailDialog,setShowEmailDialog] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<any>();
     const [state, setState] = useState({
@@ -95,9 +98,28 @@ const UpdateDiscountReminder = () => {
         setState(prevState => produce(prevState, cb));
     };
 
-    const handlePreviewAction = (event: React.MouseEvent) => {
-        event.preventDefault()
-    }
+    const loadPreview = (e: any) => {
+        e.preventDefault();
+        setLoadingPreview(true);
+        axiosClient
+            .post("", {
+                method: "get_email_preview",
+                email_type: "discount_reminder",
+                _wp_nonce_key: "flycart_review_nonce",
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                language: currentLocale,
+            })
+            .then((response: any) => {
+                let data = response.data.data;
+                setEmailPreviewContent(data.content)
+            })
+            .catch((error: any) => {
+                toastrError("Server Error Occurred");
+            })
+            .finally(() => {
+                setLoadingPreview(false);
+            });
+    };
 
     useEffect(() => {
         fetchReviewDiscountRequest();
@@ -188,7 +210,10 @@ const UpdateDiscountReminder = () => {
                                     <span>Save Changes</span>
                                 </Button>
                                 <Button type={"button"} className={"frt-flex frt-justify-between frt-gap-2"}
-                                        onClick={handlePreviewAction}>
+                                        onClick={(event:React.MouseEvent)=>{
+                                            setShowEmailDialog(true)
+                                            loadPreview(event)
+                                        }}>
                                     <span>Preview</span>
                                 </Button>
                             </div>
@@ -196,6 +221,7 @@ const UpdateDiscountReminder = () => {
                     </form>
                 )
             }
+            <PreviewEmailDialog show={showEmailDialog} previewContent={emailPreviewContent} toggle={setShowEmailDialog} loadingPreview={loadingPreview} title={"Discount reminder"} />
         </div>
     );
 };

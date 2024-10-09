@@ -1,12 +1,10 @@
 import * as React from "react";
-import { useLocalState } from "../zustand/localState";
-import { useSearchParams } from "react-router-dom";
-import { Tabs, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
+import {useLocalState} from "../zustand/localState";
+import {useSearchParams} from "react-router-dom";
+import {Tabs, TabsList, TabsTrigger} from "@/src/components/ui/tabs";
+import {TabsContent} from "@radix-ui/react-tabs";
 import BrandingSetting from "./BrandingSetting";
 import GeneralSetting from "./GeneralSetting";
-import EmailSetting from "../EmailSetting";
-import ManualReviewRequestForm from "./ManualReviewRequestForm";
 import DiscountSetting from "./DiscountSetting";
 
 const Setting = () => {
@@ -42,12 +40,6 @@ const Setting = () => {
             >
               Discounts
             </TabsTrigger>
-            <TabsTrigger
-              className="tabs-trigger frt-w-full"
-              value="review_manual_form"
-            >
-              Manual Review Request Form
-            </TabsTrigger>
           </TabsList>
           <TabsContent value="review_branding" className="!frt-w-full">
             <BrandingSetting />
@@ -57,9 +49,6 @@ const Setting = () => {
           </TabsContent>
           <TabsContent value="review_discounts" className="!frt-w-full">
             <DiscountSetting />
-          </TabsContent>
-          <TabsContent value="review_manual_form" className="!frt-w-full">
-            <ManualReviewRequestForm />
           </TabsContent>
         </Tabs>
       </div>

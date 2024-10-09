@@ -11,7 +11,7 @@ import {ApiErrorResponse} from "../api/api.types";
 import {LoadingSpinner} from "../ui/loader";
 
 
-const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
+const WidgetSidebar = ({settings, widget, methods,updateWidgetFields}: any) => {
 
     const {localState} = useLocalState();
     const availableLanguages = localState.available_languages;
@@ -39,6 +39,7 @@ const WidgetSidebar = ({settings, widget, updateWidgetFields}: any) => {
             .then((response: AxiosResponse) => {
                 const data: any = response.data.data;
                 toastrSuccess(data.message);
+                methods.getSettings()
             })
             .catch((error: AxiosResponse<ApiErrorResponse>) => {
                 // @ts-ignore

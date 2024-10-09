@@ -3,12 +3,13 @@ import ReviewIcon from "../ReviewIcon";
 import React from "react";
 import {getReviewWidth} from "../../helpers/utils";
 
-export interface ReviewRatingsPropType{
-    reviewState:any
+export interface ReviewRatingsPropType {
+    reviewState: any
 }
-export const ReviewRatings = <T extends ReviewRatingsPropType>({ reviewState }: T) => {
+
+export const ReviewRatings = <T extends ReviewRatingsPropType>({reviewState}: T) => {
     return (
-        <div className="frt-flex frt-flex-col frt-gap-6 frt-mb-6 md:frt-h-max md:frt-w-[30%]">
+        <div className="frt-flex frt-flex-col frt-gap-6 frt-mb-6 md:frt-h-max md:frt-w-[20%]">
             <Card className="frt-flex-1">
                 <CardContent className="frt-pt-6">
                     <div
@@ -23,78 +24,99 @@ export const ReviewRatings = <T extends ReviewRatingsPropType>({ reviewState }: 
                 </CardContent>
             </Card>
             <Card className="frt-flex-1">
-                <CardContent className="frt-pt-6">
-                    <div className="frt-flex frt-items-center frt-mb-2">
-                        <span className="frt-w-4">5</span>
-                        <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
+                <CardContent className="frt-pt-6 frt-flex frt-flex-col frt-gap-y-2">
+                    <div className="frt-flex frt-items-center frt-gap-x-2">
+                        <div className={"frt-flex frt-gap-x-1"}>
+                            <div>
+                                <span className="frt-w-4">5</span>
+                            </div>
+                            <div>
+                                <ReviewIcon className="frt-w-4 frt-h-4 "/>
+                            </div>
+                        </div>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
                                 className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.five_star)
+                                    width: getReviewWidth(reviewState.total_review_count, reviewState.ratings.five_star)
                                 }}
                             ></div>
                         </div>
-                        <span className="frt-ml-2 frt-text-sm">
-                            {getReviewWidth(reviewState.total_review_count,reviewState.ratings.five_star)}
+                        <div>
+                                <span className=" frt-text-sm">
+                            {getReviewWidth(reviewState.total_review_count, reviewState.ratings.five_star)}
                               </span>
+                        </div>
                     </div>
 
-                    <div className="frt-flex frt-items-center frt-mb-2">
-                        <span className="frt-w-4">4</span>
-                        <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
+                    <div className="frt-flex frt-items-center frt-gap-x-2">
+                        <div  className={"frt-flex frt-gap-x-1"}>
+                            <div><span className="frt-w-4">4</span></div>
+                            <div><ReviewIcon className="frt-w-4 frt-h-4 "/></div>
+                        </div>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
                                 className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.four_star)
+                                    width: getReviewWidth(reviewState.total_review_count, reviewState.ratings.four_star)
                                 }}
                             ></div>
                         </div>
-                        <span
-                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.four_star)}</span>
+                        <div>
+                              <span
+                                  className=" frt-text-sm">{getReviewWidth(reviewState.total_review_count, reviewState.ratings.four_star)}</span>
+                        </div>
                     </div>
-                    <div className="frt-flex frt-items-center frt-mb-2">
-                        <span className="frt-w-4">3</span>
-                        <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
+                    <div className="frt-flex frt-items-center frt-gap-x-2">
+                        <div  className={"frt-flex frt-gap-x-1"}>
+                            <div><span className="frt-w-4">3</span></div>
+                            <div><ReviewIcon className="frt-w-4 frt-h-4 "/></div>
+                        </div>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
                                 className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.three_star)
+                                    width: getReviewWidth(reviewState.total_review_count, reviewState.ratings.three_star)
                                 }}
                             ></div>
                         </div>
-                        <span
-                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.three_star)}</span>
+                        <div>   <span
+                            className=" frt-text-sm">{getReviewWidth(reviewState.total_review_count, reviewState.ratings.three_star)}</span>
+                        </div>
                     </div>
-                    <div className="frt-flex frt-items-center frt-mb-2">
-                        <span className="frt-w-4">2</span>
-                        <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
+                    <div className="frt-flex frt-items-center frt-gap-x-2">
+                        <div  className={"frt-flex frt-gap-x-1"}>
+                            <div><span className="frt-w-4">2</span></div>
+                            <div><ReviewIcon className="frt-w-4 frt-h-4 "/></div>
+                        </div>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
                                 className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.two_star)
+                                    width: getReviewWidth(reviewState.total_review_count, reviewState.ratings.two_star)
                                 }}
                             ></div>
                         </div>
-                        <span
-                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.two_star)}</span>
+                        <div>  <span
+                            className=" frt-text-sm">{getReviewWidth(reviewState.total_review_count, reviewState.ratings.two_star)}</span>
+                        </div>
                     </div>
-                    <div className="frt-flex frt-items-center frt-mb-2">
-                        <span className="frt-w-4">1</span>
-                        <ReviewIcon className="frt-w-4 frt-h-4 frt-mr-2"/>
+                    <div className="frt-flex frt-items-center frt-gap-x-2">
+                        <div  className={"frt-flex frt-gap-x-1"}>
+                            <div><span className="frt-w-4">1</span></div>
+                            <div><ReviewIcon className="frt-w-4 frt-h-4 "/></div>
+                        </div>
                         <div className="frt-w-full frt-bg-gray-200 frt-rounded-full frt-h-2.5">
                             <div
                                 className="frt-bg-primary frt-h-2.5 frt-rounded-full"
                                 style={{
-                                    width: getReviewWidth(reviewState.total_review_count,reviewState.ratings.single_star)
+                                    width: getReviewWidth(reviewState.total_review_count, reviewState.ratings.single_star)
                                 }}
                             ></div>
                         </div>
-                        <span
-                            className="frt-ml-2 frt-text-sm">{getReviewWidth(reviewState.total_review_count,reviewState.ratings.single_star)}</span>
+                        <div> <span
+                            className=" frt-text-sm">{getReviewWidth(reviewState.total_review_count, reviewState.ratings.single_star)}</span>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
