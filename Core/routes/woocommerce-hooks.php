@@ -19,7 +19,7 @@ $store_front_hooks = [
         'woocommerce_after_add_to_cart_form' => ['callable' => [ShortCodeHandler::class, 'snippetWidget'], 'priority' => 10, 'accepted_args' => 1],
         'woocommerce_after_add_to_cart_form' => ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
         'woocommerce_after_shop_loop_item_title' => ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
-        'woocommerce_product_tabs' => ['callable' => [TemplateController::class, 'removeDefaultCommentsTab'], 'priority' => 10, 'accepted_args' => 1],
+//        'woocommerce_product_tabs' => ['callable' => [TemplateController::class, 'removeDefaultCommentsTab'], 'priority' => 10, 'accepted_args' => 1],
     ],
 ];
 
