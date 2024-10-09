@@ -151,7 +151,7 @@ class EmailSetting extends Model
         //code
     }
 
-    public static function resolveObjectByType($type, $language)
+    public static function resolveObjectByType($language, $type)
     {
         switch ($type) {
             case static::REVIEW_REQUEST_TYPE:
