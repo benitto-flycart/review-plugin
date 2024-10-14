@@ -6,6 +6,8 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Emails\Settings\PhotoRequest;
+use Flycart\Review\Core\Emails\Settings\ReplyRequest;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountRequestEmailSettingsCollection;
@@ -229,28 +231,14 @@ class EmailSettingsController
     {
         try {
             $language = $request->get('language');
+            $photoRequest = new PhotoRequest($language);
 
-            $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::PHOTO_REQUEST_TYPE])
-                ->first();
-
-            if (!empty($previous)) {
-                $data = [
-                    'language' => $previous->language,
-                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
-                    'status' => $previous->status,
-                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
-                ];
-            } else {
-                $settings = EmailSetting::getDefaultReviewPhotoRequestSettings($language);
-
-                $data = [
-                    'language' => $language,
-                    'language_label' => WordpressHelper::getLanguageLabel($language),
-                    'status' => 'active',
-                    'settings' => $settings,
-                ];
-            }
+            $data = [
+                'language' => $language,
+                'language_label' => WordpressHelper::getLanguageLabel($language),
+                'status' => 'active',
+                'settings' => $photoRequest->getSettings(),
+            ];
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);
@@ -444,27 +432,14 @@ class EmailSettingsController
         try {
             $language = $request->get('language');
 
-            $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::REPLY_REQUEST_TYPE])
-                ->first();
+            $replyRequest = new ReplyRequest($language);
 
-            if (!empty($previous)) {
-                $data = [
-                    'language' => $previous->language,
-                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
-                    'status' => $previous->status,
-                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
-                ];
-            } else {
-                $settings = EmailSetting::getDefaultReviewReplyRequestSettings($language);
-
-                $data = [
-                    'language' => $language,
-                    'language_label' => WordpressHelper::getLanguageLabel($language),
-                    'status' => 'active',
-                    'settings' => $settings,
-                ];
-            }
+            $data = [
+                'language' => $language,
+                'language_label' => WordpressHelper::getLanguageLabel($language),
+                'status' => 'active',
+                'settings' => $replyRequest->getSettings()
+            ];
 
             //Returning Review Data
             return ReviewPhotoRequestResource::resource([$data]);

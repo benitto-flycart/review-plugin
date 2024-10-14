@@ -42,8 +42,11 @@ class OrderApiController
 
                 $data = $query
                     ->limit($perPage)
-                    ->offset(($currentPage - 1) * $perPage)
-                    ->get();
+                    ->offset(($currentPage - 1) * $perPage);
+
+                error_log($data->toSql());
+
+                $data = $data->get();
 
                 $order_ids_as_string = static::getOrdersIdsAsString($data);
 
@@ -60,10 +63,14 @@ class OrderApiController
                         ")
                     ->leftJoin($orderItemTable, "{$wcOrderTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
                     ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
-                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.woo_order_id = {$orderItemTable}.order_id")
+                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id AND {$notificationHistoryTable}.model_type = 'shop_order'")
                     ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
-                    ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})")
-                    ->get();
+                    ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})");
+
+
+                error_log($products->toSql());
+
+                $products = $products->get();
             } else {
                 $postTable = Database::getWPPostsTable();
 
@@ -94,7 +101,7 @@ class OrderApiController
                         {$notificationHistoryTable}.status as email_status")
                         ->leftJoin($orderItemTable, "{$postTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
                         ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
-                        ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.woo_order_id = {$orderItemTable}.order_id")
+                        ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id AND {$notificationHistoryTable}.model_type = 'shop_order'")
                         ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
                         ->where("{$postTable}.id IN ({$order_ids_as_string})")
                         ->get();

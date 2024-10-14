@@ -278,8 +278,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!--[if mso | IE]></td>
-                    <td class="" style="vertical-align:top;width:600px;">
+                                <!--[if mso | IE]></td><![endif]-->
+
+                                <!--[if mso | IE]>
+                                <td class="" style="vertical-align:top;width:600px;">
                     <![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
@@ -508,6 +510,13 @@
                    </tr>
                 </table>
                 <![endif]-->
+
+        <!--[if mso | IE]>
+                       </td>
+                   </tr>
+                </table>
+                <![endif]-->
+
     </div>
 </body>
 

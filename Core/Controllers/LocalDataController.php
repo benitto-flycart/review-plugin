@@ -48,7 +48,7 @@ class LocalDataController
                     'font_css' => plugins_url('resources/admin/css/review-fonts.css', F_Review_PLUGIN_FILE),
                     'product_widget' => [
                         'widget_css' => plugins_url('resources/widgets/product_widget.css', F_Review_PLUGIN_FILE),
-                        'widget_js' => plugins_url('resources/admin/js/product_widget.js', F_Review_PLUGIN_FILE). "?t=" .time(),
+                        'widget_js' => plugins_url('resources/admin/js/product_widget.js', F_Review_PLUGIN_FILE) . "?t=" . time(),
                         'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
                     ],
                     'popup_widget' => [
@@ -61,7 +61,7 @@ class LocalDataController
                         'widget_css' => plugins_url('resources/widgets/review_form_widget.css', F_Review_PLUGIN_FILE),
                     ],
                     'sidebar_widget' => [
-                        'widget_css' => plugins_url('resources/widgets/sidebar_widget.css', F_Review_PLUGIN_FILE). "?t=" .time(),
+                        'widget_css' => plugins_url('resources/widgets/sidebar_widget.css', F_Review_PLUGIN_FILE) . "?t=" . time(),
                     ],
                     'snippet_widget' => [
                         'widget_css' => plugins_url('resources/widgets/snippet_widget.css', F_Review_PLUGIN_FILE),
@@ -69,9 +69,9 @@ class LocalDataController
                     'floating_product_reviews_widget' => [
                         'widget_css' => plugins_url('resources/widgets/floating_product_widget.css', F_Review_PLUGIN_FILE),
                         // 'masonry_js' => plugins_url('resources/widgets/js/masonry.min.js', F_Review_PLUGIN_FILE),
-                     ],
+                    ],
                     'review_detail_widget' => [
-                        'widget_css' => plugins_url('resources/widgets/review_detail_widget.css?time=' . time() , F_Review_PLUGIN_FILE),
+                        'widget_css' => plugins_url('resources/widgets/review_detail_widget.css?time=' . time(), F_Review_PLUGIN_FILE),
                     ],
                 ]
             ];
@@ -79,7 +79,7 @@ class LocalDataController
             $localize = apply_filters('flycart_review_pro_local_data', $localData);
 
             return Response::success($localize);
-        } catch (\Exception|Error $exception) {
+        } catch (\Exception | Error $exception) {
 
             error_log($exception->getMessage());
             return Response::error([
@@ -87,5 +87,5 @@ class LocalDataController
             ]);
         }
     }
-
 }
+

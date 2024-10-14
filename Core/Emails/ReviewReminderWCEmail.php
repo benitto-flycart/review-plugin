@@ -2,37 +2,38 @@
 
 namespace Flycart\Review\Core\Emails;
 
-use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
+use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use WC_Email;
 use WC_Order;
+use function Flycart\Review\Core\Emails\Settings\ReviewRemainder;
 
-class ReviewRequestWCEmail extends WC_Email
+class ReviewReminderWCEmail extends WC_Email
 {
     public WC_Order $woo_order;
     public BrandSettings $brandSettings;
     public GeneralSettings $generalSettings;
-    public  ReviewRequest  $reviewRequest;
+    public  ReviewRemainder  $reviewReminder;
 
     public function __construct()
     {
         // Email slug we can use to filter other data.
-        $this->id = 'review_request_email';
-        $this->title = __('Review Request Email', 'flycart-review');
-        $this->description = __('An Email Send to request review', 'flycart-review');
+        $this->id = 'review_remainder_email';
+        $this->title = __('Review Remainder Email', 'flycart-review');
+        $this->description = __('An Email Send to reminder review', 'flycart-review');
         $this->heading = __("[{site_title}] Add Review!", 'flycart-review');
 
-        $this->subject = __("[{site_title}] - Add Review", 'flycart-review');
+        $this->subject = __("[{site_title}] - Add Reminder Email", 'flycart-review');
 
         // Template paths.
-        $this->template_html = 'review-request.php';
+        $this->template_html = 'review-reminder.php';
         $this->customer_email = true;
 
-        $this->template_plain = 'plain/review-request.php';
+        $this->template_plain = 'plain/review-reminder.php';
 
         parent::__construct();
 
@@ -43,11 +44,17 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function trigger($data)
     {
+
         $notification_id = $data['notification_id'] ?? '';
 
         $notification = NotificationHistory::query()->find($notification_id);
 
-        if (empty($notification) || !NotificationHistory::isReviewRequestType($notification->notify_type) || NotificationHistory::isAlreadySent($notification->status)) {
+        $this->brandSettings = (new BrandSettings);
+        $this->generalSettings = (new GeneralSettings);
+
+        $this->reviewReminder =  new ReviewRemainder(get_locale());
+
+        if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
             return;
         }
 
@@ -59,19 +66,20 @@ class ReviewRequestWCEmail extends WC_Email
             '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
-            '{customer_name}' => $this->reviewRequest->getCustomerName($this->woo_order),
-            '{body}' => $this->reviewRequest->getBody($this->woo_order),
+            '{customer_name}' => $this->reviewReminder->getCustomerName($this->woo_order),
+            '{body}' => $this->reviewReminder->getBody($this->woo_order),
             '{footer_text}' => $this->generalSettings->getFooterText(),
-            '{unsubscribe_link}' => 'https://localhost:8004',
+            '{unsubscribe_link}' => $this->reviewReminder->getButtonText(),
+            '{review_button_text}' => 'https://localhost:8004',
         ];
 
-        $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_reminder_email_short_codes', $short_codes);
 
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
             'notification_content' => $html,
@@ -79,31 +87,6 @@ class ReviewRequestWCEmail extends WC_Email
         ], [
             'id' => $notification_id
         ]);
-
-        $inSeconds = $this->generalSettings->getReviewRequestDelay();
-
-
-        if (\ActionScheduler::is_initialized()) {
-            error_log('sending the email review reminder email in x  seconds => ' . $inSeconds);
-
-            NotificationHistory::query()->create([
-                'model_id' => $this->woo_order->get_id(),
-                'model_type' => 'shop_order',
-                'order_id' => $this->woo_order->get_id(),
-                'status' =>  'pending',
-                'notify_type' => EmailSetting::REVIEW_REMINDER_TYPE,
-                'medium' => NotificationHistory::MEDIUM_EMAIL,
-                'created_at' => Functions::currentUTCTime(),
-                'updated_at' => Functions::currentUTCTime(),
-            ]);
-
-            $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
-
-            //Add Option in Settings Page when to send review
-            $hook_name = F_Review_PREFIX . 'send_review_reminder_email';
-            error_log('action schecular initialized');
-            as_schedule_single_action(strtotime("+{$inSeconds} seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
-        }
     }
 
     public function get_content_html()
@@ -118,23 +101,16 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function get_content_string($plain_text = false)
     {
-        $this->brandSettings = (new BrandSettings);
-        $this->generalSettings = (new GeneralSettings);
-
-        $this->reviewRequest = new ReviewRequest(get_locale());
-
-
         $this->woo_order->get_formatted_billing_full_name();
 
         return wc_get_template_html($this->template_plain, array(
-            'order' => $this->woo_order,
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,
             'plain_text' => $plain_text,
             'email' => $this,
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
-            'reviewRequest' => $this->reviewRequest
+            'order' => $this->woo_order,
         ), '', $this->template_base);
     }
 }
