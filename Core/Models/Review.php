@@ -18,9 +18,10 @@ class Review extends Model
 
         $table = static::getTableName();
 
+        //#review_id means comment_id
         return "CREATE TABLE {$table} (
                 id BIGINT UNSIGNED AUTO_INCREMENT,
-                review_id BIGINT UNSIGNED,
+                review_id BIGINT UNSIGNED, 
                 product_id BIGINT UNSIGNED,
                 order_id BIGINT UNSIGNED NULL,
                 woo_order_id BIGINT UNSIGNED NULL,
@@ -31,6 +32,7 @@ class Review extends Model
                 PRIMARY KEY (id)
                 ) {$charset};";
     }
+
     /**
      * @return bool|<missing>
      * @param mixed $product_id

@@ -196,7 +196,6 @@ class Database
         }
 
         return $this->getSingleRow();
-
     }
 
     public function firstOrFail()
@@ -323,7 +322,7 @@ class Database
             case 'update':
             case 'insert':
             case 'query':
-            case 'delete' :
+            case 'delete':
                 $errorType = false;
                 break;
         }

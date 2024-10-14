@@ -19,7 +19,7 @@ class ReplyRequest extends Emails
             ->first();
 
         if (empty($reviewRequest)) {
-            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
+            $settings = $this->getDefault($this->locale);
             $this->status = 'active';
         } else {
             $settings = $reviewRequest->settings;
@@ -36,7 +36,6 @@ class ReplyRequest extends Emails
         return $this->settings;
     }
 
-
     public function getSubject()
     {
         return $this->settings['subject'];
@@ -52,7 +51,7 @@ class ReplyRequest extends Emails
         return $this->settings['button_text'];
     }
 
-    public function getDefaultReviewRequestSettings()
+    public function getDefault()
     {
         $data = [
             'body' => __('Review Request Body', 'flycart-review'),
@@ -61,11 +60,11 @@ class ReplyRequest extends Emails
         ];
 
         if ($data['body'] == 'Review Request Body') {
-            $data['body'] = 'Order #{order_number}, how did it go?';
+            $data['body'] = "Hello [Name] \n \n A Reply was added to your review of [product]:";
         }
 
         if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'Order #{order_number}, how did it go?';
+            $data['subject'] = 'In response to your review of [product]';
         }
 
         if ($data['button_text'] == 'Review Request Button Text') {
@@ -80,10 +79,8 @@ class ReplyRequest extends Emails
         return $order->get_billing_first_name();
     }
 
-
-
     public function getTemplatePreview()
     {
-        return 'reply  request email template';
+        return 'reply request email template';
     }
 }

@@ -142,18 +142,13 @@ class Functions
 
     public static function getBoolValue($value)
     {
-        if ($value === 'false') return false;
-
-        if ($value === 'true') return true;
-
-        if ($value === '1') return true;
 
         if ($value === '0') return false;
-
-        if ($value === 1) return true;
-
+        if ($value === '1') return true;
+        if ($value === 'false') return false;
+        if ($value === 'true') return true;
         if ($value === 0) return false;
-
+        if ($value === 1) return true;
         return !empty($value);
     }
 
@@ -249,4 +244,3 @@ class Functions
         return !empty($gmt_time) ? self::formatDate($gmt_time, 'Y-m-d') : null;
     }
 }
-

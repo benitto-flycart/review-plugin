@@ -13,19 +13,20 @@ class PhotoRequest extends Emails
     {
         $this->locale = $language;
 
-        $reviewRequest = EmailSetting::query()
+        $photoRequest = EmailSetting::query()
             ->where("language = %s", [$this->locale])
             ->where("type = %s", [EmailSetting::PHOTO_REQUEST_TYPE])
             ->first();
 
-        if (empty($reviewRequest)) {
-            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
+        if (empty($photoRequest)) {
+            $settings =  $this->getDefaultReviewRequestSettings($this->locale);
+            error_log(print_r($settings, true));
             $this->status = 'active';
         } else {
-            $settings = $reviewRequest->settings;
+            $settings = $photoRequest->settings;
             $settings = EmailSetting::getReviewSettingsAsArray($settings);
 
-            $this->status = $reviewRequest->status;
+            $this->status = $photoRequest->status;
         }
 
         $this->settings = $settings;
@@ -58,14 +59,15 @@ class PhotoRequest extends Emails
             'body' => __('Review Request Body', 'flycart-review'),
             'subject' => __('Review Request Subject', 'flycart-review'),
             'button_text' => __('Review Request Button Text', 'flycart-review'),
+            'discount_text' => __('Add a photo to the review and get a discount off your next purchase', 'flycart-review'),
         ];
 
         if ($data['body'] == 'Review Request Body') {
-            $data['body'] = 'Order #{order_number}, how did it go?';
+            $data['body'] = 'Hello [Name] \n\n We wanted to thank you again for your review of [product]. \n Please add your photo to the review and help our community of shopers!';
         }
 
         if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'Order #{order_number}, how did it go?';
+            $data['subject'] = 'Reminder: Add a photo to your review of [product]';
         }
 
         if ($data['button_text'] == 'Review Request Button Text') {
@@ -89,6 +91,11 @@ class PhotoRequest extends Emails
         $message = str_replace(['[order_id]'], [$order_id], $message);
 
         return $message;
+    }
+
+    public function getDiscountText()
+    {
+        return $this->settings['discount_text'];
     }
 
     public function getTemplatePreview()
