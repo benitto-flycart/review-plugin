@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
-class DiscountRequest extends Emails
+class DiscountReminder extends Emails
 {
     public $settings = [];
 

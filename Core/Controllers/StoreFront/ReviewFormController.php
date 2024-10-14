@@ -8,6 +8,8 @@ use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\Core\Controllers\Helpers\Review\Comment;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -174,12 +176,19 @@ class ReviewFormController
 
             $comment = new Comment($product_id, $order_id);
 
+            $isPhotoAlreadyAdded = $comment->isPhotoAlreadyAdded();
+            $isPhotoReviewAddedAtFirstTime =  false;
+
             $review_added = $comment->isCommentAlreadyAddedForProductOrder();
 
             $submit_slide = $request->get('submit_slide');
 
             if (!$review_added) {
                 $comment_data = static::getReviewData($product_id, $request, $order);
+
+                if (!$isPhotoAlreadyAdded) {
+                    $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos') ?? []);
+                }
 
                 $comment_meta_data = [
                     'verified' => !empty($order) ? 1 : 0,
@@ -195,12 +204,35 @@ class ReviewFormController
                 ];
 
                 $comment->updateComment($comment_data, $comment_meta_data);
+
+                if (\ActionScheduler::is_initialized()) {
+                    NotificationHistory::query()->create([
+                        'model_id' => $product_id,
+                        'model_type' => 'product',
+                        'order_id' => $order_id,
+                        'status' =>  'pending',
+                        'notify_type' => EmailSetting::PHOTO_REQUEST_TYPE,
+                        'medium' => NotificationHistory::MEDIUM_EMAIL,
+                        'created_at' => Functions::currentUTCTime(),
+                        'updated_at' => Functions::currentUTCTime(),
+                    ]);
+
+                    $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+                    //Add Option in Settings Page when to send review
+                    $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
+                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+                }
             } else {
                 if ($submit_slide == 'photo') {
 
                     $attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
 
                     $attachments = Functions::jsonDecode($attachments);
+
+                    if (!$isPhotoAlreadyAdded) {
+                        $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos') ?? []);
+                    }
 
                     $attachments['photos'] = array_merge($attachments['photos'], array_map(function ($attachment) {
                         return [
@@ -211,6 +243,28 @@ class ReviewFormController
                     $comment->updateComment([], [
                         '_review_attachments' => Functions::jsonEncode($attachments),
                     ]);
+                }
+            }
+
+            if ($isPhotoReviewAddedAtFirstTime) {
+                //code
+                if (\ActionScheduler::is_initialized()) {
+                    NotificationHistory::query()->create([
+                        'model_id' => $product_id,
+                        'model_type' => 'product',
+                        'order_id' => $order_id,
+                        'status' =>  'pending',
+                        'notify_type' => EmailSetting::PHOTO_REQUEST_TYPE,
+                        'medium' => NotificationHistory::MEDIUM_EMAIL,
+                        'created_at' => Functions::currentUTCTime(),
+                        'updated_at' => Functions::currentUTCTime(),
+                    ]);
+
+                    $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+                    //Add Option in Settings Page when to send review
+                    $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
+                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
                 }
             }
 

@@ -29,14 +29,14 @@ class GeneralSettings extends ReviewSettings
     {
         return [
             'send_replies_to' => $settings['send_replies_to'] ?? '',
-            'enable_email_footer' => Functions::getBoolValue($settings['send_replies_to']) ?? false,
+            'enable_email_footer' => Functions::getBoolValue($settings['enable_email_footer']) ?? false,
             'footer_text' => $settings['footer_text'] ?? '',
             'reviewers_name_format' => $settings['reviewers_name_format'] ?? 'first_name',
             'auto_publish_new_reviews' => Functions::getBoolValue($settings['auto_publish_new_reviews']) ?? false,
             'enable_review_notification' => Functions::getBoolValue($settings['enable_review_notification']) ?? false,
             'review_notification_to' => $settings['review_notification_to'] ?? '',
-            'review_request_timing' => $settings['review_request_timing'] ?? 'immediate',
-            'order_status' => $settings['order_status'] ?? ['completed'],
+            'review_request_timing' => $settings['review_request_timing'] ?? 1,
+            'order_status' => $settings['order_status'] ?? 'wc-completed',
         ];
     }
 
@@ -66,5 +66,16 @@ class GeneralSettings extends ReviewSettings
     {
 
         return $this->generalSettings['footer_text'];
+    }
+
+
+    public function getOrderStatus()
+    {
+        return $this->generalSettings['order_status'];
+    }
+
+    public function getReviewRequestDelay()
+    {
+        return $this->generalSettings['review_request_timing'] * 24 * 24 * 60;
     }
 }

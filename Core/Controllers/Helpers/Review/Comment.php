@@ -5,6 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Review;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\OrderReview;
+use Flycart\Review\Core\Models\Review;
 
 
 class Comment
@@ -41,8 +42,10 @@ class Comment
             ->select("*, {$commentMetaTable}.meta_key as order_meta_key, {$commentMetaTable}.meta_value as order_meta_id")
             ->leftJoin($commentMetaTable, "{$commentsTable}.comment_ID = {$commentMetaTable}.comment_id")
             ->where("{$commentsTable}.comment_post_ID = %d AND comment_type = %s", [$this->product->get_id(), 'review'])
-            ->where("{$commentMetaTable}.meta_key = %s AND {$commentMetaTable}.meta_value = %d",
-                [OrderReview::COMMENT_META_ORDER_KEY, $this->order->get_id()])
+            ->where(
+                "{$commentMetaTable}.meta_key = %s AND {$commentMetaTable}.meta_value = %d",
+                [OrderReview::COMMENT_META_ORDER_KEY, $this->order->get_id()]
+            )
             ->first();
 
         if ($comment) {
@@ -82,6 +85,7 @@ class Comment
 
     public function isEnableAddPhotos()
     {
+        //TODO: the second is not mandatory i think
         return apply_filters('flycart_review_enable_add_photos_in_new_comments', true) && count($this->attachments['photos'] ?? []) < 5;
     }
 
@@ -138,9 +142,19 @@ class Comment
 
             $this->comment = get_comment($comment_id, ARRAY_A);
             $this->comment_meta = get_comment_meta($comment_id);
+
+            Review::query()->create([
+                'review_id' =>  $comment_id,
+                'order_id' =>  $comment_meta_data['_review_order_id'],
+                'product_id' =>  $comment_data['comment_post_ID'],
+                'woo_order_id' => $comment_meta_data['_review_order_id'],
+                'customer_email' => $comment_data['comment_author_email'],
+                'created_at' =>  Functions::currentUTCTime(),
+                'updated_at' =>  Functions::currentUTCTime(),
+            ]);
         } else {
 
-            if(!empty($comment_data)) {
+            if (!empty($comment_data)) {
                 // If a comment exists, update it
                 wp_update_comment($comment_data);
             }
@@ -156,5 +170,10 @@ class Comment
         }
 
         return $this->comment['comment_ID'];
+    }
+
+    public function isPhotoAlreadyAdded()
+    {
+        return count($this->attachments['photos'] ?? []);
     }
 }

@@ -15,7 +15,7 @@ class DiscountSettings extends ReviewSettings
             ->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
             ->first();
 
-        $data = Functions::jsonDecode($brand_setting->meta_value);
+        $data = Functions::jsonDecode($brand_setting->meta_value ?? '{}');
 
         $this->discountSettings = $this->mergeWithDefault($data);
     }
@@ -78,3 +78,4 @@ class DiscountSettings extends ReviewSettings
         return vsprintf(esc_html__('%s %s', 'f-review'), [$discount_value, $label]);
     }
 }
+

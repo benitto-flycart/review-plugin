@@ -15,7 +15,7 @@ class BrandSettings extends ReviewSettings
             ->where("meta_key = %s", [ReviewSetting::BRAND_SETTINGS])
             ->first();
 
-        $data = Functions::jsonDecode($brand_setting->meta_value);
+        $data = Functions::jsonDecode($brand_setting->meta_value ?? '{}');
 
         $this->brandSettings = $this->mergeWithDefault($data);
     }
@@ -29,13 +29,13 @@ class BrandSettings extends ReviewSettings
     {
         return [
             'corner_radius' => $settings['corner_radius'] ?? '',
-            'enable_logo' => Functions::getBoolValue($settings['enable_logo']) ?? false,
+            'enable_logo' => Functions::getBoolValue($settings['enable_logo'] ?? false),
             'logo_url' => $settings['logo_url'] ?? '',
-            'rating_icon' => $settings['rating_icon'] ?? '',
-            'enable_review_branding' => Functions::getBoolValue($settings['enable_review_branding']) ?? false,
-            'enable_email_banners' => $settings['enable_email_banners'] ?? false,
+            'rating_icon' => $settings['rating_icon'] ?? 'gem',
+            'enable_review_branding' => Functions::getBoolValue($settings['enable_review_branding'] ?? false),
+            'enable_email_banners' => Functions::getBoolValue($settings['enable_email_banners'] ?? false),
             'banner_src' => $settings['banner_src'] ?? '',
-            'rating_rgb_color' => $settings['rating_rgb_color'] ?? '',
+            'rating_rgb_color' => $settings['rating_rgb_color'] ?? '#000000',
             'appearance' => $appearance = $settings['appearance'] ?? 'default',
             'appearance_options' => $appearance != "default" ? [
                 'email_background_color' => $settings['appearance_options']['email_background_color'] ?? '',
