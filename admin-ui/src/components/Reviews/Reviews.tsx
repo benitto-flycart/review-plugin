@@ -97,22 +97,15 @@ export const Reviews = () => {
 
     return (
         <div className=" frt-flex frt-flex-col frt-gap-y-3 frt-p-6">
-            <h1 className="!frt-text-4xl !frt-font-bold !frt-text-gray-900 frt-mb-2">
+            <h1 className="!frt-text-3xl !frt-font-bold !frt-text-gray-900 frt-mb-2">
                 Reviews
             </h1>
             <div className={"frt-flex frt-gap-x-5 md:frt-flex-row frt-flex-col"}>
                 <ReviewRatings reviewState={reviewState}/>
-                <div className={"md:frt-w-[70%]"}>
+                <div className={"md:frt-w-[80%]"}>
                     <div className="frt-space-y-4">
-                        <Input
-                            placeholder="Search by name, email or product"
-                            value={filter.search}
-                            onChange={(e) => {
-                                setFilter({...filter, search: e.target.value});
-                            }}
-                        />
 
-                        <div className="frt-flex frt-flex-col frt-sm:flex-row frt-gap-4">
+                        <div className="frt-flex frt-sm:flex-row frt-gap-4">
                             <Select
                                 value={filter.status}
                                 onValueChange={(value: any) => {
@@ -154,6 +147,13 @@ export const Reviews = () => {
                                 </SelectContent>
                             </Select>
                         </div>
+                        <Input
+                            placeholder="Search by name, email or product"
+                            value={filter.search}
+                            onChange={(e) => {
+                                setFilter({...filter, search: e.target.value});
+                            }}
+                        />
                         <div className="frt-flex frt-justify-end">
                             <Button onClick={getReviews}>Search</Button>
                         </div>

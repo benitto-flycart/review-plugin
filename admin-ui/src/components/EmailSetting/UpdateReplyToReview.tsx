@@ -13,6 +13,7 @@ import EmailNavigation from "./utils/EmailNavigation";
 import LanguageList from "./utils/LanguageList";
 import {produce} from "immer";
 import {showValidationError} from "../../helpers/html";
+import PreviewEmailDialog from "./PreviewEmailDialog";
 
 
 const UpdateReplyToReview = () => {
@@ -24,6 +25,9 @@ const UpdateReplyToReview = () => {
         subject: "",
         body: "",
     })
+    const [showEmailDialog,setShowEmailDialog] = useState<boolean>(false);
+    const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
+    const [emailPreviewContent, setEmailPreviewContent] = useState<any>();
     const [errors, setErrors] = useState<any>()
     const [currentLocale, setCurrentLocale, availableLanguages] = useLocale()
 
@@ -90,9 +94,28 @@ const UpdateReplyToReview = () => {
 
     };
 
-    const handlePreviewAction = (event: React.MouseEvent) => {
-        event.preventDefault()
-    }
+    const loadPreview = (e: any) => {
+        e.preventDefault();
+        setLoadingPreview(true);
+        axiosClient
+            .post("", {
+                method: "get_email_preview",
+                email_type: "reply_to_review",
+                _wp_nonce_key: "flycart_review_nonce",
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                language: currentLocale,
+            })
+            .then((response: any) => {
+                let data = response.data.data;
+                setEmailPreviewContent(data.content)
+            })
+            .catch((error: any) => {
+                toastrError("Server Error Occurred");
+            })
+            .finally(() => {
+                setLoadingPreview(false);
+            });
+    };
 
     useEffect(() => {
         fetchReviewReplyRequest()
@@ -162,7 +185,10 @@ const UpdateReplyToReview = () => {
                                     {updating ? (<span><LoadingSpinner/></span>) : null}
                                     <span>Save Changes</span>
                                 </Button>
-                                <Button onClick={handlePreviewAction}
+                                <Button  onClick={(event:React.MouseEvent)=>{
+                                    setShowEmailDialog(true)
+                                    loadPreview(event)
+                                }}
                                         className={"frt-flex frt-justify-between frt-gap-2  "}>
                                     <span>Preview</span>
                                 </Button>
@@ -170,6 +196,7 @@ const UpdateReplyToReview = () => {
                         </Card>
                     </form>)
             }
+            <PreviewEmailDialog show={showEmailDialog} previewContent={emailPreviewContent} toggle={setShowEmailDialog} loadingPreview={loadingPreview} title={"Reply to review"} />
         </div>
     )
 }

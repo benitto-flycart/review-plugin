@@ -195,7 +195,7 @@ const ManualReviewRequestForm = () => {
                     <span>By sending this email, I confirm that the recipients have given consent</span>
                 </div>
                 {showValidationError(errors,"terms_is_accepted")}
-                <Button  onClick={saveManualReviewRequestFormSettings}>
+                <Button className={"frt-max-w-max"}  onClick={saveManualReviewRequestFormSettings}>
                     {saveChangesLoading && (
                         <span className="frt-mx-2"><LoadingSpinner/></span>
                     )}

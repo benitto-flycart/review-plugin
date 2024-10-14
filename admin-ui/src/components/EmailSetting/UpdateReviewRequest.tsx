@@ -1,18 +1,19 @@
-import { Card } from "../ui/card";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import React, { useEffect, useState } from "react";
+import {Card} from "../ui/card";
+import {Input} from "../ui/input";
+import {Textarea} from "../ui/textarea";
+import {Button} from "../ui/button";
+import React, {useEffect, useState} from "react";
 import * as yup from "yup";
-import { axiosClient } from "../api/axios";
-import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
-import { useLocalState } from "../zustand/localState";
-import { LoadingSpinner } from "../ui/loader";
+import {axiosClient} from "../api/axios";
+import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
+import {useLocalState} from "../zustand/localState";
+import {LoadingSpinner} from "../ui/loader";
 import useLocale from "./utils/useLocale";
 import LanguageList from "./utils/LanguageList";
 import EmailNavigation from "./utils/EmailNavigation";
-import { produce } from "immer";
-import { showValidationError } from "../../helpers/html";
+import {produce} from "immer";
+import {showValidationError} from "../../helpers/html";
+import PreviewEmailDialog from "./PreviewEmailDialog";
 
 type FormValues = {
   language: string;
@@ -26,9 +27,10 @@ const UpdateReviewRequest = () => {
 
   const [updating, setUpdating] = useState<boolean>(false);
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
-
+  const [emailPreviewContent, setEmailPreviewContent] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [currentLocale, setCurrentLocale, availableLanguages] = useLocale();
+  const [showEmailDialog,setShowEmailDialog] = useState<boolean>(false);
   const [state, setState] = useState({
     language: currentLocale,
     subject: "Order #{order_number}, how did it go?",
@@ -43,6 +45,7 @@ const UpdateReviewRequest = () => {
     body: yup.string().required("Body is required"),
     button_text: yup.string().required("Button Text is required"),
   });
+
   const loadPreview = (e: any) => {
     e.preventDefault();
     setLoadingPreview(true);
@@ -56,7 +59,7 @@ const UpdateReviewRequest = () => {
       })
       .then((response: any) => {
         let data = response.data.data;
-        console.log(response.data);
+        setEmailPreviewContent(data.content)
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -229,22 +232,19 @@ const UpdateReviewRequest = () => {
                 <span>Save Changes</span>
               </Button>
               <Button
-                onClick={loadPreview}
-                type={"submit"}
+                onClick={(event:React.MouseEvent)=>{
+                  setShowEmailDialog(true)
+                  loadPreview(event)
+                }}
                 className={"frt-flex frt-justify-between frt-gap-2  "}
               >
-                {loadingPreview ? (
-                  <span>
-                    <LoadingSpinner />
-                  </span>
-                ) : null}
-
                 <span>Preview</span>
               </Button>
             </div>
           </Card>
         </form>
       )}
+      <PreviewEmailDialog show={showEmailDialog} previewContent={emailPreviewContent} toggle={setShowEmailDialog} loadingPreview={loadingPreview} title={"Review request"} />
     </div>
   );
 };

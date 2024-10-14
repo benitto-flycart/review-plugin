@@ -123,7 +123,8 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
                 '--r-r_sbw-bg-color': widget.button_bg_color,
             };
         },
-        saveSettings
+        saveSettings,
+        getSettings
     }
 
     useEffect(() => {

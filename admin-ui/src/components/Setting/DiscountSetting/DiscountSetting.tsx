@@ -265,7 +265,7 @@ const DiscountSetting = () => {
                                 </SettingsRowWrapper>
                             </> : null
                         }
-                        <Button onClick={saveDiscountSettings} className={"frt-w-32"}>
+                        <Button onClick={saveDiscountSettings} className={"frt-max-w-max"}>
                             {saveChangesLoading && (
                                 <span className="frt-mx-2">
                                         <LoadingSpinner/>

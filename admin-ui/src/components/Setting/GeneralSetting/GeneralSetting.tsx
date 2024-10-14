@@ -381,7 +381,7 @@ const GeneralSetting = () => {
                 {showValidationError(errors, "order_status")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
-            <Button className={"frt-w-32"} onClick={saveGeneralSettings}>
+            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings}>
               {saveChangesLoading && (
                 <span className="frt-mx-2">
                   <LoadingSpinner />

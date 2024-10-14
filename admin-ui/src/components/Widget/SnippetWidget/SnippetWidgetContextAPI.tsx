@@ -145,7 +145,8 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
                 borderRadius: "50%"
             }
         },
-        saveSettings
+        saveSettings,
+        getSettings
     }
 
     useEffect(() => {

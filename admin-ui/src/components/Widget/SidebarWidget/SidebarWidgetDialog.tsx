@@ -7,14 +7,13 @@ import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
 import SidebarWidgetConfigSetting from "./SidebarWidgetConfigSetting";
 import SidebarWidgetConfigPages from "./SidebarWidgetConfigPages";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import PreviewSidebarWidget from "./PreviewSidebarWidget";
 
 const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(SidebarWidgetContext)
 
     const settings = {
-        title: 'Popup Widget Configuration',
+        title: 'Sidebar Widget Configuration',
         widget_slug: 'sidebar',
         options: [
             {

@@ -98,6 +98,26 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         });
     }
 
+    const getSettings = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'get_widget_settings',
+            widget_type: 'review_form_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
     const widgetMethods = {
         getAddPhotosDivStyles: () => {
             return {
@@ -129,7 +149,8 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
                 "--r-rfw-btn-bg-color": widget.general.button_bg_color,
             }
         },
-        saveSettings
+        saveSettings,
+        getSettings
     }
 
     const updateWidgetFields = (cb: any) => {
@@ -138,27 +159,6 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
         })
         setWidget(newState);
     }
-
-    const getSettings = () => {
-        setLoading(true)
-        axiosClient.post('', {
-            method: 'get_widget_settings',
-            widget_type: 'review_form_widget',
-            language: localState.current_locale,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setLoading(false)
-        });
-    }
-
 
     useEffect(() => {
         getSettings()

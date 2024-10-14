@@ -13,6 +13,7 @@ import EmailNavigation from "./utils/EmailNavigation";
 import LanguageList from "./utils/LanguageList";
 import {produce} from "immer";
 import {showValidationError} from "../../helpers/html";
+import PreviewEmailDialog from "./PreviewEmailDialog";
 
 
 type FormValues = {
@@ -34,8 +35,10 @@ const UpdateReviewReminder = () => {
         body: "Hello {name}, We would be grateful if you shared how things look and feel . Your reviews help us and the community that support us, and it only takes a few seconds",
         button_text: 'Write a Review',
     })
+    const [emailPreviewContent, setEmailPreviewContent] = useState<any>();
+    const [showEmailDialog, setShowEmailDialog] = useState<boolean>(false);
     const [errors, setErrors] = useState<any>();
-
+    const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
     const schema = yup.object().shape({
         language: yup.string().required("Language is required"),
         subject: yup.string().required("Subject is required"),
@@ -104,9 +107,28 @@ const UpdateReviewReminder = () => {
         setState(prevState => produce(prevState, cb));
     };
 
-    const handlePreviewAction = (event: React.MouseEvent) => {
-        event.preventDefault()
-    }
+    const loadPreview = (e: any) => {
+        e.preventDefault();
+        setLoadingPreview(true);
+        axiosClient
+            .post("", {
+                method: "get_email_preview",
+                email_type: "review_reminder",
+                _wp_nonce_key: "flycart_review_nonce",
+                _wp_nonce: localState?.nonces?.flycart_review_nonce,
+                language: currentLocale,
+            })
+            .then((response: any) => {
+                let data = response.data.data;
+                setEmailPreviewContent(data.content)
+            })
+            .catch((error: any) => {
+                toastrError("Server Error Occurred");
+            })
+            .finally(() => {
+                setLoadingPreview(false);
+            });
+    };
 
     useEffect(() => {
         fetchReviewRemainderRequest();
@@ -193,7 +215,10 @@ const UpdateReviewReminder = () => {
                                     {updating ? (<span><LoadingSpinner/></span>) : null}
                                     <span>Save Changes</span>
                                 </Button>
-                                <Button onClick={handlePreviewAction}
+                                <Button onClick={(event: React.MouseEvent) => {
+                                    setShowEmailDialog(true)
+                                    loadPreview(event)
+                                }}
                                         className={"frt-flex frt-justify-between frt-gap-2  "}>
                                     <span>Preview</span>
                                 </Button>
@@ -201,6 +226,8 @@ const UpdateReviewReminder = () => {
                         </Card>
                     </form>)
             }
+            <PreviewEmailDialog show={showEmailDialog} previewContent={emailPreviewContent} toggle={setShowEmailDialog}
+                                loadingPreview={loadingPreview} title={"Review reminder"}/>
         </div>
     )
 }

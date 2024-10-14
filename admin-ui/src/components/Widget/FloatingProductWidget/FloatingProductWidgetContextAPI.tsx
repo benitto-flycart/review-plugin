@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import {produce} from "immer";
 import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
@@ -86,7 +86,8 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
                 color: widget.text_color,
             }
         },
-        saveSettings
+        saveSettings,
+        getSettings:fetchFloatingProductWidget
     }
 
     return (

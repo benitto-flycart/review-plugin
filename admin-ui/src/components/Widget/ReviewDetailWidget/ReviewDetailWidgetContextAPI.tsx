@@ -38,6 +38,26 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
         })
     }
 
+    const getSettings = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'get_widget_settings',
+            widget_type: 'review_detail_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
     const saveSettings = () => {
         setSaving(true)
         axiosClient.post('', {
@@ -68,7 +88,8 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
                 "--r-rdw-btn-bg-color": widget.colors.button_bg_color,
             }
         },
-        saveSettings
+        saveSettings,
+        getSettings
     }
 
     const updateWidgetFields = (cb: any) => {
@@ -76,26 +97,6 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
             return cb(draft)
         })
         setWidget(newState);
-    }
-
-    const getSettings = () => {
-        setLoading(true)
-        axiosClient.post('', {
-            method: 'get_widget_settings',
-            widget_type: 'review_detail_widget',
-            language: localState.current_locale,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setLoading(false)
-        });
     }
 
     useEffect(() => {
