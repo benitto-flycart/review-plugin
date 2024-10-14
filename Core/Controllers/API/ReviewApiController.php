@@ -5,6 +5,8 @@ namespace Flycart\Review\Core\Controllers\Api;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\ReviewListCollection;
 use Flycart\Review\Package\Request\Request;
@@ -154,9 +156,7 @@ class ReviewApiController
             $review_id = $request->get('id');
 
             if (empty($review_id)) {
-                return Response::error([
-                    'message' => "Review Id is required",
-                ], 422);
+                return Response::error([], 422);
             }
 
             if (empty($type)) {
@@ -188,6 +188,64 @@ class ReviewApiController
             return Response::success([
                 'message' => 'Unable to Update right now, please try again later'
             ], 500);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public function saveReply(Request $request)
+    {
+        try {
+            $content = $request->get('content');
+            $review_id = $request->get('id');
+
+            $comment = get_comment($review_id);
+
+            $user = wp_get_current_user();
+
+            if (!empty($comment)) {
+                $reply_data = [
+                    'comment_post_ID'      => $comment->comment_post_ID,  // The product ID
+                    'comment_author'       =>  $user->display_name,  // Replace with the author name or dynamic name
+                    'comment_author_email' => $user->user_email,  // Replace with the author's email
+                    'comment_content'      => $content,  // The reply content
+                    'comment_parent'       => $review_id,  // The parent review ID
+                    'user_id'              => $user->ID,  // ID of the user submitting the reply
+                    'comment_approved'     => 1,  // Set to 1 to automatically approve the reply
+                    'comment_type'         => 'comment'   // Empty for standard comments/replies
+                ];
+
+                wp_insert_comment($reply_data);
+
+                if (\ActionScheduler::is_initialized()) {
+                    error_log('triggering action schedular for review reply');
+
+                    NotificationHistory::query()->create([
+                        'model_id' => $product_id = $comment->comment_post_ID,
+                        'model_type' => 'product',
+                        'status' =>  'pending',
+                        'order_id' =>  NULL,
+                        'notify_type' => EmailSetting::REPLY_REQUEST_TYPE,
+                        'medium' => NotificationHistory::MEDIUM_EMAIL,
+                        'created_at' => Functions::currentUTCTime(),
+                        'updated_at' => Functions::currentUTCTime(),
+                    ]);
+
+                    $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+                    //Add Option in Settings Page when to send review
+                    $hook_name = F_Review_PREFIX . 'send_review_reply_email';
+                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+                }
+
+                Response::success([
+                    'message' => __("Reply captured"),
+                ]);
+            }
+            Response::success([
+                'message' => __("Parent Comment not found"),
+            ], 404);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
