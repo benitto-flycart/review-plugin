@@ -3,8 +3,10 @@
 namespace Flycart\Review\Core\Emails;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
+use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\Core\Emails\Settings\DiscountNotifySetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\EmailSetting;
@@ -58,7 +60,7 @@ class DiscountNotifyEmail extends WC_Email
 
         $html = $this->get_content();
 
-        $shop_page_url = get_permalink(wc_get_page_id('shop'));
+        $shop_page_url = WC::getShopPageURL();
 
         $short_codes = [
             '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
@@ -80,7 +82,7 @@ class DiscountNotifyEmail extends WC_Email
         }
 
         //TODO: Update the Email
-        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         if (\ActionScheduler::is_initialized()) {
 
@@ -120,6 +122,9 @@ class DiscountNotifyEmail extends WC_Email
             'sent_to_admin' => false,
             'plain_text' => $plain_text,
             'email' => $this,
+            'brandSettings' => $this->brandSettings,
+            'generalSettings' => $this->generalSettings,
+            'discountNotify' => $this->discountNotify,
         ), '', $this->template_base);
     }
 }

@@ -6,19 +6,17 @@ use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Resource;
 use Flycart\Review\Core\Models\EmailSetting;
 
-class ReviewDiscountReminderEmailSetting extends Resource
+class ReviewReplyRequestResource extends Resource
 {
     public function toArray($settings)
     {
-        $data = [
+        return [
             'language' => $settings['language'],
             'language_label' => WordpressHelper::getLanguageLabel($settings['language']),
-            'type' => EmailSetting::PHOTO_REQUEST_TYPE,
+            'type' => EmailSetting::REPLY_REQUEST_TYPE,
             'status' => $settings['status'],
-            'settings' => EmailSetting::getReviewSettingsAsArray($settings['settings']),
+            'settings' => $settings['settings'],
             'placeholders' => $settings['placeholders'],
         ];
-
-        return $data;
     }
 }

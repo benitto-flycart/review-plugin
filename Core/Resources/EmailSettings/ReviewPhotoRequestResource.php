@@ -20,4 +20,3 @@ class ReviewPhotoRequestResource extends Resource
         ];
     }
 }
-

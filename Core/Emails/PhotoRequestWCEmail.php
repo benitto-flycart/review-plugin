@@ -90,7 +90,7 @@ class PhotoRequestWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
             'notification_content' => $html,

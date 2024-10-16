@@ -91,7 +91,6 @@ class PhotoRequest extends Emails
         static::$forPreview = true;
         //get_sample_order_data
         $order = $this->getSampleOrderData();
-        $file = '';
 
         $brandSettings = (new BrandSettings);
 

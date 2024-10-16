@@ -309,10 +309,14 @@ class WC
 
     public static function getProduct($product_id)
     {
-       if(function_exists('wc_get_product'))  {
-           return wc_get_product($product_id);
-       }
-       return null;
+        if (function_exists('wc_get_product')) {
+            return wc_get_product($product_id);
+        }
+        return null;
     }
 
+    public static function getShopPageURL()
+    {
+        return get_permalink(wc_get_page_id('shop'));
+    }
 }

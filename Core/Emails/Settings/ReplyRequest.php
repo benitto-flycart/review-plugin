@@ -2,85 +2,117 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+use Flycart\Review\App\Helpers\AssetHelper;
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
-use WC_Order;
 
 class ReplyRequest extends Emails
 {
     public $settings = [];
 
+    public $placeholders = [];
+
     public function __construct($language)
     {
         $this->locale = $language;
 
-        $reviewRequest = EmailSetting::query()
+        $replyRequest = EmailSetting::query()
             ->where("language = %s", [$this->locale])
             ->where("type = %s", [EmailSetting::REPLY_REQUEST_TYPE])
             ->first();
 
-        if (empty($reviewRequest)) {
+        if (empty($replyRequest)) {
             $settings = $this->getDefault($this->locale);
             $this->status = 'active';
         } else {
-            $settings = $reviewRequest->settings;
+            $settings = $replyRequest->settings;
             $settings = EmailSetting::getReviewSettingsAsArray($settings);
 
-            $this->status = $reviewRequest->status;
+            $this->status = $replyRequest->status;
         }
-
         $this->settings = $settings;
-    }
 
-    public function getSettings()
-    {
-        return $this->settings;
-    }
-
-    public function getSubject()
-    {
-        return $this->settings['subject'];
+        $this->placeholders = $this->getPlaceHolders();
     }
 
     public function getBody()
     {
-        return $this->settings['body'];
+        return $this->getValue('body');
     }
 
-    public function getButtonText()
+    public function getSubject()
     {
-        return $this->settings['button_text'];
+        return $this->getValue('subject');
+    }
+
+    private function getValue(string $string)
+    {
+        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
+            return $this->settings[$string];
+        }
+
+        return $this->placeholders[$string] ?? '';
+    }
+
+    public function getPlaceHolders()
+    {
+        $data['subject'] = 'In response to your review of [product]';
+        $data['body'] = "Hello [name],\n\nA reply was added to your review of [product]: \n\n[reply_content]\n\nTo respond privately, reply to this email";
+
+        return $data;
     }
 
     public function getDefault()
     {
-        $data = [
-            'body' => __('Review Request Body', 'flycart-review'),
-            'subject' => __('Review Request Subject', 'flycart-review'),
-            'button_text' => __('Review Request Button Text', 'flycart-review'),
-        ];
+        $data['body'] = "";
 
-        if ($data['body'] == 'Review Request Body') {
-            $data['body'] = "Hello [Name] \n \n A Reply was added to your review of [product]:";
-        }
+        $data['subject'] = '';
 
-        if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'In response to your review of [product]';
-        }
-
-        if ($data['button_text'] == 'Review Request Button Text') {
-            $data['button_text'] = 'Write a Review';
-        }
-
-        return apply_filters('flycart_review_review_request_data', $data, $this->locale);
-    }
-
-    public function getCustomerName(WC_Order $order)
-    {
-        return $order->get_billing_first_name();
+        return $data;
     }
 
     public function getTemplatePreview()
     {
-        return 'reply request email template';
+        static::$forPreview = true;
+
+        $order = $this->getSampleOrderData();
+
+        $brandSettings = (new BrandSettings);
+
+        $generalSettings = (new GeneralSettings);
+
+        $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reply.php';
+
+        $replyRequest = $this;
+
+        $data = [
+            'order' => $order,
+            'brandSettings' => $brandSettings,
+            'generalSettings' => $generalSettings,
+            'replyRequest' => $replyRequest
+        ];
+
+        $html =  AssetHelper::renderTemplate($file, $data);
+
+        $short_codes = [
+            '{email}' => '',
+            '{logo_src}' => $brandSettings->getLogoSrc(),
+            '{banner_src}' => $brandSettings->getEmailBanner(),
+            '{customer_name}' => '',
+            '{body}' => $this->getBody(),
+            '{footer_text}' => $generalSettings->getFooterText(),
+            '{unsubscribe_link}' => 'https://localhost:8004',
+        ];
+
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_reply_email_short_codes', $short_codes);
+
+        foreach ($short_codes as $short_code => $short_code_value) {
+            $html = str_replace($short_code, $short_code_value, $html);
+        }
+
+        static::$forPreview = false;
+
+        return $html;
     }
 }

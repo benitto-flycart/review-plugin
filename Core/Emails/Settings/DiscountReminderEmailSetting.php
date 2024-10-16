@@ -2,15 +2,20 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+use Flycart\Review\App\Helpers\AssetHelper;
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
 class DiscountReminderEmailSetting extends Emails
 {
     public $settings = [];
+    public $placeholders = [];
 
     public function __construct($language)
     {
+        error_log('object resovled');
         $this->locale = $language;
 
         $discountReminder = EmailSetting::query()
@@ -28,59 +33,117 @@ class DiscountReminderEmailSetting extends Emails
         }
 
         $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
     }
 
-    public function getSettings()
+
+    private function getValue(string $string)
     {
-        return $this->settings;
-    }
+        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
+            return $this->settings[$string];
+        }
 
+        return $this->placeholders[$string] ?? '';
+    }
 
     public function getSubject()
     {
-        return $this->settings['subject'];
+        return $this->getValue('subject');
     }
 
-    public function getBodyText()
+    public function getBody()
     {
-        return $this->settings['body'];
+        return $this->getValue('body');
     }
 
     public function getButtonText()
     {
-        return $this->settings['button_text'];
+        return $this->getValue('button_text');
     }
+
+
 
     public function getDefaults()
     {
-        $data = [
-            'body' => __('Review Request Body', 'flycart-review'),
-            'subject' => __('Review Request Subject', 'flycart-review'),
-            'button_text' => __('Review Request Button Text', 'flycart-review'),
-        ];
+        $data['body'] = '';
 
-        if ($data['body'] == 'Review Request Body') {
-            $data['body'] = 'Order #{order_number}, how did it go?';
-        }
+        $data['subject'] = '';
 
-        if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'Order #{order_number}, how did it go?';
-        }
+        $data['button_text'] = '';
 
-        if ($data['button_text'] == 'Review Request Button Text') {
-            $data['button_text'] = 'Write a Review';
-        }
-
-        return apply_filters('flycart_review_review_request_data', $data, $this->locale);
+        return $data;
     }
 
-    public function getCustomerName(WC_Order $order)
+    public  function getPlaceHolders()
     {
-        return $order->get_billing_first_name();
+        $data['subject'] = "Your discount code at [client]";
+
+        $data['body'] = "Hello [name]," .
+            "\n \nThank you for sharing your experience!" .
+            "\n \n Use the following discount code for [discount] off your next purchase at [client]!";
+
+        $data['button_text'] = 'Shop now';
+
+        return $data;
     }
 
     public function getTemplatePreview()
     {
-        return 'Discount Reminder email template';
+        static::$forPreview = true;
+        //get_sample_order_data
+        $order = $this->getSampleOrderData();
+        $file = '';
+
+        $brandSettings = (new BrandSettings);
+
+        $generalSettings = (new GeneralSettings);
+
+        $discountReminder = $this;
+
+        $data = [
+            'order' => $order,
+            'brandSettings' => $brandSettings,
+            'generalSettings' => $generalSettings,
+            'discountReminder' => $discountReminder,
+        ];
+
+        $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/discount-reminder.php';
+
+        $html =  AssetHelper::renderTemplate($file, $data);
+
+        $short_codes = [
+            '{email}' => $order->get_billing_email(),
+            '{logo_src}' => $brandSettings->getLogoSrc(),
+            '{banner_src}' => $brandSettings->getEmailBanner(),
+            '{body}' => $this->replaceCustomeEmailPlaceholders($discountReminder->getBody(), $order),
+            '{button_text}' => $this->replaceCustomeEmailPlaceholders($discountReminder->getButtonText(), $order),
+            '{footer_text}' => $generalSettings->getFooterText(),
+            '{unsubscribe_link}' => 'https://localhost:8004',
+        ];
+
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_discount_reminder_email_short_codes', $short_codes);
+
+        foreach ($short_codes as $short_code => $short_code_value) {
+            $html = str_replace($short_code, $short_code_value, $html);
+        }
+
+        static::$forPreview = false;
+
+        return $html;
+    }
+
+    public function replaceCustomeEmailPlaceholders($content, \WC_Order $wooOrder)
+    {
+        return str_replace([
+            "[order_number]",
+            "[name]",
+            "[first_name]",
+            "[last_name]"
+        ], [
+            $wooOrder->get_id(),
+            $wooOrder->get_formatted_billing_full_name(),
+            $wooOrder->get_billing_first_name(),
+            $wooOrder->get_billing_last_name(),
+        ], $content);
     }
 }

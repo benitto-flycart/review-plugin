@@ -273,14 +273,6 @@
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td align="left"
-                                                                    style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
-                                                                        {reply_content}
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>

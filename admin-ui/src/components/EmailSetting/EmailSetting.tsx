@@ -8,6 +8,7 @@ import UpdatePhotoRequest from "./UpdatePhotoRequest";
 import UpdateDiscountReminder from "./UpdateDiscountReminder";
 import { NavLink } from "react-router-dom";
 import UpdateDiscountNotify from "./UpdateDiscountNotify";
+import UpdateReplyToReview from "./UpdateReplyToReview";
 
 const EmailSetting = () => {
   const { localState, setLocalState } = useLocalState();
@@ -71,7 +72,7 @@ const EmailSetting = () => {
       detailed_description:
         "This email notifies the customer when a reply has been posted to their review, keeping them engaged in the conversation",
       route: "/emails/reply-to-review",
-      viewComponent: UpdateReviewRequest,
+      viewComponent: UpdateReplyToReview,
     },
   ];
 

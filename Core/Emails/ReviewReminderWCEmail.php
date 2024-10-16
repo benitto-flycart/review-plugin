@@ -80,7 +80,7 @@ class ReviewReminderWCEmail extends WC_Email
         }
 
         //TODO: Replace the Hard coded email with the actual email 
-        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
             'notification_content' => $html,

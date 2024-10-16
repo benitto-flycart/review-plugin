@@ -5,6 +5,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
+use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
@@ -107,27 +108,33 @@ class ReviewReminderEmailSetting extends Emails
 
         $generalSettings = new GeneralSettings;
 
-        $reviewRequest = new (get_locale());
+        $discountReminder = $this;
 
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'reviewRequest' => $reviewRequest
+            'discountReminder' => $discountReminder
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reminder.php';
 
+        $shop_page_url = WC::getShopPageURL();
+
         $html =  AssetHelper::renderTemplate($file, $data);
+
+        error_log('printing body');
+        error_log($discountReminder->getBody());
 
         $short_codes = [
             '{{email}}' => $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
-            '{body}' => $this->replaceCustomeEmailPlaceholders($reviewRequest->getBody(), $order),
-            '{button_text}' => $this->replaceCustomeEmailPlaceholders($reviewRequest->getButtonText(), $order),
+            '{body}' => $discountReminder->getBody(),
+            '{button_text}' => $discountReminder->getButtonText(),
             '{footer_text}' => $generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
+            '{shop_page_url}' => $shop_page_url,
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);

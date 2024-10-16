@@ -11,14 +11,13 @@ use Flycart\Review\Core\Emails\Settings\DiscountReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\PhotoRequest;
 use Flycart\Review\Core\Emails\Settings\ReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReplyRequest;
-use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
-use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountNotifySettingResource;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountReminderEmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewPhotoRequestResource;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewRemainderResource;
+use Flycart\Review\Core\Resources\EmailSettings\ReviewReplyRequestResource;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewRequestResource;
 use Flycart\Review\Core\Validation\ReviewDiscountNotifySettingsValidation;
 use Flycart\Review\Core\Validation\ReviewDiscountRequestSettingsValidation;
@@ -287,10 +286,10 @@ class EmailSettingsController
                 'language' => $discountEmail->locale,
                 'language_label' => WordpressHelper::getLanguageLabel($discountEmail->locale),
                 'status' => $discountEmail->status,
-                'settings' =>  $discountEmail->getSettings()
+                'settings' =>  $discountEmail->getSettings(),
+                'placeholders' =>  $discountEmail->getPlaceHolders()
             ];
 
-            //Returning Review Data
             return ReviewDiscountReminderEmailSetting::resource([$data], [
                 'message' => __('Settings fetched')
             ]);
@@ -366,11 +365,12 @@ class EmailSettingsController
                 'language' => $language,
                 'language_label' => WordpressHelper::getLanguageLabel($language),
                 'status' => 'active',
-                'settings' => $replyRequest->getSettings()
+                'settings' => $replyRequest->getSettings(),
+                'placeholders' => $replyRequest->getPlaceHolders()
             ];
 
             //Returning Review Data
-            return ReviewPhotoRequestResource::resource([$data, [
+            return ReviewReplyRequestResource::resource([$data, [
                 'message' => __('Settings fetched', 'f-review'),
             ]]);
         } catch (\Exception | \Error $exception) {
