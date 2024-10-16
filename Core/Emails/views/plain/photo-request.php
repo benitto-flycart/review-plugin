@@ -210,7 +210,7 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td style="width:100%;"><img height="auto"
-                                                                                            src="<?php echo $brandSettings->getEmailBanner() ?>"
+                                                                                            src="{banner_src}"
                                                                                             style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
                                                                                             width="100%"></td>
                                                                                 </tr>
@@ -255,7 +255,7 @@
                                                                 <td align="left"
                                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                                     <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
-                                                                        <?php echo $photoRequest->getBody($order) ?>
+                                                                        {body}
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -263,7 +263,7 @@
                                                                 <td align="left"
                                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                                     <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
-                                                                        <?php echo $photoRequest->getDiscountText() ?>
+                                                                        {discount_text}
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -280,7 +280,7 @@
                                                                                 valign="middle">
                                                                                 <p
                                                                                     style="display:inline-block;background:#7c1b06;color:#ffffff;font-family:Helvetica, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
-                                                                                    <?php echo $photoRequest->getButtonText() ?>
+                                                                                    {button_text}
                                                                                 </p>
                                                                             </td>
                                                                         </tr>

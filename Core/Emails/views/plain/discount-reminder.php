@@ -1,17 +1,3 @@
-<?php
-$data = [
-    'logo' => 'https://static.flycart.net/email_customizer_advance/image/editor/logo.png',
-    'header_image' => 'https://static.flycart.net/email_customizer_advance/image/add-ons/eca-woocommerce-appointment-compatibility/icons/admin-appointment-cancelled.png',
-    'name' => 'Casey',
-    'text_1' => 'We would be grateful if you shared how things look and feel. Your review helps us and the community that supports us, and it only takes a few seconds.',
-    'discount_name' => 'LX-123456J',
-    'discount_expired_date' => '12/03/2025',
-    'button_link' => 'http://localhost:1010',
-    'footer_text' => 'Your footer goes here.',
-    'unsubscribe_link' => 'http://localhost:7000',
-];
-?>
-
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
     xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -113,7 +99,7 @@ $data = [
            bgcolor="#F5CEE4">
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <?php if (!empty($data['logo'])): ?>
+        <?php if ($brandSettings->isLogoEnabled()): ?>
             <div style="background:#F5CEE4;background-color:#F5CEE4;margin:0px auto;max-width:600px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="background:#F5CEE4;background-color:#F5CEE4;width:100%;">
@@ -194,7 +180,7 @@ $data = [
            bgcolor="#F5CEE4">
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <?php if (!empty($data['header_image'])): ?>
+        <?php if ($brandSettings->isEmailBannerEnabled()): ?>
             <div style="background:#F5CEE4;background-color:#F5CEE4;margin:0px auto;border-radius:15px 15px 0 0;max-width:600px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="background:#F5CEE4;background-color:#F5CEE4;width:100%;border-radius:15px 15px 0 0;">
@@ -300,7 +286,7 @@ $data = [
                                                                                 <td align="left"
                                                                                     style="font-size:0px;padding:10px 25px;padding-right:20px;word-break:break-word;">
                                                                                     <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
-                                                                                        Hey <?php echo $data['name']; ?>,<br><br><?php echo $data['text_1']; ?>
+                                                                                        {body}
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
@@ -327,7 +313,7 @@ $data = [
                                                                                 <td align="center"
                                                                                     style="font-size:0px;padding:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
                                                                                     <div style="font-family:Times New Roman, Times, serif;font-size:39px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;color:#000000;">
-                                                                                        <?php echo $data['discount_name']; ?><span style="font-size:14px;"><br></span>
+                                                                                        {discount_code}<span style="font-size:14px;"><br></span>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
@@ -335,7 +321,7 @@ $data = [
                                                                                 <td align="center"
                                                                                     style="font-size:0px;padding:2px;padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
                                                                                     <div style="font-family:Times New Roman, Times, serif;font-size:13px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;color:#000000;">
-                                                                                        Discount expires : <?php echo $data['discount_expired_date']; ?>
+                                                                                        Discount expires :{discount_expires}
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
@@ -387,9 +373,9 @@ $data = [
                                                         <td align="center" bgcolor="#2B071C" role="presentation"
                                                             style="border:3px solid #E86F96;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;background:#2B071C;"
                                                             valign="middle">
-                                                            <p
-                                                                style="display:inline-block;background:#2B071C;color:#ffffff;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">
-                                                                Review it</p>
+                                                            <p style="display:inline-block;background:#2B071C;color:#ffffff;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">
+                                                                {button_text}
+                                                            </p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -409,7 +395,7 @@ $data = [
            bgcolor="#EDE4E7">
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <?php if (!empty($data['footer_text'])): ?><div style="background:#EDE4E7;background-color:#EDE4E7;margin:0px auto;max-width:600px;">
+        <?php if ($generalSettings->isFooterEnabled()): ?><div style="background:#EDE4E7;background-color:#EDE4E7;margin:0px auto;max-width:600px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="background:#EDE4E7;background-color:#EDE4E7;width:100%;">
                     <tbody>
@@ -434,9 +420,11 @@ $data = [
                                             <tr>
                                                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                     <div style="font-family:Helvetica, sans-serif;font-size:14px;line-height:1;text-align:center;color:#C2C2C2;">
-                                                        Your footer goes here.<br><br>​​​​​​​<a
+                                                        {footer_text}<br><br>
+                                                        <a
                                                             data-cke-saved-href="http://localhost:7000" href="http://localhost:7000"
-                                                            style="color:#c2c2c2;">Unsubscribe</a><br></div>
+                                                            style="color:#c2c2c2;">Unsubscribe</a><br>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>

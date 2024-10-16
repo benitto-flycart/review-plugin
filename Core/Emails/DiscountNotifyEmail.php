@@ -2,21 +2,25 @@
 
 namespace Flycart\Review\Core\Emails;
 
+use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\App\Helpers\WC;
-use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
+use Flycart\Review\Core\Emails\Settings\DiscountNotifySetting;
+use Flycart\Review\Core\Emails\Settings\ReviewRequest;
+use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\OrderReview;
 use WC_Email;
 use WC_Order;
 
-class DiscountReminderWCEmail extends WC_Email
+class DiscountNotifyEmail extends WC_Email
 {
     public WC_Order $woo_order;
     public BrandSettings $brandSettings;
     public GeneralSettings $generalSettings;
-    public  ReviewReminderEmailSetting  $discountReminder;
+    public  DiscountNotifySetting $discountNotify;
 
     public function __construct()
     {
@@ -29,9 +33,9 @@ class DiscountReminderWCEmail extends WC_Email
         $this->subject = __("[{site_title}] - Discount Reminder", 'flycart-review');
 
         // Template paths.
-        $this->template_html = 'discount-reminder.php';
+        $this->template_html = 'discount-notify.php';
         $this->customer_email = true;
-        $this->template_plain = 'plain/discount-reminder.php';
+        $this->template_plain = 'plain/discount-notify.php';
         parent::__construct();
 
         $this->template_base = F_Review_PLUGIN_PATH . 'Core/Emails/views/';
@@ -58,29 +62,47 @@ class DiscountReminderWCEmail extends WC_Email
 
         $shop_page_url = WC::getShopPageURL();
 
-        $this->subject = $this->discountReminder->getSubject();
-
         $short_codes = [
             '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
-            '{body}' => $this->discountReminder->getBody(),
-            '{button_text}' => $this->discountReminder->getButtonText(),
+            '{customer_name}' => $this->discountNotify->getCustomerName($this->woo_order),
+            '{body}' => $this->discountNotify->getBody($this->woo_order),
+            '{button_text}' => $this->discountNotify->getBody($this->woo_order),
             '{footer_text}' => $this->generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{shop_page_url}' => $shop_page_url,
-            '{discount_expires}' => '12/03/2025',
             '{discount_code}' => $orderReview->photo_discount_code,
         ];
 
-        $short_codes = apply_filters(F_Review_PREFIX . 'review_discount_reminder_email_short_codes', $short_codes);
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_discount_notify_email_short_codes', $short_codes);
 
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        //TODO: Send Email to Customer
+        //TODO: Update the Email
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+
+        if (\ActionScheduler::is_initialized()) {
+
+            NotificationHistory::query()->create([
+                'model_id' => $this->woo_order->get_id(),
+                'model_type' => 'shop_order',
+                'order_id' => $this->woo_order->get_id(),
+                'status' =>  'pending',
+                'notify_type' => EmailSetting::DISCOUNT_REMINDER_TYPE,
+                'medium' => NotificationHistory::MEDIUM_EMAIL,
+                'created_at' => Functions::currentUTCTime(),
+                'updated_at' => Functions::currentUTCTime(),
+            ]);
+
+            $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+            //Add Option in Settings Page when to send review
+            $hook_name = F_Review_PREFIX . 'send_discount_reminder_email';
+            as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+        }
     }
 
     public function get_content_html()
@@ -102,7 +124,7 @@ class DiscountReminderWCEmail extends WC_Email
             'email' => $this,
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
-            'discountReminder' => $this->discountReminder,
+            'discountNotify' => $this->discountNotify,
         ), '', $this->template_base);
     }
 }

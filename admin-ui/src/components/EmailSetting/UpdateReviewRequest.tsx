@@ -1,26 +1,19 @@
-import {Card} from "../ui/card";
-import {Input} from "../ui/input";
-import {Textarea} from "../ui/textarea";
-import {Button} from "../ui/button";
-import React, {useEffect, useState} from "react";
+import { Card } from "../ui/card";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
-import {axiosClient} from "../api/axios";
-import {toastrError, toastrSuccess} from "../../helpers/ToastrHelper";
-import {useLocalState} from "../zustand/localState";
-import {LoadingSpinner} from "../ui/loader";
+import { axiosClient } from "../api/axios";
+import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
+import { useLocalState } from "../zustand/localState";
+import { LoadingSpinner } from "../ui/loader";
 import useLocale from "./utils/useLocale";
 import LanguageList from "./utils/LanguageList";
 import EmailNavigation from "./utils/EmailNavigation";
-import {produce} from "immer";
-import {showValidationError} from "../../helpers/html";
+import { produce } from "immer";
+import { showValidationError } from "../../helpers/html";
 import PreviewEmailDialog from "./PreviewEmailDialog";
-
-type FormValues = {
-  language: string;
-  subject: string;
-  body: string;
-  button_text: string;
-};
 
 const UpdateReviewRequest = () => {
   const { localState } = useLocalState();
@@ -30,13 +23,18 @@ const UpdateReviewRequest = () => {
   const [emailPreviewContent, setEmailPreviewContent] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [currentLocale, setCurrentLocale, availableLanguages] = useLocale();
-  const [showEmailDialog,setShowEmailDialog] = useState<boolean>(false);
-  const [state, setState] = useState({
+  const [showEmailDialog, setShowEmailDialog] = useState<boolean>(false);
+
+  const [state, setState] = useState<any>({
     language: currentLocale,
-    subject: "Order #{order_number}, how did it go?",
-    body: "Order #{order_number}, how did it go?",
-    button_text: "Write a Review",
+    subject: "",
+    subject_placeholder: "",
+    body: "",
+    body_placeholder: "",
+    button_text: "",
+    button_text_placeholder: "",
   });
+
   const [errors, setErrors] = useState<any>();
 
   const schema = yup.object().shape({
@@ -59,9 +57,10 @@ const UpdateReviewRequest = () => {
       })
       .then((response: any) => {
         let data = response.data.data;
-        setEmailPreviewContent(data.content)
+        setEmailPreviewContent(data.content);
       })
       .catch((error: any) => {
+        console.log(error);
         toastrError("Server Error Occurred");
       })
       .finally(() => {
@@ -81,14 +80,18 @@ const UpdateReviewRequest = () => {
       .then((response: any) => {
         let data = response.data.data;
         setState({
-          language: data.language,
+          ...state,
           subject: data.settings.subject,
+          subject_placeholder: data.placeholders.subject,
           body: data.settings.body,
+          body_placeholder: data.placeholders.body,
           button_text: data.settings.button_text,
+          button_text_placeholder: data.placeholders.button_text,
         });
         toastrSuccess(data.message);
       })
       .catch((error: any) => {
+        console.log(error);
         toastrError("Server Error Occurred");
       })
       .finally(() => {
@@ -137,13 +140,13 @@ const UpdateReviewRequest = () => {
   };
 
   const updateReviewRequestState = (cb: (state: any) => void) => {
-    setState((prevState) => produce(prevState, cb));
+    setState((prevState: any) => produce(prevState, cb));
   };
 
   useEffect(() => {
     fetchReviewRequest();
   }, [currentLocale]);
-  console.log(errors);
+
   return (
     <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
       <EmailNavigation to={"/emails/review-request"} title={"Review Request"} />
@@ -167,7 +170,7 @@ const UpdateReviewRequest = () => {
                   <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
                     <Input
                       type="text"
-                      placeholder={"Subject"}
+                      placeholder={state.subject_placeholder}
                       value={state.subject}
                       onChange={(e: any) => {
                         updateReviewRequestState((emailState) => {
@@ -178,27 +181,28 @@ const UpdateReviewRequest = () => {
                     {showValidationError(errors, "subject")}
                   </div>
                   <div>
-                    Notes:
                     <p>Use [order_number] for the customer's order number</p>
-                    <p>
-                      Use [name] or [last_name] as a placeholder for the user's
-                      first or last name
-                    </p>
                   </div>
                 </div>
               </div>
               <div className="frt-grid frt-gap-3">
                 <label>Body</label>
-                <div className={"frt-flexf frt-flex-col frt-gap-y-1"}>
+                <div className={"frt-flex frt-flex-col frt-gap-y-1"}>
                   <Textarea
+                    rows={5}
                     onChange={(e: any) => {
                       updateReviewRequestState((emailState) => {
                         emailState.body = e.target.value;
                       });
                     }}
                     value={state.body}
+                    placeholder={state.body_placeholder}
                   ></Textarea>
                   {showValidationError(errors, "body")}
+                  <p>
+                    Use [full_name], [first_name], [last_name] as a placeholder
+                    for the user's name, first_name, last_name
+                  </p>
                 </div>
               </div>
               <div className="frt-grid frt-gap-3">
@@ -208,6 +212,7 @@ const UpdateReviewRequest = () => {
                     <Input
                       type="text"
                       value={state.button_text}
+                      placeholder={state.button_text_placeholder}
                       onChange={(e: any) => {
                         updateReviewRequestState((emailState) => {
                           emailState.button_text = e.target.value;
@@ -232,9 +237,9 @@ const UpdateReviewRequest = () => {
                 <span>Save Changes</span>
               </Button>
               <Button
-                onClick={(event:React.MouseEvent)=>{
-                  setShowEmailDialog(true)
-                  loadPreview(event)
+                onClick={(event: React.MouseEvent) => {
+                  setShowEmailDialog(true);
+                  loadPreview(event);
                 }}
                 className={"frt-flex frt-justify-between frt-gap-2  "}
               >
@@ -244,7 +249,13 @@ const UpdateReviewRequest = () => {
           </Card>
         </form>
       )}
-      <PreviewEmailDialog show={showEmailDialog} previewContent={emailPreviewContent} toggle={setShowEmailDialog} loadingPreview={loadingPreview} title={"Review request"} />
+      <PreviewEmailDialog
+        show={showEmailDialog}
+        previewContent={emailPreviewContent}
+        toggle={setShowEmailDialog}
+        loadingPreview={loadingPreview}
+        title={"Review request"}
+      />
     </div>
   );
 };

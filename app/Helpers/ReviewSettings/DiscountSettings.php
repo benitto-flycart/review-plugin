@@ -77,5 +77,59 @@ class DiscountSettings extends ReviewSettings
         /* translators: placeholder description */
         return vsprintf(esc_html__('%s %s', 'f-review'), [$discount_value, $label]);
     }
-}
 
+    public function getPhotoDiscountValue()
+    {
+        return $this->discountSettings['photo_discount_value'];
+    }
+
+    public function getPhotoDiscountType()
+    {
+        return $this->discountSettings['phot_discount_type'];
+    }
+
+    public function getPhotoDiscountExpiryDate()
+    {
+        return $this->discountSettings['photo_discount_expiry_date'] ?? '-1';
+    }
+
+    public function generateCoupon($review_id)
+    {
+        $comment = get_comment($review_id);
+
+        error_log(print_r($comment, true));
+
+        //TODO: GET DISCOUNT SETTINGS FROM DB
+
+        $discount_type = 'percent';
+        $discount_value = 10;
+        $this->getPhotoDiscountValue();
+        $this->getPhotoDiscountType();
+        $this->getPhotoDiscountExpiryDate();
+
+        $coupon_code = 'REVIW_DIS_' . Functions::generateRandomString(10);
+        $coupon = new \WC_Coupon();
+        $coupon->set_code($coupon_code);
+        $coupon->set_discount_type($discount_type);
+        $coupon->set_amount($discount_value);
+        $coupon->set_individual_use(true);
+        $coupon->set_date_expires(date('Y-m-d', strtotime('+1 month')));
+        $coupon->apply_before_tax(true);
+        $coupon->set_free_shipping(false);
+        $coupon->set_product_ids([]);
+        $coupon->set_excluded_product_ids([]);
+        $coupon->set_product_categories([]);
+        $coupon->set_excluded_product_categories([]);
+        $coupon->set_minimum_amount('');
+        $coupon->set_maximum_amount('');
+        $coupon->set_email_restrictions([]);
+        $coupon->set_description('Discount coupon for review');
+        $coupon->save();
+
+        //set coupon meta review_id 
+        $coupon->update_meta_data('review_id', $review_id);
+        $coupon->update_meta_data('comment_post_ID', $comment->comment_post_ID);
+
+        return $coupon_code;
+    }
+}

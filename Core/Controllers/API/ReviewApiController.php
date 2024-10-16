@@ -216,11 +216,9 @@ class ReviewApiController
                     'comment_type'         => 'comment'   // Empty for standard comments/replies
                 ];
 
-                wp_insert_comment($reply_data);
+                $reply_comment_id = wp_insert_comment($reply_data);
 
                 if (\ActionScheduler::is_initialized()) {
-                    error_log('triggering action schedular for review reply');
-
                     NotificationHistory::query()->create([
                         'model_id' => $product_id = $comment->comment_post_ID,
                         'model_type' => 'product',
@@ -236,7 +234,12 @@ class ReviewApiController
 
                     //Add Option in Settings Page when to send review
                     $hook_name = F_Review_PREFIX . 'send_review_reply_email';
-                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [
+                        [
+                            'notification_id' => $notificationHistoryId,
+                            'reply_comment_id' => $reply_comment_id
+                        ]
+                    ]);
                 }
 
                 Response::success([
@@ -245,6 +248,36 @@ class ReviewApiController
             }
             Response::success([
                 'message' => __("Parent Comment not found"),
+            ], 404);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public static function updateReplyContent(Request $request)
+    {
+        try {
+            $content = $request->get('content');
+            $review_id = $request->get('id');
+
+            $comment = get_comment($review_id);
+
+            if (!empty($comment)) {
+                $reply_data = [
+                    'comment_ID' => $review_id,
+                    'comment_content' => $content,
+                ];
+
+                wp_update_comment($reply_data);
+
+                return Response::success([
+                    'message' => __("Reply Updated Successfully", 'f-review'),
+                ]);
+            }
+
+            return Response::success([
+                'message' => __("Comment not found",  'f-review'),
             ], 404);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);

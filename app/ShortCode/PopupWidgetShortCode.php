@@ -32,8 +32,10 @@ class PopupWidgetShortCode
                 $is_shop_page && $widget->showOnShopPage(),
             ];
 
+            error_log(print_r($enabled_pages, true));
 
             if (count(array_filter($enabled_pages)) <= 0) {
+                error_log('popup widget not enabled');
                 return null;
             }
 

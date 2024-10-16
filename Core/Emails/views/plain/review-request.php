@@ -261,26 +261,8 @@
                                 <!--[if mso | IE]>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td class="" style="vertical-align:top;width:600px;"><![endif]-->
-                                <div class="mj-column-per-100 mj-outlook-group-fix"
-                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                        style="vertical-align:top;" width="100%">
-                                        <tbody>
-                                            <tr>
-                                                <td align="left"
-                                                    style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;">
-                                                        <?php echo __('Hi', 'f-review') ?> {customer_name}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!--[if mso | IE]></td>
-                    <td class="" style="vertical-align:top;width:600px;">
-                    <![endif]-->
+                        <td class="" style="vertical-align:top;width:600px;">
+                        <![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -395,7 +377,8 @@
                                                                     valign="middle">
                                                                     <a href="<?php echo $reviewLink ?>"
                                                                         style="display:inline-block;background-color:<?php echo $brandSettings->getButtonBgColor() ?>;color:<?php echo $brandSettings->getButtonTextColor() ?>;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo $brandSettings->getButtonBorderColor() ?>"
-                                                                        target="_blank"><?php echo $reviewRequest->getButtonText() ?>
+                                                                        target="_blank">
+                                                                        {button_text}
                                                                     </a>
                                                                 </td>
                                                             </tr>

@@ -5,44 +5,46 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
+use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\Core\Models\EmailSetting;
+use WC_Order;
 
-class ReviewRequest extends Emails
+class ReviewReminderEmailSetting extends Emails
 {
     public $settings = [];
-
-    public $placeholders = [];
 
     public function __construct($language)
     {
         $this->locale = $language;
 
-        $reviewRequest = EmailSetting::query()
+        $reviewReminder = EmailSetting::query()
             ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
+            ->where("type = %s", [EmailSetting::REVIEW_REMINDER_TYPE])
             ->first();
 
-        if (empty($reviewRequest)) {
+        if (empty($reviewReminder)) {
             $settings = $this->getDefaults($this->locale);
             $this->status = 'active';
         } else {
-            $settings = $reviewRequest->settings;
+            $settings = $reviewReminder->settings;
             $settings = EmailSetting::getReviewSettingsAsArray($settings);
 
-            $this->status = $reviewRequest->status;
+            $this->status = $reviewReminder->status;
         }
 
         $this->settings = $settings;
-        $this->placeholders = $this->getPlaceHolders();
     }
 
-
+    public function getBodyText()
+    {
+        return $this->settings['body'];
+    }
 
     public function getPlaceHolders()
     {
         $data = [];
 
-        $data['subject'] = 'Order #[order_number], how did it go?';
+        $data['subject'] = 'Reminder: Order #[order_number], how did it go?';
 
         $data['body'] = "Hello [name]," .
             "\n \nWe would be grateful if you shared how things look and feel. Your review helps us and the community that supports us, and it only takes a few seconds.";
@@ -51,6 +53,12 @@ class ReviewRequest extends Emails
 
         return $data;
     }
+
+    public function getCustomerName(WC_Order $order)
+    {
+        return $order->get_billing_first_name();
+    }
+
 
     public function getDefaults()
     {
@@ -96,32 +104,37 @@ class ReviewRequest extends Emails
         $order = $this->getSampleOrderData();
         $file = '';
 
-        $brandSettings = (new BrandSettings);
+        $brandSettings = new BrandSettings;
 
-        $generalSettings = (new GeneralSettings);
+        $generalSettings = new GeneralSettings;
 
-        $reviewRequest = new ReviewRequest(get_locale());
-
+        $discountReminder = $this;
 
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'reviewRequest' => $reviewRequest
+            'discountReminder' => $discountReminder
         ];
 
-        $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-request.php';
+        $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reminder.php';
+
+        $shop_page_url = WC::getShopPageURL();
 
         $html =  AssetHelper::renderTemplate($file, $data);
 
+        error_log('printing body');
+        error_log($discountReminder->getBody());
+
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $order->get_billing_email(),
+            '{{email}}' => $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
-            '{body}' => $this->replaceCustomeEmailPlaceholders($reviewRequest->getBody(), $order),
-            '{button_text}' => $this->replaceCustomeEmailPlaceholders($reviewRequest->getButtonText(), $order),
+            '{body}' => $discountReminder->getBody(),
+            '{button_text}' => $discountReminder->getButtonText(),
             '{footer_text}' => $generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
+            '{shop_page_url}' => $shop_page_url,
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);

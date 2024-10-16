@@ -51,7 +51,15 @@ class ReviewRequestWCEmail extends WC_Email
             return;
         }
 
+        $this->brandSettings = (new BrandSettings);
+
+        $this->generalSettings = (new GeneralSettings);
+
+        $this->reviewRequest = new ReviewRequest(get_locale());
+
         $this->woo_order = wc_get_order($notification->model_id);
+
+        $this->subject = $this->reviewRequest->replaceCustomeEmailPlaceholders($this->reviewRequest->getSubject(), $this->woo_order);
 
         $html = $this->get_content();
 
@@ -59,8 +67,8 @@ class ReviewRequestWCEmail extends WC_Email
             '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
-            '{customer_name}' => $this->reviewRequest->getCustomerName($this->woo_order),
-            '{body}' => $this->reviewRequest->getBody($this->woo_order),
+            '{body}' => $this->reviewRequest->replaceCustomeEmailPlaceholders($this->reviewRequest->getBody(), $this->woo_order),
+            '{button_text}' => $this->reviewRequest->replaceCustomeEmailPlaceholders($this->reviewRequest->getButtonText(), $this->woo_order),
             '{footer_text}' => $this->generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
         ];
@@ -84,8 +92,6 @@ class ReviewRequestWCEmail extends WC_Email
 
 
         if (\ActionScheduler::is_initialized()) {
-            error_log('sending the email review reminder email in x  seconds => ' . $inSeconds);
-
             NotificationHistory::query()->create([
                 'model_id' => $this->woo_order->get_id(),
                 'model_type' => 'shop_order',
@@ -101,7 +107,6 @@ class ReviewRequestWCEmail extends WC_Email
 
             //Add Option in Settings Page when to send review
             $hook_name = F_Review_PREFIX . 'send_review_reminder_email';
-            error_log('action schecular initialized');
             as_schedule_single_action(strtotime("+{$inSeconds} seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
         }
     }
@@ -118,13 +123,6 @@ class ReviewRequestWCEmail extends WC_Email
 
     public function get_content_string($plain_text = false)
     {
-        $this->brandSettings = (new BrandSettings);
-        $this->generalSettings = (new GeneralSettings);
-
-        $this->reviewRequest = new ReviewRequest(get_locale());
-
-
-        $this->woo_order->get_formatted_billing_full_name();
 
         return wc_get_template_html($this->template_plain, array(
             'order' => $this->woo_order,

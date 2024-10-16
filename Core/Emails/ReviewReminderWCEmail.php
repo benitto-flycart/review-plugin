@@ -79,7 +79,8 @@ class ReviewReminderWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
+        //TODO: Replace the Hard coded email with the actual email 
+        $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
             'notification_content' => $html,
@@ -101,8 +102,6 @@ class ReviewReminderWCEmail extends WC_Email
 
     public function get_content_string($plain_text = false)
     {
-        $this->woo_order->get_formatted_billing_full_name();
-
         return wc_get_template_html($this->template_plain, array(
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,

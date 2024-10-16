@@ -2,12 +2,15 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+use Flycart\Review\App\Helpers\AssetHelper;
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
-use WC_Order;
 
 class PhotoRequest extends Emails
 {
     public $settings = [];
+    public $placeholders = [];
 
     public function __construct($language)
     {
@@ -19,8 +22,7 @@ class PhotoRequest extends Emails
             ->first();
 
         if (empty($photoRequest)) {
-            $settings =  $this->getDefaultReviewRequestSettings($this->locale);
-            error_log(print_r($settings, true));
+            $settings =  $this->getDefaults($this->locale);
             $this->status = 'active';
         } else {
             $settings = $photoRequest->settings;
@@ -30,76 +32,118 @@ class PhotoRequest extends Emails
         }
 
         $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
     }
 
-    public function getSettings()
+    public function getDefaults()
     {
-        return $this->settings;
+        $data['body'] = '';
+        $data['discount_text'] = '';
+        $data['minimum_star'] = '5';
+        $data['subject'] = '';
+        $data['button_text'] = '';
+
+        return $data;
     }
 
+    public function getBody()
+    {
+        return $this->getValue('body');
+    }
 
     public function getSubject()
     {
-        return $this->settings['subject'];
-    }
-
-    public function getBodyText()
-    {
-        return $this->settings['body'];
+        return $this->getValue('subject');
     }
 
     public function getButtonText()
     {
-        return $this->settings['button_text'];
+        return $this->getValue('button_text');
     }
 
-    public function getDefaultReviewRequestSettings()
+    private function getValue(string $string)
     {
-        $data = [
-            'body' => __('Review Request Body', 'flycart-review'),
-            'subject' => __('Review Request Subject', 'flycart-review'),
-            'button_text' => __('Review Request Button Text', 'flycart-review'),
-            'discount_text' => __('Add a photo to the review and get a discount off your next purchase', 'flycart-review'),
-        ];
-
-        if ($data['body'] == 'Review Request Body') {
-            $data['body'] = 'Hello [Name] \n\n We wanted to thank you again for your review of [product]. \n Please add your photo to the review and help our community of shopers!';
+        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
+            return $this->settings[$string];
         }
 
-        if ($data['subject'] == 'Review Request Subject') {
-            $data['subject'] = 'Reminder: Add a photo to your review of [product]';
-        }
-
-        if ($data['button_text'] == 'Review Request Button Text') {
-            $data['button_text'] = 'Write a Review';
-        }
-
-        return apply_filters('flycart_review_review_request_data', $data, $this->locale);
+        return $this->placeholders[$string] ?? '';
     }
 
-    public function getCustomerName(WC_Order $order)
+    public function getPlaceHolders()
     {
-        return $order->get_billing_first_name();
-    }
+        $data['body'] = "Hello [Name] \n\nWe wanted to thank you again for your review of [product]. \nPlease add your photo to the review and help our community of shopers!";
+        $data['discount_text'] = 'Add a photo or a video to the review and get a discount off your next purchase';
+        $data['subject'] = 'Reminder: Add a photo to your review of [product]';
+        $data['minimum_star'] = '5';
+        $data['button_text'] = 'Write a Review';
 
-    public function getBody(WC_Order $order)
-    {
-        $message = $this->getBodyText();
-
-        $order_id = $order->get_id();
-
-        $message = str_replace(['[order_id]'], [$order_id], $message);
-
-        return $message;
+        return $data;
     }
 
     public function getDiscountText()
     {
-        return $this->settings['discount_text'];
+        $this->getValue('discount_text');
     }
 
     public function getTemplatePreview()
     {
-        return 'review photo request email template';
+        static::$forPreview = true;
+        //get_sample_order_data
+        $order = $this->getSampleOrderData();
+
+        $brandSettings = (new BrandSettings);
+
+        $generalSettings = (new GeneralSettings);
+
+        $photoRequest = $this;
+
+        $data = [
+            'order' => $order,
+            'brandSettings' => $brandSettings,
+            'generalSettings' => $generalSettings,
+            'photoRequest' => $photoRequest
+        ];
+
+        $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/photo-request.php';
+
+        $html =  AssetHelper::renderTemplate($file, $data);
+
+        $short_codes = [
+            '{email}' => $order->get_billing_email(),
+            '{logo_src}' => $brandSettings->getLogoSrc(),
+            '{banner_src}' => $brandSettings->getEmailBanner(),
+            '{body}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getBody(), $order),
+            '{button_text}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getButtonText(), $order),
+            '{discount_text}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getDiscountText(), $order),
+            '{footer_text}' => $generalSettings->getFooterText(),
+            '{unsubscribe_link}' => 'https://localhost:8004',
+        ];
+
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_photo_request_email_short_codes', $short_codes);
+
+        foreach ($short_codes as $short_code => $short_code_value) {
+            $html = str_replace($short_code, $short_code_value, $html);
+        }
+
+        static::$forPreview = false;
+
+        return $html;
+    }
+
+
+    public function replaceCustomeEmailPlaceholders($content, \WC_Order $wooOrder)
+    {
+        return str_replace([
+            "[order_number]",
+            "[name]",
+            "[first_name]",
+            "[last_name]"
+        ], [
+            $wooOrder->get_id(),
+            $wooOrder->get_formatted_billing_full_name(),
+            $wooOrder->get_billing_first_name(),
+            $wooOrder->get_billing_last_name(),
+        ], $content);
     }
 }

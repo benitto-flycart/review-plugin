@@ -5,6 +5,7 @@ namespace Flycart\Review\App\Helpers;
 use DateTime;
 use Exception;
 use Flycart\Review\App\Services\Encrypt;
+use Flycart\Review\Core\Emails\Settings\Emails;
 
 class PluginHelper
 {
@@ -76,6 +77,7 @@ class PluginHelper
 
     public static function getReviewLink($order, $product_id)
     {
+        if (Emails::isTemplatePreviewRequest()) return '#';
         $url = static::getReviewFormPage();
 
         $url = add_query_arg(array(
@@ -126,13 +128,14 @@ class PluginHelper
 
     public static function getCurrentReviewIcon($name)
     {
-       $icons = static::reviewIcons();
+        $icons = static::reviewIcons();
 
-       if(isset($icons[$name])) {
-           return $icons[$name];
-       }
+        if (isset($icons[$name])) {
+            return $icons[$name];
+        }
 
-       //fallback to gem icons
-       return $icons['heart'];
+        //fallback to gem icons
+        return $icons['heart'];
     }
 }
+
