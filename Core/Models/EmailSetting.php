@@ -17,7 +17,7 @@ class EmailSetting extends Model
     protected static $table = 'email_settings';
 
     const REVIEW_REQUEST_TYPE = 'review_request';
-    const REVIEW_REMINDER_TYPE = 'review_remainder';
+    const REVIEW_REMINDER_TYPE = 'review_reminder';
     const PHOTO_REQUEST_TYPE = 'photo_request';
 
     const DISCOUNT_REMINDER_TYPE = 'discount_reminder';

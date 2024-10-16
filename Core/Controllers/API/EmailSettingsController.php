@@ -11,6 +11,7 @@ use Flycart\Review\Core\Emails\Settings\DiscountReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\PhotoRequest;
 use Flycart\Review\Core\Emails\Settings\ReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReplyRequest;
+use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountNotifySettingResource;
 use Flycart\Review\Core\Models\EmailSetting;
@@ -116,7 +117,7 @@ class EmailSettingsController
         try {
             $language = $request->get('language');
 
-            $reviewReminder = new ReminderEmailSetting($language);
+            $reviewReminder = new ReviewReminderEmailSetting($language);
 
             $data = [
                 'language' => $language,
@@ -477,8 +478,6 @@ class EmailSettingsController
             $email_type = $request->get('email_type');
 
             $object = EmailSetting::resolveObjectByType($language, $email_type);
-
-            error_log(print_r($object, true));
 
             return Response::success([
                 'content' => $object->getTemplatePreview(),

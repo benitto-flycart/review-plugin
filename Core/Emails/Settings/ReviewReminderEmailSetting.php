@@ -12,6 +12,7 @@ use WC_Order;
 class ReviewReminderEmailSetting extends Emails
 {
     public $settings = [];
+    public $placeholders = [];
 
     public function __construct($language)
     {
@@ -33,6 +34,7 @@ class ReviewReminderEmailSetting extends Emails
         }
 
         $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
     }
 
     public function getBodyText()
@@ -77,6 +79,7 @@ class ReviewReminderEmailSetting extends Emails
     {
         return $this->getValue('body');
     }
+
 
     public function getSubject()
     {
@@ -123,11 +126,8 @@ class ReviewReminderEmailSetting extends Emails
 
         $html =  AssetHelper::renderTemplate($file, $data);
 
-        error_log('printing body');
-        error_log($discountReminder->getBody());
-
         $short_codes = [
-            '{{email}}' => $order->get_billing_email(),
+            '{email}' => $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
             '{body}' => $discountReminder->getBody(),
@@ -137,7 +137,7 @@ class ReviewReminderEmailSetting extends Emails
             '{shop_page_url}' => $shop_page_url,
         ];
 
-        $short_codes = apply_filters(F_Review_PREFIX . 'review_request_email_short_codes', $short_codes);
+        $short_codes = apply_filters(F_Review_PREFIX . 'review_reminder_email_short_codes', $short_codes);
 
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);

@@ -69,8 +69,8 @@ class ReviewReminderWCEmail extends WC_Email
             '{customer_name}' => $this->reviewReminder->getCustomerName($this->woo_order),
             '{body}' => $this->reviewReminder->getBody($this->woo_order),
             '{footer_text}' => $this->generalSettings->getFooterText(),
-            '{unsubscribe_link}' => $this->reviewReminder->getButtonText(),
-            '{review_button_text}' => 'https://localhost:8004',
+            '{unsubscribe_link}' =>  'https://localhost:8004',
+            '{button_text}' => $this->reviewReminder->getButtonText(),
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_reminder_email_short_codes', $short_codes);
@@ -79,7 +79,6 @@ class ReviewReminderWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
-        //TODO: Replace the Hard coded email with the actual email 
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
