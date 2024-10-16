@@ -31,4 +31,9 @@ class OrderReview extends Model
                 ) {$charset};";
     }
 
+    public static function isPhotoAdded($orderReview)
+    {
+        return $orderReview->photo_added;
+    }
 }
+

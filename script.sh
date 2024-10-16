@@ -30,9 +30,9 @@ copy_folder() {
 
   # shellcheck disable=SC2054
   if [ "$pack_type" == "pro" ]; then
-    move_dir=("app" "Core" "Pro" "resources" "i18n" "vendor" "flycart-reviews.php" "admin-ui/dist")
+    move_dir=("app" "package" "Core" "Pro" "resources" "i18n" "vendor" "flycart-reviews.php" "admin-ui/dist")
   else
-    move_dir=("app" "Core" "resources" "i18n" "vendor" "flycart-reviews.php" "admin-ui/dist")
+    move_dir=("app" "package" "Core" "resources" "i18n" "vendor" "flycart-reviews.php" "admin-ui/dist")
   fi
 
 

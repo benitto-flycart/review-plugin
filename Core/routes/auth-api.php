@@ -22,27 +22,24 @@ return [
     //Review Request
     'get_review_request' => ['callable' => [EmailSettingsController::class, 'getReviewRequest']],
     'save_review_request' => ['callable' => [EmailSettingsController::class, 'saveReviewRequest']],
-    'get_review_request_email_settings_list' => ['callable' => [EmailSettingsController::class, 'getReviewRequestLanguageSettingsList']],
 
     //Review Remainder
     'get_review_remainder' => ['callable' => [EmailSettingsController::class, 'getReviewRemainder']],
     'save_review_remainder' => ['callable' => [EmailSettingsController::class, 'saveReviewRemainder']],
-    'get_review_remainder_email_settings_list' => ['callable' => [EmailSettingsController::class, 'getReviewRemainderLanguageSettingsList']],
 
     //Photo Request
     'get_photo_request' => ['callable' => [EmailSettingsController::class, 'getPhotoRequest']],
     'save_photo_request' => ['callable' => [EmailSettingsController::class, 'savePhotoRequest']],
-    'get_photo_request_email_settings_list' => ['callable' => [EmailSettingsController::class, 'getPhotoRequestLanguageSettingsList']],
 
-    //Discount Request
-    'get_review_discount_remainder' => ['callable' => [EmailSettingsController::class, 'getDiscountRequest']],
-    'save_review_discount_remainder' => ['callable' => [EmailSettingsController::class, 'saveDiscountRequest']],
-    'get_review_discount_email_settings_list' => ['callable' => [EmailSettingsController::class, 'getDiscountRequestLanguageSettingsList']],
+    //Discount Notify/Reminder Request
+    'get_review_discount_remainder' => ['callable' => [EmailSettingsController::class, 'getDiscountReminderSetting']],
+    'save_review_discount_remainder' => ['callable' => [EmailSettingsController::class, 'saveDiscountReminderSetting']],
+    'get_review_discount_notify' => ['callable' => [EmailSettingsController::class, 'getDiscountNotify']],
+    'save_review_discount_notify' => ['callable' => [EmailSettingsController::class, 'saveDiscountNotify']],
 
     //Reply Review Request
     'get_review_reply_request' => ['callable' => [EmailSettingsController::class, 'getReplyToReviewRequest']],
     'save_review_reply_request' => ['callable' => [EmailSettingsController::class, 'saveReplyToReviewRequest']],
-    'get_review_reply_review_email_settings_list' => ['callable' => [EmailSettingsController::class, 'getReplyToReviewRequestLanguageSettingsList']],
 
     //Settings
     'get_brand_settings' => ['callable' => [SettingsController::class, 'getBrandSettings']],

@@ -16,7 +16,7 @@ class ReviewRequestResource extends Resource
             'type' => EmailSetting::REVIEW_REQUEST_TYPE,
             'status' => $review_request['status'],
             'settings' => $review_request['settings'],
+            'placeholders' => $review_request['placeholders'],
         ];
     }
 }
-

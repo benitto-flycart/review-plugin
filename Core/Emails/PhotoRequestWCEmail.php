@@ -50,11 +50,8 @@ class PhotoRequestWCEmail extends WC_Email
         $this->product = wc_get_product($product_id);
 
         if (!$this->product instanceof \WC_Product) {
-            error_log('unable to get product');
             return false;
         }
-
-        error_log('executing phot');
 
         $notification = NotificationHistory::query()->find($notification_id);
 
@@ -77,7 +74,6 @@ class PhotoRequestWCEmail extends WC_Email
 
 
         $short_codes = [
-
             '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
@@ -85,6 +81,7 @@ class PhotoRequestWCEmail extends WC_Email
             '{footer_text}' => $this->generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{review_link}' => \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($this->woo_order, $product_id),
+            '{button_text}' => $this->photoRequest->getButtonText(),
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_photo_request_email_short_codes', $short_codes);

@@ -21,8 +21,10 @@ class ReviewPhotoRequestEmailSettingsCollection extends  Collection
             ];
         }
 
+
         return [
             'list' => $data,
         ];
     }
 }
+

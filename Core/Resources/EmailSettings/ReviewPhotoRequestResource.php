@@ -15,7 +15,9 @@ class ReviewPhotoRequestResource extends Resource
             'language_label' => WordpressHelper::getLanguageLabel($photo_request['language']),
             'type' => EmailSetting::PHOTO_REQUEST_TYPE,
             'status' => $photo_request['status'],
-            'settings' => EmailSetting::getReviewSettingsAsArray($photo_request['settings']),
+            'settings' => $photo_request['settings'],
+            'placeholders' => $photo_request['placeholders'],
         ];
     }
 }
+

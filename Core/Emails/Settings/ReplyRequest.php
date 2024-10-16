@@ -41,7 +41,7 @@ class ReplyRequest extends Emails
         return $this->settings['subject'];
     }
 
-    public function getBodyText()
+    public function getBody()
     {
         return $this->settings['body'];
     }

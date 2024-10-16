@@ -4,10 +4,12 @@ namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Model;
-use Flycart\Review\Core\Emails\Settings\DiscountRequest;
+use Flycart\Review\Core\Emails\Settings\DiscountNotifySetting;
+use Flycart\Review\Core\Emails\Settings\DiscountReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReplyRequest;
 use Flycart\Review\Core\Emails\Settings\PhotoRequest;
 use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
+use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 
 class EmailSetting extends Model
@@ -16,11 +18,12 @@ class EmailSetting extends Model
 
     const REVIEW_REQUEST_TYPE = 'review_request';
     const REVIEW_REMINDER_TYPE = 'review_remainder';
-    const PHOTO_REQUEST_TYPE = 'review_photo_request';
+    const PHOTO_REQUEST_TYPE = 'photo_request';
 
-    const DISCOUNT_REQUEST_TYPE = 'review_discount_request';
+    const DISCOUNT_REMINDER_TYPE = 'discount_reminder';
+    const DISCOUNT_NOTIFY_TYPE = 'discount_notify';
 
-    const REPLY_REQUEST_TYPE = 'review_reply_request';
+    const REPLY_REQUEST_TYPE = 'review_reply';
 
     public function createTable()
     {
@@ -144,24 +147,19 @@ class EmailSetting extends Model
         return apply_filters('flycart_review_review_reply_request_data', $data, $language);
     }
 
-
-    public function getSettings($reviewRequest)
-    {
-
-        //code
-    }
-
     public static function resolveObjectByType($language, $type)
     {
         switch ($type) {
             case static::REVIEW_REQUEST_TYPE:
                 return ReviewRequest::make($language);
             case static::REVIEW_REMINDER_TYPE:
-                return ReviewRemainder::make($language);
+                return ReviewReminderEmailSetting::make($language);
             case static::PHOTO_REQUEST_TYPE;
                 return PhotoRequest::make($language);
-            case static::DISCOUNT_REQUEST_TYPE:
-                return DiscountRequest::make($language);
+            case static::DISCOUNT_NOTIFY_TYPE:
+                return DiscountNotifySetting::make($language);
+            case static::DISCOUNT_REMINDER_TYPE:
+                return DiscountReminderEmailSetting::make($language);
             case static::REPLY_REQUEST_TYPE:
                 return ReplyRequest::make($language);
         }

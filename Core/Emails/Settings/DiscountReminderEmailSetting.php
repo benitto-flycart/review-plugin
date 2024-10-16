@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 use Flycart\Review\Core\Models\EmailSetting;
 use WC_Order;
 
-class DiscountReminder extends Emails
+class DiscountReminderEmailSetting extends Emails
 {
     public $settings = [];
 
@@ -13,19 +13,18 @@ class DiscountReminder extends Emails
     {
         $this->locale = $language;
 
-        $reviewRequest = EmailSetting::query()
+        $discountReminder = EmailSetting::query()
             ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::DISCOUNT_REQUEST_TYPE])
+            ->where("type = %s", [EmailSetting::DISCOUNT_REMINDER_TYPE])
             ->first();
 
-        if (empty($reviewRequest)) {
-            $settings = EmailSetting::getDefaultReviewRequestSettings($this->locale);
+        if (empty($discountReminder)) {
+            $settings = $this->getDefaults($this->locale);
             $this->status = 'active';
         } else {
-            $settings = $reviewRequest->settings;
+            $settings = $discountReminder->settings;
             $settings = EmailSetting::getReviewSettingsAsArray($settings);
-
-            $this->status = $reviewRequest->status;
+            $this->status = $discountReminder->status;
         }
 
         $this->settings = $settings;
@@ -52,7 +51,7 @@ class DiscountReminder extends Emails
         return $this->settings['button_text'];
     }
 
-    public function getDefaultReviewRequestSettings()
+    public function getDefaults()
     {
         $data = [
             'body' => __('Review Request Body', 'flycart-review'),
@@ -82,6 +81,6 @@ class DiscountReminder extends Emails
 
     public function getTemplatePreview()
     {
-        return 'Discount request email template';
+        return 'Discount Reminder email template';
     }
 }

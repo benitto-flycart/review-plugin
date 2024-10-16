@@ -10,6 +10,7 @@ use Flycart\Review\Core\Controllers\Helpers\Review\Comment;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
+use Flycart\Review\Core\Models\OrderReview;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -247,7 +248,7 @@ class ReviewFormController
             }
 
             if ($isPhotoReviewAddedAtFirstTime) {
-                //code
+                //TODO: if the photo is not added at first time then only send the email
                 if (\ActionScheduler::is_initialized()) {
                     NotificationHistory::query()->create([
                         'model_id' => $product_id,
@@ -265,6 +266,50 @@ class ReviewFormController
                     //Add Option in Settings Page when to send review
                     $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
                     as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+                }
+
+                //check if the order review already have a photo_discount code
+                $orderReview = OrderReview::query()->where('woo_order_id = %d', [$order_id])->first();
+
+                if (!empty($orderReview) && !OrderReview::isPhotoAdded($orderReview)) {
+
+                    //Generate the random wc coupon with the discount settings
+                    $discountSettings = new DiscountSettings();
+                    $coupon_code = $discountSettings->generateCoupon($order_id);
+
+                    OrderReview::query()->create([
+                        'woo_order_id' => $order_id,
+                        'photo_discount_code' => $coupon_code,
+                        'photo_added' => $coupon_code,
+                        'created_at' => Functions::currentUTCTime(),
+                        'updated_at' => Functions::currentUTCTime(),
+                    ]);
+
+                    $order_review_id = OrderReview::query()->lastInsertedId();
+
+                    if (\ActionScheduler::is_initialized()) {
+                        NotificationHistory::query()->create([
+                            'model_id' => $order_id,
+                            'model_type' => 'shop_order',
+                            'order_id' => $order_id,
+                            'status' =>  'pending',
+                            'notify_type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
+                            'medium' => NotificationHistory::MEDIUM_EMAIL,
+                            'created_at' => Functions::currentUTCTime(),
+                            'updated_at' => Functions::currentUTCTime(),
+                        ]);
+
+                        $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+                        //Add Option in Settings Page when to send review
+                        $hook_name = F_Review_PREFIX . 'send_discount_notify_email';
+                        as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [
+                            [
+                                'notification_id' => $notificationHistoryId,
+                                'order_reviw_id' => $order_review_id
+                            ]
+                        ]);
+                    }
                 }
             }
 

@@ -11,6 +11,7 @@ import UpdateDiscountReminder from "../EmailSetting/UpdateDiscountReminder";
 import UpdateReplyToReview from "../EmailSetting/UpdateReplyToReview";
 import Orders from "../Orders";
 import { Reviews } from "../Reviews/Reviews";
+import UpdateDiscountNotify from "../EmailSetting/UpdateDiscountNotify";
 
 function Router() {
   return (
@@ -29,6 +30,11 @@ function Router() {
         path="/emails/discount-reminder"
         element={<UpdateDiscountReminder />}
       />
+      <Route
+        path="/emails/discount-notify"
+        element={<UpdateDiscountNotify />}
+      />
+
       <Route path="/emails/reply-to-review" element={<UpdateReplyToReview />} />
       <Route path="/orders" element={<Orders />} />
       <Route path="/manage" element={<Reviews />} />

@@ -48,6 +48,7 @@ class DiscountReminderWCEmail extends WC_Email
             $html = str_replace($short_code, $short_code_value, $html);
         }
 
+        //TODO: Send Email to Customer
         $this->send('benitto@cartrabbit.in', $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
     }
 

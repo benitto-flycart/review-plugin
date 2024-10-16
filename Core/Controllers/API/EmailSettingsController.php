@@ -6,18 +6,21 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Emails\Settings\DiscountNotifySetting;
+use Flycart\Review\Core\Emails\Settings\DiscountReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\PhotoRequest;
+use Flycart\Review\Core\Emails\Settings\ReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReplyRequest;
+use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
+use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
+use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountNotifySettingResource;
 use Flycart\Review\Core\Models\EmailSetting;
-use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountRequestEmailSettingsCollection;
-use Flycart\Review\Core\Resources\EmailSettings\ReviewPhotoRequestEmailSettingsCollection;
+use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountReminderEmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewPhotoRequestResource;
-use Flycart\Review\Core\Resources\EmailSettings\ReviewRemainderEmailSettingsCollection;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewRemainderResource;
-use Flycart\Review\Core\Resources\EmailSettings\ReviewReplyToRequestEmailSettingsCollection;
-use Flycart\Review\Core\Resources\EmailSettings\ReviewRequestEmailSettingsCollection;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewRequestResource;
+use Flycart\Review\Core\Validation\ReviewDiscountNotifySettingsValidation;
 use Flycart\Review\Core\Validation\ReviewDiscountRequestSettingsValidation;
 use Flycart\Review\Core\Validation\ReviewPhotoRequestSettingsValidation;
 use Flycart\Review\Core\Validation\ReviewRemainderSettingsValidation;
@@ -28,7 +31,6 @@ use Flycart\Review\Package\Request\Response;
 
 class EmailSettingsController
 {
-
     public static function getReviewRequest(Request $request)
     {
         try {
@@ -40,11 +42,14 @@ class EmailSettingsController
                 'language' => $reviewRequest->locale,
                 'language_label' => WordpressHelper::getLanguageLabel($reviewRequest->locale),
                 'status' => $reviewRequest->status,
-                'settings' =>  $reviewRequest->getSettings()
+                'settings' =>  $reviewRequest->getSettings(),
+                'placeholders' =>  $reviewRequest->getPlaceHolders()
             ];
 
             //Returning Review Data
-            return ReviewRequestResource::resource([$data]);
+            return ReviewRequestResource::resource([$data], [
+                'message' => __('Settings Fetched')
+            ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -56,6 +61,7 @@ class EmailSettingsController
     public static function saveReviewRequest(Request $request)
     {
         $request->validate(new ReviewRequestSettingsValidation());
+
         Database::beginTransaction();
         try {
             $language = $request->get('language');
@@ -94,7 +100,7 @@ class EmailSettingsController
             Database::commit();
 
             return Response::success([
-                'message' => 'Review Request Updated for Selected Language',
+                'message' => __('Settings saved', 'f-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             Database::rollBack();
@@ -105,51 +111,26 @@ class EmailSettingsController
         }
     }
 
-    public static function getReviewRequestLanguageSettingsList(Request $request)
-    {
-        try {
-            $list = EmailSetting::query()
-                ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
-                ->get();
-
-            return ReviewRequestEmailSettingsCollection::collection([$list]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error([
-                'message' => 'Server Error Occurred'
-            ]);
-        }
-    }
 
     public static function getReviewRemainder(Request $request)
     {
         try {
             $language = $request->get('language');
 
-            $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::REVIEW_REMINDER_TYPE])
-                ->first();
+            $reviewReminder = new ReminderEmailSetting($language);
 
-            if (!empty($previous)) {
-                $data = [
-                    'language' => $previous->language,
-                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
-                    'status' => $previous->status,
-                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
-                ];
-            } else {
-                $settings = EmailSetting::getDefaultReviewRemainderSettings($language);
-
-                $data = [
-                    'language' => $language,
-                    'language_label' => WordpressHelper::getLanguageLabel($language),
-                    'status' => 'active',
-                    'settings' => $settings,
-                ];
-            }
+            $data = [
+                'language' => $language,
+                'language_label' => WordpressHelper::getLanguageLabel($language),
+                'status' => 'active',
+                'settings' => $reviewReminder->getSettings(),
+                'placeholders' =>  $reviewReminder->getPlaceHolders()
+            ];
 
             //Returning Review Data
-            return ReviewRemainderResource::resource([$data]);
+            return ReviewRemainderResource::resource([$data], [
+                'message' => __('Settings fetched', 'f-review')
+            ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -161,7 +142,9 @@ class EmailSettingsController
     public static function saveReviewRemainder(Request $request)
     {
         $request->validate(new ReviewRemainderSettingsValidation());
+
         Database::beginTransaction();
+
         try {
             $language = $request->get('language');
             $body = $request->get('body');
@@ -199,7 +182,7 @@ class EmailSettingsController
             Database::commit();
 
             return Response::success([
-                'message' => 'Review Request Updated for Selected Language',
+                'message' => __('Settings fetched', 'f-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             Database::rollBack();
@@ -210,27 +193,11 @@ class EmailSettingsController
         }
     }
 
-    public static function getReviewRemainderLanguageSettingsList(Request $request)
-    {
-        try {
-            $list = EmailSetting::query()
-                ->where("type = %s", [EmailSetting::REVIEW_REMINDER_TYPE])
-                ->get();
-
-            return ReviewRemainderEmailSettingsCollection::collection([$list]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error([
-                'message' => 'Server Error Occurred'
-            ]);
-        }
-    }
-
-
     public static function getPhotoRequest(Request $request)
     {
         try {
             $language = $request->get('language');
+
             $photoRequest = new PhotoRequest($language);
 
             $data = [
@@ -238,10 +205,13 @@ class EmailSettingsController
                 'language_label' => WordpressHelper::getLanguageLabel($language),
                 'status' => 'active',
                 'settings' => $photoRequest->getSettings(),
+                'placeholders' =>  $photoRequest->getPlaceHolders()
             ];
 
             //Returning Review Data
-            return ReviewPhotoRequestResource::resource([$data]);
+            return ReviewPhotoRequestResource::resource([$data], [
+                'message' => __('Settings Fetched')
+            ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -295,7 +265,7 @@ class EmailSettingsController
             Database::commit();
 
             return Response::success([
-                'message' => 'Review Photo Request Updated for Selected Language',
+                'message' => __('Settings saved', 'f-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             Database::rollBack();
@@ -306,51 +276,24 @@ class EmailSettingsController
         }
     }
 
-    public static function getPhotoRequestLanguageSettingsList(Request $request)
-    {
-        try {
-            $list = EmailSetting::query()
-                ->where("type = %s", [EmailSetting::PHOTO_REQUEST_TYPE])
-                ->get();
-
-            return ReviewPhotoRequestEmailSettingsCollection::collection([$list]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error([
-                'message' => 'Server Error Occurred'
-            ]);
-        }
-    }
-
-    public static function getDiscountRequest(Request $request)
+    public static function getDiscountReminderSetting(Request $request)
     {
         try {
             $language = $request->get('language');
 
-            $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::DISCOUNT_REQUEST_TYPE])
-                ->first();
+            $discountEmail = new DiscountReminderEmailSetting($language);
 
-            if (!empty($previous)) {
-                $data = [
-                    'language' => $previous->language,
-                    'language_label' => WordpressHelper::getLanguageLabel($previous->language),
-                    'status' => $previous->status,
-                    'settings' => EmailSetting::getReviewSettingsAsArray($previous->settings),
-                ];
-            } else {
-                $settings = EmailSetting::getDefaultReviewDiscountRequestSettings($language);
-
-                $data = [
-                    'language' => $language,
-                    'language_label' => WordpressHelper::getLanguageLabel($language),
-                    'status' => 'active',
-                    'settings' => $settings,
-                ];
-            }
+            $data = [
+                'language' => $discountEmail->locale,
+                'language_label' => WordpressHelper::getLanguageLabel($discountEmail->locale),
+                'status' => $discountEmail->status,
+                'settings' =>  $discountEmail->getSettings()
+            ];
 
             //Returning Review Data
-            return ReviewPhotoRequestResource::resource([$data]);
+            return ReviewDiscountReminderEmailSetting::resource([$data], [
+                'message' => __('Settings fetched')
+            ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -359,7 +302,7 @@ class EmailSettingsController
         }
     }
 
-    public static function saveDiscountRequest(Request $request)
+    public static function saveDiscountReminderSetting(Request $request)
     {
         $request->validate(new ReviewDiscountRequestSettingsValidation());
         Database::beginTransaction();
@@ -376,19 +319,19 @@ class EmailSettingsController
             ];
 
             $previous = EmailSetting::query()
-                ->where("language = %s AND type = %s", [$language, EmailSetting::DISCOUNT_REQUEST_TYPE])
+                ->where("language = %s AND type = %s", [$language, EmailSetting::DISCOUNT_REMINDER_TYPE])
                 ->first();
 
             if (empty($previous)) {
                 EmailSetting::query()->create([
-                    'type' => EmailSetting::DISCOUNT_REQUEST_TYPE,
+                    'type' => EmailSetting::DISCOUNT_REMINDER_TYPE,
                     'language' => $language,
                     'status' => 'active',
                     'settings' => Functions::jsonEncode($data),
                 ]);
             } else {
                 EmailSetting::query()->update([
-                    'type' => EmailSetting::DISCOUNT_REQUEST_TYPE,
+                    'type' => EmailSetting::DISCOUNT_REMINDER_TYPE,
                     'status' => 'active',
                     'settings' => Functions::jsonEncode($data),
                 ], [
@@ -400,7 +343,7 @@ class EmailSettingsController
             Database::commit();
 
             return Response::success([
-                'message' => 'Review Discount Request Updated for Selected Language',
+                'message' => __('Settings saved', 'f-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             Database::rollBack();
@@ -411,21 +354,6 @@ class EmailSettingsController
         }
     }
 
-    public static function getDiscountRequestLanguageSettingsList(Request $request)
-    {
-        try {
-            $list = EmailSetting::query()
-                ->where("type = %s", [EmailSetting::DISCOUNT_REQUEST_TYPE])
-                ->get();
-
-            return ReviewDiscountRequestEmailSettingsCollection::collection([$list]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error([
-                'message' => 'Server Error Occurred'
-            ]);
-        }
-    }
 
     public static function getReplyToReviewRequest(Request $request)
     {
@@ -442,7 +370,9 @@ class EmailSettingsController
             ];
 
             //Returning Review Data
-            return ReviewPhotoRequestResource::resource([$data]);
+            return ReviewPhotoRequestResource::resource([$data, [
+                'message' => __('Settings fetched', 'f-review'),
+            ]]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
@@ -501,22 +431,6 @@ class EmailSettingsController
         }
     }
 
-    public static function getReplyToReviewRequestLanguageSettingsList(Request $request)
-    {
-        try {
-            $list = EmailSetting::query()
-                ->where("type = %s", [EmailSetting::REPLY_REQUEST_TYPE])
-                ->get();
-
-            return ReviewReplyToRequestEmailSettingsCollection::collection([$list]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error([
-                'message' => 'Server Error Occurred'
-            ]);
-        }
-    }
-
 
     public static function duplicateEmailConfig(Request $request)
     {
@@ -564,10 +478,91 @@ class EmailSettingsController
 
             $object = EmailSetting::resolveObjectByType($language, $email_type);
 
+            error_log(print_r($object, true));
+
             return Response::success([
-                'content' => $object->getTemplatePreview()
+                'content' => $object->getTemplatePreview(),
+                'message' => __('preview fetched', 'f-review')
             ]);
         } catch (\Exception | \Error $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error([
+                'message' => 'Server Error Occurred'
+            ]);
+        }
+    }
+
+    public static function getDiscountNotify(Request $request)
+    {
+        try {
+            $language = $request->get('language');
+
+            $discountNotifySetting = new DiscountNotifySetting($language);
+
+            $data = [
+                'language' => $language,
+                'language_label' => WordpressHelper::getLanguageLabel($language),
+                'status' => 'active',
+                'settings' => $discountNotifySetting->getSettings(),
+                'placeholders' =>  $discountNotifySetting->getPlaceHolders()
+            ];
+
+            //Returning Review Data
+            return ReviewDiscountNotifySettingResource::resource([$data], [
+                'message' => __('Settings fetched', 'f-review')
+            ]);
+        } catch (\Exception | \Error $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error([
+                'message' => 'Server Error Occurred'
+            ]);
+        }
+    }
+    public static function saveDiscountNotify(Request $request)
+    {
+        $request->validate(new ReviewDiscountNotifySettingsValidation());
+        Database::beginTransaction();
+        try {
+            $language = $request->get('language');
+            $body = $request->get('body');
+            $subject = $request->get('subject');
+            $button_text = $request->get('button_text');
+
+            $data = [
+                'body' => $body,
+                'subject' => $subject,
+                'button_text' => $button_text
+            ];
+
+            $previous = EmailSetting::query()
+                ->where("language = %s AND type = %s", [$language, EmailSetting::DISCOUNT_NOTIFY_TYPE])
+                ->first();
+
+            if (empty($previous)) {
+                EmailSetting::query()->create([
+                    'type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
+                    'language' => $language,
+                    'status' => 'active',
+                    'settings' => Functions::jsonEncode($data),
+                ]);
+            } else {
+                EmailSetting::query()->update([
+                    'type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
+                    'status' => 'active',
+                    'settings' => Functions::jsonEncode($data),
+                ], [
+                    'id' => $previous->id,
+                    'language' => $language,
+                ]);
+            }
+
+            Database::commit();
+
+            return Response::success([
+                'message' => 'Settings Saved Successfully',
+            ]);
+        } catch (\Exception | \Error $exception) {
+            Database::rollBack();
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'

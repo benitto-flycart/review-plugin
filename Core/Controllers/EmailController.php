@@ -3,6 +3,7 @@
 namespace Flycart\Review\Core\Controllers;
 
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\Core\Emails\DiscountNotifyEmail;
 use Flycart\Review\Core\Emails\DiscountReminderWCEmail;
 use Flycart\Review\Core\Emails\PhotoRequestWCEmail;
 use Flycart\Review\Core\Emails\ReviewReminderWCEmail;
@@ -28,6 +29,11 @@ class EmailController
         if (!isset($emails['DiscountReminderWCEmail']) && class_exists(DiscountReminderWCEmail::class)) {
             $emails['DiscountReminderWCEmail'] = new DiscountReminderWCEmail();
         }
+
+        if (!isset($emails['DiscountNotifyEmail']) && class_exists(DiscountNotifyEmail::class)) {
+            $emails['DiscountNotifyEmail'] = new DiscountNotifyEmail();
+        }
+
 
         if (!isset($emails['ReviewReplyEmail']) && class_exists(ReviewReplyEmail::class)) {
             $emails['ReviewReplyEmail'] = new ReviewReplyEmail();
@@ -117,6 +123,21 @@ class EmailController
         }
     }
 
+    public static function sendDiscountNotifyEmail($data)
+    {
+        try {
+
+            \WC_Emails::instance();
+
+            $emails = wc()->mailer()->get_emails();
+
+            if (isset($emails['DiscountNotifyEmail'])) {
+                $emails['DiscountNotifyEmail']->trigger($data);
+            }
+        } catch (\Error $error) {
+            PluginHelper::logError('Error Occurred While Sending Review Request Email', [__CLASS__, __FUNCTION__], $error);
+        }
+    }
     public static function sendReplyToEmail($data)
     {
         try {
