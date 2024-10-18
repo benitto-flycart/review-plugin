@@ -199,3 +199,17 @@ add_action('admin_head', function () {
 <?php
     }
 }, 11);
+
+add_action('get_google_font_link_for_email_template' , function(){
+    return '<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">';
+});
+
+add_action('get_desired_font_style', function () {
+    $fontStyles = [
+        ['class' => 'dm-serif-text-regular', 'content' => 'font-weight: 400; font-style: normal;'],
+        ['class' => 'dm-serif-text-regular-italic', 'content' => 'font-weight: 400; font-style: italic;'],
+    ];
+    return $fontStyles;
+});
