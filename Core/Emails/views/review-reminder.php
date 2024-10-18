@@ -10,7 +10,9 @@
     <!--<![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
+        <?php  $fontStyles = apply_filters('get_desired_font_style', []); ?>
         #outlook a {
             padding: 0;
         }
@@ -103,9 +105,8 @@
     </style>
 </head>
 
-<body style="word-spacing:normal;background-color:<?php
-                                                    echo $brandSettings->getEmailBgColor() ?>;color: <?php echo $brandSettings->getTextColor() ?>">
-    <div>
+<body style="word-spacing:normal;">
+    <div class= "<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['email_text_color']); ?>; border;; border-radius:15px 15px 15px 15px; <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -206,7 +207,7 @@
                         <tr>
                             <td class="" style="vertical-align:top;width:600px;"><![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
-                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%; background-color: <?php echo $brandSettings->getContentBgColor() ?>;">
+                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                         style="vertical-align:top;" width="100%">
                                         <tbody>
@@ -252,7 +253,7 @@
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
             <![endif]-->
-            <div style="background-color:<?php echo $brandSettings->getContentBgColor() ?>;margin:0px auto;max-width:600px;">
+            <div style="margin:0px auto;max-width:600px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
@@ -303,10 +304,10 @@
                 ?>
                 <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;"width="600">
-    <tr bgcolor="<?php echo $brandSettings->getContentBgColor() ?>">
+    <tr bgcolor="">
     <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
    <![endif]-->
-                <div style="margin:0px auto;max-width:600px;background-color:<?php echo $brandSettings->getContentBgColor() ?>">
+                <div style="margin:0px auto;max-width:600px;">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                         style="width:100%;">
                         <tbody>
@@ -377,7 +378,7 @@
                                                                     style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;"
                                                                     valign="middle">
                                                                     <a href="<?php echo $reviewLink ?>"
-                                                                        style="display:inline-block;background-color:<?php echo $brandSettings->getButtonBgColor() ?>;color:<?php echo $brandSettings->getButtonTextColor() ?>;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo $brandSettings->getButtonBorderColor() ?>"
+                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['button_text_color']); ?>; border:;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo esc_attr($data['styles']['button_border_color']); ?>;"
                                                                         target="_blank">{button_text}
                                                                     </a>
                                                                 </td>
@@ -433,7 +434,7 @@
                                             <tr>
                                                 <td align="center"
                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:<?php echo $brandSettings->getTextColor() ?>;">
+                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;">
                                                         {footer_text}
                                                     </div>
                                                 </td>
@@ -441,7 +442,7 @@
                                             <tr>
                                                 <td align="center"
                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:10px;line-height:1;text-align:center;color:<?php echo $brandSettings->getTextColor() ?>">
+                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:10px;line-height:1;text-align:center;">
                                                         <a href="{unsubscribe_link}">Unsubscribe</a>
                                                     </div>
                                                 </td>

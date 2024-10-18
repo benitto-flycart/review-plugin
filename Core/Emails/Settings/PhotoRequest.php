@@ -83,7 +83,7 @@ class PhotoRequest extends Emails
 
     public function getDiscountText()
     {
-        $this->getValue('discount_text');
+        return $this->getValue('discount_text');
     }
 
     public function getTemplatePreview()
@@ -96,13 +96,16 @@ class PhotoRequest extends Emails
 
         $generalSettings = (new GeneralSettings);
 
+        $styles = $this->getDefaultStyles();
+
         $photoRequest = $this;
 
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'photoRequest' => $photoRequest
+            'photoRequest' => $photoRequest,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/photo-request.php';

@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
+        <?php $fontStyles = apply_filters('get_desired_font_style', []);?>
         #outlook a {
             padding: 0;
         }
@@ -83,8 +85,8 @@
     </style>
 </head>
 
-<body style="word-spacing:normal;background-color:#ffffff;">
-    <div style="background-color:#ffffff;">
+<body style="word-spacing:normal;">
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="border:; border-radius: 15px 15px 15px 15px ;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;  color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -168,12 +170,12 @@
            bgcolor="#ffffff">
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
+        <div style="margin:0px auto;max-width:600px;">
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                style="background:#ffffff;background-color:#ffffff;width:100%;">
+                style="width:100%;">
                 <tbody>
                     <tr>
-                        <td style="direction:ltr;font-size:0px;padding:NaNpx;padding-bottom:NaNpx;padding-left:NaNpx;padding-right:NaNpx;padding-top:NaNpx;text-align:center;">
+                        <td style="direction:ltr;font-size:0px;text-align:center;">
                             <!--[if mso | IE]>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
@@ -182,20 +184,20 @@
                                 <!--[if mso | IE]>
                             <td class="" style="">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" class=""
-                                       style="width:NaNpx;" width="NaN" bgcolor="#fadfdb">
+                                       style="" width="NaN" bgcolor="#fadfdb">
                                     <tr>
                                         <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
                     <![endif]-->
-                                <div style="background:#fadfdb;background-color:#fadfdb;margin:0px auto;border-radius:15px 15px 0 0;max-width:NaNpx;">
+                                <div style="margin:0px auto;border-radius:15px 15px 0 0;">
                                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                        style="background:#fadfdb;background-color:#fadfdb;width:100%;border-radius:15px 15px 0 0;">
+                                        style="width:100%;border-radius:15px 15px 0 0;">
                                         <tbody>
                                             <tr>
-                                                <td style="direction:ltr;font-size:0px;padding:NaNpx;padding-bottom:0px;padding-left:NaNpx;padding-right:NaNpx;padding-top:NaNpx;text-align:center;">
+                                                <td style="direction:ltr;font-size:0px;padding-bottom:0px;text-align:center;">
                                                     <!--[if mso | IE]>
                                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
-                                            <td class="" style="vertical-align:top;width:NaNpx;"><![endif]-->
+                                            <td class="" style="vertical-align:top;"><![endif]-->
                                                     <div class="mj-column-per-100 mj-outlook-group-fix"
                                                         style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -236,16 +238,16 @@
                                 width="NaN" bgcolor="#fadfdb">
                                 <tr>
                                     <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-                            <div style="background:#fadfdb;background-color:#fadfdb;margin:0px auto;border-radius:0 0 15px 15px;max-width:NaNpx;">
+                            <div style="margin:0px auto;border-radius:0 0 15px 15px;">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                    style="background:#fadfdb;background-color:#fadfdb;width:100%;border-radius:0 0 15px 15px;">
+                                    style="width:100%;border-radius:0 0 15px 15px;">
                                     <tbody>
                                         <tr>
                                             <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0px;padding-top:0px;text-align:center;">
                                                 <!--[if mso | IE]>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td class="" style="vertical-align:top;width:NaNpx;"><![endif]-->
+                                                <td class="" style="vertical-align:top;"><![endif]-->
                                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -254,7 +256,7 @@
                                                             <tr>
                                                                 <td align="left"
                                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
+                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;">
                                                                         {body}
                                                                     </div>
                                                                 </td>
@@ -268,10 +270,10 @@
                                                                         <tr>
                                                                             <td align="center" bgcolor="#7c1b06" role="presentation"
                                                                                 href="{shop_page_url}"
-                                                                                style="border:4px solid #ab5959;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background:#7c1b06;"
+                                                                                style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                                 valign="middle">
                                                                                 <p
-                                                                                    style="display:inline-block;background:#7c1b06;color:#ffffff;font-family:Helvetica, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
+                                                                                    style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-family:Helvetica, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
                                                                                     {discount_code}
                                                                                 </p>
                                                                             </td>
@@ -304,7 +306,7 @@
                                 <tr>
 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
-                            <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:NaNpx;">
+                            <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                                     style="background:#ffffff;background-color:#ffffff;width:100%;">
                                     <tbody>
@@ -313,7 +315,7 @@
                                                 <!--[if mso | IE]>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td class="" style="vertical-align:top;width:NaNpx;"><![endif]-->
+                                                <td class="" style="vertical-align:top;"><![endif]-->
                                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                                     <?php if ($generalSettings->isFooterEnabled()): ?>
