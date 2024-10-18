@@ -167,7 +167,7 @@
 
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#ffffff">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:0px auto;max-width:600px;">
@@ -184,7 +184,7 @@
                                 <!--[if mso | IE]>
                             <td class="" style="">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" class=""
-                                       style="" width="NaN" bgcolor="#fadfdb">
+                                       style="" >
                                     <tr>
                                         <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
                     <![endif]-->
@@ -235,7 +235,7 @@
                             <!--[if mso | IE]>
                         <td class="" style="">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:NaNpx;"
-                                width="NaN" bgcolor="#fadfdb">
+                                >
                                 <tr>
                                     <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                             <div style="margin:0px auto;border-radius:0 0 15px 15px;">
@@ -276,7 +276,7 @@
                                                                         role="presentation"
                                                                         style="border-collapse:separate;line-height:100%;">
                                                                         <tr>
-                                                                            <td align="center" bgcolor="#7c1b06" role="presentation"
+                                                                            <td align="center"  role="presentation"
                                                                                 href="{review_link}"
                                                                                 style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                                 valign="middle">
@@ -310,7 +310,7 @@
                             <!--[if mso | IE]>
                         <td class="" style="">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:NaNpx;"
-                                width="NaN" bgcolor="#ffffff">
+                                >
                                 <tr>
 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
@@ -334,8 +334,8 @@
                                                                     <td align="center"
                                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                                         <p
-                                                                            style="border-top:solid 2px #C3C3C3;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px #C3C3C3;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">
+                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">
                                                         <tr>
                                                             <td style="height:0;line-height:0;"> &nbsp;
                                                             </td>
@@ -346,12 +346,12 @@
                                                                 <tr>
                                                                     <td align="center"
                                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                        <div style="font-size:14px;line-height:1;text-align:center;color:#C2C2C2;">
+                                                                        <div style="font-size:14px;line-height:1;text-align:center;">
                                                                             <p>{footer_text}</p>
                                                                             <a
                                                                                 data-cke-saved-href="http://localhost:7000"
                                                                                 href="#"
-                                                                                style="color:#c2c2c2;"><?php echo esc_attr('Unsubscribe', 'f-review') ?></a><br>
+                                                                                style=""><?php echo esc_attr('Unsubscribe', 'f-review') ?></a><br>
                                                                         </div>
                                                                     </td>
                                                                 </tr>

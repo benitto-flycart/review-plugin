@@ -86,10 +86,10 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div  class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; border-radius:15px 15px 15px 15px; text-color:<?php echo esc_attr($data['styles']['email_text_color']); ?> <?php echo esc_attr($fontStyles['content']); ?>">
+    <div  class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; border-radius:15px 15px 15px 15px; color:<?php echo esc_attr($data['styles']['email_text_color']); ?> <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#F5CEE4">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:20px auto;max-width:600px;">
@@ -129,7 +129,7 @@
         <?php if ($brandSettings->isLogoEnabled()): ?>
             <!--[if mso | IE]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-            bgcolor="#EDE4E7">
+            >
             <tr>
                 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
             <div style="margin:0px auto;max-width:600px;">
@@ -181,7 +181,7 @@
 
         <!--[if mso | IE]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-            bgcolor="#FFFFFF">
+            >
             <tr>
                 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:0px auto;max-width:600px;">
@@ -198,7 +198,7 @@
                                 <!--[if mso | IE]>
                             <td class="" style="">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" class=""
-                                       style="" width="NaN" bgcolor="#fadfdb">
+                                       style="" >
                                     <tr>
                                         <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
                     <![endif]-->
@@ -249,7 +249,7 @@
                             <!--[if mso | IE]>
                         <td class="" style="">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:NaNpx;"
-                                width="NaN" bgcolor="#fadfdb">
+                                >
                                 <tr>
                                     <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                             <div style="margin:0px auto;border-radius:0 0 15px 15px;max-width:NaNpx;">
@@ -296,13 +296,13 @@
                             <!--[if mso | IE]>
                         <td class="" style="">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:NaNpx;"
-                                width="NaN" bgcolor="#ffffff">
+                                >
                                 <tr>
 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
-                            <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;">
+                            <div style="margin:0px auto;">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                    style="background:#ffffff;background-color:#ffffff;width:100%;">
+                                    style="width:100%;">
                                     <tbody>
                                         <tr>
                                             <td style="direction:ltr;font-size:0px;padding:0px;padding-bottom:0px;padding-top:0px;text-align:center;">
@@ -320,8 +320,8 @@
                                                                     <td align="center"
                                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                                         <p
-                                                                            style="border-top:solid 2px #C3C3C3;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px #C3C3C3;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">
+                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px 3;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">
                                                         <tr>
                                                             <td style="height:0;line-height:0;"> &nbsp;
                                                             </td>
@@ -332,12 +332,12 @@
                                                                 <tr>
                                                                     <td align="center"
                                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                        <div style="font-family:Helvetica, sans-serif;font-size:14px;line-height:1;text-align:center;color:#C2C2C2;">
+                                                                        <div style="font-family:Helvetica, sans-serif;font-size:14px;line-height:1;text-align:center;">
                                                                             <p>{footer_text}</p>
                                                                             <a
                                                                                 data-cke-saved-href="http://localhost:7000"
                                                                                 href="#"
-                                                                                style="color:#c2c2c2;"><?php echo esc_attr('Unsubscribe', 'f-review') ?></a><br>
+                                                                                style=""><?php echo esc_attr('Unsubscribe', 'f-review') ?></a><br>
                                                                         </div>
                                                                     </td>
                                                                 </tr>

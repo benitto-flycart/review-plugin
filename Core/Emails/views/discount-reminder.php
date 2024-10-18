@@ -134,7 +134,7 @@
             </div>
             <!--[if mso | IE]></td></tr></table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#EDE4E7">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
             <div style="margin:0px auto;max-width:600px;">
@@ -179,7 +179,7 @@
         <?php endif; ?>
         <!--[if mso | IE]></td></tr></table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#F5CEE4">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <?php if ($brandSettings->isEmailBannerEnabled()): ?>
@@ -225,7 +225,7 @@
         <?php endif; ?>
         <!--[if mso | IE]></td></tr></table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#FFFFFF">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:0px auto;max-width:600px;">
@@ -239,7 +239,7 @@
                         <tr>
                             <td class="" style="">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" class=""
-                                       style= width="NaN" bgcolor="#FADFDB">
+                                       style= "" >
                                     <tr>
                                         <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
                     <![endif]-->
@@ -261,7 +261,7 @@
                             <!--[if mso | IE]></td></tr></table></td>
                 <td class="" style="">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:NaNpx;"
-                           width="NaN" bgcolor="#F5CEE4">
+                           >
                         <tr>
                             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                             <div style="margin:0px auto;">
@@ -348,7 +348,7 @@
         </div>
         <!--[if mso | IE]></td></tr></table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#F5CEE4">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
         <div style="margin:0px auto;border-radius:0 0 15px 15px;max-width:600px;">
@@ -372,7 +372,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                     style="border-collapse:separate;line-height:100%;">
                                                     <tr>
-                                                        <td align="center" bgcolor="#2B071C" role="presentation"
+                                                        <td align="center"  role="presentation"
                                                             style="border:3px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;"
                                                             valign="middle">
                                                             <p style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">
@@ -394,10 +394,10 @@
         </div>
         <!--[if mso | IE]></td></tr></table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
-           bgcolor="#EDE4E7">
+           >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <?php if ($generalSettings->isFooterEnabled()): ?><div style="background:#EDE4E7;background-color:#EDE4E7;margin:0px auto;max-width:600px;">
+        <?php if ($generalSettings->isFooterEnabled()): ?><div style="margin:0px auto;max-width:600px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
@@ -415,7 +415,7 @@
                                             <tr>
                                                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                                     <p
-                                                        style="border-top:solid 2px #000000;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px #000000;font-size:1px;margin:0px auto;width:550px;" role="presentation" width="550px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+                                                        style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:550px;" role="presentation" width="550px" ><tr><td style="height:0;line-height:0;"> &nbsp;
 </td></tr></table><![endif]-->
                                                 </td>
                                             </tr>
@@ -425,7 +425,7 @@
                                                         {footer_text}<br><br>
                                                         <a
                                                             data-cke-saved-href="http://localhost:7000" href="http://localhost:7000"
-                                                            style="color:#000000;">Unsubscribe</a><br>
+                                                            style="">Unsubscribe</a><br>
                                                     </div>
                                                 </td>
                                             </tr>
