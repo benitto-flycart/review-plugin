@@ -97,7 +97,7 @@ abstract class Emails
             'email_text_color' => '#FADFDB',
             'button_bg_color' => '#EACCAE',
             'button_text_color' => '#000000',
-            'button_border_color' => '#000000',
+            'button_border_color' => '#ffffff',
         ];
     }
 }

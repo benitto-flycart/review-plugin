@@ -83,7 +83,6 @@ class ReplyRequest extends Emails
         $generalSettings = (new GeneralSettings);
 
         $styles = $this->getDefaultStyles();
-
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reply.php';
 
         $replyRequest = $this;

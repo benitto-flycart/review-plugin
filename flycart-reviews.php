@@ -209,6 +209,6 @@ add_action('get_google_font_link_for_email_template' , function(){
 add_filter('get_desired_font_style', function () {
     return [
         'class' => 'dm-serif-text-regular  dm-serif-text-regular-italic',
-        'content' => 'font-weight: 400; font-style: normal; font-family: "DM Serif Text", serif; font-weight: 400; font-style: italic;'
+        'content' => 'font-weight: 400; font-style: normal;  font-family: "DM Serif Text", serif; font-weight: 400; font-style: italic;'
     ];
 });

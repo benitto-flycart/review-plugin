@@ -112,7 +112,6 @@ class ReviewReminderEmailSetting extends Emails
         $generalSettings = new GeneralSettings;
 
         $styles = $this->getDefaultStyles();
-
         $discountReminder = $this;
 
         $data = [

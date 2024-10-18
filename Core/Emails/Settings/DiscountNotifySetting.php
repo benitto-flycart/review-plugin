@@ -104,7 +104,6 @@ class DiscountNotifySetting extends Emails
         $generalSettings = (new GeneralSettings);
 
         $styles = $this->getDefaultStyles();
-
         $discountNotify = $this;
 
         $data = [

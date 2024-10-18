@@ -99,7 +99,6 @@ class DiscountReminderEmailSetting extends Emails
         $generalSettings = (new GeneralSettings);
 
         $styles = $this->getDefaultStyles();
-
         $discountReminder = $this;
 
         $data = [

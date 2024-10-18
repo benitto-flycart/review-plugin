@@ -101,7 +101,6 @@ class ReviewRequest extends Emails
         $generalSettings = (new GeneralSettings);
 
         $reviewRequest = new ReviewRequest(get_locale());
-
         $styles = $this->getDefaultStyles();
         $data = [
             'order' => $order,

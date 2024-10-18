@@ -97,7 +97,6 @@ class PhotoRequest extends Emails
         $generalSettings = (new GeneralSettings);
 
         $styles = $this->getDefaultStyles();
-
         $photoRequest = $this;
 
         $data = [
