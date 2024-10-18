@@ -103,6 +103,8 @@ class DiscountNotifySetting extends Emails
 
         $generalSettings = (new GeneralSettings);
 
+        $styles = $this->getDefaultStyles();
+
         $discountNotify = $this;
 
         $data = [
@@ -110,6 +112,7 @@ class DiscountNotifySetting extends Emails
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
             'discountNotify' => $discountNotify,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/discount-notify.php';

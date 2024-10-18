@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
-        <?php apply_filters('get_desired_font_style', []); ?>
+        <?php $fontStyles = apply_filters('get_desired_font_style', []); ?>
         #outlook a {
             padding: 0;
         }
@@ -96,7 +96,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div style="border-radius:0 0 15px 15px; background-color:<?php echo esc_attr($data['bg-color']['email_bg_color']); ?>; color:<?php echo esc_attr($data['bg-color']['email_text_color']); ?>;" ><!--[if mso | IE]>
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="border-radius:15px 15px 15px 15px; background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>" ><!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
            >
         <tr>
@@ -287,7 +287,7 @@
                                                                             <tr>
                                                                                 <td align="left"
                                                                                     style="font-size:0px;padding:10px 25px;padding-right:20px;word-break:break-word;">
-                                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;color:#000000;">
+                                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;">
                                                                                         {body}
                                                                                     </div>
                                                                                 </td>
@@ -307,14 +307,14 @@
                                                         width="100%">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="border:3px solid <?php echo esc_attr($data['bg-color']['button_border_color']); ?>;vertical-align:top;padding:18px;padding-top:18px;padding-right:18px;padding-bottom:18px;padding-left:18px;">
+                                                                <td style="border:3px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;vertical-align:top;padding:18px;padding-top:18px;padding-right:18px;padding-bottom:18px;padding-left:18px;">
                                                                     <table border="0" cellpadding="0" cellspacing="0"
                                                                         role="presentation" width="100%">
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td align="center"
                                                                                     style="font-size:0px;padding:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
-                                                                                    <div style="font-family:Times New Roman, Times, serif;font-size:39px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;color:<?php echo esc_attr($data['bg-color']['email_text_color']);?>;">
+                                                                                    <div style="font-family:Times New Roman, Times, serif;font-size:39px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;">
                                                                                         {discount_code}<span style="font-size:14px;"><br></span>
                                                                                     </div>
                                                                                 </td>
@@ -322,7 +322,7 @@
                                                                             <tr>
                                                                                 <td align="center"
                                                                                     style="font-size:0px;padding:2px;padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
-                                                                                    <div style="font-family:Times New Roman, Times, serif;font-size:13px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;color:<?php echo esc_attr($data['bg-color']['email_text_color']);?>;;">
+                                                                                    <div style="font-family:Times New Roman, Times, serif;font-size:13px;font-style:normal;font-weight:600;line-height:1.5;text-align:center;">
                                                                                         Discount expires :{discount_expires}
                                                                                     </div>
                                                                                 </td>
@@ -373,9 +373,9 @@
                                                     style="border-collapse:separate;line-height:100%;">
                                                     <tr>
                                                         <td align="center" bgcolor="#2B071C" role="presentation"
-                                                            style="border:3px solid <?php echo esc_attr($data['bg-color']['button_border_color']); ?>;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;"
+                                                            style="border:3px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;"
                                                             valign="middle">
-                                                            <p style="display:inline-block;background:<?php echo esc_attr($data['bg-color']['button_bg_color']); ?>;color:<?php echo esc_attr($data['bg-color']['button_text_color']); ?>;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">
+                                                            <p style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">
                                                                 {button_text}
                                                             </p>
                                                         </td>

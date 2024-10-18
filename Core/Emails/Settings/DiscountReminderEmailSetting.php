@@ -107,7 +107,7 @@ class DiscountReminderEmailSetting extends Emails
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
             'discountReminder' => $discountReminder,
-            'bg-color' => $styles,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/discount-reminder.php';
