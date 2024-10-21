@@ -101,13 +101,13 @@ class ReviewRequest extends Emails
         $generalSettings = (new GeneralSettings);
 
         $reviewRequest = new ReviewRequest(get_locale());
-
-
+        $styles = $this->getDefaultStyles($brandSettings);
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'reviewRequest' => $reviewRequest
+            'reviewRequest' => $reviewRequest,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-request.php';

@@ -28,10 +28,9 @@ class BrandSettingsResponse extends Resource
                     'button_bg_color' => $settings['appearance_options']['button_bg_color'] ?? '',
                     'button_border_color' => $settings['appearance_options']['button_border_color'] ?? '',
                     'button_title_color' => $settings['appearance_options']['button_title_color'] ?? '',
-                    'font_type' => $settings['appearance_options']['font_type'] ?? '',
-                    'font_size' => $settings['appearance_options']['font_size'] ?? '',
                 ],
             ],
         ];
     }
 }
+

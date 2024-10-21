@@ -44,8 +44,6 @@ class BrandSettings extends ReviewSettings
                 'button_bg_color' => $settings['appearance_options']['button_bg_color'] ?? '',
                 'button_border_color' => $settings['appearance_options']['button_border_color'] ?? '',
                 'button_title_color' => $settings['appearance_options']['button_title_color'] ?? '',
-                'font_type' => $settings['appearance_options']['font_type'] ?? '',
-                'font_size' => $settings['appearance_options']['font_size'] ?? '',
             ] : $this->getDefaultAppearanceOptions(),
         ];
     }
@@ -60,12 +58,14 @@ class BrandSettings extends ReviewSettings
             'button_bg_color' => '#000000',
             'button_border_color' => '#000000',
             'button_title_color' => '#ffffff',
-            'font_type' => 'aerial',
-            'font_size' => '14',
         ];
     }
 
 
+    public function getAppearanceOptions()
+    {
+        return $this->brandSettings['appearance_options'];
+    }
 
     public function getFromRequest($request)
     {
@@ -79,15 +79,13 @@ class BrandSettings extends ReviewSettings
             'banner_src' => $request->get('banner_src'),
             'rating_rgb_color' => $request->get('rating_rgb_color'),
             'appearance' => $customAppearance = $request->get('appearance'),
-            'appearance_options' => $customAppearance ? [
+            'appearance_options' => $customAppearance == 'custom' ? [
                 'email_background_color' => $request->get('appearance_options.email_background_color'),
                 'content_background_color' => $request->get('appearance_options.content_background_color'),
                 'email_text_color' => $request->get('appearance_options.email_text_color'),
                 'button_bg_color' => $request->get('appearance_options.button_bg_color'),
                 'button_border_color' => $request->get('appearance_options.button_border_color'),
                 'button_title_color' => $request->get('appearance_options.button_title_color'),
-                'font_type' => $request->get('appearance_options.font_type'),
-                'font_size' => $request->get('appearance_options.font_size'),
             ] : [],
         ];
 
@@ -147,15 +145,5 @@ class BrandSettings extends ReviewSettings
     public function getIcon()
     {
         return $this->brandSettings['rating_icon'];
-    }
-
-    public function getFontType()
-    {
-        return $this->brandSettings['font_type'];
-    }
-
-    public function getFontSize()
-    {
-        return $this->brandSettings['font_size'];
     }
 }

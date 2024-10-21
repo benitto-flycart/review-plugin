@@ -82,6 +82,7 @@ class ReplyRequest extends Emails
 
         $generalSettings = (new GeneralSettings);
 
+        $styles = $this->getDefaultStyles($brandSettings);
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reply.php';
 
         $replyRequest = $this;
@@ -90,7 +91,8 @@ class ReplyRequest extends Emails
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'replyRequest' => $replyRequest
+            'replyRequest' => $replyRequest,
+            'styles' => $styles
         ];
 
         $html =  AssetHelper::renderTemplate($file, $data);
