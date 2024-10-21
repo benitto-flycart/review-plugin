@@ -6,7 +6,7 @@
         </div>
         <span><?php echo esc_attr__($data['total'] . " Reviews") ?></span>
     </div>
-    <div class="r_pw_ch_rd_container">
+    <div class="r_pw_ratings-row-progress-bar-details r_pw_ch_rd_container <?php echo !$widget->showRatingOptions() ? 'r_pw_hide' : '' ?>">
         <?php $rating = $data['ratings']; ?>
         <?php foreach (range(0, 4) as $index) { ?>
             <div class="r_pw_h_rd_detail r_pw_ch_rd_detail" data-rating="<?php echo $index + 1 ?>">
@@ -18,9 +18,9 @@
                 <div class="r_pw_ch_rd_detail_progress_bar">
                     <div class="r_pw_progress_bar_bg">
                         <div class="r_pw_progress_bar_fill"
-                             style="width: <?php echo $rating['details'][$index]['percentage'] . '%' ?>">
-                            <span
-                                    class="r_pw_progress_bar_label"></span></div>
+                            style="width: <?php echo $rating['details'][$index]['percentage'] . '%' ?>">
+                            <span class="r_pw_progress_bar_label"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="r_pw_ch_rd_detail_progress_bar_count"><?php echo $rating['details'][$index]['count'] ?>
@@ -29,27 +29,26 @@
         <?php } ?>
     </div>
     <div class="r_pw_ch_actions">
-        <div class="r_pw_ch_actions_new_review_btn_container">
+        <div class="r_pw_ch_actions_new_review_btn_container <?php echo !$widget->showWriteAReview() ? 'r_pw_hide' : '' ?>">
             <button type="button"
-                    class="r_pw_write_a_review_btn r_pw_header_button r_pw_ch_actions_new_review_btn_container_btn">
-                Write a
-                Review
+                class="r_pw_write_a_review_btn r_pw_header_button r_pw_ch_actions_new_review_btn_container_btn">
+                Write a Review
             </button>
         </div>
-        <div class="r_pw_ch_actions_sorting_container" style="position:relative">
+        <div class="r_pw_ch_actions_sorting_container <?php echo !$widget->showSortingOptions() ? 'r_pw_hide' : '' ?> " style="position:relative">
             <div class="r_pw_h_popover-container">
-                <div class="r_pw_h_popover-trigger" aria-haspopup="true"
-                     aria-expanded="false" aria-controls="popover-content">
+                <div class="r_pw_h_sorting_container--trigger r_pw_h_sorting_container--trigger r_pw_h_popover-trigger" aria-haspopup="true"
+                    aria-expanded="false" aria-controls="popover-content">
                     <button type="button" class="r_pw_header_button r_pw_ch_actions_sorting_container_btn">
                         <i class="review review-rocket"></i>
                     </button>
                 </div>
             </div>
             <div id="r_pw_h_popover-content"
-                 class="r_pw_h_popover-content r_pw_hide"
-                 role="dialog"
-                 aria-modal="false"
-                 style="position:absolute;">
+                class="r_pw_h_sorting_list-container r_pw_h_popover-content r_pw_hide"
+                role="dialog"
+                aria-modal="false"
+                style="position:absolute;">
                 <div>
                     <ul>
                         <li>Sort By</li>

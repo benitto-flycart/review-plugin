@@ -18,6 +18,7 @@ export const WIDGET_COLOR_DEFAULTS = {
       bg_color: "#ffffff",
       bg_hover_color: "#f8f8f8",
       shadow_color: "#f8f8f8",
+      separator_color: "#ccccc",
     },
     replies: {
       text_color: "#000000",
@@ -46,6 +47,7 @@ export const WIDGET_COLOR_DEFAULTS = {
       bg_color: "#ffffff",
       bg_hover_color: "#f8f8f8",
       shadow_color: "#f8f8f8",
+      separator_color: "#000000",
     },
     replies: {
       text_color: "#000000",
@@ -99,8 +101,5 @@ export const getReviewShadow = (index: any, color: any) => {
 export const getReviewOpener = (index: any) => {
   let style = REVIEW_OPENERS[index];
 
-  console.log(style);
-
   return style["borderRadius"];
 };
-

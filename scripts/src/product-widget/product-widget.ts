@@ -99,6 +99,17 @@ export class ProductWidget {
       });
 
     this.shadowRoot
+      .querySelector(".r_pw_h_sorting_container--trigger")
+      ?.addEventListener("click", (e: any) => {
+        const sorting_list_container = this.shadowRoot.querySelector(
+          ".r_pw_h_sorting_list-container",
+        );
+
+        console.log("Sorting container clicked");
+        this.jquery(sorting_list_container).toggleClass("r_pw_hide");
+      });
+
+    this.shadowRoot
       .querySelectorAll(".r_pw_h_rd_detail")
       ?.forEach((item: any) => {
         item.addEventListener("click", (e: any) => {
@@ -107,7 +118,36 @@ export class ProductWidget {
           this.filter();
         });
       });
+
+    this.registerMinimalHeaderEvents();
   }
+
+  registerMinimalHeaderEvents = () => {
+    //When user clicks on filter icon toggle the state so that the filter can be shown or hidden
+    const filterRoot = this.shadowRoot.querySelector(
+      ".r_pw_mh_filter",
+    ) as HTMLElement;
+
+    filterRoot?.addEventListener("click", () => {
+      console.log("Minimal header filter clicked");
+
+      const rating_contatiner = this.shadowRoot.querySelector(
+        ".r_pw_mh_rd_container",
+      ) as HTMLElement;
+
+      if (this.jquery(filterRoot).hasClass("r_pw_mh_filter_icon_opened")) {
+        this.jquery(filterRoot).removeClass("r_pw_mh_filter_icon_opened");
+        this.jquery(filterRoot).addClass("r_pw_mh_filter_icon_closed");
+      } else {
+        this.jquery(filterRoot).removeClass("r_pw_mh_filter_icon_closed");
+        this.jquery(filterRoot).addClass("r_pw_mh_filter_icon_opened");
+      }
+
+      this.jquery(rating_contatiner).toggleClass("r_pw_hide");
+    });
+
+    console.log("Minimal header events registered");
+  };
 
   async filter() {
     try {

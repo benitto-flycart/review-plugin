@@ -91,22 +91,6 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
           </SidebarDetailField>
 
           <SidebarDetailField>
-            <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-              <Switch
-                id="show_review_type"
-                defaultChecked={widget.preferences.show_item_type}
-                onCheckedChange={(value: boolean) => {
-                  updateWidgetFields((draftState: any) => {
-                    draftState.preferences.show_item_type = value;
-                  });
-                }}
-              />
-              <Label htmlFor="show_review_type">Show item type</Label>
-            </div>
-            <p>Check store to view this change</p>
-          </SidebarDetailField>
-
-          <SidebarDetailField>
             <Label className={"frt-text-xs"} htmlFor="none">
               Thumbnail Size
             </Label>
@@ -174,7 +158,6 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
               />
               <Label htmlFor="show_sorting_options">Show Sorting Options</Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
           <SidebarDetailField>
             <Label className={"frt-text-xs"} htmlFor="none">

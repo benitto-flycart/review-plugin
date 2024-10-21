@@ -1,10 +1,10 @@
-import React, {createContext, useContext, useState} from "react";
-import {produce} from "immer";
-import {axiosClient} from "../../api/axios";
-import {useLocalState} from "../../zustand/localState";
-import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
-import {SampleReviewsContext} from "../SampleReviewsAPI";
-import {getReviewOpener, getReviewShadow} from "./Preview/preview-constants";
+import React, { createContext, useContext, useState } from "react";
+import { produce } from "immer";
+import { axiosClient } from "../../api/axios";
+import { useLocalState } from "../../zustand/localState";
+import { toastrError, toastrSuccess } from "../../../helpers/ToastrHelper";
+import { SampleReviewsContext } from "../SampleReviewsAPI";
+import { getReviewOpener, getReviewShadow } from "./Preview/preview-constants";
 
 export const ProductWidgetContext = createContext({});
 
@@ -47,6 +47,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         bg_color: "",
         bg_hover_color: "",
         shadow_color: "",
+        separator_color: "",
       },
       replies: {
         text_color: "",
@@ -61,7 +62,6 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
       product_review_widget: "",
       show_write_a_review: true,
       show_review_date: true,
-      show_item_type: true,
       thumbnail_size: "medium",
       reviews_per_page: 5,
       show_sorting_options: true,
@@ -105,6 +105,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
           bg_color: settings?.colors?.reviews?.bg_color,
           bg_hover_color: settings?.colors?.reviews?.bg_hover_color,
           shadow_color: settings?.colors?.reviews?.shadow_color,
+          separator_color: settings?.colors?.reviews?.separator_color,
         },
         replies: {
           text_color: settings?.colors?.replies?.text_color,
@@ -120,7 +121,6 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         product_review_widget: settings?.preferences?.product_review_widget,
         show_write_a_review: settings?.preferences?.show_write_a_review,
         show_review_date: settings?.preferences?.show_review_date,
-        show_item_type: settings?.preferences?.show_item_type,
         thumbnail_size: settings?.preferences?.thumbnail_size,
         reviews_per_page: settings?.preferences?.reviews_per_page,
         show_sorting_options: settings?.preferences?.show_sorting_options,
@@ -223,7 +223,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
       return widget.preferences.show_rating_options == true;
     },
     saveSettings,
-    getSettings:fetchProductWidget,
+    getSettings: fetchProductWidget,
     getProductReviewWidgetColors: () => {
       return {
         "--r-prw-wrapper-bg-color": widget.colors.widget_wrapper,
@@ -236,21 +236,23 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         "--r-prw-header-text-icon-color":
           widget.colors.header.text_and_icon_color,
 
-        "--r-pw-review-color": widget.colors.reviews.text_color,
-        "--r-pw-review-bg-color": widget.colors.reviews.bg_color,
-        "--r-pw-review-bg-hover-color": widget.colors.reviews.bg_hover_color,
+        "--r-prw-review-color": widget.colors.reviews.text_color,
+        "--r-prw-review-bg-color": widget.colors.reviews.bg_color,
+        "--r-prw-review-bg-hover-color": widget.colors.reviews.bg_hover_color,
 
-        "--r-pw-review-replies-color": widget.colors.replies.text_color,
-        "--r-pw-review-replies-bg-color": widget.colors.replies.bg_color,
-        "--r-pw-review-verified-color": widget.colors.verified_badge.icon_color,
+        "--r-prw-review-replies-color": widget.colors.replies.text_color,
+        "--r-prw-review-replies-bg-color": widget.colors.replies.bg_color,
+        "--r-prw-review-verified-color":
+          widget.colors.verified_badge.icon_color,
 
-        "--r-pw-review-border-radius": getReviewOpener(
+        "--r-prw-review-border-radius": getReviewOpener(
           widget.style.review_card_openers,
         ),
-        "--r-pw-review-box-shadow": getReviewShadow(
+        "--r-prw-review-box-shadow": getReviewShadow(
           widget.style.review_card_shadow,
           widget.colors.reviews.shadow_color,
         ),
+        "--r-prw-review-separator-color": widget.colors.reviews.separator_color,
       };
     },
   };
