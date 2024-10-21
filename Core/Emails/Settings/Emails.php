@@ -89,4 +89,15 @@ abstract class Emails
 
         return $settings;
     }
+
+    public function getDefaultStyles()
+    {
+        return [
+            'email_bg_color' => '#BCE5A1',
+            'email_text_color' => '#FADFDB',
+            'button_bg_color' => '#EACCAE',
+            'button_text_color' => '#000000',
+            'button_border_color' => '#ffffff',
+        ];
+    }
 }

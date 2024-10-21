@@ -111,13 +111,15 @@ class ReviewReminderEmailSetting extends Emails
 
         $generalSettings = new GeneralSettings;
 
+        $styles = $this->getDefaultStyles();
         $discountReminder = $this;
 
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'discountReminder' => $discountReminder
+            'discountReminder' => $discountReminder,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/review-reminder.php';

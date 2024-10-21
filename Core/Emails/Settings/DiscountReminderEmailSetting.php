@@ -98,6 +98,7 @@ class DiscountReminderEmailSetting extends Emails
 
         $generalSettings = (new GeneralSettings);
 
+        $styles = $this->getDefaultStyles();
         $discountReminder = $this;
 
         $data = [
@@ -105,6 +106,7 @@ class DiscountReminderEmailSetting extends Emails
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
             'discountReminder' => $discountReminder,
+            'styles' => $styles
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/discount-reminder.php';
