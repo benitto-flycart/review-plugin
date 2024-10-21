@@ -3,10 +3,7 @@
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\App\Services\Settings;
 use Flycart\Review\Core\Models\Widget as WidgetModel;
-use Flycart\Review\Core\Resources\Widgets\ProductWidgetResource;
-use Flycart\Review\Package\Request\Response;
 
 class ProductWidget extends Widget implements WidgetInterface
 {
@@ -26,7 +23,6 @@ class ProductWidget extends Widget implements WidgetInterface
                 'review_card_shadow' => $style['review_card_shadow'] ?? 'dark',
                 'review_card_openers' => $style['review_card_openers'] ?? 'extra_rounded',
             ],
-
             'colors' => [
                 'type' => $colors['type'] ?? 'custom',
                 'widget_wrapper' => $colors['widget_wrapper'] ?? '#FED2EA',
@@ -46,7 +42,8 @@ class ProductWidget extends Widget implements WidgetInterface
                     'text_color' => $colors['reviews']['text_color'] ?? '#6D033D',
                     'bg_color' => $colors['reviews']['bg_color'] ?? '#FEE1F1',
                     'bg_hover_color' => $colors['reviews']['bg_hover_color'] ?? '#FDAAD7',
-                    'shadow_color' => $colors['reviews']['shadow_color'] ?? '#E70680'
+                    'shadow_color' => $colors['reviews']['shadow_color'] ?? '#E70680',
+                    'separator_color' => $colors['reviews']['separator_color'] ?? '#E70680'
                 ],
                 'replies' => [
                     'text_color' => $colors['replies']['text_color'] ?? '#6D033D',
@@ -61,7 +58,6 @@ class ProductWidget extends Widget implements WidgetInterface
                 'product_review_widget' => $preferences['product_review_widget'] ?? '',
                 'show_write_a_review' => Functions::getBoolValue($preferences['show_write_a_review'] ?? true),
                 'show_review_date' => Functions::getBoolValue($preferences['show_review_date'] ?? true),
-                'show_item_type' => Functions::getBoolValue($preferences['show_item_type'] ?? true),
                 'thumbnail_size' => $preferences['thumbnail_size'] ?? 'medium',
                 'reviews_per_page' => $preferences['reviews_per_page'] ?? 5,
                 'show_sorting_options' => Functions::getBoolValue($preferences['show_sorting_options'] ?? true),
@@ -71,6 +67,27 @@ class ProductWidget extends Widget implements WidgetInterface
         ];
 
         return $this->settings;
+    }
+
+
+    public function isReviewDateEnabled()
+    {
+        return $this->settings['preferences']['show_review_date'];
+    }
+
+    public function showWriteAReview()
+    {
+        return $this->settings['preferences']['show_write_a_review'];
+    }
+
+    public function showRatingOptions()
+    {
+        return $this->settings['preferences']['show_rating_options'];
+    }
+
+    public function showSortingOptions()
+    {
+        return $this->settings['preferences']['show_sorting_options'];
     }
 
     public function getWidgetType()
@@ -84,6 +101,8 @@ class ProductWidget extends Widget implements WidgetInterface
         if (is_null($this->request)) {
             return [];
         }
+
+        error_log(print_r($this->request->get('colors'), true));
 
         return [
             'layout' => $this->request->get('layout'),
@@ -105,6 +124,7 @@ class ProductWidget extends Widget implements WidgetInterface
 
     public function getProductWidgetStylesVars()
     {
+        error_log(print_r($this->settings['colors'], true));
         $vars = [
             "--r-prw-wrapper-bg-color" => $this->settings['colors']['widget_wrapper'],
             "--r-prw-btn-color" => $this->settings['colors']['button']['text_color'],
@@ -116,18 +136,19 @@ class ProductWidget extends Widget implements WidgetInterface
             "--r-prw-header-text-icon-color" => $this->settings['colors']['header']['text_and_icon_color'],
 
             //Review Colors
-            '--r-pw-review-color' => $this->settings['colors']['reviews']['text_color'],
-            '--r-pw-review-bg-color' => $this->settings['colors']['reviews']['bg_color'],
-            '--r-pw-review-bg-hover-color' => $this->settings['colors']['reviews']['bg_hover_color'],
-            '--r-pw-review-box-shadow' => $this->reviewShadows($this->settings['style']['review_card_shadow'], $this->settings['colors']['reviews']['shadow_color']),
-            '--r-pw-review-border-radius' => $this->reviewOpeners($this->settings['style']['review_card_openers']),
+            '--r-prw-review-color' => $this->settings['colors']['reviews']['text_color'],
+            '--r-prw-review-bg-color' => $this->settings['colors']['reviews']['bg_color'],
+            '--r-prw-review-bg-hover-color' => $this->settings['colors']['reviews']['bg_hover_color'],
+            '--r-prw-review-box-shadow' => $this->reviewShadows($this->settings['style']['review_card_shadow'], $this->settings['colors']['reviews']['shadow_color']),
+            '--r-prw-review-border-radius' => $this->reviewOpeners($this->settings['style']['review_card_openers']),
 
             //Replies Color
-            '--r-pw-review-replies-color' => $this->settings['colors']['replies']['text_color'],
-            '--r-pw-review-replies-bg-color' => $this->settings['colors']['replies']['bg_color'],
+            '--r-prw-review-replies-color' => $this->settings['colors']['replies']['text_color'],
+            '--r-prw-review-replies-bg-color' => $this->settings['colors']['replies']['bg_color'],
+            '--r-prw-review-separator-color' => $this->settings['colors']['reviews']['separator_color'],
 
             //Verified Color
-            '--r-pw-review-verified-color' => $this->settings['colors']['verified_badge']['icon_color'],
+            '--r-prw-review-verified-color' => $this->settings['colors']['verified_badge']['icon_color'],
         ];
 
         $style = '';

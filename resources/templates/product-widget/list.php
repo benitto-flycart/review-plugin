@@ -2,7 +2,7 @@
     <?php foreach ($data['reviews'] as $review) { ?>
         <?php $reviewObject = new \Flycart\Review\App\Helpers\ReviewHelper($review); ?>
         <div class="r_pw_r_container r_pw_r_l_container"
-             onclick="REVIEW_DETAIL_WIDGET(<?php echo esc_attr($review['id']) ?>)">
+            onclick="REVIEW_DETAIL_WIDGET(<?php echo esc_attr($review['id']) ?>)">
             <div class="r_pw_r_l_container--review_details">
                 <div class="r_pw_r_l_container--review_details-overview">
                     <div class="r_pw_r_l_container--review_details-overview-header">
@@ -29,9 +29,8 @@
                 </p>
                 <?php if ($reviewObject->hasImages()) { ?>
                     <img class="r_pw_r_l_container--review_content_img"
-                         src="<?php echo $reviewObject->getFirstImage() ?>"
-                         alt=""
-                    >
+                        src="<?php echo $reviewObject->getFirstImage() ?>"
+                        alt="">
                 <?php } ?>
             </div>
 
@@ -47,13 +46,12 @@
             <?php } ?>
 
             <?php if ($reviewObject->isProductSet()) { ?>
-                <div class="r_pw_r_l-product_container">
+                <div class="r_pw_r--product_container r_pw_r_l-product_container">
                     <img src="<?php echo $reviewObject->getProductImage() ?>"
-                         class="r_pw_r_l-product_container-img"
-                         alt=""
-                         height="50px"
-                         width="50px"
-                    >
+                        class="r_pw_r_l-product_container-img"
+                        alt=""
+                        height="50px"
+                        width="50px">
                     <span><?php echo $reviewObject->getProductName() ?></span>
                 </div>
             <?php } ?>

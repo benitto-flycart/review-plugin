@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Plugin Name:          Flycart Reviews
  * Description:          Reviews for Woo Commerce
@@ -30,7 +29,6 @@ defined('F_Review_PLUGIN_SLUG') or define('F_Review_PLUGIN_SLUG', "wp-relay");
 defined('F_Review_VERSION') or define('F_Review_VERSION', "2.0");
 defined('F_Review_PREFIX') or define('F_Review_PREFIX', "f_review_");
 
-//__('joj', 'flycart-review');
 /**
  * Required PHP Version
  */
@@ -184,7 +182,7 @@ if (!function_exists('addWPRelayExtraPluginData')) {
     }
 }
 add_filter('extra_plugin_headers', 'addWPRelayExtraPluginData');
-http: //localhost:8004/wp-admin/admin.php?page=wc-admin&path=/analytics/overview
+
 add_action('admin_head', function () {
     // phpcs:ignore WordPress.Security.NonceVerification.Missing
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended

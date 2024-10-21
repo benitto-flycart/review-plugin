@@ -2,11 +2,15 @@
     <?php foreach ($data['reviews'] as $review) { ?>
         <?php $reviewObject = new \Flycart\Review\App\Helpers\ReviewHelper($review); ?>
         <div class="r_pw_r_container r_pw_r_m_container"
-             onclick="REVIEW_DETAIL_WIDGET(<?php echo esc_attr($review['id']) ?>)">
+            onclick="REVIEW_DETAIL_WIDGET(<?php echo esc_attr($review['id']) ?>)">
             <div class="r_pw_r_m_review-details-container">
                 <div class="r_pw_r_m_review-details">
-                    <span><?php echo $reviewObject->getReviewerName() ?></span>
-                    <span><?php echo $reviewObject->getReviewerName() ?></span>
+                    <div class="r_pw_reviewer_name_container">
+                        <span><?php echo $reviewObject->getReviewerName() ?></span>
+                        <span class="r_pw_r--review-is-verified r_pw_r_m_container--review-is-verified">
+                            <i class="review review-trophy"></i>
+                        </span>
+                    </div>
                     <?php if ($reviewObject->isRatingGiven()): ?>
                         <div class="r_pw_r_m_review-details--review-icons">
                             <?php foreach (range(0, 4) as $index) { ?>
@@ -17,7 +21,7 @@
 
                     <p><?php echo $reviewObject->getContent() ?></p>
                     <?php if ($reviewObject->hasImages()) { ?>
-                        <img src="<?php echo $reviewObject->getFirstImage() ?>" width="60" height="60"/>
+                        <img src="<?php echo $reviewObject->getFirstImage() ?>" width="60" height="60" />
                     <?php } ?>
                 </div>
             </div>
@@ -34,10 +38,10 @@
             <?php } ?>
 
             <?php if ($reviewObject->isProductSet()) { ?>
-                <div class="r_pw_r_m_review-details--product_container">
+                <div class="r_pw_r--product_container r_pw_r_m_review-details--product_container">
                     <div class="r_pw_r_m_review-details--product_img_container"><img
-                                src="<?php echo $reviewObject->getProductImage() ?>" alt="" width="100px"
-                                height="50px">
+                            src="<?php echo $reviewObject->getProductImage() ?>" alt="" width="100px"
+                            height="50px">
                     </div>
                     <div>
                         <span><?php echo $reviewObject->getProductName() ?></span>
