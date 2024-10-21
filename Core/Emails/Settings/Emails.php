@@ -2,6 +2,7 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\WC;
 
 /*
@@ -76,6 +77,7 @@ abstract class Emails
     public function getSettings()
     {
         $settings = [];
+
         //add annoation for hiding the following line error        
         $placeholders = $this->getPlaceHolders();
 
@@ -90,14 +92,17 @@ abstract class Emails
         return $settings;
     }
 
-    public function getDefaultStyles()
+    public function getDefaultStyles(BrandSettings $brandSettings)
     {
+        $appearance = $brandSettings->getAppearanceOptions();
+
         return [
-            'email_bg_color' => '#BCE5A1',
-            'email_text_color' => '#FADFDB',
-            'button_bg_color' => '#EACCAE',
-            'button_text_color' => '#000000',
-            'button_border_color' => '#ffffff',
+            'email_bg_color' => $appearance['email_background_color'],
+            'email_content_bg_color' => $appearance['email_content_background_color'],
+            'email_text_color' => $appearance['email_text_color'],
+            'button_bg_color' => $appearance['button_bg_color'],
+            'button_text_color' => $appearance['button_title_color'],
+            'button_border_color' => $appearance['button_border_color'],
         ];
     }
 }

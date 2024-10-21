@@ -26,8 +26,7 @@ class SettingsController
             $data = (new DiscountSettings())->get();
 
             return DiscountSettingResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -49,7 +48,6 @@ class SettingsController
                 ->first();
 
             if (empty($discount_settings)) {
-
                 ReviewSetting::query()->create([
                     'meta_key' => ReviewSetting::DISCOUNT_SETTINGS,
                     'meta_value' => $data,
@@ -69,8 +67,7 @@ class SettingsController
             return Response::success([
                 'message' => __('Discount Settings Saved Successfully', 'flycart-review'),
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -84,7 +81,7 @@ class SettingsController
             $data = ReviewSetting::getBrandSetting();
 
             return BrandSettingsResponse::resource([$data]);
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -126,8 +123,7 @@ class SettingsController
             return Response::success([
                 'message' => __('Brand Settings Saved Successfully', 'flycart-review'),
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -141,8 +137,7 @@ class SettingsController
             $data = (new GeneralSettings())->get();
 
             return GeneralSettingsResource::resource([$data]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -184,8 +179,7 @@ class SettingsController
             return Response::success([
                 'message' => __('General Settings Saved Successfully', 'flycart-review'),
             ]);
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => 'Server Error Occurred'
@@ -193,3 +187,4 @@ class SettingsController
         }
     }
 }
+

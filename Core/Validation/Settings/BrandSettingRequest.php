@@ -20,9 +20,10 @@ class BrandSettingRequest implements FormRequest
             'enable_email_banners' => ['required'],
             'rating_rgb_color' => ['required'],
             'appearance' => ['required'],
-            'appearance_options' => ['required'],
 
         ];
+
+
 
         if (isset($data['enable_logo']) && Functions::getBoolValue($data['enable_logo'])) {
             $rules['logo_url'] = ['required'];
@@ -30,6 +31,10 @@ class BrandSettingRequest implements FormRequest
 
         if (isset($data['enable_email_banners']) && Functions::getBoolValue($data['enable_email_banners'])) {
             $rules['banner_src'] = ['required'];
+        }
+
+        if ($data['appearance'] == 'custom') {
+            $rules['appearance_options'] = ['required'];
         }
 
         if (isset($data['appearance']) && Functions::getBoolValue($data['appearance'])) {
@@ -40,8 +45,6 @@ class BrandSettingRequest implements FormRequest
             $rules['appearance_options.button_bg_color'] = ['required'];
             $rules['appearance_options.button_border_color'] = ['required'];
             $rules['appearance_options.button_title_color'] = ['required'];
-            $rules['appearance_options.font_type'] = ['required'];
-            $rules['appearance_options.font_size'] = ['required'];
         }
 
         return $rules;
@@ -52,3 +55,4 @@ class BrandSettingRequest implements FormRequest
         return [];
     }
 }
+
