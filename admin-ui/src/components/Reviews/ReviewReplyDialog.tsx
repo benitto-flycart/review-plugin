@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Dialog, DialogContent, DialogTitle,} from "../ui/dialog";
 import "@/src/styles/widgets/widget.css";
 import {Button} from "../ui/button";
@@ -15,6 +15,7 @@ const ReviewReplyDialog = ({
                                  replyContent,
                                  show,
                                  toggle,
+                                  ref,
                                   getReviews
                              }: any) => {
 
@@ -40,6 +41,14 @@ const ReviewReplyDialog = ({
             setSaveReplyLoading(false)
         })
     }
+    
+    useEffect(() => {
+        if (!show) {
+            setTimeout(() => {
+                document.body.style.pointerEvents = ''
+            }, 500)
+        }
+    }, [show])
 
     return (
         <Dialog open={show} onOpenChange={toggle}>

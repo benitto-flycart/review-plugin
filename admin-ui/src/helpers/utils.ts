@@ -54,6 +54,12 @@ export const isString = (data: any): string => {
     }
 }
 
+export const getWidthAndHeightForIcons=()=>{
+    return{
+        width:"15px",
+        height:"15px"
+    }
+}
 export const isValidJSON = (jsonString: any): boolean => {
     try {
         JSON.parse(isString(jsonString));

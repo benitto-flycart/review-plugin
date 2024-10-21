@@ -35,7 +35,7 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                         </SidebarDetailField>
                         <SidebarDetailField>
                             <Label className={"frt-text-xs"} htmlFor="none">Text Color</Label>
-                            <PopOverColorPicker color={widget.colors.rating_icon_color} onChange={(color: string) => {
+                            <PopOverColorPicker color={widget.colors.text_color} onChange={(color: string) => {
                                 updateWidgetFields((draftState: any) => {
                                     draftState.colors.text_color = color;
                                 })

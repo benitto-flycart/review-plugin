@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ReviewDetailWidgetContext } from "./ReviewDetailWidgetContextAPI";
-import { useLocalState } from "../../zustand/localState";
+import React, {useContext, useEffect, useState} from "react";
+import {ReviewDetailWidgetContext} from "./ReviewDetailWidgetContextAPI";
+import {useLocalState} from "../../zustand/localState";
 import ReviewIcon from "../../ReviewIcon";
 
 const ReviewDetailWidgetPreview = () => {
@@ -28,27 +28,27 @@ const ReviewDetailWidgetPreview = () => {
     images: [
       {
         id: 1,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/album-1.jpg",
+        src: "https://unsplash.it/200/200",
       },
       {
         id: 2,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/belt-2-600x600.jpg",
+        src: "https://unsplash.it/200/200",
       },
       {
         id: 3,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/logo-1-600x599.jpg",
+        src: "https://unsplash.it/200/200",
       },
       {
         id: 4,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/beanie-with-logo-1-600x600.jpg",
+        src: "https://unsplash.it/200/200",
       },
       {
         id: 4,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/sunglasses-2-600x600.jpg",
+        src: "https://unsplash.it/200/200",
       },
       {
         id: 5,
-        src: "http://localhost:8004/wp-content/uploads/2023/11/hoodie-with-zipper-2-600x600.jpg",
+        src: "https://unsplash.it/200/200",
       },
     ],
     replies: [

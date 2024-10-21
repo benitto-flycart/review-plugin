@@ -65,7 +65,6 @@ const PhotoSlide = ({images, setImages, handleNextClick}: any) => {
                                             style={{
                                                 height: '100%',
                                                 objectFit: 'cover',
-                                                marginRight: '10px'
                                             }}
                                         />
                                     </div>

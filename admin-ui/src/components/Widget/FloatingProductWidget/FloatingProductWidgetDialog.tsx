@@ -1,18 +1,15 @@
 import React, {useContext} from "react";
-import {Dialog, DialogContent} from "../../ui/dialog";
-import WidgetPreviewHeader from "../WidgetPreviewHeader";
 
 import "@/src/styles/widgets/widget.css";
-import WidgetSidebar from "../WidgetSidebar";
-import {LayoutIcon} from "@radix-ui/react-icons";
 import {FloatingProductWidgetContext} from "./FloatingProductWidgetContextAPI";
 import FloatingProductWidgetConfigSetting from "./FloatingProductWidgetConfigSetting";
 import FloatingProductWidgetPreview from "./FloatingProductWidgetPreview";
 
 import './preview.css'
 import './mobile.css'
-import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
+import {SettingsIcon} from "lucide-react";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
 
 const FloatingProductWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
@@ -25,7 +22,7 @@ const FloatingProductWidgetDialog = ({show, toggle,currentLocale}: any) => {
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <FloatingProductWidgetConfigSetting name={"Settings"}/>,
             },
         ]

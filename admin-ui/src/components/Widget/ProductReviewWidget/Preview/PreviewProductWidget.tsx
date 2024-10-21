@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import HeaderLayoutPreview from "./HeaderLayoutPreview";
 import WidgetLayoutPreview from "./WidgetLayoutPreview";
 import {ProductWidgetContext} from "../ProductReviewContextAPI";
