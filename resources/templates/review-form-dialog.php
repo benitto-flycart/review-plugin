@@ -65,8 +65,9 @@
                                         <img class="r_frw_img-uploaded" src="#" alt="Uploaded Preview 1">
                                     </div>
                                     <div class="r_rfw_add_photos_div wd_add_photos_btn">
-                                        <i class="review-plus frt-text-inherit review-icon review"></i></div>
-
+                                        <i class="review-plus visible frt-text-inherit review-icon review"></i>
+                                        <span class="r_frw_img_loader"></span>
+                                    </div>
                                 </div>
                             </div>
                             <!--                                    Initally it will show when minmum one photo added it will hided-->
@@ -74,7 +75,7 @@
                                 <p class="r_rfw_photo_discount_text">Get <?php echo $discountSettings->photoDiscountString();  ?> off your next
                                     purchase!
                                 </p>
-                                <button class="r_frw_add_photos_btn wd_add_photos_btn">Add Photos</button>
+                                <button class="r_frw_add_photos_btn wd_add_photos_btn">   <span class="r_frw_img_loader"></span> Add Photos</button>
                             </div>
                         </div>
                     </div>

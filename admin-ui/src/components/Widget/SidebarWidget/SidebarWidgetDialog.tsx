@@ -1,13 +1,14 @@
 import React, {useContext} from "react";
 // import PopupWidgetConfigSetting from "./PopupWidgetConfigSetting";
 // import PopupWidgetColorSetting from "./PopupWidgetColorSetting";
-import {ColorWheelIcon, LayoutIcon} from "@radix-ui/react-icons";
 import "@/src/styles/widgets/widget.css";
 import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
 import SidebarWidgetConfigSetting from "./SidebarWidgetConfigSetting";
 import SidebarWidgetConfigPages from "./SidebarWidgetConfigPages";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import PreviewSidebarWidget from "./PreviewSidebarWidget";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
+import {BookOpenIcon, SettingsIcon} from "lucide-react";
 
 const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(SidebarWidgetContext)
@@ -19,13 +20,13 @@ const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <SidebarWidgetConfigSetting name={'Settings'}/>,
             },
             {
                 key: 'pages',
                 name: 'Pages',
-                icon: <ColorWheelIcon/>,
+                icon: <BookOpenIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <SidebarWidgetConfigPages name={"Pages"}/>
             }
         ]

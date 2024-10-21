@@ -3,9 +3,10 @@ import {PopupWidgetContext} from "./PopupWidgetContextAPI";
 import PreviewPopupWidget from "./PreviewPopupWidget";
 import PopupWidgetConfigSetting from "./PopupWidgetConfigSetting";
 import PopupWidgetColorSetting from "./PopupWidgetColorSetting";
-import {ColorWheelIcon, LayoutIcon} from "@radix-ui/react-icons";
 import "@/src/styles/widgets/widget.css";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
+import {PaletteIcon, SettingsIcon} from "lucide-react";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
 
 const PopupWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(PopupWidgetContext)
@@ -17,13 +18,13 @@ const PopupWidgetDialog = ({show, toggle,currentLocale}: any) => {
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <PopupWidgetConfigSetting name={"Settings"}/>,
             },
             {
                 key: 'colors',
                 name: 'Colors',
-                icon: <ColorWheelIcon/>,
+                icon: <PaletteIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <PopupWidgetColorSetting name={"Colors"}/>
             }
         ]

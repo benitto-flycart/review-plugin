@@ -78,7 +78,7 @@ class ReviewRequestWCEmail extends WC_Email
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
-
+       error_log($customer_billing_email);
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([

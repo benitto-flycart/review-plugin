@@ -1,11 +1,12 @@
 import React, {useContext} from "react";
 
 import "@/src/styles/widgets/widget.css";
-import {LayoutIcon} from "@radix-ui/react-icons";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import ReviewDetailWidgetConfigSetting from "./ReviewDetailWidgetConfigSetting";
 import ReviewDetailWidgetPreview from "./ReviewDetailWidgetPreview";
 import {ReviewDetailWidgetContext} from "./ReviewDetailWidgetContextAPI";
+import {SettingsIcon} from "lucide-react";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
 
 const ReviewDetailDialogWidget = ({show, toggle, currentLocale}: any) => {
 
@@ -18,7 +19,7 @@ const ReviewDetailDialogWidget = ({show, toggle, currentLocale}: any) => {
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewDetailWidgetConfigSetting name={"Settings"}/>,
             },
         ]

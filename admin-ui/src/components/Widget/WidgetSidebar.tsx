@@ -103,7 +103,7 @@ const WidgetSidebar = ({settings, widget, methods,updateWidgetFields}: any) => {
                 )}
             </div>
             { (widget.show_setting=="" && availableLanguages.length>1) ?
-                <div className={"frt-flex frt-flex-col frt-gap-y-3"}>
+                <div className={"frt-flex frt-flex-col frt-gap-y-3 frt-absolute frt-bottom-7"}>
                     <span className={"frt-mx-4"}> Choose language to apply previous style for this widget</span>
                     <div className={"frt-flex frt-gap-5 frt-justify-center"}>
                         <DropdownMenu>

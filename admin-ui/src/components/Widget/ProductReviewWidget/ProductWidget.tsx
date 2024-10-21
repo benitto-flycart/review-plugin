@@ -1,18 +1,15 @@
-import React, { useContext } from "react";
-import { ProductWidgetContext } from "./ProductReviewContextAPI";
+import React, {useContext} from "react";
+import {ProductWidgetContext} from "./ProductReviewContextAPI";
 import ProductWidgetLayoutSetting from "./ProductWidgetLayoutSetting";
 import ProductWidgetStyleSetting from "./ProductWidgetStyleSetting";
 import PreviewProductWidget from "./Preview/PreviewProductWidget";
 import ProductWidgetColorSetting from "./ProductWidgetColorSetting";
 import ProductWidgetPreferenceSetting from "./ProductWidgetPreferenceSetting";
 import "../preview-mobile.css";
-import {
-    ColorWheelIcon,
-    DashboardIcon,
-    FontStyleIcon,
-    LayoutIcon,
-} from "@radix-ui/react-icons";
+import {FontStyleIcon,} from "@radix-ui/react-icons";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
+import {LayoutDashboardIcon, PaletteIcon, Settings2Icon} from "lucide-react";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
 
 const ProductWidget = ({ show, toggle, currentLocale }: any) => {
     const context = useContext<any>(ProductWidgetContext);
@@ -23,7 +20,7 @@ const ProductWidget = ({ show, toggle, currentLocale }: any) => {
             {
                 key: "layout",
                 name: "Layout",
-                icon: <LayoutIcon />,
+                icon: <LayoutDashboardIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
                 component: <ProductWidgetLayoutSetting name={"Layout"} />,
             },
             {
@@ -35,13 +32,13 @@ const ProductWidget = ({ show, toggle, currentLocale }: any) => {
             {
                 key: "color",
                 name: "Color",
-                icon: <ColorWheelIcon />,
+                icon: <PaletteIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
                 component: <ProductWidgetColorSetting name={"Color"} />,
             },
             {
                 key: "preferences",
                 name: "Preferences",
-                icon: <DashboardIcon />,
+                icon: <Settings2Icon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
                 component: (
                     <ProductWidgetPreferenceSetting name={"Preferences"} />
                 ),
