@@ -545,7 +545,6 @@ class ReviewFormWidget {
     });
 
     const reader = new FileReader();
-    console.log("calling 2");
 
     reader.onloadend = () => {
       const formData = new FormData();
