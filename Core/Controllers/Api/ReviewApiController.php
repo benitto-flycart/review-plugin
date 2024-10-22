@@ -21,13 +21,14 @@ class ReviewApiController
             $commentsTable = Database::getCommentsTable();
             $commentsMetaTable = Database::getCommentsMetaTable();
 
+            $commentType = Review::getCommentType();
             $results = Database::table("{$commentsTable} as c")
                 ->select("SUM(CAST(cm.meta_value AS UNSIGNED)) as total_rating_sum, 
                     cm.meta_value as rating,  
                     COUNT(c.comment_ID) as rating_count")
                 ->join("{$commentsMetaTable} as cm", "c.comment_ID = cm.comment_id")
                 ->where("cm.meta_key = %s", ['rating'])
-                ->where("c.comment_type = %s", ['comment'])
+                ->where("c.comment_type = %s", [$commentType])
                 ->groupBy('cm.meta_value')
                 ->get();
 
@@ -45,7 +46,6 @@ class ReviewApiController
             $total_sum = 0;
 
             foreach ($results as $result) {
-
                 if ($result->rating == 1) {
                     $ratings['single_star'] = (int)$result->rating_count;
                 } else if ($result->rating == 2) {
@@ -104,7 +104,6 @@ class ReviewApiController
                     return $product->post_id;
                 }, $products);
             }
-
 
             $filters = [
                 'current_page' => $current_page,
@@ -204,6 +203,8 @@ class ReviewApiController
 
             $user = wp_get_current_user();
 
+            $commentType = Review::getCommentType();
+
             if (!empty($comment)) {
                 $reply_data = [
                     'comment_post_ID'      => $comment->comment_post_ID,  // The product ID
@@ -213,7 +214,7 @@ class ReviewApiController
                     'comment_parent'       => $review_id,  // The parent review ID
                     'user_id'              => $user->ID,  // ID of the user submitting the reply
                     'comment_approved'     => 1,  // Set to 1 to automatically approve the reply
-                    'comment_type'         => 'comment'   // Empty for standard comments/replies
+                    'comment_type'         => $commentType,
                 ];
 
                 $reply_comment_id = wp_insert_comment($reply_data);

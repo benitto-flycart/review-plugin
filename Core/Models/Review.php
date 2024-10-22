@@ -3,14 +3,14 @@
 namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Model;
-use Flycart\Review\App\Services\Database;
 
 class Review extends Model
 {
     protected static $table = 'reviews';
+
+    public const COMMENT_TYPE = 'comment';
 
     public function createTable()
     {
@@ -307,5 +307,10 @@ class Review extends Model
     {
         //update review verified status
         $status = update_comment_meta($review_id, 'verified', $value ? 1 : 0);
+        return $status;
+    }
+    public static function getCommentType()
+    {
+        return apply_filters('farp_test_comment_type', static::COMMENT_TYPE);
     }
 }

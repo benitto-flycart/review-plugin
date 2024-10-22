@@ -109,7 +109,6 @@ class ReviewReminderWCEmail extends WC_Email
             'data' => [
                 'styles' => $this->reviewReminder->getDefaultStyles($this->brandSettings),
             ]
-
         ), '', $this->template_base);
     }
 }

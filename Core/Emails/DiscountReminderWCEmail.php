@@ -103,6 +103,9 @@ class DiscountReminderWCEmail extends WC_Email
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
             'discountReminder' => $this->discountReminder,
+            'data' => [
+                'styles' => $this->discountReminder->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 }
