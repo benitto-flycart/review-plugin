@@ -125,6 +125,9 @@ class DiscountNotifyEmail extends WC_Email
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
             'discountNotify' => $this->discountNotify,
+            'data' => [
+                'styles' => $this->discountNotify->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 }

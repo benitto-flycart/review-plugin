@@ -119,7 +119,10 @@ class ReviewReplyEmail extends WC_Email
             'email' => $this,
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
-            'reviewReply' => $this->replyRequest
+            'reviewReply' => $this->replyRequest,
+            'data' => [
+                'styles' => $this->replyRequest->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 }

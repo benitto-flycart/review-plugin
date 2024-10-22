@@ -4,7 +4,6 @@ namespace Flycart\Review\Core\Controllers\StoreFront;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
-use Flycart\Review\Core\Controllers\Api\Widget\WidgetController;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Models\Widget;

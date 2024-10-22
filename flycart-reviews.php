@@ -198,7 +198,7 @@ add_action('admin_head', function () {
     }
 }, 11);
 
-add_action('get_google_font_link_for_email_template' , function(){
+add_action('farp_prefix_get_google_font_link_for_email_template', function () {
     return '<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">';

@@ -11,6 +11,7 @@ use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\OrderReview;
+use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -343,12 +344,12 @@ class ReviewFormController
         return [
             'comment_author' => $comment_author,
             'comment_author_email' => $comment_author_email,
-            'comment_author_ip' => $_SERVER['REMOTE_ADDR'],
+            'comment_author_ip' => Request::server('REMOTE_ADDR', null),
             'comment_post_ID' => $product_id,
             'comment_content' => $request->get('review_text'),
             'comment_approved' => 0,
             'comment_agent' => wc_get_user_agent(),
-            'comment_type' => 'review',
+            'comment_type' => Review::getCommentType(),
             'user_id' => $user_id,
         ];
     }
