@@ -19,9 +19,9 @@
 
 <template id="r_rdw_shadow_template">
     <link rel="stylesheet"
-          href="http://localhost:9005/wp-content/plugins/flycart-reviews/resources/widgets/review_detail_widget.css?ver=2.0">
+        href="<?php echo $review_detail_css ?>">
     <link rel="stylesheet"
-          href="http://localhost:9005/wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=2.0">
+        href="<?php echo $font_css ?>">
     <div id="r_rdw_shadow_root_content">
 
     </div>

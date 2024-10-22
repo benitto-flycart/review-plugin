@@ -14,7 +14,6 @@ class FloatingProductWidgetShortCode
     {
 
         add_shortcode('review_floating_widget_shortcode', function () {
-
             $widget = flycart_review_app()->get('floating_widget_object');
 
             if (empty($widget)) {
@@ -34,13 +33,14 @@ class FloatingProductWidgetShortCode
             $font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
 
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
-            wp_enqueue_style('flycart-reviews-sidebar-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
+            wp_enqueue_style('flycart-reviews-floating-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
 
             $resourcePath = AssetHelper::getResourceURL();
             $registrationHandle = "{$pluginSlug}-floating-widget";
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/floating_widget.js", array('jquery'), F_Review_VERSION, true);
             wp_localize_script($registrationScriptHandle, 'review_product_widget_js_data', $storeConfig);
 
+            $floating_widget_css = "$resourcePath/widgets/floating_product_widget.css?ver=2.0";
             $path = F_Review_PLUGIN_PATH . 'resources/templates/floating-widget';
 
             $data = [

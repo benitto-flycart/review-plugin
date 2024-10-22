@@ -24,11 +24,8 @@ class ViewReviewDetailWidgetShortCode
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/review_detail.js", array('jquery'), F_Review_VERSION, true);
             wp_localize_script($registrationScriptHandle, 'review_detail_store_config', $storeConfig);
 
-
-
-            $rating_widget_css = home_url() . "wp-content/plugins/flycart-reviews/resources/";
-
-            $rating_widget_font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
+            $review_detail_css = "$resourcePath/widgets/review_detail_widget.css?ver=2.0";
+            $font_css = "$resourcePath/admin/css/review-fonts.css?ver=3.0";
 
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
             wp_enqueue_style('flycart-reviews-review-detail-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
