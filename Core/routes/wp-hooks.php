@@ -14,6 +14,7 @@ $store_front_hooks = [
                 ['callable' => [ShortCodeHandler::class, 'sidebarWidget'], 'priority' => 10, 'accepted_args' => 1],
                 ['callable' => [ShortCodeHandler::class, 'floatingProductWidget'], 'priority' => 10, 'accepted_args' => 1],
                 ['callable' => [ShortCodeHandler::class, 'reviewDetailWidget'], 'priority' => 10, 'accepted_args' => 1],
+                ['callable' => [ShortCodeHandler::class, 'reviewFormWidget'], 'priority' => 10, 'accepted_args' => 1],
             ];
         },
     ],
@@ -28,4 +29,3 @@ return [
     'store_front_hooks' => $store_front_hooks,
     'admin_hooks' => $admin_hooks
 ];
-

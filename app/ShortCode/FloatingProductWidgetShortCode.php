@@ -30,9 +30,8 @@ class FloatingProductWidgetShortCode
 
             $resourcePath = AssetHelper::getResourceURL();
 
-            $rating_widget_css = home_url() . "wp-content/plugins/flycart-reviews/resources/";
-
-            $rating_widget_font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
+            //Used in resource file
+            $font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
 
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
             wp_enqueue_style('flycart-reviews-sidebar-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
@@ -50,9 +49,9 @@ class FloatingProductWidgetShortCode
                     'rating_outline_icon' => 'star-lc-outline',
                 ]
             ];
+
             $css_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
             $js_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
-
 
             ob_start(); // Start output buffering
             include $path . '/floating-widget.php'; // Include the PHP file

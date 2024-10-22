@@ -33,4 +33,3 @@ class BrandSettingsResponse extends Resource
         ];
     }
 }
-

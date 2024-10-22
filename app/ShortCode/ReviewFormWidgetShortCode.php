@@ -12,8 +12,6 @@ class ReviewFormWidgetShortCode
     {
         add_shortcode('review_form_widget', function () {
 
-            if (!is_product()) return '';
-
             global $product;
 
             $pluginSlug = F_Review_PLUGIN_SLUG;
@@ -28,8 +26,8 @@ class ReviewFormWidgetShortCode
 
             wp_localize_script($registrationScriptHandle, 'review_review_widget_js_data', $storeConfig);
 
-            $snippet_widget_css = $resourcePath . "/widgets/review_widget.css?ver=3.0";
-            $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
+            $review_form_widget_css = $resourcePath . "/widgets/review_form_widget.css?ver=3.0";
+            $font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/review-form';
             $product_id  = $product->get_id();
@@ -57,3 +55,4 @@ class ReviewFormWidgetShortCode
         ];
     }
 }
+

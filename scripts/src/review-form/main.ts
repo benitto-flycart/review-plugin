@@ -77,6 +77,7 @@ class ReviewFormWidget {
       "r_rfw_shadow_template",
     ) as HTMLTemplateElement;
     const host = document.getElementById("r_rfw_dialog_wrapper") as HTMLElement;
+    console.log(host);
     if (!host) return false;
     this.shadowRoot = host.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -538,9 +539,9 @@ class ReviewFormWidget {
     const file = target?.files ? target.files[0] : null;
     if (!file) return;
 
-    const addIcon =this.shadowRoot.querySelector(".review-plus");
+    const addIcon = this.shadowRoot.querySelector(".review-plus");
     addIcon?.classList.add("hide");
-    this.shadowRoot.querySelectorAll(".r_frw_img_loader").forEach((icon)=>{
+    this.shadowRoot.querySelectorAll(".r_frw_img_loader").forEach((icon) => {
       return icon?.classList.add("visible");
     });
 
@@ -553,40 +554,42 @@ class ReviewFormWidget {
       formData.append("action", this.review_form_store_config.action);
       formData.append("_wp_nonce", this.review_form_store_config._wp_nonce);
       formData.append(
-          "_wp_nonce_key",
-          this.review_form_store_config._wp_nonce_key
+        "_wp_nonce_key",
+        this.review_form_store_config._wp_nonce_key,
       );
       formData.append("upload_image", file);
 
       this.jquery
-          .ajax(this.review_form_store_config.ajax_url, {
-            method: "POST",
-            contentType: false,
-            processData: false,
-            data: formData,
-          })
-          .then((response: any) => {
-            const data = response.data;
+        .ajax(this.review_form_store_config.ajax_url, {
+          method: "POST",
+          contentType: false,
+          processData: false,
+          data: formData,
+        })
+        .then((response: any) => {
+          const data = response.data;
 
-            if (data?.attachment_id) {
-              this.review_details.files.photos.push({
-                id: data.attachment_id,
-                url: data.attachment_url,
-              });
-              this.addPhotoToList(data.attachment_id, data.attachment_url);
-              this.showUploadButtons();
-              this.shadowRoot.querySelectorAll(".r_frw_img_loader").forEach((icon)=>{
+          if (data?.attachment_id) {
+            this.review_details.files.photos.push({
+              id: data.attachment_id,
+              url: data.attachment_url,
+            });
+            this.addPhotoToList(data.attachment_id, data.attachment_url);
+            this.showUploadButtons();
+            this.shadowRoot
+              .querySelectorAll(".r_frw_img_loader")
+              .forEach((icon) => {
                 return icon?.classList.remove("visible");
               });
-              addIcon?.classList.remove("hide");
-              if (!this.isSubmitSlidePhoto()) {
-                this.slideNext();
-              }
+            addIcon?.classList.remove("hide");
+            if (!this.isSubmitSlidePhoto()) {
+              this.slideNext();
             }
-          })
-          .catch(() => {
-            console.log("Error uploading image");
-          })
+          }
+        })
+        .catch(() => {
+          console.log("Error uploading image");
+        });
     };
 
     reader.readAsDataURL(file);
@@ -803,6 +806,4 @@ const REVIEW_FORM = () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   (window as any).REVIEW_FORM_WIDGET = REVIEW_FORM;
-  //@ts-ignore
-  window.REVIEW_FORM_WIDGET();
 });

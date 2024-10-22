@@ -17,9 +17,17 @@ class TemplateController
             $order_id = Encrypt::decrypt($encoded_order_id);
             $product_id = Encrypt::decrypt($encoded_product_id);
 
+            $pluginSlug = F_Review_PLUGIN_SLUG;
+            $resourcePath = AssetHelper::getResourceURL();
+
+            $review_form_widget_css = $resourcePath . "/widgets/review_form_widget.css?ver=3.0";
+            $font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
+
             $review_form_data = array(
                 'order_id' => $order_id,
-                'product_id' => $product_id
+                'product_id' => $product_id,
+                'review_form_widget_css' => $review_form_widget_css,
+                'font_css' => $font_css,
             );
 
             set_query_var('review_form_data', $review_form_data);
@@ -40,4 +48,3 @@ class TemplateController
         return $tabs;
     }
 }
-

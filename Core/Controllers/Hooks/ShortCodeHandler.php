@@ -33,7 +33,7 @@ class ShortCodeHandler
 
     public static function reviewFormWidget($content)
     {
-        if (!is_product()) {
+        if (is_product()) {
             echo do_shortcode('[review_form_widget]');
         }
     }
