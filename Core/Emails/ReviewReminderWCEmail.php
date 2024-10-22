@@ -4,20 +4,17 @@ namespace Flycart\Review\Core\Emails;
 
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
-use Flycart\Review\Core\Emails\Settings\ReviewRemainder;
-use Flycart\Review\Core\Emails\Settings\ReviewRequest;
-use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use WC_Email;
 use WC_Order;
-use function Flycart\Review\Core\Emails\Settings\ReviewRemainder;
 
 class ReviewReminderWCEmail extends WC_Email
 {
     public WC_Order $woo_order;
     public BrandSettings $brandSettings;
     public GeneralSettings $generalSettings;
-    public  ReviewRemainder  $reviewReminder;
+    public  ReviewReminderEmailSetting $reviewReminder;
 
     public function __construct()
     {
@@ -52,7 +49,7 @@ class ReviewReminderWCEmail extends WC_Email
         $this->brandSettings = (new BrandSettings);
         $this->generalSettings = (new GeneralSettings);
 
-        $this->reviewReminder =  new ReviewRemainder(get_locale());
+        $this->reviewReminder =  new ReviewReminderEmailSetting(get_locale());
 
         if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
             return;
@@ -109,6 +106,10 @@ class ReviewReminderWCEmail extends WC_Email
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
             'order' => $this->woo_order,
+            'data' => [
+                'styles' => $this->reviewReminder->getDefaultStyles($this->brandSettings),
+            ]
+
         ), '', $this->template_base);
     }
 }

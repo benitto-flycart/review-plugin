@@ -12,8 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
-        <?php $fontStyles = apply_filters('get_desired_font_style', []);?>
-        #outlook a {
+        <?php $fontStyles = apply_filters('get_desired_font_style', []); ?>#outlook a {
             padding: 0;
         }
 
@@ -106,7 +105,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div  class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; border:; border-radius: 15px 15px 15px 15px; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; border:; border-radius: 15px 15px 15px 15px; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -300,6 +299,8 @@
                 $product_id = $line_item['product_id'];
                 $product = wc_get_product($product_id);
                 $reviewLink = \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($order, $product_id);
+                error_log('prinrint review link for the product');
+                error_log($reviewLink);
                 ?>
                 <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;"width="600">

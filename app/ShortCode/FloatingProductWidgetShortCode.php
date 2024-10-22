@@ -30,7 +30,7 @@ class FloatingProductWidgetShortCode
             $resourcePath = AssetHelper::getResourceURL();
 
             //Used in resource file
-            $font_css = home_url() . "wp-content/plugins/flycart-reviews/resources/admin/css/review-fonts.css?ver=3.0";
+            $font_css = "{$resourcePath}/admin/css/review-fonts.css?ver=3.0";
 
             wp_enqueue_style('flycart-reviews-plugin-styles', "{$resourcePath}/css/all_widget.css", [], F_Review_VERSION);
             wp_enqueue_style('flycart-reviews-floating-font-styles', "{$resourcePath}/admin/css/review-fonts.css?ver=3.0", [], F_Review_VERSION);
@@ -78,11 +78,5 @@ class FloatingProductWidgetShortCode
             '_wp_nonce_key' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
         ];
-    }
-
-    public function  test()
-    {
-        $obj = new ProductWidgetShortCode;
-        $obj->test2goeshere();
     }
 }

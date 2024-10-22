@@ -78,7 +78,7 @@ class ReviewRequestWCEmail extends WC_Email
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
-       error_log($customer_billing_email);
+        error_log($customer_billing_email);
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
@@ -89,7 +89,6 @@ class ReviewRequestWCEmail extends WC_Email
         ]);
 
         $inSeconds = $this->generalSettings->getReviewRequestDelay();
-
 
         if (\ActionScheduler::is_initialized()) {
             NotificationHistory::query()->create([
@@ -132,7 +131,10 @@ class ReviewRequestWCEmail extends WC_Email
             'email' => $this,
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
-            'reviewRequest' => $this->reviewRequest
+            'reviewRequest' => $this->reviewRequest,
+            'data' => [
+                'styles' => $this->reviewRequest->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 }
