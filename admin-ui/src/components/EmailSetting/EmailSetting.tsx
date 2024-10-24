@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalState } from "../zustand/localState";
 import "../../main.css";
 import { Button } from "../ui/button";
@@ -9,15 +9,84 @@ import UpdateDiscountReminder from "./UpdateDiscountReminder";
 import { NavLink } from "react-router-dom";
 import UpdateDiscountNotify from "./UpdateDiscountNotify";
 import UpdateReplyToReview from "./UpdateReplyToReview";
+import { Switch } from "../ui/switch";
+import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
+import { axiosClient } from "../api/axios";
+
+type EmailState = {
+  review_request: { is_enabled: boolean };
+  review_reminder: { is_enabled: boolean };
+  photo_request: { is_enabled: boolean };
+  discount_notify: { is_enabled: boolean };
+  discount_reminder: { is_enabled: boolean };
+  review_reply: { is_enabled: boolean };
+};
+
 
 const EmailSetting = () => {
   const { localState, setLocalState } = useLocalState();
   const [currentLocale, setCurrentLocale] = useState<string>(
     localState.current_locale,
   );
+  const [emailState, setEmailState] = useState<EmailState>({
+    review_request: { is_enabled: false },
+    review_reminder: { is_enabled: false },
+    photo_request: { is_enabled: false },
+    discount_notify: { is_enabled: false },
+    discount_reminder: { is_enabled: false },
+    review_reply: { is_enabled: false },
+  });
+  // const [view, setView] = useState(false);
+  // const [activeEmail, setActiveEmail] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [view, setView] = useState(false);
-  const [activeEmail, setActiveEmail] = useState<any>({});
+  const setEmailStatus = (type: string, is_enabled: boolean) => {
+    axiosClient
+      .post(``, {
+        method: "email_update_status",
+        email_type: type,
+        language: currentLocale,
+        is_enabled: is_enabled,
+        _wp_nonce_key: "flycart_review_nonce",
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+      })
+      .then((response: any) => {
+        let message = is_enabled
+          ? "Email Activated Successfully"
+          : "Email Drafted Successfully";
+        toastrSuccess(message);
+      })
+      .catch((error) => {
+        toastrError("Error Occurred");
+        console.log(error);
+        updateEmailStateFields((draftState) => {
+          draftState[type as keyof EmailState].is_enabled = !is_enabled;
+        });
+      });
+  };
+
+  const getEmailStatus = () => {
+    setLoading(true);
+    axiosClient
+      .post("", {
+        method: "get_email_status",
+        _wp_nonce_key: "flycart_review_nonce",
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        language: currentLocale,
+      })
+      .then((response: any) => {
+        let data = response.data.data;
+        setEmailState(data);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        toastrError("Server Error Occurred");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
 
   const emails = [
     {
@@ -31,7 +100,7 @@ const EmailSetting = () => {
     },
     {
       title: "Review Reminder",
-      slug: "review_request",
+      slug: "review_reminder",
       description: "Review Reminder Settings",
       detailed_description:
         "This follow-up email serves as a gentle reminder for the customer to leave a review if they haven't done so yet",
@@ -75,6 +144,17 @@ const EmailSetting = () => {
       viewComponent: UpdateReplyToReview,
     },
   ];
+  const updateEmailStateFields = (updater: (draftState: EmailState) => void) => {
+    setEmailState((prevState) => {
+      const draftState = { ...prevState };
+      updater(draftState);
+      return draftState;
+    });
+  };
+
+  useEffect(() => {
+    getEmailStatus();
+  }, [currentLocale]);
 
   return (
     <div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
@@ -92,7 +172,17 @@ const EmailSetting = () => {
                 <p>{item.description}</p>
                 <p>{item.detailed_description}</p>
               </div>
-              <div className="frt-flex frt-justify-end frt-gap-1 frt-col-span-1">
+              <div className="frt-flex frt-justify-end frt-gap-[15px] frt-items-center frt-col-span-1">
+              <Switch
+                checked={emailState[item.slug as keyof EmailState].is_enabled}
+                onCheckedChange={(value) => {
+                  setEmailStatus(item.slug, value);
+                  updateEmailStateFields((draftState) => {
+                    draftState[item.slug as keyof EmailState].is_enabled = value;
+                  });
+                  
+                }}
+              />
                 <Button>
                   <NavLink to={item.route} className={"hover:frt-text-white"}>
                     Update
