@@ -12,8 +12,7 @@ class SnippetWidgetShortCode
     public static function register()
     {
         add_shortcode('review_snippet_widget', function () {
-            /* if (!is_product()) return null; */
-
+            error_log('executing snippet widget shortcode');
 
             global $product;
             $pluginSlug = F_Review_PLUGIN_SLUG;
@@ -23,14 +22,22 @@ class SnippetWidgetShortCode
 
 
             $reviews = Review::getReviews([
-                //                'product_id' => $product->get_id(),
-                'type' => 'comment',
+                'product_id' => $product->get_id(),
+                'type' => Review::getCommentType(),
                 'paged' => $filters['current_page'] ?? 1,
                 'parent' => $filters['parent'] ?? 0,
                 'number' => $filters['per_page'] ?? 50,
                 'status' => $filters['status'] ?? 'all',
                 'update_comment_meta_cache' => true,
             ]);
+
+            $data = [
+                'ratings' => [
+                    'rating_icon' => 'star-sharp',
+                    'rating_outline_icon' => 'star-lc-outline',
+                ]
+            ];
+
 
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/snippet_widget.js", array('jquery'), F_Review_VERSION, true);
