@@ -53,7 +53,6 @@ class ReviewReplyEmail extends WC_Email
         $this->product = wc_get_product($product_id);
 
         if (!$this->product instanceof \WC_Product) {
-            error_log('product not found');
             return false;
         }
 

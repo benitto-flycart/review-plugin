@@ -41,7 +41,7 @@ class Comment
         $comment = Database::table($commentsTable)
             ->select("*, {$commentMetaTable}.meta_key as order_meta_key, {$commentMetaTable}.meta_value as order_meta_id")
             ->leftJoin($commentMetaTable, "{$commentsTable}.comment_ID = {$commentMetaTable}.comment_id")
-            ->where("{$commentsTable}.comment_post_ID = %d AND comment_type = %s", [$this->product->get_id(), 'review'])
+            ->where("{$commentsTable}.comment_post_ID = %d AND comment_type = %s", [$this->product->get_id(), Review::getCommentType()])
             ->where(
                 "{$commentMetaTable}.meta_key = %s AND {$commentMetaTable}.meta_value = %d",
                 [OrderReview::COMMENT_META_ORDER_KEY, $this->order->get_id()]

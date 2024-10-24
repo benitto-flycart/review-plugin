@@ -10,12 +10,9 @@ use WC_Order;
 
 class DiscountReminderEmailSetting extends Emails
 {
-    public $settings = [];
-    public $placeholders = [];
 
     public function __construct($language)
     {
-        error_log('object resovled');
         $this->locale = $language;
 
         $discountReminder = EmailSetting::query()
@@ -37,14 +34,6 @@ class DiscountReminderEmailSetting extends Emails
     }
 
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getSubject()
     {

@@ -57,7 +57,6 @@ class PluginHelper
             $log_message .= "\nAcutal Error Message: " . $exception->getMessage();
             $log_message .= "\nTrace Details: " . $exception->getTraceAsString();
         }
-
         error_log($log_message);
     }
 
@@ -137,5 +136,16 @@ class PluginHelper
         //fallback to gem icons
         return $icons['heart'];
     }
-}
 
+    public static function getStrTimeString($value, $period = 'minutes')
+    {
+        $period = 'minutes';
+        return "{$value} {$period}";
+    }
+
+    public static function dayToSeconds($days)
+    {
+        return (int)$days;
+        // return (int)$days * 24 * 24 * 60;
+    }
+}

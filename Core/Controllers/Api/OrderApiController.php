@@ -44,7 +44,6 @@ class OrderApiController
                     ->limit($perPage)
                     ->offset(($currentPage - 1) * $perPage);
 
-                error_log($data->toSql());
 
                 $data = $data->get();
 
@@ -68,7 +67,6 @@ class OrderApiController
                     ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})");
 
 
-                error_log($products->toSql());
 
                 $products = $products->get();
             } else {

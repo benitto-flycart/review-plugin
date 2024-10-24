@@ -94,19 +94,16 @@ class PopupWidget extends Widget implements WidgetInterface
 
     public function showOnCartPage()
     {
-        error_log('cart page => ' . $this->settings['show_on_cart_page']);
         return Functions::getBoolValue($this->settings['show_on_cart_page']);
     }
 
     public function showOnShopPage()
     {
-        error_log('shop page => ' . ($this->settings['show_on_shop_page'] ?? false));
         return Functions::getBoolValue(($this->settings['show_on_shop_page'] ?? false));
     }
 
     public function showOnProductPage()
     {
-        error_log('product page =>' . $this->settings['show_on_product_page']);
         return Functions::getBoolValue($this->settings['show_on_product_page']);
     }
 

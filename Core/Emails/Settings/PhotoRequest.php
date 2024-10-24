@@ -9,9 +9,6 @@ use Flycart\Review\Core\Models\EmailSetting;
 
 class PhotoRequest extends Emails
 {
-    public $settings = [];
-    public $placeholders = [];
-
     public function __construct($language)
     {
         $this->locale = $language;
@@ -61,14 +58,6 @@ class PhotoRequest extends Emails
         return $this->getValue('button_text');
     }
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getPlaceHolders()
     {

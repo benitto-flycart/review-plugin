@@ -45,8 +45,7 @@ class SidebarWidgetController
             ];
 
             return SidebarProductWidgetResource::resource([$widgetSettings]);
-
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -70,7 +69,6 @@ class SidebarWidgetController
                 'show_in_cart_page' => Functions::getBoolValue($request->get('show_in_cart_page')),
             ];
 
-            error_log(print_r($data,true));
 
             $encoded_data = Functions::jsonEncode($data);
             $widgetSettings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::SIDEBAR_WIDGET])
@@ -95,10 +93,10 @@ class SidebarWidgetController
             return Response::success([
                 'message' => __('Sidebar Product Widget Settings Saved Successfully', 'flycart-review'),
             ]);
-
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
     }
 }
+

@@ -102,7 +102,6 @@ class ProductWidget extends Widget implements WidgetInterface
             return [];
         }
 
-        error_log(print_r($this->request->get('colors'), true));
 
         return [
             'layout' => $this->request->get('layout'),
@@ -124,7 +123,6 @@ class ProductWidget extends Widget implements WidgetInterface
 
     public function getProductWidgetStylesVars()
     {
-        error_log(print_r($this->settings['colors'], true));
         $vars = [
             "--r-prw-wrapper-bg-color" => $this->settings['colors']['widget_wrapper'],
             "--r-prw-btn-color" => $this->settings['colors']['button']['text_color'],

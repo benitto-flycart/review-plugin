@@ -235,6 +235,7 @@ class ReviewApiController
 
                     //Add Option in Settings Page when to send review
                     $hook_name = F_Review_PREFIX . 'send_review_reply_email';
+
                     as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [
                         [
                             'notification_id' => $notificationHistoryId,

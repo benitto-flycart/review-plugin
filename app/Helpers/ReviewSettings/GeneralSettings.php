@@ -3,6 +3,7 @@
 namespace Flycart\Review\App\Helpers\ReviewSettings;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Models\ReviewSetting;
 
 class GeneralSettings extends ReviewSettings
@@ -35,7 +36,11 @@ class GeneralSettings extends ReviewSettings
             'auto_publish_new_reviews' => Functions::getBoolValue($settings['auto_publish_new_reviews']) ?? false,
             'enable_review_notification' => Functions::getBoolValue($settings['enable_review_notification']) ?? false,
             'review_notification_to' => $settings['review_notification_to'] ?? '',
-            'review_request_timing' => $settings['review_request_timing'] ?? 1,
+            'review_request_timing' => $settings['review_request_timing'] ?? "1",
+            'review_reminder_timing' => $settings['review_reminder_timing'] ?? "0",
+            'review_photo_request_timing' => $settings['review_photo_request_timing'] ?? "0",
+            'review_discount_notify_timing' => $settings['review_discount_notify_timing'] ?? "0",
+            'review_discount_reminder_timing' => $settings['review_discount_reminder_timing'] ?? "0",
             'order_status' => $settings['order_status'] ?? 'wc-completed',
         ];
     }
@@ -45,12 +50,16 @@ class GeneralSettings extends ReviewSettings
         $data = [
             'send_replies_to' => $request->get('send_replies_to') ?? '',
             'enable_email_footer' => $enable_email_footer = Functions::getBoolValue($request->get('enable_email_footer')),
-            'footer_text' => $enable_email_footer ? $request->get('footer_text') : '',
+            'footer_text' => $enable_email_footer ? $request->get('footer_text', '', 'html') : '',
             'reviewers_name_format' => $request->get('reviewers_name_format'),
             'auto_publish_new_reviews' => $request->get('auto_publish_new_reviews'),
             'enable_review_notification' => $enable_review_notification = Functions::getBoolValue($request->get('enable_review_notification')),
             'review_notification_to' => $enable_review_notification ? $request->get('review_notification_to') : '',
             'review_request_timing' => $request->get('review_request_timing'),
+            'review_reminder_timing' => $request->get('review_reminder_timing'),
+            'review_photo_request_timing' => $request->get('review_photo_request_timing'),
+            'review_discount_notify_timing' => $request->get('review_discount_notify_timing'),
+            'review_discount_reminder_timing' => $request->get('review_discount_reminder_timing'),
             'order_status' => $request->get('order_status'),
         ];
 
@@ -64,10 +73,8 @@ class GeneralSettings extends ReviewSettings
 
     public function getFooterText()
     {
-
-        return $this->generalSettings['footer_text'];
+        return apply_filters('frap_test_get_email_footer_text', nl2br($this->generalSettings['footer_text']));
     }
-
 
     public function getOrderStatus()
     {
@@ -76,6 +83,26 @@ class GeneralSettings extends ReviewSettings
 
     public function getReviewRequestDelay()
     {
-        return $this->generalSettings['review_request_timing'] * 24 * 24 * 60;
+        return PluginHelper::dayToSeconds($this->generalSettings['review_request_timing']);
+    }
+
+    public function getReviewReminderDelay()
+    {
+        return PluginHelper::dayToSeconds($this->generalSettings['review_reminder_timing']);
+    }
+
+    public function getReviewPhotoRequestDelay()
+    {
+        return PluginHelper::dayToSeconds($this->generalSettings['review_photo_request_timing']);
+    }
+
+    public function getDiscountNotifyDelay()
+    {
+        return PluginHelper::dayToSeconds($this->generalSettings['review_discount_notify_timing']);
+    }
+
+    public function getDiscountReminderDelay()
+    {
+        return PluginHelper::dayToSeconds($this->generalSettings['review_discount_reminder_timing']);
     }
 }

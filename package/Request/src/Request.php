@@ -94,10 +94,20 @@ class Request
         //sanitize directly if neeed
     }
 
+
     public function get($key, $default = null, $type = 'text')
     {
+        if (isset($this->data[$key]) && is_array($this->data[$key])) {
+            $type = 'array';
+        }
+
         $value = call_user_func(static::$sanitizeCallbacks[$type], Helper::dataGet($this->data, $key, $default));
-        return $this->filterXss($value);
+
+        if (is_string($value)) {
+            return $this->filterXss($value);
+        }
+
+        return $value;
     }
 
     public function getOriginal($key, $default = null, $type = 'text')
@@ -259,5 +269,15 @@ class Request
             $data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
         } while ($old_data !== $data);
         return is_string($data) ? $data : '';
+    }
+
+    public function sanitizeHtml($data)
+    {
+        return  wp_kses_post($data);
+    }
+
+    public function sanitizeContent($data)
+    {
+        return  wp_kses_post($data);
     }
 }

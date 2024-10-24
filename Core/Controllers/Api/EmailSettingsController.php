@@ -65,7 +65,8 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
+
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -147,7 +148,7 @@ class EmailSettingsController
 
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -227,7 +228,7 @@ class EmailSettingsController
         try {
             $language = $request->get('language');
             $stars = $request->get('minimum_star');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $discount_text = $request->get('discount_text');
             $button_text = $request->get('button_text');
@@ -308,7 +309,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -388,7 +389,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
 
             $data = [
@@ -523,7 +524,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 

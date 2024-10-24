@@ -806,4 +806,14 @@ const REVIEW_FORM = () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   (window as any).REVIEW_FORM_WIDGET = REVIEW_FORM;
+
+  //@ts-ignore
+  const review_form_store_config = window.review_form_store_config;
+
+  console.log(review_form_store_config);
+
+  if (review_form_store_config.is_review_form_page) {
+    //@ts-ignore
+    window.REVIEW_FORM_WIDGET();
+  }
 });

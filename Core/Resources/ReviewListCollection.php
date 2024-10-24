@@ -9,9 +9,6 @@ class ReviewListCollection extends Collection
     public function toArray($review_overview, $items, $totalCount, $perPage, $currentPage)
     {
 
-        error_log('logging total count per page current page');
-        error_log(print_r([$totalCount, $perPage, $currentPage], true));
-
         $data = [];
         foreach ($items as $item) {
             $data[] = $item;

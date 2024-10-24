@@ -50,10 +50,6 @@ class ProductWidgetShortCode
             $masonryJsHandleHelper = "{$pluginSlug}-masonry-js-helper";
             $storeConfig = static::getProductWidgetConfigValues();
 
-            if (true) {
-                error_log('benito');
-            }
-
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/product_widget.js", array('jquery'), F_Review_VERSION, true);
             wp_enqueue_script($masonryJsHandleHelper, "{$resourcePath}/admin/js/product_widget.js", array('jquery'), F_Review_VERSION, true);
@@ -78,8 +74,6 @@ class ProductWidgetShortCode
             $js_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
 
 
-            error_log($css_file);
-            error_log($css_file);
             ob_start(); // Start output buffering
             include $path . '/product-widget.php'; // Include the PHP file
             return ob_get_clean();

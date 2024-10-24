@@ -30,7 +30,6 @@ class RatingWidgetShortCode
 
             if (!RatingWidget::$enqueued) {
 
-                error_log('Enqueuing Styles here');
 
                 $registrationScriptHandle = "{$pluginSlug}-rating-widget-script";
                 $registrationHandle = "{$pluginSlug}-rating-widget";
@@ -90,3 +89,4 @@ class RatingWidgetShortCode
         ];
     }
 }
+

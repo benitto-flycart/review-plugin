@@ -47,12 +47,10 @@ class EmailController
         try {
             \WC_Emails::instance();
 
-            error_log('email controller method is called');
 
             $emails = wc()->mailer()->get_emails();
 
             if (isset($emails['ReviewRequestWCEmail'])) {
-                error_log('sending review request');
                 $emails['ReviewRequestWCEmail']->trigger($data);
             }
         } catch (\Error $error) {
@@ -92,17 +90,17 @@ class EmailController
 
     public static function sendReviewReminderWCEmail($data)
     {
+        //TODO: Review Reminder Email
+
         try {
             \WC_Emails::instance();
 
             $emails = wc()->mailer()->get_emails();
 
             if (isset($emails['ReviewReminderWCEmail'])) {
-                error_log('triger method called for review reminder');
                 $emails['ReviewReminderWCEmail']->trigger($data);
             }
         } catch (\Error $error) {
-            error_log(print_r($error->getMessage(), true));
             PluginHelper::logError('Error Occurred While Sending Review Request Email', [__CLASS__, __FUNCTION__], $error);
         }
     }
@@ -145,9 +143,7 @@ class EmailController
 
             $emails = wc()->mailer()->get_emails();
 
-            error_log('before triggering review reply email');
             if (isset($emails['ReviewReplyEmail'])) {
-                error_log('triggering review reply email');
                 $emails['ReviewReplyEmail']->trigger($data);
             }
         } catch (\Error $error) {

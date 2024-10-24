@@ -38,6 +38,10 @@ const GeneralSetting = () => {
     reviewers_name_format: "first_name",
     review_notification_to: "",
     review_request_timing: "0",
+    review_reminder_timing: "0",
+    review_photo_request_timing: "0",
+    review_discount_notify_timing: "0",
+    review_discount_reminder_timing: "0",
     order_status: "",
   });
 
@@ -70,6 +74,19 @@ const GeneralSetting = () => {
     review_request_timing: yup
       .string()
       .required("Review Request timing is required"),
+    review_reminder_timing: yup
+      .string()
+      .required("Review Reminder timing is required"),
+    review_photo_request_timing: yup
+      .string()
+      .required("Review Photo Request timing is required"),
+    review_discount_notify_timing: yup
+      .string()
+      .required("Review Discount Notify timing is required"),
+    review_discount_reminder_timing: yup
+      .string()
+      .required("Review discount reminder timing is required"),
+
     order_status: yup.string().required("Order Status is required"),
   });
 
@@ -83,6 +100,8 @@ const GeneralSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
+        console.log("logging the settins");
+        console.log(settings);
         console.log(data);
         setSettingsState(settings);
         toastrSuccess("Saved Successfully");
@@ -348,6 +367,145 @@ const GeneralSetting = () => {
                 {showValidationError(errors, "review_request_timing")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
+
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review Reminder Timing</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select the Option in which day you want to send review
+                  reminder email. it will only count from after the review
+                  request email sent
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Select
+                  value={settingsState.review_reminder_timing}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.review_reminder_timing = value;
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Review Reminder Timing" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="0">Immediate</SelectItem>
+                      <SelectItem value="1">1 Day</SelectItem>
+                      <SelectItem value="3">3 Day</SelectItem>
+                      <SelectItem value="5">5 Day</SelectItem>
+                      <SelectItem value="7">7 Day</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {showValidationError(errors, "review_reminder_timing")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review Photo Request Timing</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select the Option in which day you want to send review photo
+                  request. it will only count from after the review has been
+                  added{" "}
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Select
+                  value={settingsState.review_photo_request_timing}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.review_photo_request_timing = value;
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Review Photo Request Timing" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="0">Immediate</SelectItem>
+                      <SelectItem value="1">1 Day</SelectItem>
+                      <SelectItem value="3">3 Day</SelectItem>
+                      <SelectItem value="5">5 Day</SelectItem>
+                      <SelectItem value="7">7 Day</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {showValidationError(errors, "review_photo_request_timing")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review Discount Notify Timing</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select the Option in which day you want to send discount
+                  notify, this will count after the discount is created{" "}
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Select
+                  value={settingsState.review_discount_notify_timing}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.review_discount_notify_timing = value;
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Review Discount Notify Timing" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="0">Immediate</SelectItem>
+                      <SelectItem value="1">1 Day</SelectItem>
+                      <SelectItem value="3">3 Day</SelectItem>
+                      <SelectItem value="5">5 Day</SelectItem>
+                      <SelectItem value="7">7 Day</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {showValidationError(errors, "review_discount_notify_timing")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review Discount Reminder Timing</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select the Option in which day you want to send review
+                  discount reminder. it will only count from after the review
+                  has been added{" "}
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Select
+                  value={settingsState.review_discount_reminder_timing}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.review_discount_reminder_timing = value;
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Review Discount Reminder Timing" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="0">Immediate</SelectItem>
+                      <SelectItem value="1">1 Day</SelectItem>
+                      <SelectItem value="3">3 Day</SelectItem>
+                      <SelectItem value="5">5 Day</SelectItem>
+                      <SelectItem value="7">7 Day</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {showValidationError(errors, "review_discount_reminder_timing")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+
             <SettingsRowWrapper>
               <SettingsColWrapper>
                 <Label>Order Status</Label>

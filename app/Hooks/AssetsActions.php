@@ -3,7 +3,6 @@
 namespace Flycart\Review\App\Hooks;
 
 use Flycart\Review\App\Helpers\AssetHelper;
-use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 
@@ -42,6 +41,7 @@ class AssetsActions
 
     public static function addStoreFrontScripts()
     {
+        //TODO: check load only when if it's needed
         $resourceUrl = AssetHelper::getResourceURL();
 
         $storeConfig = static::getStoreConfigValues();
@@ -64,6 +64,7 @@ class AssetsActions
             '_wp_nonce_key' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             'is_product_page' => is_product(),
+            'is_review_form_page' => (bool)(is_page() && get_page_template_slug() === 'templates/review-form.php')
         ];
     }
 }
