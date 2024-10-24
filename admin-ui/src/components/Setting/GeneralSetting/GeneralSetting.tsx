@@ -301,6 +301,7 @@ const GeneralSetting = () => {
                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
                   <Input
                     placeholder="Review Notification To"
+                    type={"email"}
                     value={settingsState.review_notification_to}
                     onChange={(e: any) => {
                       updateSettingFields((draftState: any) => {
