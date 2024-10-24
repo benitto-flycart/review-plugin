@@ -83,7 +83,9 @@ const GeneralSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
+        console.log(data);
         setSettingsState(settings);
+        toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
