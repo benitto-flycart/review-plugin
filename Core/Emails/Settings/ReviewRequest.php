@@ -9,9 +9,6 @@ use Flycart\Review\Core\Models\EmailSetting;
 
 class ReviewRequest extends Emails
 {
-    public $settings = [];
-
-    public $placeholders = [];
 
     public function __construct($language)
     {
@@ -72,21 +69,14 @@ class ReviewRequest extends Emails
 
     public function getSubject()
     {
+        error_log('printing subject');
+        error_log($this->getValue('subject'));
         return $this->getValue('subject');
     }
 
     public function getButtonText()
     {
         return $this->getValue('button_text');
-    }
-
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
     }
 
     public function getTemplatePreview()

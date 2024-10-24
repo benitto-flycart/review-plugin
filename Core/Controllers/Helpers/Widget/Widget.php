@@ -89,7 +89,6 @@ class Widget
     {
         $widgetType = $this->getWidgetType();
 
-        error_log($this->language);
         $widget = WidgetModel::query()
             ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
             ->first();

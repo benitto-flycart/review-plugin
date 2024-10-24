@@ -85,7 +85,7 @@ class DiscountSettings extends ReviewSettings
 
     public function getPhotoDiscountType()
     {
-        return $this->discountSettings['phot_discount_type'];
+        return $this->discountSettings['photo_discount_type'];
     }
 
     public function getPhotoDiscountExpiryDate()
@@ -93,28 +93,25 @@ class DiscountSettings extends ReviewSettings
         return $this->discountSettings['photo_discount_expiry_date'] ?? '-1';
     }
 
-    public function generateCoupon($review_id)
+    public function generateCoupon($review_id, $for = 'photo')
     {
         $comment = get_comment($review_id);
 
-        error_log(print_r($comment, true));
+        $discount_value = $this->getPhotoDiscountValue();
+        $discount_type = $this->getPhotoDiscountType();
 
-        //TODO: GET DISCOUNT SETTINGS FROM DB
+        $discount_type = strtolower($discount_type) == 'fixed' ? 'fixed_cart' : 'percent';
 
-        $discount_type = 'percent';
-        $discount_value = 10;
-        $this->getPhotoDiscountValue();
-        $this->getPhotoDiscountType();
-        $this->getPhotoDiscountExpiryDate();
+        $expiryInDays = $this->getPhotoDiscountExpiryDate();
 
-        $coupon_code = 'REVIW_DIS_' . Functions::generateRandomString(10);
+        $prefix_coupon = apply_filters('frap_test_review_prefix_for_discount_coupon', 'REVIW_DIS_');
+        $coupon_code = $prefix_coupon . Functions::generateRandomString(10);
         $coupon = new \WC_Coupon();
         $coupon->set_code($coupon_code);
         $coupon->set_discount_type($discount_type);
         $coupon->set_amount($discount_value);
         $coupon->set_individual_use(true);
-        $coupon->set_date_expires(date('Y-m-d', strtotime('+1 month')));
-        $coupon->apply_before_tax(true);
+        $coupon->set_date_expires(gmdate('Y-m-d', strtotime("+{$expiryInDays} days")));
         $coupon->set_free_shipping(false);
         $coupon->set_product_ids([]);
         $coupon->set_excluded_product_ids([]);

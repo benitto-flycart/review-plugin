@@ -2,6 +2,7 @@
 
 namespace Flycart\Review\Core\Emails;
 
+use Flycart\Review\App\Helpers\Order;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
@@ -15,6 +16,7 @@ class ReviewReminderWCEmail extends WC_Email
     public BrandSettings $brandSettings;
     public GeneralSettings $generalSettings;
     public  ReviewReminderEmailSetting $reviewReminder;
+    public  array $notReviewedLineItems;
 
     public function __construct()
     {
@@ -46,16 +48,48 @@ class ReviewReminderWCEmail extends WC_Email
 
         $notification = NotificationHistory::query()->find($notification_id);
 
+        if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
+            return;
+        }
+
+        $order_id = $notification->order_id;
+
+        $this->woo_order = wc_get_order($notification->model_id);
+
+        $prduct_ids = Order::getProductIds($this->woo_order);
+
+        $args = array(
+            'meta_query' => array(
+                array(
+                    'key'     => '_review_order_id',   // Replace with your meta key
+                    'value'   => $order_id, // Replace with your meta value
+                    'compare' => '=',               // Comparison operator (default is '=')
+                ),
+            ),
+        );
+
+        // Retrieve comments based on the meta query
+        $comments = get_comments($args);
+
+        $reviewed_product_ids = array_map(function ($comment) {
+            return $comment->comment_post_ID;
+        }, $comments);
+
+
+        $not_reviewed_product_ids = array_diff($prduct_ids, $reviewed_product_ids);
+
+        if (empty($not_reviewed_product_ids)) {
+            return;
+        }
+
+        $this->notReviewedLineItems =  Order::filterItems($this->woo_order, $not_reviewed_product_ids);
+        //If any of the line item has no review then send the reminder with only the products which has no review
+
         $this->brandSettings = (new BrandSettings);
         $this->generalSettings = (new GeneralSettings);
 
         $this->reviewReminder =  new ReviewReminderEmailSetting(get_locale());
 
-        if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
-            return;
-        }
-
-        $this->woo_order = wc_get_order($notification->model_id);
 
         $html = $this->get_content();
 
@@ -106,9 +140,15 @@ class ReviewReminderWCEmail extends WC_Email
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
             'order' => $this->woo_order,
+            'order_items' => $this->getNotReviewedLineItems(),
             'data' => [
                 'styles' => $this->reviewReminder->getDefaultStyles($this->brandSettings),
             ]
         ), '', $this->template_base);
+    }
+
+    public function getNotReviewedLineItems()
+    {
+        return $this->notReviewedLineItems;
     }
 }

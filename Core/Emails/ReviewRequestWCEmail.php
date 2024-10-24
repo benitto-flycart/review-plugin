@@ -3,6 +3,7 @@
 namespace Flycart\Review\Core\Emails;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
@@ -78,7 +79,6 @@ class ReviewRequestWCEmail extends WC_Email
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
-        error_log($customer_billing_email);
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([
@@ -88,7 +88,7 @@ class ReviewRequestWCEmail extends WC_Email
             'id' => $notification_id
         ]);
 
-        $inSeconds = $this->generalSettings->getReviewRequestDelay();
+        $inSeconds = $this->generalSettings->getReviewReminderDelay();
 
         if (\ActionScheduler::is_initialized()) {
             NotificationHistory::query()->create([
@@ -106,7 +106,8 @@ class ReviewRequestWCEmail extends WC_Email
 
             //Add Option in Settings Page when to send review
             $hook_name = F_Review_PREFIX . 'send_review_reminder_email';
-            as_schedule_single_action(strtotime("+{$inSeconds} seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+            $time = PluginHelper::getStrTimeString($inSeconds, 'day');
+            as_schedule_single_action(strtotime("+$time"), $hook_name, [['notification_id' => $notificationHistoryId]]);
         }
     }
 

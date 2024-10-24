@@ -119,7 +119,7 @@ class BrandSettings extends ReviewSettings
 
     public function getContentBgColor()
     {
-        return $this->brandSettings['appearance_options']['content_background_color'];
+        return $this->brandSettings['appearance_options']['content_background_color'] ?? '#fff';
     }
 
     public function getTextColor()

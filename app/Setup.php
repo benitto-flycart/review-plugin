@@ -23,7 +23,6 @@ class Setup
      */
     public static function activate()
     {
-        error_log('Executing Activation Hook');
 
         static::create_custom_page_programmatically();
 
@@ -43,7 +42,6 @@ class Setup
 
         $page_id = get_option('flycart-review-form-page-id', 0);
 
-        error_log('Checking page exists');
 
         // If the page doesn't exist, create it
         if (empty($page_id)) {
@@ -63,9 +61,6 @@ class Setup
             update_post_meta($page_id, '_wp_page_template', $page_template);
             // Optionally, assign a page template
             update_option('flycart-review-form-page-id', $page_id);
-
-            error_log('page id for flycart-review form');
-
         }
     }
 
@@ -74,7 +69,7 @@ class Setup
      */
     public static function deactivate()
     {
-//        wp_clear_scheduled_hook('f_review_update_affiliate_coupons');
+        //        wp_clear_scheduled_hook('f_review_update_affiliate_coupons');
     }
 
     /**
@@ -82,21 +77,21 @@ class Setup
      */
     public static function uninstall()
     {
-//        $models = static::getModels();
-//
-//        global $wpdb;
-//        foreach ($models as $model) {
-//            $object = (new $model);
-//
-//            if ($object instanceof Model) {
-//                $query = $object->deleteTable();
-//                $wpdb->query("set foreign_key_checks = 0;");
-//                $wpdb->query($query);
-//                $wpdb->query("set foreign_key_checks = 1;");
-//            }
-//        }
-//        delete_option('f_review_current_version');
-//        delete_option('f_review_plugin_settings');
+        //        $models = static::getModels();
+        //
+        //        global $wpdb;
+        //        foreach ($models as $model) {
+        //            $object = (new $model);
+        //
+        //            if ($object instanceof Model) {
+        //                $query = $object->deleteTable();
+        //                $wpdb->query("set foreign_key_checks = 0;");
+        //                $wpdb->query($query);
+        //                $wpdb->query("set foreign_key_checks = 1;");
+        //            }
+        //        }
+        //        delete_option('f_review_current_version');
+        //        delete_option('f_review_plugin_settings');
     }
 
     /**
@@ -141,3 +136,4 @@ class Setup
         return apply_filters('flycart_review_get_models', []);
     }
 }
+

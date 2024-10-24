@@ -45,6 +45,8 @@ class DiscountNotifyEmail extends WC_Email
 
     public function trigger($data)
     {
+        error_log(print_r($data, true));
+
         $notification_id = $data['notification_id'] ?? '';
         $order_review_id = $data['order_review_id'] ?? '';
 
@@ -99,9 +101,14 @@ class DiscountNotifyEmail extends WC_Email
 
             $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
 
+            $delay = $this->generalSettings->getDiscountNotifyDelay();
+
+            $delay = PluginHelper::getStrTimeString($delay, 'days');
+
             //Add Option in Settings Page when to send review
             $hook_name = F_Review_PREFIX . 'send_discount_reminder_email';
-            as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+
+            as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId]]);
         }
     }
 

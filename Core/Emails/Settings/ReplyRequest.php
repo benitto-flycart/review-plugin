@@ -9,10 +9,6 @@ use Flycart\Review\Core\Models\EmailSetting;
 
 class ReplyRequest extends Emails
 {
-    public $settings = [];
-
-    public $placeholders = [];
-
     public function __construct($language)
     {
         $this->locale = $language;
@@ -46,14 +42,6 @@ class ReplyRequest extends Emails
         return $this->getValue('subject');
     }
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getPlaceHolders()
     {

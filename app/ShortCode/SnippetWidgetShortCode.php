@@ -14,7 +14,6 @@ class SnippetWidgetShortCode
         add_shortcode('review_snippet_widget', function () {
             /* if (!is_product()) return null; */
 
-            error_log('executing snippte widget');
 
             global $product;
             $pluginSlug = F_Review_PLUGIN_SLUG;
@@ -66,4 +65,3 @@ class SnippetWidgetShortCode
         ];
     }
 }
-

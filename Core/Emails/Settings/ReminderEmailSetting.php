@@ -10,7 +10,6 @@ use WC_Order;
 
 class ReminderEmailSetting extends Emails
 {
-    public $settings = [];
 
     public function __construct($language)
     {
@@ -32,6 +31,7 @@ class ReminderEmailSetting extends Emails
         }
 
         $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
     }
 
     public function getBodyText()
@@ -87,14 +87,7 @@ class ReminderEmailSetting extends Emails
         return $this->getValue('button_text');
     }
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
 
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getTemplatePreview()
     {

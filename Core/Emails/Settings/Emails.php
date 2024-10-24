@@ -6,14 +6,20 @@ use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\WC;
 
 /*
- * @see
 */
 
 abstract class Emails
 {
     public $status;
     public $locale;
+
     public static $forPreview = false;
+
+    public $settings = [];
+
+    public $placeholders = [];
+
+    abstract public function getPlaceHolders();
 
     public function getStatus()
     {
@@ -104,5 +110,21 @@ abstract class Emails
             'button_text_color' => $appearance['button_title_color'],
             'button_border_color' => $appearance['button_border_color'],
         ];
+    }
+
+    protected function getValue(string $string)
+    {
+        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
+            $value =  $this->settings[$string];
+        } else {
+            $value =  $this->placeholders[$string] ?? '';
+        }
+
+        return $this->formatValue($value);
+    }
+
+    private function formatValue($value)
+    {
+        return nl2br($value);
     }
 }
