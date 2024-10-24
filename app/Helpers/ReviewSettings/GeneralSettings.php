@@ -50,7 +50,7 @@ class GeneralSettings extends ReviewSettings
         $data = [
             'send_replies_to' => $request->get('send_replies_to') ?? '',
             'enable_email_footer' => $enable_email_footer = Functions::getBoolValue($request->get('enable_email_footer')),
-            'footer_text' => $enable_email_footer ? $request->get('footer_text') : '',
+            'footer_text' => $enable_email_footer ? $request->get('footer_text', '', 'html') : '',
             'reviewers_name_format' => $request->get('reviewers_name_format'),
             'auto_publish_new_reviews' => $request->get('auto_publish_new_reviews'),
             'enable_review_notification' => $enable_review_notification = Functions::getBoolValue($request->get('enable_review_notification')),
@@ -73,10 +73,8 @@ class GeneralSettings extends ReviewSettings
 
     public function getFooterText()
     {
-
-        return $this->generalSettings['footer_text'];
+        return apply_filters('frap_test_get_email_footer_text', nl2br($this->generalSettings['footer_text']));
     }
-
 
     public function getOrderStatus()
     {
