@@ -125,7 +125,6 @@ jQuery(document).ready(($) => {
             })
             .catch((error: any) => {
               console.log(error);
-              console.log("error occurred");
             });
         };
 

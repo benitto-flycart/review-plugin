@@ -33,7 +33,7 @@ class PopupWidget extends Widget implements WidgetInterface
         ];
     }
 
-    public function getSettings($settings): array
+    public function getSettings($settings)
     {
         $colors = $settings['colors'] ?? [];
 

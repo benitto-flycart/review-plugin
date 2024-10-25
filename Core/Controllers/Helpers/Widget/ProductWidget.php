@@ -121,6 +121,11 @@ class ProductWidget extends Widget implements WidgetInterface
         return $this->settings['layout']['widget_layout'];
     }
 
+    public function getPerPage()
+    {
+        return  5;
+    }
+
     public function getProductWidgetStylesVars()
     {
         $vars = [

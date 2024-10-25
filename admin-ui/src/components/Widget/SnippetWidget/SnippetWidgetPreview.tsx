@@ -102,6 +102,7 @@ const PreviewSnippetWidget = () => {
   ];
 
   const length = 3;
+
   const handlePrevious = () => {
     setIndex(index - 1);
     if (carouselRef.current && itemRef.current) {

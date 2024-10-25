@@ -2,6 +2,7 @@
 
 //All routes actions will be performed in Route::handleGuestRequest method.
 
+use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
 use Flycart\Review\Core\Controllers\StoreFront\ProductWidgetController;
 use Flycart\Review\Core\Controllers\StoreFront\ReviewDetailController;
 use Flycart\Review\Core\Controllers\StoreFront\ReviewFormController;
@@ -12,7 +13,6 @@ return [
     'get_review_detail' => ['callable' => [ReviewDetailController::class, 'getReview']],
     'upload_review_image' => ['callable' => [ReviewFormController::class, 'uploadImage']],
     'save_customer_review' => ['callable' => [ReviewFormController::class, 'saveReview']],
-    'popup_widget_template' => ['callable' => [\Flycart\Review\App\ShortCode\PopupWidgetShortCode::class, 'getTemplate']],
+    'popup_widget_template' => ['callable' => [PopupWidgetShortCode::class, 'getTemplate']],
     'product_widget_template' => ['callable' => [ProductWidgetController::class, 'getProductWidgetTemplate']],
 ];
-

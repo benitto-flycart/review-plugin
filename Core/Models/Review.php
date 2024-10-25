@@ -8,6 +8,7 @@ use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Model;
+use Flycart\Review\App\Services\Database;
 
 class Review extends Model
 {
@@ -102,6 +103,29 @@ class Review extends Model
 
         return $results > 0; // Return true if at least one order contains the product
     }
+
+    public static function getReviewsCount($filters)
+    {
+        $default_filters = [
+            'type' => 'comment',
+            'count' => true,
+        ];
+
+        if (isset($filters['product_id']) && !empty($filters['product_id'])) {
+            $default_filters['post_id'] = $filters['product_id'];
+        }
+
+        $filters = [
+            'parent' => $filters['parent'] ?? 0,
+            'status' => $filters['status'] ?? 'all',
+            'search' => $filters['search'] ?? '',
+            'meta_query' => $filters['meta_query'] ?? [],
+        ];
+
+        $filters = array_merge($default_filters, $filters);
+        return get_comments($filters);
+    }
+
     /**
      * @return array
      * @param mixed $filters
@@ -388,5 +412,27 @@ class Review extends Model
 
             as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
         }
+    }
+
+    public static function getRatingCounts($product_id = null)
+    {
+        $commentTable = Database::getCommentsTable();
+        $commentMetaTable = Database::getCommentsMetaTable();
+
+        $rating_count = Database::table($commentTable)
+            ->select("{$commentMetaTable}.meta_value as meta_value, COUNT(*) as count")
+            ->leftJoin($commentMetaTable, "{$commentMetaTable}.comment_id = {$commentTable}.comment_ID")
+            ->where("{$commentMetaTable}.meta_key = %s", ["rating"])
+            ->when($product_id,  function (Database $query) use ($product_id) {
+                return $query->where("comment_post_ID = %d", [$product_id]);
+            })
+            ->where("{$commentTable}.comment_approved = %d", [1])
+            ->groupBy("{$commentMetaTable}.meta_value");
+
+        $rating_count = $rating_count->get();
+
+        if (empty($rating_count)) return [];
+
+        return array_column($rating_count, 'count', 'meta_value');
     }
 }

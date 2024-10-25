@@ -6,7 +6,7 @@ class WidgetFactory
 {
     public $language;
     public $type;
-    public $widget;
+    public Widget $widget;
     public $request;
 
     public function __construct($type, $language, $request = null)
@@ -55,4 +55,3 @@ class WidgetFactory
         }
     }
 }
-

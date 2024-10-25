@@ -148,4 +148,9 @@ class PluginHelper
         return (int)$days;
         // return (int)$days * 24 * 24 * 60;
     }
+
+    public static function getPercentageValue($value, $total)
+    {
+        return $total ? round(($value / $total) * 100, 2) : 0;
+    }
 }
