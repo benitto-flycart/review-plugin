@@ -208,7 +208,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Product Thumbnail
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
           <SidebarDetailField>
             <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
@@ -225,7 +224,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Hide on Mobile
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -243,7 +241,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Auto Play Video Review
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -261,7 +258,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Shop Page
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -279,7 +275,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Cart Page
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -297,7 +292,6 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Product Page
               </Label>
             </div>
-            <p>Check store to view this change</p>
           </SidebarDetailField>
         </SidebarDetailSection>
       </SidebarDetail>

@@ -124,7 +124,6 @@ class Review extends Model
             'meta_query' => $filters['meta_query'] ?? [],
         ];
 
-
         $comments = get_comments(array_merge($default_filters, $filters));
 
         $commentsAsArray = [];

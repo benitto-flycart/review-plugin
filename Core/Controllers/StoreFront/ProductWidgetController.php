@@ -44,11 +44,11 @@ class ProductWidgetController
                 "total_pages" => ceil($totalCount / $perPage),
                 "current_page" => $currentPage,
                 'reviews' => Review::getReviews([
-                    'type' => 'review',
+                    'type' => 'comment',
                     'current_page' => $currentPage,
                     'per_page' => $perPage,
                     'parent' => 0,
-                    'status' => 'approve',
+                    'status' => 'all',
                 ]),
                 'ratings' => [
                     'rating_icon' => 'gem',
@@ -78,6 +78,9 @@ class ProductWidgetController
                     ],
                 ],
             ];
+
+
+            error_log(print_r($data, true));
 
             $template = [];
 
