@@ -95,10 +95,10 @@ abstract class Emails
     public function getDefaultStyles(BrandSettings $brandSettings)
     {
         $appearance = $brandSettings->getAppearanceOptions();
-
+        //var_dump($appearance);
         return [
             'email_bg_color' => $appearance['email_background_color'],
-            'email_content_bg_color' => $appearance['email_content_background_color'],
+            'email_content_bg_color' => $appearance['content_background_color'],
             'email_text_color' => $appearance['email_text_color'],
             'button_bg_color' => $appearance['button_bg_color'],
             'button_text_color' => $appearance['button_title_color'],

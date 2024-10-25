@@ -105,7 +105,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['email_text_color']); ?>; border;; border-radius:15px 15px 15px 15px; <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['email_text_color']); ?>; border:; <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -142,7 +142,7 @@
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
                     <tbody>
                         <tr>
-                            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                            <td style="direction:ltr;font-size:0px;text-align:center;">
                                 <!--[if mso | IE]>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
@@ -195,7 +195,7 @@
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
     <![endif]-->
-            <div style="margin:0px auto;max-width:600px;">
+            <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
@@ -252,7 +252,7 @@
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
             <![endif]-->
-            <div style="margin:0px auto;max-width:600px;">
+            <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
@@ -272,7 +272,7 @@
                                             <tr>
                                                 <td align="left"
                                                     style="font-size:0px;padding:0px 25px 0px 25px;word-break:break-word;">
-                                                    <div style="font-family:Arial, sans-serif;font-size:14px;line-height:28px;text-align:left;">
+                                                    <div style="font-size:14px;line-height:28px;text-align:left;">
                                                         {body}
                                                     </div>
                                                 </td>
@@ -306,12 +306,12 @@
     <tr bgcolor="">
     <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
    <![endif]-->
-                <div style="margin:0px auto;max-width:600px;">
+                <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                         style="width:100%;">
                         <tbody>
                             <tr>
-                                <td style="direction:ltr;font-size:0px;padding:20px 0px 20px 0px;text-align:center;">
+                                <td style="direction:ltr;font-size:0px;text-align:center;">
                                     <!--[if mso | IE]>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
@@ -320,19 +320,19 @@
                         <td class="" style="vertical-align:top;width:600px;">
                         <![endif]-->
                                     <div class="mj-column-per-100 mj-outlook-group-fix"
-                                        style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                        style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;">
                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                             style="vertical-align:top;" width="100%">
                                             <tbody>
                                                 <tr>
                                                     <td align="center"
-                                                        style="font-size:0px;padding:10px 100px;word-break:break-word;">
+                                                        style="font-size:0px;word-break:break-word;">
                                                         <table border="0" cellpadding="0" cellspacing="0"
                                                             role="presentation"
                                                             style="border-collapse:collapse;border-spacing:0px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="width:128px;">
+                                                                    <td style="width:108px;">
                                                                         <img height="auto"
                                                                             alt="Image"
                                                                             src="<?php echo $product->get_image(); ?>"
@@ -360,7 +360,7 @@
                                                 <tr>
                                                     <td align="center"
                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                        <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;">
+                                                        <div style="font-size:13px;line-height:1;text-align:center;">
                                                             <?php echo $line_item->get_name() ?>
                                                         </div>
                                                     </td>
@@ -376,10 +376,10 @@
                                                                     role="presentation"
                                                                     style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;"
                                                                     valign="middle">
-                                                                    <a href="<?php echo $reviewLink ?>"
-                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['button_text_color']); ?>; border:;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo esc_attr($data['styles']['button_border_color']); ?>;"
+                                                                    <button href="<?php echo $reviewLink ?>"
+                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['button_text_color']); ?>; border:2px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo esc_attr($data['styles']['button_border_color']); ?>;"
                                                                         target="_blank">{button_text}
-                                                                    </a>
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -414,12 +414,12 @@
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
-            <div style="margin:0px auto;max-width:600px;">
+            <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
                         <tr>
-                            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                            <td style="direction:ltr;font-size:0px;padding:5px 0;text-align:center;">
                                 <!--[if mso | IE]>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
@@ -432,16 +432,16 @@
                                         <tbody>
                                             <tr>
                                                 <td align="center"
-                                                    style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;">
+                                                    style="font-size:0px;padding:10px 0px;word-break:break-word;">
+                                                    <div style="font-size:13px;line-height:1;text-align:center;">
                                                         {footer_text}
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="center"
-                                                    style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:10px;line-height:1;text-align:center;">
+                                                    style="font-size:0px;padding:10px 0px;word-break:break-word;">
+                                                    <div style="font-size:10px;line-height:1;text-align:center;">
                                                         <a href="{unsubscribe_link}">Unsubscribe</a>
                                                     </div>
                                                 </td>
@@ -465,31 +465,6 @@
         <?php endif ?>
 
         <!--[if mso | IE]>
-    <table align="center" border="0" cellpadding="0" cellspacing="0" class=""
-           style="width:600px;" width="600">
-        <tr>
-            <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-    <![endif]-->
-        <div style="margin:0px auto;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0"
-                role="presentation" style="width:100%;">
-                <tbody>
-                    <tr>
-                        <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-                            <!--[if mso | IE]>
-                    <table role="presentation" border="0" cellpadding="0"
-                           cellspacing="0">
-                        <tr></tr>
-                    </table><![endif]-->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!--[if mso | IE]>
-    </td>
-    </tr>
-    </table>
     <![endif]-->
     </div>
 </body>
