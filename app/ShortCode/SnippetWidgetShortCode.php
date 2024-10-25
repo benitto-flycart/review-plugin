@@ -12,7 +12,6 @@ class SnippetWidgetShortCode
     public static function register()
     {
         add_shortcode('review_snippet_widget', function () {
-            error_log('executing snippet widget shortcode');
 
             global $product;
             $pluginSlug = F_Review_PLUGIN_SLUG;

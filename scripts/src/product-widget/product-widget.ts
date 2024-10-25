@@ -8,6 +8,7 @@ export class ProductWidget {
     current_rating: 0,
     current_sorting: "highest",
     current_page: 1,
+    apply_rating_filter: false,
   };
 
   constructor(parentDom: any, jquery: any) {
@@ -35,6 +36,8 @@ export class ProductWidget {
 
   async init() {
     try {
+      let product_id = window.review_product_widget_js_data.product_id;
+
       const response = await ajaxRequest(this.jquery, {
         url: window.review_product_widget_js_data.ajax_url,
         method: "POST",
@@ -46,6 +49,7 @@ export class ProductWidget {
           main_content: true,
           header: true,
           wrapper: true,
+          product_id: product_id,
         },
       });
 
@@ -54,7 +58,6 @@ export class ProductWidget {
       this.initLayoutAndRegisterEvents();
     } catch (error) {
       console.log(error);
-      console.error("Error occurred while loading review template");
     }
   }
 
@@ -105,19 +108,36 @@ export class ProductWidget {
           ".r_pw_h_sorting_list-container",
         );
 
-        console.log("Sorting container clicked");
         this.jquery(sorting_list_container).toggleClass("r_pw_hide");
       });
 
-    this.shadowRoot
-      .querySelectorAll(".r_pw_h_rd_detail")
-      ?.forEach((item: any) => {
-        item.addEventListener("click", (e: any) => {
-          this.details.current_rating = item.getAttribute("data-rating");
-          this.details.current_page = 1;
-          this.filter();
-        });
+    const ratingDistributions =
+      this.shadowRoot.querySelectorAll(".r_pw_h_rd_detail");
+
+    ratingDistributions?.forEach((item: any) => {
+      item.addEventListener("click", (e: any) => {
+        //if both are same user wants to get all the datas
+        if (
+          !this.details.current_rating ||
+          this.details.current_rating == item.getAttribute("data-rating")
+        ) {
+          this.details.apply_rating_filter = !this.details.apply_rating_filter;
+        }
+
+        this.details.current_rating = item.getAttribute("data-rating");
+        this.details.current_page = 1;
+
+        this.jquery(ratingDistributions).removeClass(
+          "r_pw_h_rd_detail--active",
+        );
+
+        if (this.details.apply_rating_filter) {
+          this.jquery(item).addClass("r_pw_h_rd_detail--active");
+        }
+
+        this.filter();
       });
+    });
 
     this.registerMinimalHeaderEvents();
   }
@@ -129,8 +149,6 @@ export class ProductWidget {
     ) as HTMLElement;
 
     filterRoot?.addEventListener("click", () => {
-      console.log("Minimal header filter clicked");
-
       const rating_contatiner = this.shadowRoot.querySelector(
         ".r_pw_mh_rd_container",
       ) as HTMLElement;
@@ -145,12 +163,12 @@ export class ProductWidget {
 
       this.jquery(rating_contatiner).toggleClass("r_pw_hide");
     });
-
-    console.log("Minimal header events registered");
   };
 
   async filter() {
     try {
+      let product_id = window.review_product_widget_js_data.product_id;
+
       const response = await ajaxRequest(this.jquery, {
         url: window.review_product_widget_js_data.ajax_url,
         method: "POST",
@@ -162,7 +180,9 @@ export class ProductWidget {
           current_page: this.details.current_page,
           rating: this.details.current_rating,
           sorting: this.details.current_sorting,
+          apply_rating_filter: this.details.apply_rating_filter,
           main_content: true,
+          product_id: product_id,
         },
       });
 

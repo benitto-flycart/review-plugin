@@ -6,10 +6,21 @@
         </div>
         <span><?php echo esc_attr__($data['total'] . " Reviews") ?></span>
     </div>
+
+
     <div class="r_pw_ratings-row-progress-bar-details r_pw_ch_rd_container <?php echo !$widget->showRatingOptions() ? 'r_pw_hide' : '' ?>">
+
         <?php $rating = $data['ratings']; ?>
+
         <?php foreach (range(0, 4) as $index) { ?>
-            <div class="r_pw_h_rd_detail r_pw_ch_rd_detail" data-rating="<?php echo $index + 1 ?>">
+
+            <?php
+            $rating_count =  $rating['details'][$index]['count'];
+            $rating_percentage = 10 ?? $rating['details'][$index]['percentage'] . '%';
+            ?>
+
+            <div class="r_pw_h_rd_detail r_pw_ch_rd_detail <?php $rating_count <= 0 ? "disabled" : '' ?>"
+                data-rating="<?php echo $index + 1 ?>">
                 <div class="r_pw_ch_rd_detail_icon">
                     <?php foreach (range(0, 4) as $i) { ?>
                         <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
@@ -18,12 +29,13 @@
                 <div class="r_pw_ch_rd_detail_progress_bar">
                     <div class="r_pw_progress_bar_bg">
                         <div class="r_pw_progress_bar_fill"
-                            style="width: <?php echo $rating['details'][$index]['percentage'] . '%' ?>">
+                            style="width: <?php echo $rating_percentage  ?>">
                             <span class="r_pw_progress_bar_label"></span>
                         </div>
                     </div>
                 </div>
-                <div class="r_pw_ch_rd_detail_progress_bar_count"><?php echo $rating['details'][$index]['count'] ?>
+                <div class="r_pw_ch_rd_detail_progress_bar_count">
+                    <?php echo $rating_count ?>
                 </div>
             </div>
         <?php } ?>
