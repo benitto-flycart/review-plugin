@@ -375,7 +375,7 @@
                                                     style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;"
                                                     valign="middle">
                                                     <a href="<?php echo $reviewLink ?>"
-                                                       style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']) ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border:3px solid <?php echo esc_attr($data['styles']['button_border_color']) ?>"
+                                                       style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']) ?>;min-width:max-content;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border:3px solid <?php echo esc_attr($data['styles']['button_border_color']) ?>"
                                                        target="_blank">
                                                         {button_text}
                                                     </a>
