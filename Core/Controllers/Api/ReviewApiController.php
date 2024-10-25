@@ -94,6 +94,7 @@ class ReviewApiController
                     return $user->user_id;
                 }, $users);
 
+
                 $products = Database::table($postTable)
                     ->select("ID as post_id, post_title as post_title")
                     ->where("post_type = %s", ['product'])
@@ -103,6 +104,10 @@ class ReviewApiController
                 $product_ids = array_map(function ($product) {
                     return $product->post_id;
                 }, $products);
+
+                if (empty($product_ids) && empty($user_ids)) {
+                    $product_ids = [-1];
+                }
             }
 
             $filters = [
@@ -110,17 +115,21 @@ class ReviewApiController
                 'per_page' => $per_page
             ];
 
+            $status = Review::getStatusValue($status);
+            if (!empty($status)) {
+                $filters['status'] =  $status;
+            }
+
             if (!empty($product_ids)) {
-                $filters['post_in'] = $product_ids;
+                $filters['post__in'] = $product_ids;
             }
 
             if (!empty($user_ids)) {
-                $filters['author_in'] = $user_ids;
+                $filters['author__in'] = $user_ids;
             }
 
             if ($rating > 0) {
                 $filters['meta_query'] = [
-
                     [
                         'key'     => 'rating', // Assuming the meta key for rating is 'rating'
                         'value'   => $rating,
@@ -130,7 +139,7 @@ class ReviewApiController
                 ];
             }
 
-            $totalCount = get_comments(array_merge($filters, ['count' => true]));
+            $totalCount = Review::getReviewsCount($filters);
 
             $reviews = Review::getReviews($filters);
 

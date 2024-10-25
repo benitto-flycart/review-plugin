@@ -107,7 +107,7 @@ class Review extends Model
     public static function getReviewsCount($filters)
     {
         $default_filters = [
-            'type' => 'comment',
+            'type' => static::getCommentType(),
             'count' => true,
         ];
 
@@ -115,12 +115,12 @@ class Review extends Model
             $default_filters['post_id'] = $filters['product_id'];
         }
 
-        $filters = [
+        $filters = array_merge([
             'parent' => $filters['parent'] ?? 0,
             'status' => $filters['status'] ?? 'all',
             'search' => $filters['search'] ?? '',
             'meta_query' => $filters['meta_query'] ?? [],
-        ];
+        ], $filters);
 
         $filters = array_merge($default_filters, $filters);
         return get_comments($filters);
@@ -132,9 +132,11 @@ class Review extends Model
      */
     public static function getReviews($filters)
     {
+        error_log('passed filters');
+        error_log(print_r($filters, true));
 
         $default_filters = [
-            'type' => 'comment',
+            'type' => static::getCommentType(),
             'update_comment_meta_cache' => true,
         ];
 
@@ -142,16 +144,17 @@ class Review extends Model
             $default_filters['post_id'] = $filters['product_id'];
         }
 
-        $filters = [
+        $filters = array_merge([
             'paged' => $filters['current_page'] ?? 1,
             'parent' => $filters['parent'] ?? 0,
             'number' => $filters['per_page'] ?? 50,
             'status' => $filters['status'] ?? 'all',
             'search' => $filters['search'] ?? '',
             'meta_query' => $filters['meta_query'] ?? [],
-        ];
+        ], $filters);
 
-
+        error_log('printing filters data');
+        error_log(print_r($filters, true));
         $comments = get_comments(array_merge($default_filters, $filters));
 
         $commentsAsArray = [];
@@ -434,5 +437,32 @@ class Review extends Model
         if (empty($rating_count)) return [];
 
         return array_column($rating_count, 'count', 'meta_value');
+    }
+
+    public static function approvedStatusFromSettings($rating)
+    {
+        $generalSettings = (new GeneralSettings);
+        $auto_publish_enabled = $generalSettings->isAutoPublishEnabled();
+
+        $auto_publish_enabled = apply_filters('farp_test_auto_publish_enabled', $auto_publish_enabled, $rating);
+
+        return $auto_publish_enabled ? 1 : 0;
+    }
+
+    public static function getStatusValue($status)
+    {
+        if ($status == 'all') {
+            return 'all';
+        } else if ($status == 'approve') {
+            return 'approve';
+        } else if ($status == 'hold') {
+            return 'hold';
+        } else if ($status == 'trash') {
+            return 'trash';
+        } else if ($status == 'spam') {
+            return 'spam';
+        }
+
+        return null;
     }
 }

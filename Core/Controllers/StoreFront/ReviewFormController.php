@@ -185,9 +185,9 @@ class ReviewFormController
             $submit_slide = $request->get('submit_slide');
 
 
-
             if (!$review_added) {
                 $comment_data = static::getReviewData($product_id, $request, $order);
+                $rating = $request->get('rating');
                 $photos = [];
 
 
@@ -198,7 +198,7 @@ class ReviewFormController
 
                 $comment_meta_data = [
                     'verified' => !empty($order) ? 1 : 0,
-                    'rating' => $request->get('rating'),
+                    'rating' => $rating,
                     '_review_order_id' => $order_id,
                     '_review_attachments' => Functions::jsonEncode([
                         'photos' => array_map(function ($attachment) {
@@ -275,7 +275,7 @@ class ReviewFormController
             'comment_author_ip' => Request::server('REMOTE_ADDR', null),
             'comment_post_ID' => $product_id,
             'comment_content' => $request->get('review_text'),
-            'comment_approved' => 0,
+            'comment_approved' => Review::approvedStatusFromSettings($request->get('rating')),
             'comment_agent' => wc_get_user_agent(),
             'comment_type' => Review::getCommentType(),
             'user_id' => $user_id,
