@@ -264,12 +264,20 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             {
-                                (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
+                                // (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
+                                ( replyEditButtonLabel ).map((label: any) => (
                                     <DropdownMenuItem key={label.value} defaultValue={label.value}
                                                       className={`${label.value == "delete" ? 'frt-text-destructive' : ''}`}
-                                                      onClick={() => {
-                                                          handleReplyButtonAction(label.value)
-                                                      }}>
+                                                    //   onClick={() => {
+                                                    //       handleReplyButtonAction(label.value)
+                                                    //   }}
+                                                    onClick={() => {
+                                                        if (label.value === "delete") {
+                                                            setIsDialogOpen(true);
+                                                        } else {
+                                                            handleReplyButtonAction(label.value);
+                                                        }
+                                                    }}>
                                         {label.value == "delete" ? deleteReplyLoading &&
                                             <LoadingSpinner/> : ''} {label.label}
                                     </DropdownMenuItem>

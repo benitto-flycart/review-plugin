@@ -250,7 +250,7 @@ class ReviewApiController
             }
             Response::success([
                 'message' => __("Parent Comment not found"),
-            ], 404);
+            ], status: 404);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
