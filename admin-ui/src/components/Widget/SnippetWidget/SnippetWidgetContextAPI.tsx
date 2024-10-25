@@ -9,7 +9,7 @@ export const SnippetWidgetContext = createContext({});
 
 function SnippetWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [saving, setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
@@ -158,7 +158,8 @@ function SnippetWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving
         }}>
             {children}
         </SnippetWidgetContext.Provider>

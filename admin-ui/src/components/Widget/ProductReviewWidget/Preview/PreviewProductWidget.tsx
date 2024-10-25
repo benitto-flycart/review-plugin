@@ -12,7 +12,7 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
     useEffect(() => {
 
         updateWidgetFields((draftState: any) => {
-            draftState.widget_loading = true
+            draftState.widget_loading = false
         })
 
         //@ts-ignore

@@ -9,7 +9,7 @@ export const ReviewFormWidgetContext = createContext({});
 
 function ReviewFormWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [saving, setSaving] = useState(false)
     const {localState}=useLocalState();
 
     const [widget, setWidget] = useState({
@@ -172,7 +172,8 @@ function ReviewFormWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving
         }}>
             {children}
         </ReviewFormWidgetContext.Provider>

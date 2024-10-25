@@ -49,6 +49,7 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
     }
 
     const getSettings = () => {
+        
         setLoading(true)
         axiosClient.post('', {
             method: 'get_widget_settings',
@@ -64,11 +65,13 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
-            setLoading(false)
+            setLoading(false);
+            
         });
     }
 
     const saveSettings = () => {
+        setSaving(true);
         setLoading(true)
         axiosClient.post('', {
             method: 'save_widget_settings',
@@ -85,7 +88,8 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
-            setLoading(false)
+            setLoading(false);
+            setSaving(false);
         });
     }
 
@@ -134,6 +138,7 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
     return (
         <SidebarWidgetContext.Provider value={{
             loading,
+            saving,
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
