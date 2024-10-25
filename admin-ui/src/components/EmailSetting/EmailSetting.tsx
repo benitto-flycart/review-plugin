@@ -22,7 +22,6 @@ type EmailState = {
   review_reply: { is_enabled: boolean };
 };
 
-
 const EmailSetting = () => {
   const { localState, setLocalState } = useLocalState();
   const [currentLocale, setCurrentLocale] = useState<string>(
@@ -36,8 +35,6 @@ const EmailSetting = () => {
     discount_reminder: { is_enabled: false },
     review_reply: { is_enabled: false },
   });
-  // const [view, setView] = useState(false);
-  // const [activeEmail, setActiveEmail] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const setEmailStatus = (type: string, is_enabled: boolean) => {
@@ -58,7 +55,6 @@ const EmailSetting = () => {
       })
       .catch((error) => {
         toastrError("Error Occurred");
-        console.log(error);
         updateEmailStateFields((draftState) => {
           draftState[type as keyof EmailState].is_enabled = !is_enabled;
         });
@@ -76,6 +72,7 @@ const EmailSetting = () => {
       })
       .then((response: any) => {
         let data = response.data.data;
+        console.log(data);
         setEmailState(data);
       })
       .catch((error: any) => {
@@ -86,7 +83,6 @@ const EmailSetting = () => {
         setLoading(false);
       });
   };
-
 
   const emails = [
     {
@@ -144,7 +140,9 @@ const EmailSetting = () => {
       viewComponent: UpdateReplyToReview,
     },
   ];
-  const updateEmailStateFields = (updater: (draftState: EmailState) => void) => {
+  const updateEmailStateFields = (
+    updater: (draftState: EmailState) => void,
+  ) => {
     setEmailState((prevState) => {
       const draftState = { ...prevState };
       updater(draftState);
@@ -173,16 +171,16 @@ const EmailSetting = () => {
                 <p>{item.detailed_description}</p>
               </div>
               <div className="frt-flex frt-justify-end frt-gap-[15px] frt-items-center frt-col-span-1">
-              <Switch
-                checked={emailState[item.slug as keyof EmailState].is_enabled}
-                onCheckedChange={(value) => {
-                  setEmailStatus(item.slug, value);
-                  updateEmailStateFields((draftState) => {
-                    draftState[item.slug as keyof EmailState].is_enabled = value;
-                  });
-                  
-                }}
-              />
+                <Switch
+                  checked={emailState[item.slug as keyof EmailState].is_enabled}
+                  onCheckedChange={(value) => {
+                    setEmailStatus(item.slug, value);
+                    updateEmailStateFields((draftState) => {
+                      draftState[item.slug as keyof EmailState].is_enabled =
+                        value;
+                    });
+                  }}
+                />
                 <Button>
                   <NavLink to={item.route} className={"hover:frt-text-white"}>
                     Update

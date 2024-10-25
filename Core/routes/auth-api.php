@@ -19,6 +19,9 @@ return [
     'review_action' => ['callable' => [ReviewApiController::class, 'updateReview']],
 
     'get_email_preview' => ['callable' => [EmailSettingsController::class, 'getEmailPreview']],
+    'get_email_status' => ['callable' => [EmailSettingsController::class, 'getEmailStatuses']],
+    'email_update_status' => ['callable' => [EmailSettingsController::class, 'updateEmailStatus']],
+
     //Review Request
     'get_review_request' => ['callable' => [EmailSettingsController::class, 'getReviewRequest']],
     'save_review_request' => ['callable' => [EmailSettingsController::class, 'saveReviewRequest']],
