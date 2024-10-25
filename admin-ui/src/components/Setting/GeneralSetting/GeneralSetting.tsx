@@ -102,7 +102,9 @@ const GeneralSetting = () => {
         let settings = data.settings;
         console.log("logging the settins");
         console.log(settings);
+        console.log(data);
         setSettingsState(settings);
+        toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -320,6 +322,7 @@ const GeneralSetting = () => {
                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
                   <Input
                     placeholder="Review Notification To"
+                    type={"email"}
                     value={settingsState.review_notification_to}
                     onChange={(e: any) => {
                       updateSettingFields((draftState: any) => {

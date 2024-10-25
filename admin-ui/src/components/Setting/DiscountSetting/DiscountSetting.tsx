@@ -47,8 +47,9 @@ const DiscountSetting = () => {
         }).then((response: any) => {
             let data = response.data.data
             let settings = data.settings;
-            setSettingsState(settings)
-            toastrSuccess(data.message);
+            setSettingsState(settings);
+            console.log(data);
+            toastrSuccess("Saved Successfully");
         }).catch((error: any) => {
             toastrError('Server Error Occurred');
         }).finally(() => {
