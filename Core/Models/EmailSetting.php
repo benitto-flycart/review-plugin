@@ -24,6 +24,8 @@ class EmailSetting extends Model
     const DISCOUNT_NOTIFY_TYPE = 'discount_notify';
 
     const REPLY_REQUEST_TYPE = 'review_reply';
+    const ACTIVE = 'active';
+    const DRAFT = 'draft';
 
     public function createTable()
     {
@@ -163,5 +165,17 @@ class EmailSetting extends Model
             case static::REPLY_REQUEST_TYPE:
                 return ReplyRequest::make($language);
         }
+    }
+
+    public static function getDefaultEmailSettingStatus()
+    {
+        return [
+            "review_request" => ["is_enabled" => false],
+            "review_reminder" => ["is_enabled" => false],
+            "photo_request" => ["is_enabled" => false],
+            "discount_notify" => ["is_enabled" => false],
+            "discount_reminder" => ["is_enabled" => false],
+            "review_reply" => ["is_enabled" => false],
+        ];
     }
 }
