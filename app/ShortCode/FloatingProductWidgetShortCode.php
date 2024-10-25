@@ -38,7 +38,7 @@ class FloatingProductWidgetShortCode
             $resourcePath = AssetHelper::getResourceURL();
             $registrationHandle = "{$pluginSlug}-floating-widget";
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/floating_widget.js", array('jquery'), F_Review_VERSION, true);
-            wp_localize_script($registrationScriptHandle, 'review_product_widget_js_data', $storeConfig);
+            wp_localize_script($registrationScriptHandle, 'floating_review_product_widget_js_data', $storeConfig);
 
             $floating_widget_css = "$resourcePath/widgets/floating_product_widget.css?ver=2.0";
             $path = F_Review_PLUGIN_PATH . 'resources/templates/floating-widget';
@@ -51,7 +51,6 @@ class FloatingProductWidgetShortCode
             ];
 
             $css_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
-            $js_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
 
             ob_start(); // Start output buffering
             include $path . '/floating-widget.php'; // Include the PHP file

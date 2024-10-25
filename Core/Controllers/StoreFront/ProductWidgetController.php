@@ -4,7 +4,6 @@ namespace Flycart\Review\Core\Controllers\StoreFront;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
-use Flycart\Review\Core\Controllers\Api\Widget\WidgetController;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Models\Widget;
@@ -25,62 +24,88 @@ class ProductWidgetController
             $main_content = $widget->getMainContentLayout();
             $styleVariables = $widget->getProductWidgetStylesVars();
 
+            $apply_rating_filter = Functions::getBoolValue($request->get('apply_rating_filter', false));
+
+            $rating = $request->get('rating', 0);
+
+            error_log(print_r($request->all(), true));
+
             $filter = [
-                'rating' => $request->get('rating', 0),
-                'sorting' => $request->get('sorting', 'highest')
+                'sorting' => $request->get('sorting', 'highest'),
+                'parent' => 0,
+                'status' => 'approve',
+                'type' => 'comment',
             ];
 
-            $perPage = 20;
+            if ($apply_rating_filter) {
+                $filter['meta_query'] = [   // Meta query to filter by rating
+                    [
+                        'key'   => 'rating',
+                        'value' => $rating,
+                        'compare' => '='
+                    ]
+                ];
+            }
+
+            if (!empty($product_id =  $request->get('product_id', ''))) {
+                $filter['product_id'] =  $product_id;
+            }
+
+            $perPage = $widget->getPerPage();
 
             $currentPage = $request->get('current_page', 1);
 
-            $reviews = static::getReviews($filter);
+            $totalCount = Review::getReviewsCount($filter);
 
-            $overall_rating = round((35 * 5) / array_sum(array_column($reviews, 'rating')), 1);
+            $additional_filters = [
+                'current_page' => $currentPage,
+                'per_page' => $perPage,
+            ];
+
+            $reviews = Review::getReviews(array_merge($filter, $additional_filters));
+
+            //5 means here 5 star rating
+            $rating_sum = array_sum(array_column($reviews, 'rating'));
+            $overall_rating = $rating_sum ? round(($totalCount * 5) / $rating_sum, 1) : 0;
+            $rating_count = Review::getRatingCounts($product_id);
 
             $data = [
-                "total" => $totalCount = 35,
+                "total" => $totalCount,
                 "per_page" => $perPage,
-                "total_pages" => ceil($totalCount / $perPage),
+                "total_pages" => $perPage ? ceil($totalCount / $perPage) : 0,
                 "current_page" => $currentPage,
-                'reviews' => Review::getReviews([
-                    'type' => 'comment',
-                    'current_page' => $currentPage,
-                    'per_page' => $perPage,
-                    'parent' => 0,
-                    'status' => 'all',
-                ]),
+                'reviews' => $reviews,
                 'ratings' => [
                     'rating_icon' => 'gem',
                     'rating_outline_icon' => 'gem-outline',
                     'overall_rating' => $overall_rating,
                     'details' => [
                         [
-                            'count' => $count = static::getCountOfRatings(1, $reviews),
-                            'percentage' => round(($count / $totalCount) * 100, 2),
+                            'count' => $count = static::getCountOfRatings(1, $rating_count),
+                            'percentage' => PluginHelper::getPercentageValue($count, $totalCount),
                         ],
                         [
-                            'count' => $count = static::getCountOfRatings(2, $reviews),
-                            'percentage' => round(($count / $totalCount) * 100, 2),
+                            'count' => $count = static::getCountOfRatings(2, $rating_count),
+                            'percentage' => PluginHelper::getPercentageValue($count, $totalCount),
                         ],
                         [
-                            'count' => $count = static::getCountOfRatings(3, $reviews),
-                            'percentage' => round(($count / $totalCount) * 100, 2),
+                            'count' => $count = static::getCountOfRatings(3, $rating_count),
+                            'percentage' => PluginHelper::getPercentageValue($count, $totalCount),
                         ],
                         [
-                            'count' => $count = static::getCountOfRatings(4, $reviews),
-                            'percentage' => round(($count / $totalCount) * 100, 2),
+                            'count' => $count = static::getCountOfRatings(4, $rating_count),
+                            'percentage' => PluginHelper::getPercentageValue($count, $totalCount),
                         ],
                         [
-                            'count' => $count = static::getCountOfRatings(5, $reviews),
-                            'percentage' => round(($count / $totalCount) * 100, 2),
+                            'count' => $count = static::getCountOfRatings(5, $rating_count),
+                            'percentage' => PluginHelper::getPercentageValue($count, $totalCount),
                         ]
                     ],
                 ],
             ];
 
-
-            error_log(print_r($data, true));
+            error_log('rating details');
+            error_log(print_r($data['ratings'], true));
 
             $template = [];
 
@@ -92,14 +117,12 @@ class ProductWidgetController
                 $template['wrapper'] = $wrapper;
             }
 
-
             if (Functions::getBoolValue($request->get('main_content'))) {
                 ob_start();
                 include $path . 'main_content.php';
                 $main_content = ob_get_clean();
                 $template['main_content'] = $main_content;
             }
-
 
             if (Functions::getBoolValue($request->get('header'))) {
                 ob_start();
@@ -121,7 +144,6 @@ class ProductWidgetController
     {
         $reviews = require_once F_Review_PLUGIN_PATH . '/app/config/sample-reviews.php';
 
-
         $current_rating = $filter['rating'] ?? 0;
         $current_sorting = $filter['sorting'] ?? 0;
 
@@ -132,7 +154,6 @@ class ProductWidgetController
                 return $review1['rating'] > $review2['rating'];
         });
 
-
         if (empty($current_rating)) return $reviews;
 
         return array_filter($reviews, function ($review) use ($current_rating) {
@@ -140,10 +161,8 @@ class ProductWidgetController
         });
     }
 
-    public static function getCountOfRatings($rating, $reviews)
+    public static function getCountOfRatings($rating, $rating_count)
     {
-        return count(array_filter($reviews, function ($review) use ($rating) {
-            return $review['rating'] == $rating;
-        }));
+        return $rating_count[$rating] ?? 0;
     }
 }

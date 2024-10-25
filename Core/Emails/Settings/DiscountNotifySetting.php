@@ -10,10 +10,6 @@ use WC_Order;
 
 class DiscountNotifySetting extends Emails
 {
-    public $settings = [];
-
-    public $placeholders = [];
-
     public function __construct($language)
     {
         $this->locale = $language;
@@ -37,14 +33,6 @@ class DiscountNotifySetting extends Emails
         $this->placeholders = $this->getPlaceHolders();
     }
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getSubject()
     {
@@ -115,10 +103,6 @@ class DiscountNotifySetting extends Emails
         ];
 
         $file = F_Review_PLUGIN_PATH . '/Core/Emails/views/discount-notify.php';
-
-        if (file_exists($file)) {
-            error_log('file present');
-        }
 
         $html =  AssetHelper::renderTemplate($file, $data);
 

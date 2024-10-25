@@ -6,11 +6,12 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Controllers\Helpers\Review\Comment;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
-use Flycart\Review\Core\Models\OrderReview;
+use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -40,7 +41,6 @@ class ReviewFormController
                     ], 401);
                 }
             }
-
             // Skip if is a verified owner.
 
             $order = wc_get_order($order_id);
@@ -184,11 +184,16 @@ class ReviewFormController
 
             $submit_slide = $request->get('submit_slide');
 
+
+
             if (!$review_added) {
                 $comment_data = static::getReviewData($product_id, $request, $order);
+                $photos = [];
 
-                if (!$isPhotoAlreadyAdded) {
-                    $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos') ?? []);
+
+                if (!$isPhotoAlreadyAdded && is_array($request->get('photos'))) {
+                    $photos = $request->get('photos', [], 'array') ?? [];
+                    $isPhotoReviewAddedAtFirstTime = count($photos);
                 }
 
                 $comment_meta_data = [
@@ -200,30 +205,11 @@ class ReviewFormController
                             return [
                                 'attachment_id' => $attachment['id']
                             ];
-                        }, $request->get('photos') ?? [])
+                        }, $photos)
                     ])
                 ];
 
                 $comment->updateComment($comment_data, $comment_meta_data);
-
-                if (\ActionScheduler::is_initialized()) {
-                    NotificationHistory::query()->create([
-                        'model_id' => $product_id,
-                        'model_type' => 'product',
-                        'order_id' => $order_id,
-                        'status' =>  'pending',
-                        'notify_type' => EmailSetting::PHOTO_REQUEST_TYPE,
-                        'medium' => NotificationHistory::MEDIUM_EMAIL,
-                        'created_at' => Functions::currentUTCTime(),
-                        'updated_at' => Functions::currentUTCTime(),
-                    ]);
-
-                    $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
-
-                    //Add Option in Settings Page when to send review
-                    $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
-                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
-                }
             } else {
                 if ($submit_slide == 'photo') {
 
@@ -231,15 +217,17 @@ class ReviewFormController
 
                     $attachments = Functions::jsonDecode($attachments);
 
+                    $photos = $request->get('photos', [], 'array');
+
                     if (!$isPhotoAlreadyAdded) {
-                        $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos') ?? []);
+                        $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos', [], 'array') ?? []);
                     }
 
-                    $attachments['photos'] = array_merge($attachments['photos'], array_map(function ($attachment) {
+                    $attachments['photos'] = array_merge($attachments['photos'] ?? [], array_map(function ($attachment) {
                         return [
                             'attachment_id' => $attachment['id']
                         ];
-                    }, $request->get('photos') ?? []));
+                    }, $request->get('photos', [], 'array') ?? []));
 
                     $comment->updateComment([], [
                         '_review_attachments' => Functions::jsonEncode($attachments),
@@ -247,70 +235,11 @@ class ReviewFormController
                 }
             }
 
-            if ($isPhotoReviewAddedAtFirstTime) {
-                //TODO: if the photo is not added at first time then only send the email
-                if (\ActionScheduler::is_initialized()) {
-                    NotificationHistory::query()->create([
-                        'model_id' => $product_id,
-                        'model_type' => 'product',
-                        'order_id' => $order_id,
-                        'status' =>  'pending',
-                        'notify_type' => EmailSetting::PHOTO_REQUEST_TYPE,
-                        'medium' => NotificationHistory::MEDIUM_EMAIL,
-                        'created_at' => Functions::currentUTCTime(),
-                        'updated_at' => Functions::currentUTCTime(),
-                    ]);
-
-                    $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
-
-                    //Add Option in Settings Page when to send review
-                    $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
-                    as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
-                }
-
-                //check if the order review already have a photo_discount code
-                $orderReview = OrderReview::query()->where('woo_order_id = %d', [$order_id])->first();
-
-                if (!empty($orderReview) && !OrderReview::isPhotoAdded($orderReview)) {
-
-                    //Generate the random wc coupon with the discount settings
-                    $discountSettings = new DiscountSettings();
-                    $coupon_code = $discountSettings->generateCoupon($order_id);
-
-                    OrderReview::query()->create([
-                        'woo_order_id' => $order_id,
-                        'photo_discount_code' => $coupon_code,
-                        'photo_added' => $coupon_code,
-                        'created_at' => Functions::currentUTCTime(),
-                        'updated_at' => Functions::currentUTCTime(),
-                    ]);
-
-                    $order_review_id = OrderReview::query()->lastInsertedId();
-
-                    if (\ActionScheduler::is_initialized()) {
-                        NotificationHistory::query()->create([
-                            'model_id' => $order_id,
-                            'model_type' => 'shop_order',
-                            'order_id' => $order_id,
-                            'status' =>  'pending',
-                            'notify_type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
-                            'medium' => NotificationHistory::MEDIUM_EMAIL,
-                            'created_at' => Functions::currentUTCTime(),
-                            'updated_at' => Functions::currentUTCTime(),
-                        ]);
-
-                        $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
-
-                        //Add Option in Settings Page when to send review
-                        $hook_name = F_Review_PREFIX . 'send_discount_notify_email';
-                        as_schedule_single_action(strtotime("+0 seconds"), $hook_name, [
-                            [
-                                'notification_id' => $notificationHistoryId,
-                                'order_reviw_id' => $order_review_id
-                            ]
-                        ]);
-                    }
-                }
+            if (!$isPhotoReviewAddedAtFirstTime) {
+                Review::sendPhotoRequestEmail($product_id, $order_id);
+            } else {
+                $review_id = $comment->comment['comment_ID'];
+                Review::createDiscountForPhotoReview($review_id, $order_id, $product_id);
             }
 
             return Response::success([
@@ -343,12 +272,12 @@ class ReviewFormController
         return [
             'comment_author' => $comment_author,
             'comment_author_email' => $comment_author_email,
-            'comment_author_ip' => $_SERVER['REMOTE_ADDR'],
+            'comment_author_ip' => Request::server('REMOTE_ADDR', null),
             'comment_post_ID' => $product_id,
             'comment_content' => $request->get('review_text'),
             'comment_approved' => 0,
             'comment_agent' => wc_get_user_agent(),
-            'comment_type' => 'review',
+            'comment_type' => Review::getCommentType(),
             'user_id' => $user_id,
         ];
     }

@@ -16,10 +16,15 @@ $store_front_hooks = [
         'woocommerce_email_classes' => ['callable' => [EmailController::class, 'addEmails'], 'priority' => 10, 'accepted_args' => 1],
         'template_include' => ['callable' => [TemplateController::class, 'loadTemplate'], 'priority' => 10, 'accepted_args' => 1],
         'woocommerce_after_main_content' => ['callable' => [ShortCodeHandler::class, 'productWidget'], 'priority' => 10, 'accepted_args' => 1],
-        'woocommerce_after_add_to_cart_form' => ['callable' => [ShortCodeHandler::class, 'snippetWidget'], 'priority' => 10, 'accepted_args' => 1],
-        'woocommerce_after_add_to_cart_form' => ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
+        'woocommerce_after_add_to_cart_form' =>
+        function () {
+            return [
+                ['callable' => [ShortCodeHandler::class, 'snippetWidget'], 'priority' => 10, 'accepted_args' => 1],
+                ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
+            ];
+        },
         'woocommerce_after_shop_loop_item_title' => ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
-//        'woocommerce_product_tabs' => ['callable' => [TemplateController::class, 'removeDefaultCommentsTab'], 'priority' => 10, 'accepted_args' => 1],
+        'woocommerce_product_tabs' => ['callable' => [TemplateController::class, 'removeDefaultCommentsTab'], 'priority' => 10, 'accepted_args' => 1],
     ],
 ];
 

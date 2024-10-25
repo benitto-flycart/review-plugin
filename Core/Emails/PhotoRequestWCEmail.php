@@ -6,7 +6,6 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Emails\Settings\PhotoRequest;
-use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\NotificationHistory;
 use WC_Email;
 use WC_Order;
@@ -123,6 +122,9 @@ class PhotoRequestWCEmail extends WC_Email
             'order' => $this->woo_order,
             'product' => $this->product,
             'photoRequest' => $this->photoRequest,
+            'data' => [
+                'styles' => $this->photoRequest->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 

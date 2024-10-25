@@ -28,29 +28,6 @@ jQuery(document).ready(($) => {
 
     let current_page = 1;
 
-    function flycartReviewToast(title: string, type: string) {
-      let newToast = document.createElement('div');
-      newToast.classList.add('r_f_toast', type);
-
-      let titleElement = document.createElement('div');
-      titleElement.classList.add('r_f_toast_title');
-      titleElement.textContent = title;
-
-      newToast.appendChild(titleElement);
-
-      const notificationContainer = document.querySelector('.r_f_toast_container');
-      if (notificationContainer) {
-        notificationContainer.appendChild(newToast);
-      }
-
-      setTimeout(() => {
-        newToast.remove();
-      }, 5000);
-    }
-
-    //@ts-ignore
-    window.flycartReviewToast=flycartReviewToast
-
     const POPUP_WIDGET: any = {
       init: () => {
         let container: any = shadowRoot.querySelector(
@@ -74,7 +51,6 @@ jQuery(document).ready(($) => {
           })
             .then((response: any) => {
               const response_data = response.data;
-              flycartReviewToast("popup widget fetched successfully","success")
               current_page++;
               if (container) {
                 let isHovered = false;

@@ -100,8 +100,10 @@ const BrandingSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
+        // console.log("data: "+data);
+        // console.log(data.success);
         setSettingsState(settings);
-        toastrSuccess(data.message);
+        toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -126,7 +128,8 @@ const BrandingSetting = () => {
           .then((response: any) => {
             let [code, data] = ClientResponse.getResponseData(response);
             console.log(data);
-            toastrSuccess(data?.message);
+            toastrSuccess(data.message);
+            
             setErrors({});
           })
           .catch((error: any) => {

@@ -2,9 +2,7 @@
 
 namespace Flycart\Review\Core\Resources\Settings;
 
-use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Resource;
-use Flycart\Review\Core\Models\EmailSetting;
 
 class GeneralSettingsResource extends Resource
 {
@@ -20,6 +18,10 @@ class GeneralSettingsResource extends Resource
                 'enable_review_notification' => $settings['enable_review_notification'],
                 'review_notification_to' => $settings['review_notification_to'],
                 'review_request_timing' => $settings['review_request_timing'],
+                'review_reminder_timing' => $settings['review_reminder_timing'],
+                'review_photo_request_timing' => $settings['review_photo_request_timing'],
+                'review_discount_notify_timing' => $settings['review_discount_notify_timing'] ?? "0",
+                'review_discount_reminder_timing' => $settings['review_discount_reminder_timing'] ?? "0",
                 'order_status' => $settings['order_status']
             ],
         ];

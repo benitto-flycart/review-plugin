@@ -65,7 +65,8 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
+
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -147,7 +148,7 @@ class EmailSettingsController
 
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -227,7 +228,7 @@ class EmailSettingsController
         try {
             $language = $request->get('language');
             $stars = $request->get('minimum_star');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $discount_text = $request->get('discount_text');
             $button_text = $request->get('button_text');
@@ -308,7 +309,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -388,7 +389,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
 
             $data = [
@@ -523,7 +524,7 @@ class EmailSettingsController
         Database::beginTransaction();
         try {
             $language = $request->get('language');
-            $body = $request->get('body');
+            $body = $request->get('body', '', 'html');
             $subject = $request->get('subject');
             $button_text = $request->get('button_text');
 
@@ -566,6 +567,57 @@ class EmailSettingsController
             return Response::error([
                 'message' => 'Server Error Occurred'
             ]);
+        }
+    }
+
+    public static function getEmailStatuses(Request $request)
+    {
+        try {
+            $language = $request->get('language');
+
+            $emails = EmailSetting::query()
+                ->where("language = %s", [$language])
+                ->get();
+
+            $statuses = EmailSetting::getDefaultEmailSettingStatus();
+
+            foreach ($emails as $email) {
+                $statuses[$email->type] = [
+                    'is_enabled' => $email->status == EmailSetting::ACTIVE
+                ];
+            }
+
+            Response::success($statuses, 200);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public static function updateEmailStatus(Request $request)
+    {
+        try {
+            $email_type = $request->get('email_type');
+            $is_enabled = $request->get('is_enabled');
+
+            if (empty($email_type)) {
+                Response::error([
+                    'message' => __('Email type is required', 'f-review'),
+                ], 422);
+            }
+
+            EmailSetting::query()->update([
+                'status' => $is_enabled ? EmailSetting::ACTIVE : EmailSetting::DRAFT,
+            ], [
+                'type' => $email_type
+            ]);
+
+            Response::success([
+                'message' => __('Email Status Updated', 'f-review'),
+            ], 200);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
         }
     }
 }

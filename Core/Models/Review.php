@@ -4,6 +4,8 @@ namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
+use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Model;
 use Flycart\Review\App\Services\Database;
@@ -11,6 +13,8 @@ use Flycart\Review\App\Services\Database;
 class Review extends Model
 {
     protected static $table = 'reviews';
+
+    public const COMMENT_TYPE = 'comment';
 
     public function createTable()
     {
@@ -99,6 +103,29 @@ class Review extends Model
 
         return $results > 0; // Return true if at least one order contains the product
     }
+
+    public static function getReviewsCount($filters)
+    {
+        $default_filters = [
+            'type' => 'comment',
+            'count' => true,
+        ];
+
+        if (isset($filters['product_id']) && !empty($filters['product_id'])) {
+            $default_filters['post_id'] = $filters['product_id'];
+        }
+
+        $filters = [
+            'parent' => $filters['parent'] ?? 0,
+            'status' => $filters['status'] ?? 'all',
+            'search' => $filters['search'] ?? '',
+            'meta_query' => $filters['meta_query'] ?? [],
+        ];
+
+        $filters = array_merge($default_filters, $filters);
+        return get_comments($filters);
+    }
+
     /**
      * @return array
      * @param mixed $filters
@@ -306,5 +333,105 @@ class Review extends Model
     {
         //update review verified status
         $status = update_comment_meta($review_id, 'verified', $value ? 1 : 0);
+        return $status;
+    }
+    public static function getCommentType()
+    {
+        return apply_filters('farp_test_comment_type', static::COMMENT_TYPE);
+    }
+
+    public static function sendPhotoRequestEmail($product_id, $order_id)
+    {
+        if (\ActionScheduler::is_initialized()) {
+
+            $generalSettings = (new GeneralSettings);
+
+            NotificationHistory::query()->create([
+                'model_id' => $product_id,
+                'model_type' => 'product',
+                'order_id' => $order_id,
+                'status' =>  'pending',
+                'notify_type' => EmailSetting::PHOTO_REQUEST_TYPE,
+                'medium' => NotificationHistory::MEDIUM_EMAIL,
+                'created_at' => Functions::currentUTCTime(),
+                'updated_at' => Functions::currentUTCTime(),
+            ]);
+
+            $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+            //Add Option in Settings Page when to send review
+            $hook_name = F_Review_PREFIX . 'send_review_photo_request_email';
+
+            $delay = $generalSettings->getReviewPhotoRequestDelay();
+
+            $delay = PluginHelper::getStrTimeString($delay, 'days');
+
+            as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+        }
+    }
+
+    public static function createDiscountForPhotoReview($review_id, $order_id, $product_id)
+    {
+        $discountSettings = (new DiscountSettings);
+
+        $orderReview = OrderReview::query()->where("woo_order_id = %d", [$order_id])->first();
+
+        if (empty($orderReview)) return;
+
+        $coupon_code = $discountSettings->generateCoupon($review_id);
+
+        OrderReview::query()->update([
+            'photo_added' => true,
+            'photo_discount_code' => $coupon_code,
+        ], ['id' => $orderReview->id]);
+
+        if (\ActionScheduler::is_initialized()) {
+
+            $generalSettings = (new GeneralSettings);
+
+            NotificationHistory::query()->create([
+                'model_id' => $product_id,
+                'model_type' => 'product',
+                'order_id' => $order_id,
+                'status' =>  'pending',
+                'notify_type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
+                'medium' => NotificationHistory::MEDIUM_EMAIL,
+                'created_at' => Functions::currentUTCTime(),
+                'updated_at' => Functions::currentUTCTime(),
+            ]);
+
+            $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+            //Add Option in Settings Page when to send review
+            $hook_name = F_Review_PREFIX . 'send_discount_notify_email';
+
+            $delay = $generalSettings->getDiscountNotifyDelay();
+
+            $delay = PluginHelper::getStrTimeString($delay, 'days');
+
+            as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+        }
+    }
+
+    public static function getRatingCounts($product_id = null)
+    {
+        $commentTable = Database::getCommentsTable();
+        $commentMetaTable = Database::getCommentsMetaTable();
+
+        $rating_count = Database::table($commentTable)
+            ->select("{$commentMetaTable}.meta_value as meta_value, COUNT(*) as count")
+            ->leftJoin($commentMetaTable, "{$commentMetaTable}.comment_id = {$commentTable}.comment_ID")
+            ->where("{$commentMetaTable}.meta_key = %s", ["rating"])
+            ->when($product_id,  function (Database $query) use ($product_id) {
+                return $query->where("comment_post_ID = %d", [$product_id]);
+            })
+            ->where("{$commentTable}.comment_approved = %d", [1])
+            ->groupBy("{$commentMetaTable}.meta_value");
+
+        $rating_count = $rating_count->get();
+
+        if (empty($rating_count)) return [];
+
+        return array_column($rating_count, 'count', 'meta_value');
     }
 }

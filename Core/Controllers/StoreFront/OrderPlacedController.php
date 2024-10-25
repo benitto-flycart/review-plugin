@@ -24,14 +24,11 @@ class OrderPlacedController
 
             $order_status = $order->get_status();
 
-
-
             //if the order status is not equal to configured order status no need to send  the email
             if ($status != ('wc-' . $order_status)) return;
 
             $inSeconds = $generalSettings->getReviewRequestDelay();
 
-            error_log('printing review request delya in seconds ' . $inSeconds);
             if (!is_int($inSeconds)) return;
 
             OrderReview::query()->create([
@@ -56,9 +53,9 @@ class OrderPlacedController
             $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
 
             if (\ActionScheduler::is_initialized()) {
-                //Add Option in Settings Page when to send review
                 $hook_name = F_Review_PREFIX . 'send_review_request_email';
-                as_schedule_single_action(strtotime("+{$inSeconds} seconds"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+                $time = PluginHelper::getStrTimeString($inSeconds, 'days');
+                as_schedule_single_action(strtotime("+$time"), $hook_name, [['notification_id' => $notificationHistoryId]]);
             }
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error while Iniating Review Process', [__CLASS__, __FUNCTION__], $exception);

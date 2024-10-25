@@ -53,7 +53,6 @@ class ReviewReplyEmail extends WC_Email
         $this->product = wc_get_product($product_id);
 
         if (!$this->product instanceof \WC_Product) {
-            error_log('product not found');
             return false;
         }
 
@@ -119,7 +118,10 @@ class ReviewReplyEmail extends WC_Email
             'email' => $this,
             'brandSettings' => $this->brandSettings,
             'generalSettings' => $this->generalSettings,
-            'reviewReply' => $this->replyRequest
+            'reviewReply' => $this->replyRequest,
+            'data' => [
+                'styles' => $this->replyRequest->getDefaultStyles($this->brandSettings),
+            ]
         ), '', $this->template_base);
     }
 }

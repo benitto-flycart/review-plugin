@@ -11,9 +11,6 @@ use WC_Order;
 
 class ReviewReminderEmailSetting extends Emails
 {
-    public $settings = [];
-    public $placeholders = [];
-
     public function __construct($language)
     {
         $this->locale = $language;
@@ -91,14 +88,6 @@ class ReviewReminderEmailSetting extends Emails
         return $this->getValue('button_text');
     }
 
-    private function getValue(string $string)
-    {
-        if (isset($this->settings[$string]) && !empty($this->settings[$string])) {
-            return $this->settings[$string];
-        }
-
-        return $this->placeholders[$string] ?? '';
-    }
 
     public function getTemplatePreview()
     {

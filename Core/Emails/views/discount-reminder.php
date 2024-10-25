@@ -7,10 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
+    <?php echo apply_filters('farp_prefix_get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
-        <?php $fontStyles = apply_filters('get_desired_font_style', []); ?>
-        #outlook a {
+        <?php $fontStyles = apply_filters('farp_prefix_get_desired_font_style', []); ?>#outlook a {
             padding: 0;
         }
 
@@ -96,7 +95,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div  class="<?php echo esc_attr($fontStyles['class']); ?>" style="border-radius:15px 15px 15px 15px; background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>" ><!--[if mso | IE]>
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="border-radius:15px 15px 15px 15px; background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>"><!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
            >
         <tr>
@@ -372,7 +371,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                     style="border-collapse:separate;line-height:100%;">
                                                     <tr>
-                                                        <td align="center"  role="presentation"
+                                                        <td align="center" role="presentation"
                                                             style="border:3px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;"
                                                             valign="middle">
                                                             <p style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 50px;mso-padding-alt:0px;border-radius:3px;">

@@ -24,18 +24,29 @@ class ProductWidgetShortCode
         $header =        $widget->getHeaderLayout();
         $main_content = $widget->getMainContentLayout();
 
-        return array(
+        $product_id = 0;
+        $is_product_page = false;
+
+        if (is_product()) {
+            global $product;
+            $is_product_page = true;
+            $product_id = $product->get_id();
+        }
+
+        return [
             'home_url' => get_home_url(),
             'admin_url' => admin_url(),
-            'action' =>                is_user_logged_in() ? Route::AJAX_NAME : Route::AJAX_NO_PRIV_NAME,
+            'action' => is_user_logged_in() ? Route::AJAX_NAME : Route::AJAX_NO_PRIV_NAME,
             'ajax_url' => admin_url('admin-ajax.php'),
+            'is_product_page' => $is_product_page ? true : false,
+            'product_id' => $product_id,
             'widget_header_type' => $header,
             'widget_content_type' => $main_content,
             'review_front_end_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
             '_wp_nonce_ey' => 'review_frontend_nonce',
             '_wp_nonce' => WordpressHelper::createNonce('review_frontend_nonce'),
-        );
-        return '';
+            'name' => 'benitto',
+        ];
     }
 
     public static function register()
@@ -49,10 +60,6 @@ class ProductWidgetShortCode
             $masonryJsHandle = "{$pluginSlug}-masonry-js";
             $masonryJsHandleHelper = "{$pluginSlug}-masonry-js-helper";
             $storeConfig = static::getProductWidgetConfigValues();
-
-            if (true) {
-                error_log('benito');
-            }
 
             $resourcePath = AssetHelper::getResourceURL();
             wp_enqueue_script($registrationScriptHandle, "{$resourcePath}/js/product_widget.js", array('jquery'), F_Review_VERSION, true);
@@ -78,8 +85,6 @@ class ProductWidgetShortCode
             $js_file = $resourcePath . "/widgets/product_widget.css?ver=3.0";
 
 
-            error_log($css_file);
-            error_log($css_file);
             ob_start(); // Start output buffering
             include $path . '/product-widget.php'; // Include the PHP file
             return ob_get_clean();

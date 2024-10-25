@@ -7,10 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <?php echo apply_filters('get_google_font_link_for_email_template', ''); ?>
+    <?php echo apply_filters('farp_prefix_get_google_font_link_for_email_template', ''); ?>
     <style type="text/css">
-        <?php $fontStyles = apply_filters('get_desired_font_style', []);?>
-        #outlook a {
+        <?php $fontStyles = apply_filters('farp_prefix_get_desired_font_style', []); ?>#outlook a {
             padding: 0;
         }
 
@@ -86,7 +85,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div  class="<?php echo esc_attr($fontStyles['class']); ?>" style="border:; border-radius: 15px 15px 15px 15px ;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;  color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="border:; border-radius: 15px 15px 15px 15px ;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;  color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -268,7 +267,7 @@
                                                                         role="presentation"
                                                                         style="border-collapse:separate;line-height:100%;">
                                                                         <tr>
-                                                                            <td align="center"  role="presentation"
+                                                                            <td align="center" role="presentation"
                                                                                 href="{shop_page_url}"
                                                                                 style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                                 valign="middle">

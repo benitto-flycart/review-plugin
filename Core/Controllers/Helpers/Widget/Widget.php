@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\Core\Models\Widget as WidgetModel;
 
-class Widget
+abstract class Widget
 {
     public $language;
     public $request;
@@ -22,6 +22,10 @@ class Widget
     {
         return new static($language, $request);
     }
+
+    abstract function getWidgetType();
+    abstract function getSettings($settings);
+    abstract function getRequestFromSettings();
 
     public function retrieveSettings()
     {
@@ -89,7 +93,6 @@ class Widget
     {
         $widgetType = $this->getWidgetType();
 
-        error_log($this->language);
         $widget = WidgetModel::query()
             ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
             ->first();
