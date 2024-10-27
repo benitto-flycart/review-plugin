@@ -1,8 +1,9 @@
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 export const toastrSuccess = (message: any) => {
   toast.success(message, {
-    position: "top-right",
+    style: {color: "white", backgroundColor: "black"  },
+    position: "top-right"
   });
 };
 
@@ -12,6 +13,7 @@ export const toastrError = (message: any) => {
   }
 
   toast.error(message, {
+    style: {color: "white", backgroundColor: "black"  },
     position: "top-right",
   });
 };

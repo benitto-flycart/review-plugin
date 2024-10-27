@@ -8,7 +8,7 @@ export const RatingWidgetContext = createContext({});
 
 function RatingWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [saving, setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
@@ -153,7 +153,8 @@ function RatingWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving
         }}>
             {children}
         </RatingWidgetContext.Provider>

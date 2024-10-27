@@ -9,6 +9,7 @@ import {toastrSuccess} from "../../helpers/ToastrHelper";
 import {ApiErrorResponse} from "../api/api.types";
 import {useLocalState} from "../zustand/localState";
 import {LoadingSpinner} from "../ui/loader";
+import { resetPointerEvents } from "../../helpers/resetPointerEvents";
 
 const ReviewReplyDialog = ({
                                  review,
@@ -43,11 +44,7 @@ const ReviewReplyDialog = ({
     }
     
     useEffect(() => {
-        if (!show) {
-            setTimeout(() => {
-                document.body.style.pointerEvents = ''
-            }, 500)
-        }
+        resetPointerEvents(show);
     }, [show])
 
     return (

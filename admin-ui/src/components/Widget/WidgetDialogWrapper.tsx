@@ -15,6 +15,7 @@ const WidgetDialogWrapper = ({
   currentLocale,
 }: any) => {
   const { loading } = context;
+  console.log("context.saving:", context.saving);
 
   return (
     <Dialog open={show} onOpenChange={toggle}>

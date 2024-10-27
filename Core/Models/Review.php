@@ -132,8 +132,6 @@ class Review extends Model
      */
     public static function getReviews($filters)
     {
-        error_log('passed filters');
-        error_log(print_r($filters, true));
 
         $default_filters = [
             'type' => static::getCommentType(),
@@ -153,8 +151,6 @@ class Review extends Model
             'meta_query' => $filters['meta_query'] ?? [],
         ], $filters);
 
-        error_log('printing filters data');
-        error_log(print_r($filters, true));
         $comments = get_comments(array_merge($default_filters, $filters));
 
         $commentsAsArray = [];

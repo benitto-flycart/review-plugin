@@ -39,4 +39,7 @@
         </div>
     </template>
 </div>
+<div class="r_f_toast_container">
+    <div class="r_f_toast_title"></div>
+</div>
 

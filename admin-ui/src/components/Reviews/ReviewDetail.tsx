@@ -13,6 +13,7 @@ import {useLocalState} from "../zustand/localState";
 import {BadgeCheck, ChevronDown, MoreHorizontal} from "lucide-react";
 import {LoadingSpinner} from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
+import ConfirmationDialog from "./ReviewConfirmDialgoue";
 
 interface BulkActionReviewIdsType {
     val: any,
@@ -30,6 +31,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
     const {localState} = useLocalState()
     const [approveActionLoading, setApproveActionLoading] = useState<boolean>(false)
     const [showReplyDialog, setShowReplyDialog] = useState(false)
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [deleteReplyLoading, setDeleteReplyLoading] = useState(false)
     const replyAddButtonLabel = [
         {
@@ -100,7 +102,13 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
         }
     };
 
-    const handleDeleteReply = () => {
+
+      const handleCancel = () => {
+        setIsDialogOpen(false);
+      };
+
+    const handleDeleteReply = async () => {
+        console.log("Handling delete");
         setDeleteReplyLoading(true);
         axiosClient
             .post(``, {
@@ -256,12 +264,20 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             {
-                                (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
+                                // (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
+                                ( replyEditButtonLabel ).map((label: any) => (
                                     <DropdownMenuItem key={label.value} defaultValue={label.value}
                                                       className={`${label.value == "delete" ? 'frt-text-destructive' : ''}`}
-                                                      onClick={() => {
-                                                          handleReplyButtonAction(label.value)
-                                                      }}>
+                                                    //   onClick={() => {
+                                                    //       handleReplyButtonAction(label.value)
+                                                    //   }}
+                                                    onClick={() => {
+                                                        if (label.value === "delete") {
+                                                            setIsDialogOpen(true);
+                                                        } else {
+                                                            handleReplyButtonAction(label.value);
+                                                        }
+                                                    }}>
                                         {label.value == "delete" ? deleteReplyLoading &&
                                             <LoadingSpinner/> : ''} {label.label}
                                     </DropdownMenuItem>
@@ -281,8 +297,15 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                             {
                                 moreOptions.map((item: any) => (
                                     <DropdownMenuItem
+                                        // onClick={() => {
+                                        //     handleReviewStatusActions(item.value)
+                                        // }}
                                         onClick={() => {
-                                            handleReviewStatusActions(item.value)
+                                            if (item.value === "delete_review") {
+                                                setIsDialogOpen(true);
+                                            } else {
+                                                handleReviewStatusActions(item.value);
+                                            }
                                         }}
                                         key={item.value}
                                         defaultValue={item.value}
@@ -295,6 +318,16 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({review, bulkActio
                                 ))
                             }
                         </DropdownMenuContent>
+                                <ConfirmationDialog
+                                    title="Are you sure you want to delete this review?"
+                                    description="This action cannot be undone."
+                                    confirmLabel="Delete"
+                                    cancelLabel="Cancel"
+                                    onConfirm={handleDeleteReply}
+                                    onCancel={handleCancel}
+                                    isOpen={isDialogOpen}
+                                    onOpenChange={setIsDialogOpen}
+                                />
                     </DropdownMenu>
                 </div>
             </CardFooter>

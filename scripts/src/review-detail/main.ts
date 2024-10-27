@@ -86,18 +86,6 @@ class ReviewDetail {
       });
     }
 
-    const infoButton = this.shadowRoot.querySelector(".r_rdw-button-info");
-
-    const information = this.shadowRoot.querySelector(
-      ".r_rdw-i-verified-notification",
-    );
-
-    infoButton?.addEventListener("click", () => {
-      this.jquery(information).toggleClass(
-        "r_rdw_verified-notification-info-toggle",
-      );
-    });
-
     // Attach click listeners for image thumbnails
     const thumbnails = document.querySelectorAll(".r_rdw_image_thumbnail");
     thumbnails.forEach((thumbnail, iteration) => {

@@ -85,7 +85,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; border-radius:15px 15px 15px 15px; color:<?php echo esc_attr($data['styles']['email_text_color']); ?> <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="padding-bottom:10px; background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?> <?php echo esc_attr($fontStyles['content']); ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
            >
@@ -183,7 +183,7 @@
             >
             <tr>
                 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <div style="margin:0px auto;max-width:600px;">
+        <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                 style="width:100%;">
                 <tbody>
@@ -269,7 +269,7 @@
                                                             <tr>
                                                                 <td align="left"
                                                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                    <div style="font-family:Helvetica, sans-serif;font-size:16px;line-height:1.5;text-align:left;">
+                                                                    <div style="font-size:16px;line-height:1.5;text-align:left;">
                                                                         {body}
                                                                     </div>
                                                                 </td>
@@ -315,23 +315,23 @@
                                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                             style="vertical-align:top;" width="100%">
                                                             <tbody>
+<!--                                                                <tr>-->
+<!--                                                                    <td align="center"-->
+<!--                                                                        style="font-size:0px;padding:10px 25px;word-break:break-word;">-->
+<!--                                                                        <p-->
+<!--                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>-->
+<!--                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px 3;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">-->
+<!--                                                        <tr>-->
+<!--                                                            <td style="height:0;line-height:0;"> &nbsp;-->
+<!--                                                            </td>-->
+<!--                                                        </tr>-->
+<!--                                                    </table><![endif]-->-->
+<!--                                                                    </td>-->
+<!--                                                                </tr>-->
                                                                 <tr>
                                                                     <td align="center"
                                                                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                        <p
-                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px 3;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">
-                                                        <tr>
-                                                            <td style="height:0;line-height:0;"> &nbsp;
-                                                            </td>
-                                                        </tr>
-                                                    </table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="center"
-                                                                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                                                        <div style="font-family:Helvetica, sans-serif;font-size:14px;line-height:1;text-align:center;">
+                                                                        <div style="font-size:14px;line-height:1;text-align:center;">
                                                                             <p>{footer_text}</p>
                                                                             <a
                                                                                 data-cke-saved-href="http://localhost:7000"

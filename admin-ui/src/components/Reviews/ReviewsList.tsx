@@ -95,9 +95,9 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
           </span>
         </div>
         <div className="frt-flex frt-justify-start frt-gap-x-3 frt-items-center frt-mb-4">
-          {/* <div> */}
-          {/*     <Checkbox checked={bulkActionReviewIds.length==reviewState.reviews.length} onCheckedChange={handleBulkCheckboxChange}/> */}
-          {/* </div> */}
+          {/* <div>
+              <Checkbox checked={bulkActionReviewIds.length==reviewState.reviews.length} onCheckedChange={handleBulkCheckboxChange}/>
+          </div> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className={"frt-gap-x-2"}>
