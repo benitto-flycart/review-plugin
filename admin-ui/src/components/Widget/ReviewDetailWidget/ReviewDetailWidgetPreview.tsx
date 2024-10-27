@@ -2,68 +2,20 @@ import React, {useContext, useEffect, useState} from "react";
 import {ReviewDetailWidgetContext} from "./ReviewDetailWidgetContextAPI";
 import {useLocalState} from "../../zustand/localState";
 import ReviewIcon from "../../ReviewIcon";
+import {SampleReviewsContext} from "../SampleReviewsAPI";
 
 const ReviewDetailWidgetPreview = () => {
   const { widget, updateWidgetFields, methods } = useContext<any>(
     ReviewDetailWidgetContext,
   );
+
+  const {sampleReviews}=useContext<any>(ReviewDetailWidgetContext)
+  const {reviews}=sampleReviews
+  const review=reviews[0]
   const [index, setIndex] = useState<number>(1);
   const [translateX, setTranslateX] = useState<number>(0);
 
   const { localState } = useLocalState();
-
-  const review = {
-    id: 1,
-    reviewer_name: "benitto",
-    review_title: "Great Product",
-    is_verified: false,
-    date: "31/03/2024",
-    rating: 5,
-    content:
-      "I’ve been using this product for a month now, and it has\n" +
-      "                            completely transformed the way I work. The build quality is top-notch, and the features are\n" +
-      "                            exactly what I needed. It exceeded my expectations in every way, and I couldn’t be happier\n" +
-      "                            with the results. I highly recommend this to anyone looking for reliability and performance.\n" +
-      "                            Great job to the team!",
-    images: [
-      {
-        id: 1,
-        src: "https://unsplash.it/200/200",
-      },
-      {
-        id: 2,
-        src: "https://unsplash.it/200/200",
-      },
-      {
-        id: 3,
-        src: "https://unsplash.it/200/200",
-      },
-      {
-        id: 4,
-        src: "https://unsplash.it/200/200",
-      },
-      {
-        id: 4,
-        src: "https://unsplash.it/200/200",
-      },
-      {
-        id: 5,
-        src: "https://unsplash.it/200/200",
-      },
-    ],
-    replies: [
-      {
-        reviewer_name: "Mike",
-        reply_content:
-          "Thank you so much for your amazing review! We're thrilled to hear that our product exceeded your expectations and made your life easier ⭐",
-        images: [],
-      },
-    ],
-    product: {
-      product_name: "Sample Product",
-      src: "",
-    },
-  };
 
   useEffect(() => {
     updateWidgetFields((draftState: any) => {
@@ -142,14 +94,14 @@ const ReviewDetailWidgetPreview = () => {
                 onClick={decrease}
                 disabled={index == 1}
               >
-                ❮
+                <i className="review review-caret-left"> </i>
               </button>
               <button
-                className={`next ${index == review.images.length ? "disabled" : ""}`}
-                onClick={increase}
-                disabled={index == review.images.length}
+                  className={`next ${index == review.images.length ? "disabled" : ""}`}
+                  onClick={increase}
+                  disabled={index == review.images.length}
               >
-                ❯
+                <i className="review review-caret-right"> </i>
               </button>
             </div>
           </div>
@@ -164,7 +116,7 @@ const ReviewDetailWidgetPreview = () => {
                   }}
                 >
                   <img
-                    className="demo cursor"
+                    className="r_rdw-image-options"
                     src={item.src}
                     style={{ width: "100%" }}
                     alt="The Woods"
@@ -214,9 +166,9 @@ const ReviewDetailWidgetPreview = () => {
             <div className="r_rdw-review-content">
               <div className="r_rdw-review-content-text">{review.content}</div>
             </div>
-            {review.replies.map((reply: any) => {
+            {review.replies.map((reply: any,index:number) => {
               return (
-                <div className="r_rdw-review-item-reply">
+                <div className="r_rdw-review-item-reply" key={index}>
                   <div className="r_rdw-item-reply-title">
                     <strong className="r_rdw-small-text r_rdw-font-weight-bold">
                       {reply.reviewer_name}
