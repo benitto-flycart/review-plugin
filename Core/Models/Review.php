@@ -338,6 +338,7 @@ class Review extends Model
     }
     public static function getCommentType()
     {
+        
         return apply_filters('farp_test_comment_type', static::COMMENT_TYPE);
     }
 
