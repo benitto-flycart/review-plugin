@@ -126,6 +126,7 @@ const GeneralSetting = () => {
     schema
       .validate(settingsState, { abortEarly: false })
       .then(() => {
+        setErrors({});
         axiosClient
           .post("", {
             method: "save_general_settings",
