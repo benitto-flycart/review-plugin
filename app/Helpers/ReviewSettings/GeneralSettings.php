@@ -81,6 +81,11 @@ class GeneralSettings extends ReviewSettings
         return $this->generalSettings['order_status'];
     }
 
+    public function isAutoPublishEnabled()
+    {
+        return Functions::getBoolValue($this->generalSettings['auto_publish_new_reviews']);
+    }
+
     public function getReviewRequestDelay()
     {
         return PluginHelper::dayToSeconds($this->generalSettings['review_request_timing']);

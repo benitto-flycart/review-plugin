@@ -55,7 +55,7 @@ const App: FC = (props) => {
       ) : (
         <React.Suspense fallback={<LoadingSpinner />}>
           <HashRouter>
-            <Toaster richColors expand={true} />
+            <Toaster expand={true} theme={"dark"} />
             <div className={"flycart-review-admin-ui"}>
               <AppHeader />
               <NavBar />
@@ -73,4 +73,3 @@ export default App;
 // Desktop: 1920×1080, 1366×768, 1280×1024, 1024×768
 // Mobile: 375×667, 414×736, 360×800, 390×844
 // Tablet: 768×1024, 1024×768, 601×962
-
