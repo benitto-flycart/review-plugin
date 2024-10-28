@@ -101,13 +101,13 @@ class ReviewReminderEmailSetting extends Emails
         $generalSettings = new GeneralSettings;
 
         $styles = $this->getDefaultStyles($brandSettings);
-        $discountReminder = $this;
+        $reviewReminder = $this;
 
         $data = [
             'order' => $order,
             'brandSettings' => $brandSettings,
             'generalSettings' => $generalSettings,
-            'discountReminder' => $discountReminder,
+            'reviewReminder' => $reviewReminder,
             'styles' => $styles
         ];
 
@@ -121,8 +121,8 @@ class ReviewReminderEmailSetting extends Emails
             '{email}' => $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
-            '{body}' => $discountReminder->getBody(),
-            '{button_text}' => $discountReminder->getButtonText(),
+            '{body}' => $reviewReminder->getBody(),
+            '{button_text}' => $reviewReminder->getButtonText(),
             '{footer_text}' => $generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{shop_page_url}' => $shop_page_url,

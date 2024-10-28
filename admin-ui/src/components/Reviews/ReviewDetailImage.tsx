@@ -19,9 +19,10 @@ import {
 } from "../ui/dropdown-menu";
 import { axiosClient } from "../api/axios";
 import { AxiosResponse } from "axios";
-import { toastrSuccess } from "../../helpers/ToastrHelper";
+import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { ApiErrorResponse } from "../api/api.types";
 import { useLocalState } from "../zustand/localState";
+import { getErrorMessage } from "../../helpers/helper";
 
 interface ReviewDetailImageProps {
   review: any;
@@ -79,7 +80,6 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
         getReviews();
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
-        // @ts-ignore
         toastrError(getErrorMessage(error));
       })
       .finally(() => {});

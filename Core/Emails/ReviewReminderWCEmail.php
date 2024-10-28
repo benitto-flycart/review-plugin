@@ -94,14 +94,13 @@ class ReviewReminderWCEmail extends WC_Email
         $html = $this->get_content();
 
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
+            '{email}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
-            '{customer_name}' => $this->reviewReminder->getCustomerName($this->woo_order),
-            '{body}' => $this->reviewReminder->getBody($this->woo_order),
-            '{footer_text}' => $this->generalSettings->getFooterText(),
+            '{body}' => $this->reviewReminder->replaceCustomeEmailPlaceholders($this->reviewReminder->getBody(), $this->woo_order),
+            '{button_text}' => $this->reviewReminder->replaceCustomeEmailPlaceholders($this->reviewReminder->getButtonText(), $this->woo_order),
+            '{footer_text}' => $this->reviewReminder->replaceCustomeEmailPlaceholders($this->generalSettings->getFooterText(), $this->woo_order),
             '{unsubscribe_link}' =>  'https://localhost:8004',
-            '{button_text}' => $this->reviewReminder->getButtonText(),
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_reminder_email_short_codes', $short_codes);

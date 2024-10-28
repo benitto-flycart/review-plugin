@@ -7,6 +7,8 @@ import { ApiErrorResponse, ApiResponse } from "../api/api.types";
 import { TOrderList } from "./Order.types";
 import { useLocalState } from "../zustand/localState";
 import { LoadingSpinner } from "../ui/loader";
+import { getErrorMessage } from "../../helpers/helper";
+import { toastrError } from "../../helpers/ToastrHelper";
 
 interface OrderItem {
   product_name: string;
@@ -52,7 +54,6 @@ export const OrderEntry = <T extends OrderEntryProps>({
         fetchOrders();
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
-        // @ts-ignore
         toastrError(getErrorMessage(error));
       })
       .finally(() => {
@@ -128,4 +129,3 @@ export const OrderEntry = <T extends OrderEntryProps>({
     </div>
   );
 };
-

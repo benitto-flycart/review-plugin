@@ -73,11 +73,11 @@ class PhotoRequestWCEmail extends WC_Email
 
 
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
+            '{email}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
-            '{body}' => $this->photoRequest->getBody($this->woo_order),
-            '{footer_text}' => $this->generalSettings->getFooterText(),
+            '{body}' => $this->photoRequest->replaceCustomeEmailPlaceholders($this->photoRequest->getBody(), $this->woo_order),
+            '{footer_text}' => $this->photoRequest->replaceCustomeEmailPlaceholders($this->generalSettings->getFooterText(), $this->woo_order),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{review_link}' => \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($this->woo_order, $product_id),
             '{button_text}' => $this->photoRequest->getButtonText(),

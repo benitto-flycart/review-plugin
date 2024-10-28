@@ -69,8 +69,6 @@ class ReviewRequest extends Emails
 
     public function getSubject()
     {
-        error_log('printing subject');
-        error_log($this->getValue('subject'));
         return $this->getValue('subject');
     }
 
@@ -105,7 +103,7 @@ class ReviewRequest extends Emails
         $html =  AssetHelper::renderTemplate($file, $data);
 
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $order->get_billing_email(),
+            '{email}' => $customer_billing_email = $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
             '{body}' => $this->replaceCustomeEmailPlaceholders($reviewRequest->getBody(), $order),

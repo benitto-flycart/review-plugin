@@ -10,7 +10,6 @@ import {
 } from "../../components/ui/select";
 import { ProductReview } from "./ReviewsList";
 //@ts-ignore
-import data from "./data.json";
 import { ReviewRatings } from "./ReviewRatings";
 import { Pagination } from "../custom-hooks/pagination/Pagination";
 import usePaginationHook from "../custom-hooks/pagination/usePaginationHook";
@@ -22,6 +21,7 @@ import { TReviewData } from "./ReviewsType.type";
 import { LoadingSpinner } from "../ui/loader";
 import { ReviewListEmpty } from "./ReviewListEmpty";
 import { toastrError } from "../../helpers/ToastrHelper";
+import { getErrorMessage } from "../../helpers/helper";
 
 type Filter = {
   search: string;
@@ -120,7 +120,6 @@ export const Reviews = () => {
         setReviewState(response.data.data);
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
-        // @ts-ignore
         toastrError(getErrorMessage(error));
       })
       .finally(() => {

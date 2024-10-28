@@ -148,8 +148,8 @@ const UpdateDiscountNotify = () => {
   return (
     <div className={"frt-flex frt-flex-col frt-gap-4 frt-my-4 frt-mx-2"}>
       <EmailNavigation
-        to={"/emails/discount-reminder"}
-        title={"Discount reminder"}
+        to={"/emails/discount-notify"}
+        title={"Discount notify"}
       />
       <LanguageList
         currentLocale={currentLocale}

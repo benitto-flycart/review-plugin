@@ -65,7 +65,7 @@ class ReviewRequestWCEmail extends WC_Email
         $html = $this->get_content();
 
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
+            '{email}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
             '{body}' => $this->reviewRequest->replaceCustomeEmailPlaceholders($this->reviewRequest->getBody(), $this->woo_order),
@@ -79,6 +79,7 @@ class ReviewRequestWCEmail extends WC_Email
         foreach ($short_codes as $short_code => $short_code_value) {
             $html = str_replace($short_code, $short_code_value, $html);
         }
+
         $this->send($customer_billing_email, $this->get_subject(), $html, $this->get_headers(), $this->get_attachments());
 
         NotificationHistory::query()->update([

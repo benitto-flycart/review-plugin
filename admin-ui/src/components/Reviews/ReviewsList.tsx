@@ -14,8 +14,9 @@ import { axiosClient } from "../api/axios";
 import { AxiosResponse } from "axios";
 import { ApiErrorResponse } from "../api/api.types";
 import { useLocalState } from "../zustand/localState";
-import { toastrSuccess } from "../../helpers/ToastrHelper";
+import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { LoadingSpinner } from "../ui/loader";
+import { getErrorMessage } from "../../helpers/helper";
 
 export interface ReviewRatingsPropType {
   reviewState: any;
@@ -77,7 +78,6 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
         getReviews();
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
-        // @ts-ignore
         toastrError(getErrorMessage(error));
       })
       .finally(() => {

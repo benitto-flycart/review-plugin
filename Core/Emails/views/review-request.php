@@ -413,7 +413,7 @@
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
-            <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
+            <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']); ?>;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                     style="width:100%;">
                     <tbody>
