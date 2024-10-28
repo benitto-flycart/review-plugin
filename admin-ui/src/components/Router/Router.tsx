@@ -16,7 +16,7 @@ import UpdateDiscountNotify from "../EmailSetting/UpdateDiscountNotify";
 function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />}></Route>
+      <Route path="/" element={<EmailSetting />}></Route>
       <Route path="/settings" element={<Setting />}></Route>
       <Route path="/widgets" element={<Widget />}></Route>
       <Route path="/email-settings" element={<EmailSetting />}></Route>

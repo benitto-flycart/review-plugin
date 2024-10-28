@@ -18,9 +18,9 @@ class SnippetWidget extends Widget implements WidgetInterface
             'show_review_image' => $settings['show_review_image'] ?? true,
             'hide_arrows_on_mobile' => $settings['hide_arrows_on_mobile'] ?? true,
             'font_size' => $settings['font_size'] ?? 16,
-            'name_font_size' => $settings['name_font_size'] ?? 16,
-            'icon_font_size' => $settings['icon_font_size'] ?? 16,
-            'no_of_reviews_to_display' => $settings['no_of_reviews_to_display'] ?? 10,
+            'no_of_reviews_to_display' => $settings['no_of_reviews_to_display'] ?? "12",
+            'minimum_rating' => $settings['minimum_rating'] ?? "5",
+            "position_to_show" => $settings['position_to_show'] ?? 'woocommerce_single_prodct_summary',
             'style' => [
                 'review_card_shadow' => $settings['style']['review_card_shadow'] ?? 'dark',
                 'review_card_openers' => $settings['style']['review_card_openers'] ?? 'extra_rounded',
@@ -50,9 +50,8 @@ class SnippetWidget extends Widget implements WidgetInterface
             'show_rating' => $this->request->get('show_rating'),
             'show_review_image' => $this->request->get('show_review_image'),
             'hide_arrows_on_mobile' => $this->request->get('hide_arrows_on_mobile'),
-            'font_size' => $this->request->get('font_size'),
-            'name_font_size' => $this->request->get('name_font_size'),
-            'icon_font_size' => $this->request->get('icon_font_size'),
+            'minimum_rating' => $this->request->get('minimum_rating'),
+            "position_to_show" => $this->request->get('position_to_show'),
             'no_of_reviews_to_display' => $this->request->get('no_of_reviews_to_display'),
             'style' => [
                 'review_card_shadow' => $this->request->get('style.review_card_shadow'),
@@ -67,5 +66,20 @@ class SnippetWidget extends Widget implements WidgetInterface
                 'shadow_color' => $this->request->get('colors.shadow_color'),
             ]
         ];
+    }
+
+    public function getNoOfReviewsCount()
+    {
+        return $this->settings['no_of_reviews_to_display'];
+    }
+
+    public function getMinimumRatingToDisplay()
+    {
+        return $this->settings['minimum_rating'];
+    }
+
+    public function getPositionToShow()
+    {
+        return $this->settings['position_to_show'];
     }
 }

@@ -5,7 +5,9 @@ namespace Flycart\Review\App\ShortCode;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\Widget;
 
 class SnippetWidgetShortCode
 {
@@ -17,18 +19,35 @@ class SnippetWidgetShortCode
             $pluginSlug = F_Review_PLUGIN_SLUG;
             $registrationScriptHandle = "{$pluginSlug}-snippet-widget-script";
             $registrationHandle = "{$pluginSlug}-snippet-widget";
-            $storeConfig = static::getProductWidgetConfigValues();
+            $storeConfig = static::getSnippetWidgetConfigValues();
 
+
+            $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+            $widget = $widgetFactory->widget;
+
+            $no_of_reviews_count = $widget->getNoOfReviewsCount();
+            $minimum_rating = $widget->getMinimumRatingToDisplay();
+
+            $storeConfig['allowed_review_count'] =  $no_of_reviews_count;
 
             $reviews = Review::getReviews([
                 'product_id' => $product->get_id(),
                 'type' => Review::getCommentType(),
-                'paged' => $filters['current_page'] ?? 1,
-                'parent' => $filters['parent'] ?? 0,
-                'number' => $filters['per_page'] ?? 50,
-                'status' => $filters['status'] ?? 'all',
-                'update_comment_meta_cache' => true,
+                'paged' =>  1,
+                'number' => $no_of_reviews_count,
+                'status' => 'approve',
+                'meta_query' => [
+                    [
+                        'key'   => 'rating',
+                        'value' => $minimum_rating,
+                        'compare' => '>='
+                    ]
+                ],
             ]);
+
+            if (empty($reviews)) {
+                return null;
+            }
 
             $data = [
                 'ratings' => [
@@ -45,7 +64,7 @@ class SnippetWidgetShortCode
 
             wp_localize_script($registrationScriptHandle, 'review_snippet_widget_js_data', $storeConfig);
 
-            $snippet_widget_css = $resourcePath . "/widgets/snippet_widget.css?ver=3.0";
+            $snippet_widget_css = $resourcePath . "/widgets/snippet_widget.css?ver=4.0";
             $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/snippet-widget';
@@ -56,7 +75,7 @@ class SnippetWidgetShortCode
         });
     }
 
-    public static function getProductWidgetConfigValues()
+    public static function getSnippetWidgetConfigValues()
     {
         return [
             'home_url' => get_home_url(),

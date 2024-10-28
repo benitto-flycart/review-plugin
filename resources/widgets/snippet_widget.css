@@ -79,6 +79,7 @@
 .r_sw__carousel .r_sw__carousel-item {
   min-width: 100%;
   scroll-snap-align: start;
+  cursor: pointer;
 }
 
 .r_sw__carousel .r_sw__carousel-item {
@@ -100,6 +101,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  z-index: 100;
 }
 
 /* Navigation control styles */
@@ -110,6 +112,7 @@
   position: absolute; /* position navigation buttons on top */
   top: 50%; /* center navigation buttons on the slide */
   transform: translateY(-50%); /* align navigation buttons */
+  z-index: 10;
 }
 
 .r_sw__carousel-actions button {
@@ -133,6 +136,7 @@
 .r_sw__carousel-actions button.disabled {
   opacity: 0.3;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .r_sw__carousel-button-prev {

@@ -39,16 +39,18 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div class="r_sw__carousel-actions">
-                <button class="r_sw__carousel-button-prev"
-                    style="background-color: rgb(254, 225, 241); color: rgb(109, 3, 61); border-radius: 50%;">
-                    <i class="review review-caret-left"></i>
-                </button>
-                <button class="r_sw__carousel-button-next"
-                    style="background-color: rgb(254, 225, 241); color: rgb(109, 3, 61); border-radius: 50%;">
-                    <i class="review review-caret-right"></i>
-                </button>
-            </div>
+            <?php if (!empty($reviews)) { ?>
+                <div class="r_sw__carousel-actions">
+                    <button class="r_sw__carousel-button-prev"
+                        style="background-color: rgb(254, 225, 241); color: rgb(109, 3, 61); border-radius: 50%;">
+                        <i class="review review-caret-left"></i>
+                    </button>
+                    <button class="r_sw__carousel-button-next"
+                        style="background-color: rgb(254, 225, 241); color: rgb(109, 3, 61); border-radius: 50%;">
+                        <i class="review review-caret-right"></i>
+                    </button>
+                </div>
+            <?php } ?>
         </div>
     </template>
     <!--    </template>-->

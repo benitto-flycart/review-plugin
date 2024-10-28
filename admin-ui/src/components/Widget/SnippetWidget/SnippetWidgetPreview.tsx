@@ -144,8 +144,6 @@ const PreviewSnippetWidget = () => {
     });
   }, [widget.layout]);
 
-  console.log(widget);
-
   const snippetWidgetContent = () => {
     return (
       <>
@@ -240,22 +238,50 @@ const PreviewSnippetWidget = () => {
             />
           </div>
           <div className={"r_sw_product_details_wrapper"}>
-            {widget.position_to_show == "before_product"
-              ? snippetWidgetContent()
-              : null}
             <h2 className={"r_sw__product_title"}>Album</h2>
-            {widget.position_to_show == "after_product"
-              ? snippetWidgetContent()
-              : null}
-            <h2 className={"r_sw__product_price"}>price</h2>
+            <h2 className={"r_sw__product_price"}>price 20$</h2>
             <p className={"r_sw__product_description"}>
               This is a simple, Virtual Product
             </p>
-            {widget.position_to_show == "after_product_desc"
+            {widget.position_to_show == "woocommerce_before_add_to_cart_form"
               ? snippetWidgetContent()
               : null}
+            {widget.position_to_show == "woocommerce_before_add_to_cart_button"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show ==
+            "woocommerce_before_add_to_cart_quantity"
+              ? snippetWidgetContent()
+              : null}
+
+            <input type={"number"} value={"1"} readOnly step={1} />
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_quantity"
+              ? snippetWidgetContent()
+              : null}
+
             <button className={`r_sw__add_to_cart_button`}>Add to Cart</button>
-            {widget.position_to_show == "after_add_to_cart"
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_button"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_form"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show == "woocommerce_product_meta_start"
+              ? snippetWidgetContent()
+              : null}
+
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div>SKU: htr554yn </div>
+              <div>Category: Bracelets </div>
+              <div>Tags: tag1, tag2</div>
+            </div>
+
+            {widget.position_to_show == "woocommerce_product_meta_end"
               ? snippetWidgetContent()
               : null}
           </div>
@@ -266,4 +292,3 @@ const PreviewSnippetWidget = () => {
 };
 
 export default PreviewSnippetWidget;
-
