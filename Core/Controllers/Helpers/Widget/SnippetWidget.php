@@ -152,4 +152,3 @@ class SnippetWidget extends Widget implements WidgetInterface
     }
 }
 
-

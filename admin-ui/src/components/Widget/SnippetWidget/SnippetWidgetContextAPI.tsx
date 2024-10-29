@@ -39,13 +39,15 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
 
   const getOtherStyles = () => {
     return {
-      backgroundColor: widget.colors.bg_color,
-      borderColor: widget.colors.border_color,
-      boxShadow: getReviewShadow(
+      "--r-srw-review-bg-color": widget.colors.bg_color,
+      "--r-srw-review-border-color": widget.colors.border_color,
+      "--r-srw-review-box-shadow": getReviewShadow(
         widget.style.review_card_shadow,
         widget.colors.shadow_color,
       ),
-      borderRadius: getReviewBorderRadius(widget.style.review_card_openers),
+      "--r-srw-review-border-radius": getReviewBorderRadius(
+        widget.style.review_card_openers,
+      ),
     };
   };
 
@@ -136,24 +138,43 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
     },
     getReviewStyles: () => {
       return {
-        color: widget.colors.text_color,
+        "--r-srw-review-text-color": widget.colors.text_color,
       };
     },
     getReviewerNameStyle: () => {
       return {
-        color: widget.colors.name_color,
+        "--r-srw-reviewer-name-color": widget.colors.name_color,
       };
     },
     getRatingIconStyles: () => {
       return {
-        color: widget.colors.rating_icon_color,
+        "--r-srw-rating-icon-color": widget.colors.rating_icon_color,
       };
     },
     getCarosualActionStyle: () => {
       return {
-        backgroundColor: widget.colors.bg_color,
-        color: widget.colors.text_color,
-        borderRadius: "50%",
+        "--r-srw-btn-text-color": widget.colors.text_color,
+        "--r-srw-btn-bg-color": widget.colors.bg_color,
+        "--r-srw-btn-border-radius": "50%",
+      };
+    },
+    test: () => {
+      return {
+        "--r-srw-review-bg-color": widget.colors.bg_color,
+        "--r-srw-review-border-color": widget.colors.border_color,
+        "--r-srw-review-box-shadow": getReviewShadow(
+          widget.style.review_card_shadow,
+          widget.colors.shadow_color,
+        ),
+        "--r-srw-review-border-radius": getReviewBorderRadius(
+          widget.style.review_card_openers,
+        ),
+        "--r-srw-review-text-color": widget.colors.text_color,
+        "--r-srw-reviewer-name-color": widget.colors.name_color,
+        "--r-srw-rating-icon-color": widget.colors.rating_icon_color,
+        "--r-srw-btn-text-color": widget.colors.text_color,
+        "--r-srw-btn-bg-color": widget.colors.bg_color,
+        "--r-srw-btn-border-radius": "50%",
       };
     },
     getSnippetWidgetVars: () => {},

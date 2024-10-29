@@ -73,4 +73,3 @@ jQuery(document).ready(($) => {
     SNIPPET_WIDGET.init();
   })();
 });
-
