@@ -5,7 +5,9 @@ namespace Flycart\Review\App\ShortCode;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\Widget;
 
 class SnippetWidgetShortCode
 {
@@ -18,6 +20,9 @@ class SnippetWidgetShortCode
             $registrationScriptHandle = "{$pluginSlug}-snippet-widget-script";
             $registrationHandle = "{$pluginSlug}-snippet-widget";
             $storeConfig = static::getProductWidgetConfigValues();
+
+            $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+            $widget = $widgetFactory->widget;
 
 
             $reviews = Review::getReviews([
@@ -47,6 +52,7 @@ class SnippetWidgetShortCode
 
             $snippet_widget_css = $resourcePath . "/widgets/snippet_widget.css?ver=3.0";
             $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
+            $styles =  $widget->getSnippetWidgetStyles();
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/snippet-widget';
 

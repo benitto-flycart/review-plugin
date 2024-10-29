@@ -6,8 +6,6 @@ use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class SnippetWidget extends Widget implements WidgetInterface
 {
-
-
     public function getSettings($settings)
     {
         return [
@@ -68,4 +66,75 @@ class SnippetWidget extends Widget implements WidgetInterface
             ]
         ];
     }
+
+
+    public function getSnippetWidgetStyles()
+    {
+        $vars =  [
+            "--r-srw-review-bg-color" =>  $this->settings['colors']['bg_color'],
+            "--r-srw-review-border-color" => $this->settings['colors']['border_color'],
+            "--r-srw-review-box-shadow" => $this->getReviewShadows($this->settings['style']['review_card_shadow']),
+            "--r-srw-review-border-radius" => $this->getBorderRadius($this->settings['style']['review_card_openers']),
+            "--r-srw-review-text-color" => $this->settings['colors']['text_color'],
+            "--r-srw-reviewer-name-color" => $this->settings['colors']['name_color'],
+            "--r-srw-rating-icon-color" => $this->settings['colors']['rating_icon_color'],
+            "--r-srw-btn-text-color" => $this->settings['colors']['text_color'],
+            "--r-srw-btn-bg-color" => $this->settings['colors']['bg_color'],
+            "--r-srw-btn-border-radius" => "50%",
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
+
+    public static function getBorderRadius($index)
+    {
+        $data =  [
+            'sharp' => [
+                'borderRadius' => '2px',
+            ],
+            'slightly_rounded' => [
+                'borderRadius' => '4px',
+            ],
+            'rounded' => [
+                'borderRadius' => '8px',
+            ],
+            'extra_rounded' => [
+                'borderRadius' => '16px',
+            ],
+            'none' => [
+                'borderRadius' => '0px',
+            ],
+        ];
+
+        return $data[$index]['borderRadius'] ?? '0px';
+    }
+
+    public function getReviewShadows($index)
+    {
+        $data = [
+            'classic' => [
+                'boxShadow' => '0 0 8px {{color}}',
+            ],
+            'dark' => [
+                'boxShadow' => '0 6px 14px {{color}}',
+            ],
+            'light' => [
+                'boxShadow' => '0 6px 14px -4px {{color}}',
+            ],
+            'none' => [
+                'boxShadow' => '0 0 0 0 {{color}}',
+            ],
+        ];
+
+        $boxShadow =  $data[$index]['boxShadow'] ?? '0 0 0px {{color}}';
+
+        return str_replace("{{color}}", $this->settings['colors']['shadow_color'], $boxShadow);
+    }
 }
+

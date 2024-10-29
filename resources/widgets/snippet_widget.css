@@ -82,13 +82,15 @@
 }
 
 .r_sw__carousel .r_sw__carousel-item {
+  margin: 0px auto 0px 0px;
   display: flex; /* show current slide image */
   animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
   text-overflow: ellipsis;
   padding: 0.5em;
-  background-color: lightgray;
-  border-radius: 16px;
-  box-shadow: #e5e4e7;
+  background-color: var(--r-srw-review-bg-color);
+  border-radius: var(--r-srw-review-border-radius);
+  border-color: var(--r-srw-review-border-color);
+  box-shadow: var(--r-srw-review-box-shadow);
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
@@ -113,6 +115,9 @@
 }
 
 .r_sw__carousel-actions button {
+  background: var(--r-srw-btn-bg-color);
+  color: var(--r-srw-btn-text-color);
+  border-radius: var(--r-srw-btn-border-radius);
   border: 0;
   font-size: 20px;
   font-weight: bold;
@@ -166,6 +171,11 @@
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  font-size: 16px;
+}
+
+.r_sw__review_details--reviewer-name {
+  color: var(--r-srw-reviewer-name-color);
 }
 
 .r_sw__review_details_icons {
@@ -173,6 +183,7 @@
   flex-direction: row;
   justify-content: start;
   gap: 0.5rem;
+  color: var(--r-srw-rating-icon-color);
 }
 
 /* hanlde smooth transitions between slides */
