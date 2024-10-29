@@ -12,8 +12,6 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { Switch } from "../../ui/switch";
-import { Input } from "../../ui/input";
-import { Textarea } from "../../ui/textarea";
 import * as yup from "yup";
 import { axiosClient } from "../../api/axios";
 import { toastrError, toastrSuccess } from "../../../helpers/ToastrHelper";
@@ -30,13 +28,8 @@ const GeneralSetting = () => {
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [settingsState, setSettingsState] = useState<any>({
-    send_replies_to: "",
-    enable_email_footer: true,
-    footer_text: "",
     auto_publish_new_reviews: true,
-    enable_review_notification: true,
     reviewers_name_format: "first_name",
-    review_notification_to: "",
     order_status: "",
   });
 
@@ -45,27 +38,13 @@ const GeneralSetting = () => {
   }, []);
 
   const schema = yup.object().shape({
-    send_replies_to: yup
-      .string()
-      .email("Must be a valid email address")
-      .optional(),
-    enable_email_footer: yup
-      .boolean()
-      .required("Enable Email Footer is required"),
-    footer_text: yup.string().nullable("Footer text is required"),
     auto_publish_new_reviews: yup
       .boolean()
       .required("Auto publish Reviews is required"),
-    enable_review_notification: yup
-      .boolean()
-      .required("Enable Review Notification is enabled"),
     reviewers_name_format: yup
       .string()
       .required("Reviewers Name format is required"),
-    review_notification_to: yup
-      .string()
-      .email("Must be a valid email address")
-      .optional(),
+
     order_status: yup.string().required("Order Status is required"),
   });
 
@@ -110,6 +89,7 @@ const GeneralSetting = () => {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
+            settings_type: 'email',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
             ...settingsState,
           })

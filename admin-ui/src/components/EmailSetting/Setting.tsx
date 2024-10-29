@@ -68,7 +68,7 @@ function Setting() {
         method: "get_general_settings",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        emails: settingsState,
+        ...settingsState,
       })
       .then((response: any) => {
         let data = response.data.data;
@@ -104,8 +104,9 @@ function Setting() {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
+            settings_type: 'email',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            emails: settingsState,
+            ...settingsState,
           })
           .then((response: any) => {
             let data = response.data.data;
