@@ -91,13 +91,15 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
         widget_type: "snippet_widget",
         language: localState.current_locale,
         _wp_nonce_key: "flycart_review_nonce",
-        _wp_nonce: localState?.nonces?.flycart_review_nonce,})
+        _wp_nonce: localState?.nonces?.flycart_review_nonce,
+      })
 
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
         buildStateFromResponse(settings);
-        toastrSuccess(data.message);})
+        toastrSuccess(data.message);
+      })
 
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -158,7 +160,7 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
         "--r-srw-btn-border-radius": "50%",
       };
     },
-    test: () => {
+    getStyleVars: () => {
       return {
         "--r-srw-review-bg-color": widget.colors.bg_color,
         "--r-srw-review-border-color": widget.colors.border_color,

@@ -107,6 +107,7 @@
   background-color: var(--r-srw-review-bg-color);
   border-radius: var(--r-srw-review-border-radius);
   border-color: var(--r-srw-review-border-color);
+  border-width: 1px;
   box-shadow: var(--r-srw-review-box-shadow);
   flex-direction: row;
   gap: 0.5rem;
@@ -115,6 +116,7 @@
 }
 
 .r_sw__carousel-item-visible .r_sw__review_text {
+  color: var(--r-srw-review-text-color);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;

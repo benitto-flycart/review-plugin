@@ -41,9 +41,6 @@ const SnippetWidgetConfigSetting = ({ name }: any) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="woocommerce_before_add_to_cart_form">
-                    Before Add to Cart Form
-                  </SelectItem>
                   <SelectItem value="woocommerce_before_add_to_cart_button">
                     Before Add to Cart Button
                   </SelectItem>

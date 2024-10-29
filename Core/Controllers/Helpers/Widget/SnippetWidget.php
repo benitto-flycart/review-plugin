@@ -151,4 +151,3 @@ class SnippetWidget extends Widget implements WidgetInterface
         return $this->settings['position_to_show'];
     }
 }
-

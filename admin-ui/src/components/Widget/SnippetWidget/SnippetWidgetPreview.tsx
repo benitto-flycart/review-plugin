@@ -147,7 +147,10 @@ const PreviewSnippetWidget = () => {
   const snippetWidgetContent = () => {
     return (
       <>
-        <div className={"r_sw_admin_container_wrapper"}>
+        <div
+          className={"r_sw_admin_container_wrapper"}
+          style={methods.getStyleVars()}
+        >
           <div className="r_sw__carousel" ref={carouselRef}>
             {reviews.map((item: any, i: number) => {
               return (
