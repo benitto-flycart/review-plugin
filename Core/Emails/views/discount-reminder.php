@@ -95,7 +95,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>"><!--[if mso | IE]>
+    <div class="<?php echo isset($fontStyles['class']) ? esc_attr($fontStyles['class']) : ''; ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo isset($fontStyles['content']) ? esc_attr($fontStyles['content']) : ''; ?>"><!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
            >
         <tr>
@@ -112,18 +112,18 @@
                         <tr>
                             <td class="" style="vertical-align:top;width:600px;"><![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
-                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                    style="font-size:0px;text-align:center;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                                         <tbody>
                                             <tr>
-                                                <td style="vertical-align:top;padding:10px 100px;">
+                                                <td style="vertical-align:top;padding:20px;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="width:50px;">
+                                                                <td style="width:100%;">
                                                                     <img height="auto"
                                                                          src="{logo_src}"
-                                                                         style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
+                                                                         style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
                                                                          alt="">
                                                                 </td>
                                                             </tr>
@@ -165,15 +165,17 @@
                                         style="vertical-align:top;" width="100%">
                                         <tbody>
                                             <tr>
-                                                <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                                <td align="center" style="font-size:0px;padding:10px;word-break:break-word;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                         style="border-collapse:collapse;border-spacing:0px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="width:215px;"><img height="auto"
-                                                                        src="https://static.flycart.net/email_customizer_advance/image/editor/logo.png"
-                                                                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
-                                                                        width="215"></td>
+                                                                <td style="width:100%;">
+                                                                    <img height="auto"
+                                                                         src="{logo_src}"
+                                                                         style="border:0;display:block;outline:none;width:100%;text-decoration:none;font-size:13px;"
+                                                                         alt="">
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
