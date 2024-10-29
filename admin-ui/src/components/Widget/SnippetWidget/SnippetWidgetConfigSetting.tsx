@@ -184,4 +184,3 @@ const SnippetWidgetConfigSetting = ({ name }: any) => {
 };
 
 export default SnippetWidgetConfigSetting;
-

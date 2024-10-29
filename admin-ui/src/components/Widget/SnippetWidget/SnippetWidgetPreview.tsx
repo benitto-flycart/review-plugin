@@ -155,7 +155,6 @@ const PreviewSnippetWidget = () => {
                   key={i}
                   className={`r_sw__carousel-item r_sw__carousel-item-visible r_sw__admin_carousel-item`}
                   ref={itemRef}
-                  style={methods.getStyles()}
                 >
                   {widget.show_review_image && item.images?.length > 0 ? (
                     <React.Fragment>
@@ -173,14 +172,11 @@ const PreviewSnippetWidget = () => {
                   ) : null}
                   <div className={"r_sw__review_details_wrapper"}>
                     <div className={"r_sw__review_details"}>
-                      <div style={methods.getReviewerNameStyle()}>
+                      <div className="r_sw__review_details--reviewer-name">
                         {item.reviewer_name}
                       </div>
                       {widget.show_rating ? (
-                        <div
-                          className="r_sw__review_details_icons"
-                          style={methods.getRatingIconStyles()}
-                        >
+                        <div className="r_sw__review_details_icons">
                           <ReviewIcon />
                           <ReviewIcon />
                           <ReviewIcon />
@@ -189,12 +185,7 @@ const PreviewSnippetWidget = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div
-                      className={"r_sw__review_text "}
-                      style={methods.getReviewStyles()}
-                    >
-                      {item.content}
-                    </div>
+                    <div className={"r_sw__review_text "}>{item.content}</div>
                   </div>
                 </div>
               );
@@ -205,7 +196,6 @@ const PreviewSnippetWidget = () => {
           >
             <button
               className={`${index == 0 ? "disabled" : ""} r_sw__carousel-button-prev`}
-              style={methods.getCarosualActionStyle()}
               disabled={index == 0}
               onClick={handlePrevious}
             >
@@ -214,7 +204,6 @@ const PreviewSnippetWidget = () => {
             <button
               className={`${index == reviews.length - 1 ? "disabled" : ""} r_sw__carousel-button-next`}
               disabled={index == reviews.length - 1}
-              style={methods.getCarosualActionStyle()}
               onClick={handleNext}
             >
               <i className="review review-caret-right"></i>

@@ -21,6 +21,9 @@ class SnippetWidgetShortCode
             $registrationHandle = "{$pluginSlug}-snippet-widget";
             $storeConfig = static::getSnippetWidgetConfigValues();
 
+            $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+            $widget = $widgetFactory->widget;
+
 
             $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
             $widget = $widgetFactory->widget;
@@ -66,6 +69,7 @@ class SnippetWidgetShortCode
 
             $snippet_widget_css = $resourcePath . "/widgets/snippet_widget.css?ver=4.0";
             $snippet_widget_font_css = $resourcePath . "/admin/css/review-fonts.css?ver=3.0";
+            $styles =  $widget->getSnippetWidgetStyles();
 
             $path = F_Review_PLUGIN_PATH . 'resources/templates/snippet-widget';
 
