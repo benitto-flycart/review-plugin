@@ -58,7 +58,7 @@ const DiscountSetting = () => {
         let settings = data.settings;
         setSettingsState(settings);
         console.log(data);
-        toastrSuccess("Saved Successfully");
+        toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");

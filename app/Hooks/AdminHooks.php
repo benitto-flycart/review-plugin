@@ -35,4 +35,3 @@ class AdminHooks extends RegisterHooks
         );
     }
 }
-

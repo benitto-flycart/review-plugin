@@ -7,6 +7,7 @@ use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Hooks\AdminHooks;
 use Flycart\Review\App\Hooks\AssetsActions;
+use Flycart\Review\App\Hooks\ConditionalHooks;
 use Flycart\Review\App\Hooks\CustomHooks;
 use Flycart\Review\App\Hooks\WooCommerceHooks;
 use Flycart\Review\App\Hooks\WPHooks;
@@ -30,6 +31,7 @@ class Route
         WooCommerceHooks::register();
         CustomHooks::register();
         WPHooks::register();
+        ConditionalHooks::register();
     }
 
     public static function getRequestObject()
@@ -121,5 +123,5 @@ class Route
 
         return wp_send_json_success($response);
     }
-
 }
+

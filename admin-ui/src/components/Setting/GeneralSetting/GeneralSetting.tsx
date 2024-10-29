@@ -104,7 +104,7 @@ const GeneralSetting = () => {
         console.log(settings);
         console.log(data);
         setSettingsState(settings);
-        toastrSuccess("Saved Successfully");
+        toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -226,6 +226,7 @@ const GeneralSetting = () => {
                 </SettingsColWrapper>
                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
                   <Textarea
+                    rows={5}
                     onChange={(e: any) => {
                       updateSettingFields((draftState: any) => {
                         draftState.footer_text = e.target.value;
