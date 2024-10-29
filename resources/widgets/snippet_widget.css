@@ -1,3 +1,19 @@
+/* "--r-srw-review-bg-color": widget.colors.bg_color, */
+/* "--r-srw-review-border-color": widget.colors.border_color, */
+/* "--r-srw-review-box-shadow": getReviewShadow( */
+/*   widget.style.review_card_shadow, */
+/*   widget.colors.shadow_color, */
+/* ), */
+/* "--r-srw-review-border-radius": getReviewBorderRadius( */
+/*   widget.style.review_card_openers, */
+/* ), */
+/* "--r-srw-review-text-color": widget.colors.text_color, */
+/* "--r-srw-reviewer-name-color": widget.colors.name_color, */
+/* "--r-srw-rating-icon-color": widget.colors.rating_icon_color, */
+/* "--r-srw-btn-text-color": widget.colors.text_color, */
+/* "--r-srw-btn-bg-color": widget.colors.bg_color, */
+/* "--r-srw-btn-border-radius": "50%", */
+
 * {
   all: unset;
   box-sizing: border-box;

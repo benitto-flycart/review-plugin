@@ -137,4 +137,3 @@ class SnippetWidget extends Widget implements WidgetInterface
         return str_replace("{{color}}", $this->settings['colors']['shadow_color'], $boxShadow);
     }
 }
-
