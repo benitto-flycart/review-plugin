@@ -45,8 +45,6 @@ class DiscountNotifyEmail extends WC_Email
 
     public function trigger($data)
     {
-        error_log(print_r($data, true));
-
         $notification_id = $data['notification_id'] ?? '';
         $order_review_id = $data['order_review_id'] ?? '';
 
@@ -65,7 +63,7 @@ class DiscountNotifyEmail extends WC_Email
         $shop_page_url = WC::getShopPageURL();
 
         $short_codes = [
-            '{{email}}' => $customer_billing_email = $this->woo_order->get_billing_email(),
+            '{email}' => $customer_billing_email = $this->woo_order->get_billing_email(),
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
             '{customer_name}' => $this->discountNotify->getCustomerName($this->woo_order),
