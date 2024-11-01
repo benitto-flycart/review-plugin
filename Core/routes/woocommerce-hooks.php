@@ -3,9 +3,11 @@
 //All routes actions will be performed in Route::handleAuthRequest method.
 
 use Flycart\Review\Core\Controllers\EmailController;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Controllers\Hooks\ShortCodeHandler;
 use Flycart\Review\Core\Controllers\StoreFront\OrderPlacedController;
 use Flycart\Review\Core\Controllers\StoreFront\TemplateController;
+use Flycart\Review\Core\Models\Widget;
 
 $store_front_hooks = [
     'actions' => [
@@ -19,7 +21,7 @@ $store_front_hooks = [
         'woocommerce_after_add_to_cart_form' =>
         function () {
             return [
-                ['callable' => [ShortCodeHandler::class, 'snippetWidget'], 'priority' => 10, 'accepted_args' => 1],
+                // ['callable' => [ShortCodeHandler::class, 'snippetWidget'], 'priority' => 10, 'accepted_args' => 1],
                 ['callable' => [ShortCodeHandler::class, 'ratingWidget'], 'priority' => 10, 'accepted_args' => 1],
             ];
         },
@@ -30,9 +32,10 @@ $store_front_hooks = [
 
 $admin_hooks = [
     'actions' => [],
-
     'filters' => [],
 ];
+
+
 
 
 return [

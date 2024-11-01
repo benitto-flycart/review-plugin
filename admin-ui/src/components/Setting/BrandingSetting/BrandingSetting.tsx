@@ -103,7 +103,7 @@ const BrandingSetting = () => {
         // console.log("data: "+data);
         // console.log(data.success);
         setSettingsState(settings);
-        toastrSuccess("Saved Successfully");
+        toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -129,7 +129,7 @@ const BrandingSetting = () => {
             let [code, data] = ClientResponse.getResponseData(response);
             console.log(data);
             toastrSuccess(data.message);
-            
+
             setErrors({});
           })
           .catch((error: any) => {

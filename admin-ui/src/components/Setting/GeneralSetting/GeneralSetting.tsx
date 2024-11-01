@@ -89,7 +89,7 @@ const GeneralSetting = () => {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
-            settings_type: 'email',
+            settings_type: "email",
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
             ...settingsState,
           })

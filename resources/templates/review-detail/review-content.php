@@ -2,7 +2,7 @@
 $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
 ?>
 <div class="r_rdw_container"
-     style="--r-rdw-dialog-bg-color: #fdecf7; --r-rdw-rating-icon-color: #e22ce2; --r-rdw-text-color: #000000; --r-rdw-btn-text-color: #0c0101; --r-rdw-btn-bg-color: #efdfdf;">
+    style="<?php echo $styles ?>">
     <div class="r_rdw_close_icon">
         <i class="review review-cross-icon"></i>
     </div>
@@ -14,7 +14,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                         <?php foreach ($reviewObj->getReviewImages() as $image) : ?>
                             <div class="r_rdw_active_image mySlides">
                                 <img src="<?php echo esc_attr($image['variants']['full']) ?>"
-                                     alt="<?php esc_attr($image['title'] ?? '') ?>">
+                                    alt="<?php esc_attr($image['title'] ?? '') ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -29,11 +29,11 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                     <div class="row r_rdw_image_thumbnails">
                         <?php foreach ($reviewObj->getReviewImages() as $index => $image) : ?>
                             <div class="column r_rdw_image_thumbnail"
-                                 data-image-index="<?php echo esc_attr($index + 1) ?>">
+                                data-image-index="<?php echo esc_attr($index + 1) ?>">
                                 <img class="r_rdw-image-options"
-                                     src="<?php echo esc_attr($image['variants']['full']) ?>"
-                                     alt="<?php echo esc_attr($image['title'] ?? '') ?>"
-                                     style="width: 100%;">
+                                    src="<?php echo esc_attr($image['variants']['full']) ?>"
+                                    alt="<?php echo esc_attr($image['title'] ?? '') ?>"
+                                    style="width: 100%;">
                             </div>
                         <?php endforeach ?>
                     </div>
@@ -69,7 +69,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                 <?php foreach ($reviewObj->getReplies() as $reply) : ?>
                     <div class="r_rdw-review-item-reply">
                         <div class="r_rdw-item-reply-title"><strong
-                                    class="r_rdw-small-text r_rdw-font-weight-bold"><?php echo esc_html__($reply->getReviewerName()) ?></strong> <?php echo esc_attr__('replied:', 'f-review') ?>
+                                class="r_rdw-small-text r_rdw-font-weight-bold"><?php echo esc_html__($reply->getReviewerName()) ?></strong> <?php echo esc_attr__('replied:', 'f-review') ?>
                         </div>
                         <div class="r_rdw-normal-text"><?php echo $reply->getContent() ?></div>
                     </div>

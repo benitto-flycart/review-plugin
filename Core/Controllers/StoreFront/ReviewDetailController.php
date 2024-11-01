@@ -4,7 +4,9 @@ namespace Flycart\Review\Core\Controllers\StoreFront;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -29,6 +31,11 @@ class ReviewDetailController
                 ],
             ];
 
+            $widgetFactory = new WidgetFactory(Widget::REVIEW_DETAIL_WIDGET, get_locale(), null);
+            $widget = $widgetFactory->widget;
+
+            $styles = $widget->getReviewDetailWidgetStylesVars();
+
             ob_start(); // Start output buffering
             include $path . 'review-content.php'; // Include the PHP file
             $review_content = ob_get_clean();
@@ -37,9 +44,10 @@ class ReviewDetailController
                 'content' => $review_content,
                 'review' => $review
             ]);
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
     }
 }
+

@@ -370,13 +370,15 @@ class Review extends Model
         }
     }
 
-    public static function createDiscountForPhotoReview($review_id, $order_id, $product_id)
+    public static function createDiscountForPhotoReview($review_id, $product_id, $order_id = null)
     {
         $discountSettings = (new DiscountSettings);
 
-        $orderReview = OrderReview::query()->where("woo_order_id = %d", [$order_id])->first();
+        if (!empty($order_id)) {
+            $orderReview = OrderReview::query()->where("woo_order_id = %d", [$order_id])->first();
+        }
 
-        if (empty($orderReview)) return;
+        if (empty($orderReview)) return false;
 
         $coupon_code = $discountSettings->generateCoupon($review_id);
 
@@ -411,7 +413,12 @@ class Review extends Model
 
             as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
         }
+
+        error_log('printing coupon code');
+        error_log($coupon_code);
+        return $coupon_code;
     }
+
 
     public static function getRatingCounts($product_id = null)
     {

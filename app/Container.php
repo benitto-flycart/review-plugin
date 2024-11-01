@@ -1,6 +1,7 @@
 <?php
 
 namespace Flycart\Review\App;
+
 class Container
 {
     public $bindings = [];
@@ -25,3 +26,4 @@ class Container
         return null;
     }
 }
+

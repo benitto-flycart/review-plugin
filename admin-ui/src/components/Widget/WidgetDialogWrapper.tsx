@@ -1,10 +1,15 @@
 import React from "react";
-import {Dialog, DialogContent, DialogDescription, DialogTitle,} from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "../ui/dialog";
 import WidgetSidebarWrapper from "./Sidebar/WidgetSidebarWrapper";
 import WidgetMainContentWrapper from "./WidgetMainContentWrapper";
-import {LoadingSpinner} from "../ui/loader";
+import { LoadingSpinner } from "../ui/loader";
 import "@/src/styles/widgets/widget.css";
-import {Button} from "../ui/button";
+import { Button } from "../ui/button";
 
 const WidgetDialogWrapper = ({
   children,
@@ -15,7 +20,6 @@ const WidgetDialogWrapper = ({
   currentLocale,
 }: any) => {
   const { loading } = context;
-  console.log("context.saving:", context.saving);
 
   return (
     <Dialog open={show} onOpenChange={toggle}>
@@ -64,4 +68,3 @@ const WidgetDialogWrapper = ({
 };
 
 export default WidgetDialogWrapper;
-

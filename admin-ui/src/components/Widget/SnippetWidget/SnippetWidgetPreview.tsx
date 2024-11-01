@@ -144,12 +144,13 @@ const PreviewSnippetWidget = () => {
     });
   }, [widget.layout]);
 
-  console.log(widget);
-
   const snippetWidgetContent = () => {
     return (
       <>
-        <div className={"r_sw_admin_container_wrapper"}>
+        <div
+          className={"r_sw_admin_container_wrapper"}
+          style={methods.getStyleVars()}
+        >
           <div className="r_sw__carousel" ref={carouselRef}>
             {reviews.map((item: any, i: number) => {
               return (
@@ -157,7 +158,6 @@ const PreviewSnippetWidget = () => {
                   key={i}
                   className={`r_sw__carousel-item r_sw__carousel-item-visible r_sw__admin_carousel-item`}
                   ref={itemRef}
-                  style={methods.getStyles()}
                 >
                   {widget.show_review_image && item.images?.length > 0 ? (
                     <React.Fragment>
@@ -175,14 +175,11 @@ const PreviewSnippetWidget = () => {
                   ) : null}
                   <div className={"r_sw__review_details_wrapper"}>
                     <div className={"r_sw__review_details"}>
-                      <div style={methods.getReviewerNameStyle()}>
+                      <div className="r_sw__review_details--reviewer-name">
                         {item.reviewer_name}
                       </div>
                       {widget.show_rating ? (
-                        <div
-                          className="r_sw__review_details_icons"
-                          style={methods.getRatingIconStyles()}
-                        >
+                        <div className="r_sw__review_details_icons">
                           <ReviewIcon />
                           <ReviewIcon />
                           <ReviewIcon />
@@ -191,12 +188,7 @@ const PreviewSnippetWidget = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div
-                      className={"r_sw__review_text "}
-                      style={methods.getReviewStyles()}
-                    >
-                      {item.content}
-                    </div>
+                    <div className={"r_sw__review_text "}>{item.content}</div>
                   </div>
                 </div>
               );
@@ -207,7 +199,6 @@ const PreviewSnippetWidget = () => {
           >
             <button
               className={`${index == 0 ? "disabled" : ""} r_sw__carousel-button-prev`}
-              style={methods.getCarosualActionStyle()}
               disabled={index == 0}
               onClick={handlePrevious}
             >
@@ -216,7 +207,6 @@ const PreviewSnippetWidget = () => {
             <button
               className={`${index == reviews.length - 1 ? "disabled" : ""} r_sw__carousel-button-next`}
               disabled={index == reviews.length - 1}
-              style={methods.getCarosualActionStyle()}
               onClick={handleNext}
             >
               <i className="review review-caret-right"></i>
@@ -240,22 +230,50 @@ const PreviewSnippetWidget = () => {
             />
           </div>
           <div className={"r_sw_product_details_wrapper"}>
-            {widget.position_to_show == "before_product"
-              ? snippetWidgetContent()
-              : null}
             <h2 className={"r_sw__product_title"}>Album</h2>
-            {widget.position_to_show == "after_product"
-              ? snippetWidgetContent()
-              : null}
-            <h2 className={"r_sw__product_price"}>price</h2>
+            <h2 className={"r_sw__product_price"}>price 20$</h2>
             <p className={"r_sw__product_description"}>
               This is a simple, Virtual Product
             </p>
-            {widget.position_to_show == "after_product_desc"
+            {widget.position_to_show == "woocommerce_before_add_to_cart_form"
               ? snippetWidgetContent()
               : null}
+            {widget.position_to_show == "woocommerce_before_add_to_cart_button"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show ==
+            "woocommerce_before_add_to_cart_quantity"
+              ? snippetWidgetContent()
+              : null}
+
+            <input type={"number"} value={"1"} readOnly step={1} />
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_quantity"
+              ? snippetWidgetContent()
+              : null}
+
             <button className={`r_sw__add_to_cart_button`}>Add to Cart</button>
-            {widget.position_to_show == "after_add_to_cart"
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_button"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show == "woocommerce_after_add_to_cart_form"
+              ? snippetWidgetContent()
+              : null}
+
+            {widget.position_to_show == "woocommerce_product_meta_start"
+              ? snippetWidgetContent()
+              : null}
+
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div>SKU: htr554yn </div>
+              <div>Category: Bracelets </div>
+              <div>Tags: tag1, tag2</div>
+            </div>
+
+            {widget.position_to_show == "woocommerce_product_meta_end"
               ? snippetWidgetContent()
               : null}
           </div>
@@ -266,4 +284,3 @@ const PreviewSnippetWidget = () => {
 };
 
 export default PreviewSnippetWidget;
-
