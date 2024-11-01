@@ -27,10 +27,13 @@ const GeneralSetting = () => {
   const [saveChangesLoading, setSaveChangesLoading] = useState(false);
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
+  const [originalSettings, setOriginalSettings] = useState<any>({});
   const [settingsState, setSettingsState] = useState<any>({
     auto_publish_new_reviews: true,
     reviewers_name_format: "first_name",
     order_status: "",
+    email_font: "",
+    review_font: "",
   });
 
   useEffect(() => {
@@ -44,7 +47,12 @@ const GeneralSetting = () => {
     reviewers_name_format: yup
       .string()
       .required("Reviewers Name format is required"),
-
+    email_font: yup
+      .string()
+      .required("Email font is required"),
+    review_font: yup
+      .string()
+      .required("Review font is required"),
     order_status: yup.string().required("Order Status is required"),
   });
 
@@ -62,6 +70,7 @@ const GeneralSetting = () => {
         console.log(settings);
         console.log(data);
         setSettingsState(settings);
+        // setOriginalSettings(data);
         toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
@@ -81,6 +90,17 @@ const GeneralSetting = () => {
 
   const saveGeneralSettings = () => {
     setSaveChangesLoading(true);
+    // const keysToTarget = ["auto_publish_new_reviews", "reviewers_name_format", "order_status"];
+    // const modifiedFields = keysToTarget.reduce(
+    //   (changes: { [key: string]: any }, key) => {
+    //     if (settingsState[key] !== originalSettings[key]) {
+    //       changes[key] = settingsState[key];
+    //     }
+    //     return changes;
+    //   }, {}
+    // );
+    console.log("setting state: ",settingsState);
+
     schema
       .validate(settingsState, { abortEarly: false })
       .then(() => {
@@ -187,6 +207,64 @@ const GeneralSetting = () => {
                   }}
                 />
                 {showValidationError(errors, "auto_publish_new_reviews")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Email Font</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>Select Email fonts for emails</Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper>
+                <Select value={settingsState.email_font}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.email_font = value;
+                    });
+                  }}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select email fonts" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="default">
+                        Default
+                      </SelectItem>
+                      <SelectItem value="Helvatica">Helvatica</SelectItem>
+                      <SelectItem value="Georgia">
+                        Georgia
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                  </Select>
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review Font</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>Select Review fonts for emails</Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper>
+                <Select value={settingsState.review_font}
+                  onValueChange={(value: string) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.review_font = value;
+                    });
+                  }}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select review fonts" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="default">
+                        Default
+                      </SelectItem>
+                      <SelectItem value="Helvatica">Helvatica</SelectItem>
+                      <SelectItem value="Georgia">
+                        Georgia
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                  </Select>
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>
