@@ -105,7 +105,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo isset($fontStyles['class']) ? esc_attr($fontStyles['class']) : ''; ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>; color:<?php echo esc_attr($data['styles']['email_text_color']); ?>; <?php echo isset($fontStyles['content']) ? esc_attr($fontStyles['content']) : ''; ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -142,7 +142,7 @@
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
                     <tbody>
                         <tr>
-                            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                            <td style="direction:ltr;font-size:0px;padding:20px;text-align:center;">
                                 <!--[if mso | IE]>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
@@ -158,11 +158,11 @@
                                                         style="border-collapse:collapse;border-spacing:0px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="width:50px;">
+                                                                <td style="width:100%;">
                                                                     <img height="auto"
-                                                                        src="{logo_src}"
-                                                                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
-                                                                        width="50" alt="">
+                                                                         src="{logo_src}"
+                                                                         style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
+                                                                         alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -212,16 +212,16 @@
                                         <tbody>
                                             <tr>
                                                 <td align="center"
-                                                    style="font-size:0px;padding:10px 100px;word-break:break-word;">
+                                                    style="font-size:0px;padding:10px;word-break:break-word;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                         style="border-collapse:collapse;border-spacing:0px;">
                                                         <tbody>
                                                             <tr>
                                                                 <td style="width:100%;">
                                                                     <img height="auto"
-                                                                        src="{banner_src}"
-                                                                        alt=""
-                                                                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;">
+                                                                         src="{logo_src}"
+                                                                         style="border:0;display:block;outline:none;text-decoration:none;width:100%;font-size:13px;"
+                                                                         alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -257,7 +257,7 @@
                     style="width:100%;">
                     <tbody>
                         <tr>
-                            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                            <td style="direction:ltr;font-size:0px;padding:20px;text-align:center;">
                                 <!--[if mso | IE]>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
