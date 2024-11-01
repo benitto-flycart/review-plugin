@@ -87,5 +87,125 @@ class LocalDataController
             ]);
         }
     }
+
+
+//    public function getLabel()
+//    {
+//        $localData=[
+//            'nav_bar'=>[
+//                'emails'=>__('Emails','reviewPlugin'),
+//                'widgets'=>__('Widgets','reviewPlugin'),
+//                'settings'=>__('Settings','reviewPlugin'),
+//                'orders'=>__('Orders','reviewPlugin'),
+//                'reviews'=>__('Reviews','reviewPlugin'),
+//            ],
+//            'email_setting'=>[
+//                'types'=>[
+//                    'review_request'=>[
+//                        'title'=>__('Review Request','reviewPlugin'),
+//                        'description'=>__('Review Request Settings','reviewPlugin'),
+//                        'detailed_description'=>__('This email prompts the customer to share their feedback by submitting a review of their recent purchase or experience','reviewPlugin'),
+//                        'content'=>[
+//                            'subject'=>__('Subject','reviewPlugin'),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use [order_number] for the customer's order number","reviewPlugin")
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'body_notes'=>__("Use [full_name], [first_name], [last_name] as a placeholder for the user's name, first_name, last_name","reviewPlugin"),
+//                            'button'=>__('Button Text','reviewPlugin'),
+//                        ]
+//                    ],
+//                    'review_reminder'=>[
+//                        'title'=>__('Review Reminder','reviewPlugin'),
+//                        'description'=>__('Review Reminder Settings','reviewPlugin'),
+//                        'detailed_description'=>__("This follow-up email serves as a gentle reminder for the customer to leave a review if they haven't done so yet",'reviewPlugin'),
+//                        'content'=>[
+//                            'subject'=>__('Subject','reviewPlugin'),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use [order_number] for the customer's order number","reviewPlugin"),
+//                                'notes_2'=>__("Use [order_number] for the customer's order number","reviewPlugin"),
+//                                'notes_3'=>__("Use [name] or [last_name] as a placeholder for the user's first or last name","reviewPlugin"),
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'button'=>__('Button Text','reviewPlugin'),
+//                        ]
+//                    ],
+//                    'photo_request'=>[
+//                        'title'=>__('Photo Request','reviewPlugin'),
+//                        'description'=>__('Photo Request Settings','reviewPlugin'),
+//                        'detailed_description'=>__("After the customer has submitted a review, this email encourages them to add a photo to enhance their review",'reviewPlugin'),
+//                        'content'=>[
+//                            'photo_reminder'=>__("Send Photo Reminder","reviewPlugin"),
+//                            'subject'=>__("Subject","reviewPlugin"),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use [order_number] for the customer's order number","reviewPlugin"),
+//                                'notes_2'=>__("Use [name] or [last_name] as a placeholder for the user's first or last name","reviewPlugin"),
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'discount_text'=>__("Discount Text","reviewPlugin"),
+//                            'button'=>__('Button Text','reviewPlugin'),
+//                            'discount_notes'=>[
+//                                'notes_1'=>__("Added when a text review is eligible for a photo review discount","reviewPlugin"),
+//                            ]
+//                        ]
+//                    ],
+//                    'discount_notify'=>[
+//                        'title'=>__('Discount Notify','reviewPlugin'),
+//                        'description'=>__('Discount Notify Settings','reviewPlugin'),
+//                        'detailed_description'=>__("This email notify the customer of the discount they received for leaving a review",'reviewPlugin'),
+//                        'content'=>[
+//                            'subject'=>__("Subject","reviewPlugin"),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use {order_number} for the customer's order numberUse {name} or {last_name} as a placeholder for the user's first or last name","reviewPlugin"),
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'body_notes'=>[
+//                              "notes_1"=>__("Use {client} for your store nameUse {discount} for the discount amount","reviewPlugin"),
+//                            ],
+//                            'button'=>__('Button Text','reviewPlugin'),
+//                        ]
+//                    ],
+//                    'discount_reminder'=>[
+//                        'title'=>__('Discount Reminder','reviewPlugin'),
+//                        'description'=>__('Discount Reminder Settings','reviewPlugin'),
+//                        'detailed_description'=>__('This email reminds the customer of the discount they received for leaving a review, ensuring they make use of the offer','reviewPlugin'),
+//                        'content'=>[
+//                            'subject'=>__("Subject","reviewPlugin"),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use {order_number} for the customer's order numberUse {name} or {last_name} as a placeholder for the user's first or last name","reviewPlugin"),
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'body_notes'=>[
+//                                'notes_1'=>__("Use {client} for your store nameUse {discount} for the discount amount","reviewPlugin"),
+//                            ],
+//                            'button'=>__('Button Text','reviewPlugin')
+//                        ]
+//                    ],
+//                    'review_reply'=>[
+//                        'title'=>__('Reply to Review','reviewPlugin'),
+//                        'description'=>__('Reply to Review Settings','reviewPlugin'),
+//                        'detailed_description'=>__("This email notifies the customer when a reply has been posted to their review, keeping them engaged in the conversation",'reviewPlugin'),
+//                        'content'=>[
+//                            'subject'=>__("Subject","reviewPlugin"),
+//                            'sub_notes'=>[
+//                                'notes_1'=>__("Use {product_name} for the product name","reviewPlugin"),
+//                            ],
+//                            'body'=>__("Body","reviewPlugin"),
+//                            'body_notes'=>[
+//                                'notes_1'=>__("Use {reply_content} for your reply text","reviewPlugin"),
+//                            ]
+//                        ]
+//                    ]
+//                ],
+//                'common'=>[
+//                    'update'=>__('Update','reviewPlugin'),
+//                    'save_changes'=>__('Save Changes','reviewPlugin'),
+//                    'preview'=>__('Preview','reviewPlugin'),
+//                    'notes'=>__('Notes','reviewPlugin')
+//                ]
+//            ]
+//        ];
+//
+//    }
 }
 
