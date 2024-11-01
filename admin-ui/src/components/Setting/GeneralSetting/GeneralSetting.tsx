@@ -62,7 +62,7 @@ const GeneralSetting = () => {
         console.log(settings);
         console.log(data);
         setSettingsState(settings);
-        toastrSuccess("Saved Successfully");
+        toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
