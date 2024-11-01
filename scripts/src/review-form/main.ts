@@ -777,6 +777,19 @@ class ReviewFormWidget {
         },
       );
 
+      const response = result.data;
+
+      if (result && result.success && response.discount_created) {
+        const discount_content = response.discount_html;
+        const discount_wrapper = this.shadowRoot.querySelector(
+          ".r_rfw_thank_you_discount_detail_wrapper",
+        ) as HTMLElement;
+
+        this.jquery(discount_wrapper)
+          .removeClass("r_rfw_hide")
+          .html(discount_content);
+      }
+
       this.submitLoading(false);
 
       return result ? true : false;

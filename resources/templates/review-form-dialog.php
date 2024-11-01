@@ -23,13 +23,13 @@
                                 src="<?php echo $image_url ?>"
                                 alt="Product Image">
                         </div>
-                        <p class="r_rfw_rating_preview_title">How would you rate
-                            <span class="r_rfw_rating-title__product_name "><?php echo $product->get_name() ?></span>
+                        <p class="r_rfw_rating_preview_title">
+                            <?php echo wp_kses_post($widget->getRatingTitle($product)) ?>
                         </p>
                         <div class="r_rfw_rating_icons_wrapper">
                             <div class="r_rwf_rating_icons_wrapper_with_text">
                                 <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
-                                <span class="r_rwf_rating_icons_text">Dislike it</span>
+                                <span class="r_rwf_rating_icons_text"><?php echo esc_attr__('Dislike it', 'f-review') ?></span>
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
                                 <i class="r_rfw_rating_icon review-icon review  review-<?php echo $icon['outlined'] ?>"></i>
@@ -42,7 +42,7 @@
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
                                 <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
-                                <span class="r_rwf_rating_icons_text">Love it!</span>
+                                <span class="r_rwf_rating_icons_text"><?php echo esc_attr__('Love it!', 'f-review') ?></span>
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                     <div class="r_rfw_photo_slide_container">
                         <input type="file" accept="image/*" class="r_frw_file_input">
                         <div class="r_frw_photo_slide__text_container"><span
-                                class="r_frw_photo_title">Show it Off</span><span
-                                class="r_frw_photo_description">We'd love to see it again</span></div>
+                                class="r_frw_photo_title"><?php echo $widget->getPhotoTitle() ?></span><span
+                                class="r_frw_photo_description"><?php echo $widget->getPhotoDescription() ?></span></div>
                         <div class="r_frw_add_photos_container">
                             <div class="r_frw_view_photos_container r_rfw_hide">
                                 <div class="r_frw_photos_list">
@@ -69,26 +69,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                                    Initally it will show when minmum one photo added it will hided-->
+                            <!-- Initally it will show when minmum one photo added it will hided-->
                             <div class="r_rfw_empty_photo_section">
-                                <p class="r_rfw_photo_discount_text">Get <?php echo $discountSettings->photoDiscountString();  ?> off your next
-                                    purchase!
+                                <p class="r_rfw_photo_discount_text">
+                                    <?php echo $widget->getPhotoDiscountText($discountSettings) ?>
                                 </p>
-                                <button class="r_frw_add_photos_btn wd_add_photos_btn"> <span class="r_frw_img_loader"></span> Add Photos</button>
+                                <button class="r_frw_add_photos_btn wd_add_photos_btn"><?php echo $widget->getPhotoButtonText() ?></button>
                             </div>
                         </div>
                     </div>
                 </div>
             <?php } ?>
-
-
             <?php if ($enabled['review']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_review_content_container"><span
-                            class="r_rfw_review_content_title">Tell us more!</span>
+                            class="r_rfw_review_content_title"><?php echo $widget->getReviewContentTitle() ?></span>
                         <textarea
                             class="r_rfw_review_content_text r_rfw_input_field" rows="8"
-                            placeholder="Share your experience"></textarea>
+                            placeholder="<?php echo $widget->getReviewContentPlaceholder() ?>"></textarea>
                         <span class="r_rfw_review_text_error r_rfw_hide"></span>
                     </div>
                 </div>
@@ -96,19 +94,17 @@
             <?php if ($enabled['reviewer']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_reviewer_detail_container"><span
-                            class="r_rfw_reviewer_detail_title">About you</span>
+                            class="r_rfw_reviewer_detail_title"><?php echo $widget->getReviewerInfoTitle() ?></span>
                         <div class="r_rfw_review_names_info_container">
-                            <div class="r_rfw_input_field_wrapper r_rfw_reviewer_first_name"><label for="">First
-                                    Name</label>
+                            <div class="r_rfw_input_field_wrapper r_rfw_reviewer_first_name"><label for="">First Name</label>
                                 <input class="r_rfw_input_field" placeholder="John Doe"
                                     value="" />
-                                <span class="r_rfw_review_info_first_name_error  r_rfw_review_info_error">
+                                <span class="r_rfw_review_info_first_name_error r_rfw_review_info_error">
                                 </span>
                             </div>
-                            <div class="r_rfw_input_field_wrapper r_rfw_reviewer_last_name"><label for="">Last
-                                    Name</label><input class="r_rfw_input_field" placeholder="Doe"
-                                    value=""><span
-                                    class="r_rfw_review_info_error r_rfw_review_info_last_name_error"></span>
+                            <div class="r_rfw_input_field_wrapper r_rfw_reviewer_last_name"><label for="">Last Name</label><input class="r_rfw_input_field" placeholder="Doe"
+                                    value="">
+                                <span class="r_rfw_review_info_error r_rfw_review_info_last_name_error"></span>
                             </div>
                         </div>
                         <div class="r_rfw_input_field_wrapper r_rfw_reviewer_email"><label
@@ -126,17 +122,19 @@
             <?php if ($enabled['thank_you']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_thank_you_slide_wrapper wrapper" id="sparkle-wrapper"><span
-                            class="r_rfw_thank_you_title">Thank you</span><span
-                            class="r_rfw_thank_you_description">Your Review was submitted</span>
+                            class="r_rfw_thank_you_title"><?php echo $widget->getThankYouPageTitle() ?></span><span
+                            class="r_rfw_thank_you_description"><?php echo $widget->getThankYouPageDescription() ?></span>
+
                         <div class="r_rfw_thank_you_discount_detail_wrapper r_rfw_hide">
-                            <p>Use the following discount code for 15% off your next purchase</p>
-                            <span class="r_rfw_thank_you_discount_code">LX-1FFRII</span>
-                            <span>we'll also send it by email discount expires DD/MM/YYYY</span>
+                            <!-- The content will be came from ajax after submitting the form -->
                         </div>
+
                         <?php if ($enabled['next_products']) { ?>
                             <div class="r_rfw_thank_you_proceed_next">
-                                <button class="r_rfw_btn">Continue</button>
-                                <button class="r_rfw_btn r_rfw_continue_btn">Review another item</button>
+                                <button class="r_rfw_btn"><?php echo esc_attr__('Continue', 'f-review') ?></button>
+                                <button class="r_rfw_btn r_rfw_continue_btn">
+                                    <?php echo esc_attr__('Review another item', 'f-review') ?>
+                                </button>
                             </div>
                         <?php } ?>
                     </div>
@@ -145,7 +143,7 @@
             <?php if ($enabled['next_products']) { ?>
                 <div class="r_rfw_slide">
                     <div class="r_rfw_remaining_items_wrapper"><span
-                            class="r_rfw_remaining_items_title">Review Another Item</span>
+                            class="r_rfw_remaining_items_title"><?php echo esc_attr__('Review Another Item', 'f-review') ?></span>
                         <div class="r_rfw_review_remaining_available_items">
                             <?php foreach ($next_review_items as $review_item) {
                                 $item_product = $review_item->get_product();
@@ -160,7 +158,7 @@
                                     <div class="r_rfw_review_next_item_write_a_review">
                                         <a class="r_rfw_btn"
                                             href="<?php echo \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($order, $item_product->get_id()) ?>">
-                                            Write a Review
+                                            <?php echo esc_attr__('Write a Review') ?>
                                         </a>
                                     </div>
                                 </div>
@@ -175,7 +173,7 @@
                 <span class="review review-arrow-left"></span>
             </button>
             <button class="r_rfw-submit_button r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn">
-                <span class="r_rfw-button__text">Continue</span>
+                <span class="r_rfw-button__text"><?php echo esc_attr__('Continue', 'f-review') ?></span>
             </button>
         </div>
     </div>
