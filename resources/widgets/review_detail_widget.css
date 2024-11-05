@@ -28,6 +28,8 @@
 
 
 .r_rdw-review-icons {
+    display: flex;
+    column-gap: 3px;
     color: var(--r-rdw-rating-icon-color);
 }
 
@@ -160,6 +162,10 @@ img {
     gap: 1rem;
 }
 .r_rdw-review-content-text{
+    font-size: 0.75rem;
+}
+
+.r_rdw-normal-text{
     font-size: 0.75rem;
 }
 
