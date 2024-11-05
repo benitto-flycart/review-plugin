@@ -8,7 +8,7 @@
     writing-mode: tb-rl;
     color: var(--r-r_sbw-text-color);
     background-color: var(--r-r_sbw-bg-color);
-    z-index: 1000;
+    z-index: 9999;
     cursor: pointer;
 }
 

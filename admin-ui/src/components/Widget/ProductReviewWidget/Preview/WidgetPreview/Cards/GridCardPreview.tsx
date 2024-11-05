@@ -8,9 +8,6 @@ const GridCardPreview = ({ review }: any) => {
   return (
     <div key={review.id} className="r_pw_r_container r_pw_r_g_container">
       <div className={"r_pw_r_g_container--review-details"}>
-        <span className={"r_pw_r_g_container--review-details--title"}>
-          {review.title}
-        </span>
         {review.images.length > 0 ? (
           <img
             src={review.images[0].src}
