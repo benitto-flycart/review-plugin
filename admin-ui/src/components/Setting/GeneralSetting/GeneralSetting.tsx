@@ -21,23 +21,45 @@ import SettingsColWrapper from "../SettingsColWrapper";
 import { Label } from "../../ui/label";
 import { produce } from "immer";
 import { showValidationError } from "../../../helpers/html";
+import AsyncSelect from 'react-select/async';
+import fontData from "../assets/fonts.json";
 
 const GeneralSetting = () => {
   const [loading, setLoading] = useState(true);
   const [saveChangesLoading, setSaveChangesLoading] = useState(false);
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
-  const [originalSettings, setOriginalSettings] = useState<any>({});
   const [settingsState, setSettingsState] = useState<any>({
     auto_publish_new_reviews: true,
     reviewers_name_format: "first_name",
     order_status: "",
-    email_font: "",
-    review_font: "",
+    email_font_family: "",
+    email_font_variant_value:"",
+    review_font_family: "",
+    review_font_variant_value:"",
   });
+
+  const fetchFontOptions = (inputValue: string) => {
+    return fontData.fonts
+      .filter(font => font.family.toLowerCase().includes(inputValue.toLowerCase()))
+      .map(font => ({
+        value: font.family,
+        variant_value: font.variant_value,
+        label: `${font.family} (${font.variant_value})`,
+      }));
+  };
+
+  const loadOptions = (inputValue: string, callback: (options: any[]) => void) => {
+    setTimeout(() => {
+      const options = fetchFontOptions(inputValue);
+      callback(options);
+    }, 1000); 
+  };
 
   useEffect(() => {
     setLoading(true);
+    getGeneralSettings();
+    
   }, []);
 
   const schema = yup.object().shape({
@@ -215,27 +237,17 @@ const GeneralSetting = () => {
                 <Label className={"frt-text-xs frt-text-grayprimary"}>Select Email fonts for emails</Label>
               </SettingsColWrapper>
               <SettingsColWrapper>
-                <Select value={settingsState.email_font}
-                  onValueChange={(value: string) => {
-                    updateSettingFields((draftState: any) => {
-                      draftState.email_font = value;
-                    });
-                  }}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select email fonts" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="default">
-                        Default
-                      </SelectItem>
-                      <SelectItem value="Helvatica">Helvatica</SelectItem>
-                      <SelectItem value="Georgia">
-                        Georgia
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                  </Select>
+              <AsyncSelect
+                  cacheOptions
+                  loadOptions={loadOptions}
+                  onChange={(selectedOption) => updateSettingFields((draft: any) => {
+                    draft.email_font = selectedOption ? selectedOption.value : "";
+                    draft.email_font_variant_value = selectedOption ? selectedOption.variant_value : "";
+                  })}
+                  placeholder="Select Email fonts"
+                  getOptionLabel={(option) => option.label} 
+                  getOptionValue={(option) => option.value} 
+                />
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>
@@ -244,27 +256,17 @@ const GeneralSetting = () => {
                 <Label className={"frt-text-xs frt-text-grayprimary"}>Select Review fonts for emails</Label>
               </SettingsColWrapper>
               <SettingsColWrapper>
-                <Select value={settingsState.review_font}
-                  onValueChange={(value: string) => {
-                    updateSettingFields((draftState: any) => {
-                      draftState.review_font = value;
-                    });
-                  }}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select review fonts" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="default">
-                        Default
-                      </SelectItem>
-                      <SelectItem value="Helvatica">Helvatica</SelectItem>
-                      <SelectItem value="Georgia">
-                        Georgia
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                  </Select>
+              <AsyncSelect
+                  cacheOptions
+                  loadOptions={loadOptions}
+                  onChange={(selectedOption) => updateSettingFields((draft: any) => {
+                    draft.review_font = selectedOption ? selectedOption.value : "";
+                    draft.review_font_variant_value = selectedOption ? selectedOption.variant_value : "";
+                  })}
+                  placeholder="Select Review fonts"
+                  getOptionLabel={(option) => option.label} 
+                  getOptionValue={(option) => option.value} 
+                />
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>
