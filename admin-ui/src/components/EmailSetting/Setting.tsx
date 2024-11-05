@@ -44,7 +44,16 @@ function Setting() {
     enable_email_footer: yup
       .boolean()
       .required("Enable Email Footer is required"),
-    footer_text: yup.string().nullable("Footer text is required"),
+    footer_text: yup
+      .string()
+      .nullable("Footer text is required"),
+    enable_review_notification: yup
+      .boolean()
+      .required("Must be a valid email address"),
+    review_notification_to: yup
+      .string()
+      .email("Must be a valid email address")
+      .optional(),
     review_request_timing: yup
       .string()
       .required("Review Request timing is required"),
