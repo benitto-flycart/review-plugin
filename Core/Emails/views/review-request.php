@@ -160,9 +160,9 @@
                                                             <tr>
                                                                 <td style="width:100%;">
                                                                     <img height="auto"
-                                                                         src="{logo_src}"
-                                                                         style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
-                                                                         alt="">
+                                                                        src="{logo_src}"
+                                                                        style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
+                                                                        alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -219,9 +219,9 @@
                                                             <tr>
                                                                 <td style="width:100%;">
                                                                     <img height="auto"
-                                                                         src="{logo_src}"
-                                                                         style="border:0;display:block;outline:none;text-decoration:none;width:100%;font-size:13px;"
-                                                                         alt="">
+                                                                        src="{logo_src}"
+                                                                        style="border:0;display:block;outline:none;text-decoration:none;width:100%;font-size:13px;"
+                                                                        alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -261,8 +261,8 @@
                                 <!--[if mso | IE]>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                        <td class="" style="vertical-align:top;width:600px;">
-                        <![endif]-->
+                            <td class="" style="vertical-align:top;width:600px;">
+                    <![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -299,6 +299,7 @@
                 $product_id = $line_item['product_id'];
                 $product = wc_get_product($product_id);
                 $reviewLink = \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($order, $product_id);
+                $image_url = \Flycart\Review\App\Helpers\Product::getProductImageForEmail($product);
                 ?>
                 <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;"width="600">
@@ -312,12 +313,12 @@
                             <tr>
                                 <td style="direction:ltr;font-size:0px;text-align:center;">
                                     <!--[if mso | IE]>
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                <![endif]-->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                        <![endif]-->
                                     <!--[if mso | IE]>
-                                        <td class="" style="vertical-align:top;width:600px;">
-                                <![endif]-->
+                        <td class="" style="vertical-align:top;width:600px;">
+                        <![endif]-->
                                     <div class="mj-column-per-100 mj-outlook-group-fix"
                                         style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -334,7 +335,7 @@
                                                                     <td style="width:128px;">
                                                                         <img height="auto"
                                                                             alt="Image"
-                                                                            src="<?php echo $product->get_image(); ?>"
+                                                                            src="<?php echo $image_url ?>"
                                                                             style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;">
                                                                     </td>
                                                                 </tr>
@@ -348,8 +349,8 @@
                                     <!--[if mso | IE]></td><![endif]-->
 
                                     <!--[if mso | IE]>
-                                <td class="" style="vertical-align:top;width:150px;">
-                                <![endif]-->
+                        <td class="" style="vertical-align:top;width:150px;">
+                        <![endif]-->
                                     <div class="mj-column-per-25 mj-outlook-group-fix"
                                         style="font-size:0px;text-align:center;direction:ltr;display:inline-block;vertical-align:top;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']); ?>;">
                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -388,22 +389,22 @@
                                         </table>
                                     </div>
                                     <!--[if mso | IE]>
-                            </td>
-                                <![endif]-->
+                        </td>
+                        <![endif]-->
                                     <!--[if mso | IE]>
-                            </tr>
+                        </tr>
                         </table>
-                                <![endif]-->
+                        <![endif]-->
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!--[if mso | IE]>
-            </td>
-            </tr>
-            </table>
-    <![endif]-->
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
             <?php } ?>
 
             <!--[if mso | IE]>
@@ -420,10 +421,10 @@
                         <tr>
                             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
                                 <!--[if mso | IE]>
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                        <td class="" style="vertical-align:top;width:600px;">
-                                <![endif]-->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="" style="vertical-align:top;width:600px;">
+                    <![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -449,17 +450,17 @@
                                     </table>
                                 </div>
                                 <!--[if mso | IE]></td>
-                                </tr>
-                                </table><![endif]-->
+                    </tr>
+                    </table><![endif]-->
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!--[if mso | IE]>
-            </td>
-        </tr>
-    </table>
+</td>
+</tr>
+</table>
 <![endif]-->
         <?php endif ?>
 
