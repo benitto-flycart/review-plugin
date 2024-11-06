@@ -223,13 +223,13 @@
                                                                         style="font-size:0px;padding:10px;padding-right:10px;padding-left:10px;word-break:break-word;">
                                                                         <table border="0" cellpadding="0" cellspacing="0"
                                                                             role="presentation"
-                                                                            style="border-collapse:collapse;border-spacing:0px;">
+                                                                            style="border-collapse:collapse;border-spacing:0px;width:100%;">
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td style="width:100%;">
                                                                                         <img height="auto"
                                                                                              src="{logo_src}"
-                                                                                             style="border:0;display:block;outline:none;width:100%;text-decoration:none;font-size:13px;"
+                                                                                             style="border:0;display:block;outline:none;width:100%;min-height:100px;max-height:200px;text-decoration:none;font-size:13px;"
                                                                                              alt="">
                                                                                     </td>
                                                                                 </tr>
