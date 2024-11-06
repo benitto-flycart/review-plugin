@@ -34,7 +34,7 @@ const ProductWidgetColorSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.colors.type == "dark_text"}
                     value={"dark_text"}
@@ -83,7 +83,7 @@ const ProductWidgetColorSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.colors.type == "light_text"}
                     value={"light_text"}
@@ -121,7 +121,7 @@ const ProductWidgetColorSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.colors.type == "custom"}
                     value={"custom"}

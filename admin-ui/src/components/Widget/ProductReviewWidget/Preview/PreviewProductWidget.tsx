@@ -3,6 +3,7 @@ import HeaderLayoutPreview from "./HeaderLayoutPreview";
 import WidgetLayoutPreview from "./WidgetLayoutPreview";
 import {ProductWidgetContext} from "../ProductReviewContextAPI";
 import {useLocalState} from "../../../zustand/localState";
+import {applyStylesToIframe} from "../../../../helpers/utils";
 
 const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
     const context = useContext<any>(ProductWidgetContext)
@@ -17,7 +18,6 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
 
         //@ts-ignore
         let iframe: any = window.frames['widget_preview_iframe'];
-
 // Create a new link element
         let linkElement: any = document.createElement('link');
         linkElement.rel = 'stylesheet';
@@ -31,7 +31,6 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
         another.rel = 'stylesheet';
         another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
         head.appendChild(another);
-
         let scriptmasonry = document.createElement('script');
         scriptmasonry.src = localState.iframe_styles?.product_widget?.masonry_js;
         // Wait for Masonry to load before executing product_widget.js

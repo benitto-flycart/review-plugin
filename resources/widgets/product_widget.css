@@ -665,6 +665,8 @@
 }
 
 .r_pw_r_l-product_container {
+  display: flex;
+  gap: 0.75rem;
   padding: 0.75rem;
 }
 

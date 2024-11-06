@@ -28,7 +28,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_shadow == "classic"}
                     value={"classic"}
@@ -71,7 +71,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_shadow == "dark"}
                     value={"dark"}
@@ -114,7 +114,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_shadow == "light"}
                     value={"light"}
@@ -157,7 +157,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_shadow == "none"}
                     value={"none"}
@@ -204,7 +204,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_openers == "sharp"}
                     value={"sharp"}
@@ -243,7 +243,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={
                       widget.style.review_card_openers == "slightly_rounded"
@@ -286,7 +286,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                 }}
               >
                 <div>
-                  <div className={"frt-flex frt-gap-1"}>
+                  <div className={"frt-flex frt-gap-1 frt-items-center"}>
                     <Checkbox
                       checked={widget.style.review_card_openers == "rounded"}
                       value={"rounded"}
@@ -327,7 +327,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={
                       widget.style.review_card_openers == "extra_rounded"
@@ -367,7 +367,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className={"frt-flex frt-gap-1"}>
+                <div className={"frt-flex frt-gap-1 frt-items-center"}>
                   <Checkbox
                     checked={widget.style.review_card_openers == "none"}
                     value={"none"}
@@ -375,24 +375,6 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   <Label className={"frt-text-xs"} htmlFor="extra_rounded">
                     None
                   </Label>
-                </div>
-                <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="_svg_317bs_1"
-                  >
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M24 5H21C12.1635 5 5 12.1634 5 21V24H9V21C9 14.3726 14.3726 9 21 9H24V5Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
                 </div>
               </div>
             </div>
