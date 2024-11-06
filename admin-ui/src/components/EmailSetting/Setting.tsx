@@ -23,7 +23,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Switch } from "../ui/switch";
-import AsyncSelect from 'react-select/async';
+import AsyncSelect from "react-select/async";
 import fontData from "../../assets/fonts.json";
 
 function Setting() {
@@ -37,27 +37,30 @@ function Setting() {
     review_discount_notify_timing: "0",
     review_discount_reminder_timing: "0",
     email_font_family: "Advent Pro",
-    email_font_variant_value:"100",
+    email_font_variant_value: "100",
   });
   const { localState, setLocalState } = useLocalState();
-  const [originalSettings, setoriginalSettings] = useState<any>({});
   const fetchFontOptions = (inputValue: string) => {
     return fontData.fonts
-      .filter(font => font.family.toLowerCase().includes(inputValue.toLowerCase()))
-      .map(font => ({
+      .filter((font) =>
+        font.family.toLowerCase().includes(inputValue.toLowerCase()),
+      )
+      .map((font) => ({
         value: font.family,
         variant_value: font.variant_value,
         label: `${font.family} (${font.variant_value})`,
       }));
   };
 
-  const loadOptions = (inputValue: string, callback: (options: any[]) => void) => {
-    setTimeout(()=>{
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: any[]) => void,
+  ) => {
+    setTimeout(() => {
       const options = fetchFontOptions(inputValue);
       callback(options);
-    },1000);
+    }, 1000);
   };
-
 
   const schema = yup.object().shape({
     send_replies_to: yup
@@ -67,9 +70,7 @@ function Setting() {
     enable_email_footer: yup
       .boolean()
       .required("Enable Email Footer is required"),
-    footer_text: yup
-      .string()
-      .nullable("Footer text is required"),
+    footer_text: yup.string().nullable("Footer text is required"),
     enable_review_notification: yup
       .boolean()
       .required("Must be a valid email address"),
@@ -77,9 +78,7 @@ function Setting() {
       .string()
       .email("Must be a valid email address")
       .optional(),
-    email_font_family: yup
-      .string()
-      .required("Email font is required"),
+    email_font_family: yup.string().required("Email font is required"),
     review_request_timing: yup
       .string()
       .required("Review Request timing is required"),
@@ -103,13 +102,12 @@ function Setting() {
         method: "get_general_settings",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        ...settingsState,
+        settings_type: "email",
       })
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
-        setSettingsState(settings);
-        setoriginalSettings({...settings})
+        setSettingsState(settings.emails);
         toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
@@ -129,14 +127,6 @@ function Setting() {
 
   const saveGeneralSettings = () => {
     setSaveChangesLoading(true);
-    const keysToTarget=["send_replies_to","enable_email_footer","footer_text","enable_review_notification","review_notification_to","review_request_timing","review_reminder_timing","review_photo_request_timing","review_discount_notify_timing","review_discount_reminder_timing","email_font_family","email_font_variant_value"];
-
-    const modifiedFields = keysToTarget.reduce(
-      (changes: { [key: string]: any }, key) => {
-        changes[key] = settingsState[key];
-        return changes;
-      }, {}
-    );
 
     schema
       .validate(settingsState, { abortEarly: false })
@@ -146,9 +136,11 @@ function Setting() {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
-            settings_type: 'email',
+            settings_type: "email",
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            ...modifiedFields,
+            emails: {
+              ...settingsState,
+            },
           })
           .then((response: any) => {
             let data = response.data.data;
@@ -173,10 +165,12 @@ function Setting() {
         setErrors(validationErrors);
       });
   };
+
   useEffect(() => {
     setLoading(true);
     getGeneralSettings();
   }, []);
+
   return (
     <Card>
       <CardContent>
@@ -190,7 +184,6 @@ function Setting() {
           </div>
         ) : (
           <div className={"frt-flex frt-flex-col frt-gap-8 frt-p-6"}>
-
             <SettingsRowWrapper>
               <SettingsColWrapper>
                 <Label>Send Email Replies To</Label>
@@ -214,48 +207,47 @@ function Setting() {
             </SettingsRowWrapper>
 
             <SettingsRowWrapper>
-                
+              <SettingsColWrapper>
+                <Label>Enable Email Footer</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Display text in the footer of review emails
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Switch
+                  id="enable_email_footer"
+                  checked={settingsState.enable_email_footer}
+                  onCheckedChange={(value: boolean) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.enable_email_footer = value;
+                    });
+                  }}
+                />
+                {showValidationError(errors, "enable_email_footer")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+
+            {settingsState.enable_email_footer ? (
+              <SettingsRowWrapper>
                 <SettingsColWrapper>
-                  <Label>Enable Email Footer</Label>
+                  <Label>Footer Text</Label>
                   <Label className={"frt-text-xs frt-text-grayprimary"}>
-                    Display text in the footer of review emails
+                    Your Footer Text
                   </Label>
                 </SettingsColWrapper>
                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                  <Switch
-                    id="enable_email_footer"
-                    checked={settingsState.enable_email_footer}
-                    onCheckedChange={(value: boolean) => {
+                  <Textarea
+                    onChange={(e: any) => {
                       updateSettingFields((draftState: any) => {
-                        draftState.enable_email_footer = value;
+                        draftState.footer_text = e.target.value;
                       });
                     }}
-                  />
-                  {showValidationError(errors, "enable_email_footer")}
+                    value={settingsState.footer_text}
+                  ></Textarea>
+                  {showValidationError(errors, "footer_text")}
                 </SettingsColWrapper>
-            </SettingsRowWrapper>
-
-              {settingsState.enable_email_footer ? (
-                <SettingsRowWrapper>
-                  <SettingsColWrapper>
-                    <Label>Footer Text</Label>
-                    <Label className={"frt-text-xs frt-text-grayprimary"}>
-                      Your Footer Text
-                    </Label>
-                  </SettingsColWrapper>
-                  <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                    <Textarea
-                      onChange={(e: any) => {
-                        updateSettingFields((draftState: any) => {
-                          draftState.footer_text = e.target.value;
-                        });
-                      }}
-                      value={settingsState.footer_text}
-                    ></Textarea>
-                    {showValidationError(errors, "footer_text")}
-                  </SettingsColWrapper>
-                </SettingsRowWrapper>
-              ) : null}
+              </SettingsRowWrapper>
+            ) : null}
             <SettingsRowWrapper>
               <SettingsColWrapper>
                 <Label>Enable Review Notification</Label>
@@ -302,21 +294,29 @@ function Setting() {
             <SettingsRowWrapper>
               <SettingsColWrapper>
                 <Label>Email Font</Label>
-                <Label className={"frt-text-xs frt-text-grayprimary"}>Select Email fonts for emails</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select Email fonts for emails
+                </Label>
               </SettingsColWrapper>
               <SettingsColWrapper>
                 <AsyncSelect
                   cacheOptions
                   loadOptions={loadOptions}
-                  onChange={(selectedOption) => updateSettingFields((draft: any) => {
-                    draft.email_font_family = selectedOption ? selectedOption.value : "";
-                    draft.email_font_variant_value = selectedOption ? selectedOption.variant_value : "";
-                  })}
+                  onChange={(selectedOption) =>
+                    updateSettingFields((draft: any) => {
+                      draft.email_font_family = selectedOption
+                        ? selectedOption.value
+                        : "";
+                      draft.email_font_variant_value = selectedOption
+                        ? selectedOption.variant_value
+                        : "";
+                    })
+                  }
                   placeholder="Select Email fonts"
-                  getOptionLabel={(option) => option.label} 
-                  getOptionValue={(option) => option.value} 
+                  getOptionLabel={(option) => option.label}
+                  getOptionValue={(option) => option.value}
                 />
-                {showValidationError(errors,"email_font_family")}
+                {showValidationError(errors, "email_font_family")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>

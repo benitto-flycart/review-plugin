@@ -14,4 +14,3 @@ abstract class Resource
         return Response::success(array_merge($response, $additional));
     }
 }
-
