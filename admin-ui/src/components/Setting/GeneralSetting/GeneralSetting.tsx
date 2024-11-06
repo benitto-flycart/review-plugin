@@ -86,9 +86,6 @@ const GeneralSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
-        console.log("logging the settins");
-        console.log("settings",settings);
-        console.log("data",data);
         setSettingsState(settings);
         setOriginalSettings({...settings});
         toastrSuccess("Saved Successfully");
@@ -118,7 +115,6 @@ const GeneralSetting = () => {
         return changes;
       }, {}
     );
-    console.log("modified state: ",modifiedFields);
 
     schema
       .validate(settingsState, { abortEarly: false })
