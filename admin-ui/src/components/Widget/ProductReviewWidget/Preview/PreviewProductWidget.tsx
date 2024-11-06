@@ -77,9 +77,11 @@ const PreviewProductWidget = ({view = 'desktop', current_widget = ''}: any) => {
     return (
         <div style={{...methods.getProductReviewWidgetColors()}}>
             <div
-                className={`${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`}>
-                <HeaderLayoutPreview/>
-                <WidgetLayoutPreview/>
+                className={`${widget.preferences.toggle_loading_screen ? "r_pw_main_toggle_loading_container " : " "}${current_widget == 'floating_product' ? '' : 'wd_preview_content review-preview-wrap'} ${view == 'mobile' ? 'product-widget-preview-mobile' : 'product-widget-preview-desktop'}`}>
+                { widget.preferences.toggle_loading_screen ? <div className={"r_pw_loading_text"}>Loading...</div> : <>
+                    <HeaderLayoutPreview/>
+                    <WidgetLayoutPreview/>
+                </>}
             </div>
         </div>
     )

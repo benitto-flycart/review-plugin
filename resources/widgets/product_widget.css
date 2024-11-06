@@ -7,6 +7,11 @@
   padding: 0.5rem;
 }
 
+.r_pw_main_toggle_loading_container,.r_pw_main_toggle_empty_review_container{
+  position: relative;
+  padding: 1.75rem;
+}
+
 .r_pw_header_rating_container {
   color: var(--r-prw-header-text-icon-color);
 }
@@ -357,6 +362,16 @@
   cursor: pointer;
 }
 
+.r_pw_write_a_review_btn{
+  width: 120px;
+}
+
+.r_pw_ch_actions_sorting_container_btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+}
 .r_pw_header_button:hover {
   background-color: var(--r-prw-btn-bg-hover-color);
 }
@@ -407,7 +422,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
-  margin: 0 auto;
+  margin: 0 auto 0 1rem;
   transition: all 1s ease-in;
 }
 
@@ -418,24 +433,6 @@
   width: 23%;
 }
 
-@media screen and (max-width: 800px) {
-  .r_pw_r_g_container {
-    width: 30%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .r_pw_r_g_container {
-    width: 48%;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .r_pw_r_g_container {
-    width: 100%;
-  }
-}
-
 .r_pw_r_g_container--review-details {
   display: flex;
   flex-direction: column;
@@ -443,7 +440,7 @@
 
 .r_pw_r_g_container--review-details
   > *:not(.r_pw_r_g_container--review-details--image) {
-  padding: 0 0.75rem;
+  padding: 1rem;
 }
 
 .r_pw_r_g_container--review-details--title {
@@ -683,7 +680,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
-  margin: 0 auto;
+  margin: 0 auto 0 3rem;
   transition: all 1s ease-in;
 }
 
@@ -692,7 +689,12 @@
   margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 700px) {
+.r_pw_loading_text,.r_pw_empty_review_text{
+  color: var(--r-prw-header-text-icon-color);
+  text-align: center;
+}
+
+@media screen and (max-width: 480px) {
   .r_pw_r_m_container {
     width: 98%;
   }
@@ -831,4 +833,41 @@
 
 .r_pw_ratings-row-progress-bar-details {
   flex-direction: column-reverse;
+}
+
+
+@media screen and (max-width: 800px) {
+  .r_pw_r_g_container {
+    width: 30%;
+  }
+  .r_pw_r_m_all_reviews_container{
+    margin: 0 auto 0 1.5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .r_pw_r_g_container {
+    width: 48%;
+  }
+  .r_pw_g_all_reviews_container{
+    margin: 0 auto;
+  }
+  .r_pw_r_m_all_reviews_container{
+    margin: 0 auto 0 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .r_pw_eh_container{
+    flex-direction: column;
+  }
+  .r_pw_r_m_all_reviews_container{
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .r_pw_r_g_container {
+    width: 100%;
+  }
 }

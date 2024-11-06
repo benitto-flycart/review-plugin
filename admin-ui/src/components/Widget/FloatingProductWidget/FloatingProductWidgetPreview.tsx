@@ -42,7 +42,7 @@ const FloatingProductWidgetPreview = () => {
                     <Cross1Icon/>
                 </div>
                 <div className={"r_fpw-text_content_wrapper"}>
-                    <span>
+                    <span className={"r_fpw-text_content_text"}>
                         {widget.text_content}
                     </span>
                 </div>
