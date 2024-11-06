@@ -22,23 +22,22 @@ import { Label } from "../../ui/label";
 import { produce } from "immer";
 import { showValidationError } from "../../../helpers/html";
 import AsyncSelect from 'react-select/async';
-import fontData from "../assets/fonts.json";
+import fontData from "../../../assets/fonts.json";
 
 const GeneralSetting = () => {
   const [loading, setLoading] = useState(true);
   const [saveChangesLoading, setSaveChangesLoading] = useState(false);
+  
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [settingsState, setSettingsState] = useState<any>({
     auto_publish_new_reviews: true,
     reviewers_name_format: "first_name",
     order_status: "",
-    email_font_family: "",
-    email_font_variant_value:"",
-    review_font_family: "",
-    review_font_variant_value:"",
+    review_font_family: "Advent Pro",
+    review_font_variant_value:"100",
   });
-
+  const [originalSettings, setOriginalSettings] = useState<any>({});
   const fetchFontOptions = (inputValue: string) => {
     return fontData.fonts
       .filter(font => font.family.toLowerCase().includes(inputValue.toLowerCase()))
@@ -50,10 +49,10 @@ const GeneralSetting = () => {
   };
 
   const loadOptions = (inputValue: string, callback: (options: any[]) => void) => {
-    setTimeout(() => {
+    setTimeout(()=>{
       const options = fetchFontOptions(inputValue);
       callback(options);
-    }, 1000); 
+    },1000);
   };
 
   useEffect(() => {
@@ -69,13 +68,12 @@ const GeneralSetting = () => {
     reviewers_name_format: yup
       .string()
       .required("Reviewers Name format is required"),
-    email_font: yup
-      .string()
-      .required("Email font is required"),
-    review_font: yup
+    review_font_family: yup
       .string()
       .required("Review font is required"),
-    order_status: yup.string().required("Order Status is required"),
+    order_status: yup
+      .string()
+      .required("Order Status is required"),
   });
 
   const getGeneralSettings = () => {
@@ -89,10 +87,10 @@ const GeneralSetting = () => {
         let data = response.data.data;
         let settings = data.settings;
         console.log("logging the settins");
-        console.log(settings);
-        console.log(data);
+        console.log("settings",settings);
+        console.log("data",data);
         setSettingsState(settings);
-        // setOriginalSettings(data);
+        setOriginalSettings({...settings});
         toastrSuccess("Saved Successfully");
       })
       .catch((error: any) => {
@@ -112,16 +110,15 @@ const GeneralSetting = () => {
 
   const saveGeneralSettings = () => {
     setSaveChangesLoading(true);
-    // const keysToTarget = ["auto_publish_new_reviews", "reviewers_name_format", "order_status"];
-    // const modifiedFields = keysToTarget.reduce(
-    //   (changes: { [key: string]: any }, key) => {
-    //     if (settingsState[key] !== originalSettings[key]) {
-    //       changes[key] = settingsState[key];
-    //     }
-    //     return changes;
-    //   }, {}
-    // );
-    console.log("setting state: ",settingsState);
+    const keysToTarget = ["auto_publish_new_reviews", "reviewers_name_format", "order_status","review_font_family","review_font_variant_value"];
+
+    const modifiedFields = keysToTarget.reduce(
+      (changes: { [key: string]: any }, key) => {
+        changes[key] = settingsState[key];
+        return changes;
+      }, {}
+    );
+    console.log("modified state: ",modifiedFields);
 
     schema
       .validate(settingsState, { abortEarly: false })
@@ -133,7 +130,7 @@ const GeneralSetting = () => {
             _wp_nonce_key: "flycart_review_nonce",
             settings_type: 'email',
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
-            ...settingsState,
+            ...modifiedFields,
           })
           .then((response: any) => {
             let data = response.data.data;
@@ -233,40 +230,22 @@ const GeneralSetting = () => {
             </SettingsRowWrapper>
             <SettingsRowWrapper>
               <SettingsColWrapper>
-                <Label>Email Font</Label>
-                <Label className={"frt-text-xs frt-text-grayprimary"}>Select Email fonts for emails</Label>
-              </SettingsColWrapper>
-              <SettingsColWrapper>
-              <AsyncSelect
-                  cacheOptions
-                  loadOptions={loadOptions}
-                  onChange={(selectedOption) => updateSettingFields((draft: any) => {
-                    draft.email_font = selectedOption ? selectedOption.value : "";
-                    draft.email_font_variant_value = selectedOption ? selectedOption.variant_value : "";
-                  })}
-                  placeholder="Select Email fonts"
-                  getOptionLabel={(option) => option.label} 
-                  getOptionValue={(option) => option.value} 
-                />
-              </SettingsColWrapper>
-            </SettingsRowWrapper>
-            <SettingsRowWrapper>
-              <SettingsColWrapper>
                 <Label>Review Font</Label>
                 <Label className={"frt-text-xs frt-text-grayprimary"}>Select Review fonts for emails</Label>
               </SettingsColWrapper>
               <SettingsColWrapper>
-              <AsyncSelect
+                <AsyncSelect
                   cacheOptions
                   loadOptions={loadOptions}
                   onChange={(selectedOption) => updateSettingFields((draft: any) => {
-                    draft.review_font = selectedOption ? selectedOption.value : "";
+                    draft.review_font_family = selectedOption ? selectedOption.value : "";
                     draft.review_font_variant_value = selectedOption ? selectedOption.variant_value : "";
                   })}
                   placeholder="Select Review fonts"
                   getOptionLabel={(option) => option.label} 
                   getOptionValue={(option) => option.value} 
                 />
+                {showValidationError(errors,"review_font_family")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>
