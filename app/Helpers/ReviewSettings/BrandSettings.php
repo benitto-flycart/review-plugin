@@ -99,6 +99,10 @@ class BrandSettings extends ReviewSettings
 
     public function getEmailBanner()
     {
+        if (defined('F_Review_PLUGIN_IN_DEV_MODE') && F_Review_PLUGIN_IN_DEV_MODE)
+            return 'https://unsplash.it/90/240';
+        // return F_Review_PLUGIN_URL . 'resources/images/banner-sample.png';
+
         return $this->brandSettings['banner_src'];
     }
 
@@ -109,6 +113,10 @@ class BrandSettings extends ReviewSettings
 
     public function getLogoSrc()
     {
+        if (defined('F_Review_PLUGIN_IN_DEV_MODE') && F_Review_PLUGIN_IN_DEV_MODE)
+            return 'https://unsplash.it/150/150';
+        // return F_Review_PLUGIN_URL . 'resources/images/logo-sample.png';
+
         return $this->brandSettings['logo_url'];
     }
 

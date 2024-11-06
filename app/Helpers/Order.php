@@ -24,4 +24,10 @@ class Order
         }
         return $product_ids;
     }
+    public function getProductImageForEmail($product)
+    {
+        $product_image_id = $product->get_image_id();
+        $image_data = wp_get_attachment_image_src($product_image_id, 'woocommerce_thumbnail');
+        $image_url = $image_data[0] ?? '';
+    }
 }
