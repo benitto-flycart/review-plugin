@@ -88,7 +88,7 @@ const GeneralSetting = () => {
         let settings = data.settings;
         setSettingsState(settings);
         setOriginalSettings({...settings});
-        toastrSuccess("Saved Successfully");
+        toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
         toastrError("Server Error Occurred");
@@ -124,7 +124,7 @@ const GeneralSetting = () => {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
-            settings_type: 'email',
+            settings_type: "email",
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
             ...modifiedFields,
           })

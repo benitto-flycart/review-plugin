@@ -70,29 +70,29 @@ const ReviewDetailWidgetPreview = () => {
         <i className="review review-cross-icon"></i>
       </div>
       <div className={"r_rdw-main_content"}>
-        <div className="r_rdw-image-container">
+        { review.images.length > 0 ? <div className="r_rdw-image-container">
           <div className={"r_rdw_all_images"}>
             <div
-              className={"r_rdw_all_images_wrapper"}
-              style={{ transform: `translateX(${translateX + "%"})` }}
+                className={"r_rdw_all_images_wrapper"}
+                style={{transform: `translateX(${translateX + "%"})`}}
             >
               {review.images.map((item: any, iteration: number) => {
                 return (
-                  <div
-                    key={iteration}
-                    className={`r_rdw_active_image mySlides ${iteration + 1 == index ? "active" : ""}`}
-                  >
-                    <img src={item.src} alt={""} />
-                  </div>
+                    <div
+                        key={iteration}
+                        className={`r_rdw_active_image mySlides ${iteration + 1 == index ? "active" : ""}`}
+                    >
+                      <img src={item.src} alt={""}/>
+                    </div>
                 );
               })}
             </div>
 
             <div className={"r_rdw-slide-actions"}>
               <button
-                className={`prev ${index == 1 ? "disabled" : ""}`}
-                onClick={decrease}
-                disabled={index == 1}
+                  className={`prev ${index == 1 ? "disabled" : ""}`}
+                  onClick={decrease}
+                  disabled={index == 1}
               >
                 <i className="review review-caret-left"> </i>
               </button>
@@ -108,24 +108,24 @@ const ReviewDetailWidgetPreview = () => {
           <div className="row">
             {review.images.map((item: any, iteration: number) => {
               return (
-                <div
-                  key={iteration}
-                  className={`column ${iteration + 1 == index ? "active" : ""}`}
-                  onClick={() => {
-                    setSlide(iteration + 1);
-                  }}
-                >
-                  <img
-                    className="r_rdw-image-options"
-                    src={item.src}
-                    style={{ width: "100%" }}
-                    alt="The Woods"
-                  />
-                </div>
+                  <div
+                      key={iteration}
+                      className={`column ${iteration + 1 == index ? "active" : ""}`}
+                      onClick={() => {
+                        setSlide(iteration + 1);
+                      }}
+                  >
+                    <img
+                        className="r_rdw-image-options"
+                        src={item.src}
+                        style={{width: "100%"}}
+                        alt="The Woods"
+                    />
+                  </div>
               );
             })}
           </div>
-        </div>
+        </div> : null }
         <div className="r_rdw-detail-wrapper">
           <div className="r_rdw-review-details">
             <div className="r_rdw-spread-container">

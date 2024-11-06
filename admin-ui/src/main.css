@@ -2,141 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --radius: 0.5rem;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-    }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
 
-    .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
 
 @layer base {
-    * {
-        @apply frt-border-border;
-    }
+  * {
+    @apply frt-border-border;
+  }
 
-    body {
-        @apply frt-bg-background frt-text-foreground;
-    }
+  body {
+    @apply frt-bg-background frt-text-foreground;
+  }
 }
 
 .frt-__input {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 .css-t3ipsp-control {
-    box-shadow: 0 0 1px hsl(var(--primary)) !important;
-    border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 1px hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
 .css-t3ipsp-control:hover {
-    box-shadow: 0 0 1px hsl(var(--primary)) !important;
-    border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 1px hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
 .css-13cymwt-control {
-    border-color: hsl(var(--primary)) !important;
-
+  border-color: hsl(var(--primary)) !important;
 }
 
 .css-13cymwt-control:focus-visible {
-    outline: 2px transparent solid;
-    outline-offset: 2px;
+  outline: 2px transparent solid;
+  outline-offset: 2px;
 }
 
 .relay-wp-app-header .css-1nmdiq5-menu {
-    z-index: 9999;
+  z-index: 9999;
 }
 
 .css-1nmdiq5-menu {
-    margin: 0 !important;
-    background-color: white !important;
-    visibility: visible !important;
+  margin: 0 !important;
+  background-color: white !important;
+  visibility: visible !important;
 }
 
 .tabs-trigger[data-state="active"] {
-    color: hsl(var(--secondary)) !important;
-    background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--secondary)) !important;
+  background-color: hsl(var(--primary)) !important;
 }
 
 .tabs-trigger-underline[data-state="active"] {
-    color: black !important;
-    border-bottom: 2px hsl(var(--primary)) solid;
-    border-radius: 0%;
+  color: black !important;
+  border-bottom: 2px hsl(var(--primary)) solid;
+  border-radius: 0%;
 }
 
 .css-qbdosj-Input input:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .Toastify__toast-container--top-right {
-    top: 2rem;
-    right: 1em;
+  top: 2rem;
+  right: 1em;
 }
 
 div[data-radix-popper-content-wrapper] {
-    z-index: 500000 !important;
+  z-index: 500000 !important;
 }
 
 #flycart-reviews-admin-main {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    max-height: 100vh;
-    scrollbar-width: none;
-
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  max-height: 100vh;
+  scrollbar-width: none;
 }
 
-#flycart-reviews-admin-main [contenteditable=true]:focus,
+#flycart-reviews-admin-main [contenteditable="true"]:focus,
 #flycart-reviews-admin-main [href]:focus,
 #flycart-reviews-admin-main [tabindex]:not([tabindex="-1"]):focus,
 #flycart-reviews-admin-main button:focus,
@@ -144,12 +141,15 @@ div[data-radix-popper-content-wrapper] {
 #flycart-reviews-admin-main input:focus,
 #flycart-reviews-admin-main select:focus,
 #flycart-reviews-admin-main textarea:focus {
-    outline: none !important;
-    box-shadow: none;
+  outline: none !important;
+  box-shadow: none;
 }
-
 
 #flycart-reviews-admin-main * {
   font-family: inherit;
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#flycart-reviews-admin-main textarea {
+  resize: none;
 }

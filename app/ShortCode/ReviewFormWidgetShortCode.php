@@ -5,6 +5,8 @@ namespace Flycart\Review\App\ShortCode;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
+use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
+use Flycart\Review\Core\Models\Widget;
 
 class ReviewFormWidgetShortCode
 {
@@ -55,4 +57,3 @@ class ReviewFormWidgetShortCode
         ];
     }
 }
-

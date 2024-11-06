@@ -6,8 +6,6 @@ use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class SnippetWidget extends Widget implements WidgetInterface
 {
-
-
     public function getSettings($settings)
     {
         return [
@@ -18,9 +16,9 @@ class SnippetWidget extends Widget implements WidgetInterface
             'show_review_image' => $settings['show_review_image'] ?? true,
             'hide_arrows_on_mobile' => $settings['hide_arrows_on_mobile'] ?? true,
             'font_size' => $settings['font_size'] ?? 16,
-            'name_font_size' => $settings['name_font_size'] ?? 16,
-            'icon_font_size' => $settings['icon_font_size'] ?? 16,
-            'no_of_reviews_to_display' => $settings['no_of_reviews_to_display'] ?? 10,
+            'no_of_reviews_to_display' => $settings['no_of_reviews_to_display'] ?? "12",
+            'minimum_rating' => $settings['minimum_rating'] ?? "5",
+            "position_to_show" => $settings['position_to_show'] ?? 'woocommerce_single_prodct_summary',
             'style' => [
                 'review_card_shadow' => $settings['style']['review_card_shadow'] ?? 'dark',
                 'review_card_openers' => $settings['style']['review_card_openers'] ?? 'extra_rounded',
@@ -50,9 +48,8 @@ class SnippetWidget extends Widget implements WidgetInterface
             'show_rating' => $this->request->get('show_rating'),
             'show_review_image' => $this->request->get('show_review_image'),
             'hide_arrows_on_mobile' => $this->request->get('hide_arrows_on_mobile'),
-            'font_size' => $this->request->get('font_size'),
-            'name_font_size' => $this->request->get('name_font_size'),
-            'icon_font_size' => $this->request->get('icon_font_size'),
+            'minimum_rating' => $this->request->get('minimum_rating'),
+            "position_to_show" => $this->request->get('position_to_show'),
             'no_of_reviews_to_display' => $this->request->get('no_of_reviews_to_display'),
             'style' => [
                 'review_card_shadow' => $this->request->get('style.review_card_shadow'),
@@ -67,5 +64,90 @@ class SnippetWidget extends Widget implements WidgetInterface
                 'shadow_color' => $this->request->get('colors.shadow_color'),
             ]
         ];
+    }
+
+
+    public function getSnippetWidgetStyles()
+    {
+        $vars =  [
+            "--r-srw-review-bg-color" =>  $this->settings['colors']['bg_color'],
+            "--r-srw-review-border-color" => $this->settings['colors']['border_color'],
+            "--r-srw-review-box-shadow" => $this->getReviewShadows($this->settings['style']['review_card_shadow']),
+            "--r-srw-review-border-radius" => $this->getBorderRadius($this->settings['style']['review_card_openers']),
+            "--r-srw-review-text-color" => $this->settings['colors']['text_color'],
+            "--r-srw-reviewer-name-color" => $this->settings['colors']['name_color'],
+            "--r-srw-rating-icon-color" => $this->settings['colors']['rating_icon_color'],
+            "--r-srw-btn-text-color" => $this->settings['colors']['text_color'],
+            "--r-srw-btn-bg-color" => $this->settings['colors']['bg_color'],
+            "--r-srw-btn-border-radius" => "50%",
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
+
+    public static function getBorderRadius($index)
+    {
+        $data =  [
+            'sharp' => [
+                'borderRadius' => '2px',
+            ],
+            'slightly_rounded' => [
+                'borderRadius' => '4px',
+            ],
+            'rounded' => [
+                'borderRadius' => '8px',
+            ],
+            'extra_rounded' => [
+                'borderRadius' => '16px',
+            ],
+            'none' => [
+                'borderRadius' => '0px',
+            ],
+        ];
+
+        return $data[$index]['borderRadius'] ?? '0px';
+    }
+
+    public function getReviewShadows($index)
+    {
+        $data = [
+            'classic' => [
+                'boxShadow' => '0 0 8px {{color}}',
+            ],
+            'dark' => [
+                'boxShadow' => '0 6px 14px {{color}}',
+            ],
+            'light' => [
+                'boxShadow' => '0 6px 14px -4px {{color}}',
+            ],
+            'none' => [
+                'boxShadow' => '0 0 0 0 {{color}}',
+            ],
+        ];
+
+        $boxShadow =  $data[$index]['boxShadow'] ?? '0 0 0px {{color}}';
+
+        return str_replace("{{color}}", $this->settings['colors']['shadow_color'], $boxShadow);
+    }
+
+    public function getNoOfReviewsCount()
+    {
+        return $this->settings['no_of_reviews_to_display'];
+    }
+
+    public function getMinimumRatingToDisplay()
+    {
+        return $this->settings['minimum_rating'];
+    }
+
+    public function getPositionToShow()
+    {
+        return $this->settings['position_to_show'];
     }
 }

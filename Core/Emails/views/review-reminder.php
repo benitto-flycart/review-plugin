@@ -105,7 +105,7 @@
 </head>
 
 <body style="word-spacing:normal;">
-    <div class="<?php echo esc_attr($fontStyles['class']); ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['email_text_color']); ?>;  <?php echo esc_attr($fontStyles['content']); ?>">
+    <div class="<?php echo isset($fontStyles['class']) ? esc_attr($fontStyles['class']) : ''; ?>" style="padding-bottom:10px;background-color:<?php echo esc_attr($data['styles']['email_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['email_text_color']); ?>;  <?php echo isset($fontStyles['content']) ? esc_attr($fontStyles['content']) : ''; ?>">
         <!--[if mso | IE]>
     <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600">
         <tr>
@@ -153,16 +153,16 @@
                                         style="vertical-align:top;" width="100%">
                                         <tbody>
                                             <tr>
-                                                <td align="center" style="font-size:0px;padding:10px 100px;word-break:break-word;">
+                                                <td align="center" style="font-size:0px;padding:20px;word-break:break-word;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                         style="border-collapse:collapse;border-spacing:0px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="width:50px;">
+                                                                <td style="width:100%;">
                                                                     <img height="auto"
                                                                         src="{logo_src}"
-                                                                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
-                                                                        width="50" alt="">
+                                                                        style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
+                                                                        alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -212,16 +212,16 @@
                                         <tbody>
                                             <tr>
                                                 <td align="center"
-                                                    style="font-size:0px;padding:10px 100px;word-break:break-word;">
+                                                    style="font-size:0px;padding:10px;word-break:break-word;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                         style="border-collapse:collapse;border-spacing:0px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="width:50px;">
+                                                                <td style="width:100%;">
                                                                     <img height="auto"
-                                                                        src="{banner_src}"
-                                                                        alt=""
-                                                                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;">
+                                                                        src="{logo_src}"
+                                                                        style="border:0;display:block;outline:none;text-decoration:none;width:100%;font-size:13px;"
+                                                                        alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -259,11 +259,11 @@
                         <tr>
                             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
                                 <!--[if mso | IE]>
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                    <!--[if mso | IE]>
-                    <td class="" style="vertical-align:top;width:600px;">
-                    <![endif]-->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+        <!--[if mso | IE]>
+        <td class="" style="vertical-align:top;width:600px;">
+        <![endif]-->
                                 <div class="mj-column-per-100 mj-outlook-group-fix"
                                     style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -300,12 +300,13 @@
                 $product_id = $line_item['product_id'];
                 $product = wc_get_product($product_id);
                 $reviewLink = \Flycart\Review\App\Helpers\PluginHelper::getReviewLink($order, $product_id);
+                $image_url = \Flycart\Review\App\Helpers\Product::getProductImageForEmail($product);
                 ?>
                 <!--[if mso | IE]>
-    <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;"width="600">
-    <tr bgcolor="">
-    <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-   <![endif]-->
+        <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;"width="600">
+            <tr bgcolor="">
+                <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+        <![endif]-->
                 <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']); ?>;">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                         style="width:100%;">
@@ -335,7 +336,7 @@
                                                                     <td style="width:108px;">
                                                                         <img height="auto"
                                                                             alt="Image"
-                                                                            src="<?php echo $product->get_image(); ?>"
+                                                                            src="<?php echo $image_url ?>"
                                                                             style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
                                                                             width="128">
                                                                     </td>
@@ -377,7 +378,7 @@
                                                                     style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;"
                                                                     valign="middle">
                                                                     <a href="<?php echo $reviewLink ?>"
-                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color: <?php echo esc_attr($data['styles']['button_text_color']); ?>; border:2px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;min-width:max-content;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border-color:<?php echo esc_attr($data['styles']['button_border_color']); ?>;"
+                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']) ?>;min-width:max-content;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;border:3px solid <?php echo esc_attr($data['styles']['button_border_color']) ?>"
                                                                         target="_blank">
                                                                         {button_text}
                                                                     </a>

@@ -6,8 +6,6 @@ use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class ReviewFormWidget extends Widget implements WidgetInterface
 {
-
-
     public function getSettings($settings)
     {
         $general = $settings['general'] ?? [];
@@ -50,6 +48,8 @@ class ReviewFormWidget extends Widget implements WidgetInterface
             'thank_you' => [
                 'title' => $thank_you['title'] ?? 'Thank you',
                 'description' => $thank_you['description_color'] ?? 'Your Review was submitted',
+                'discount_info_title' => $thank_you['discount_info_title'] ?? 'Use the following discount code for {discount_value} off your next purchase',
+                'discount_info_description' => $thank_you['discount_info_description'] ?? "we'll also send it by email discount expires {date_expiry}",
             ],
 
         ];
@@ -71,11 +71,28 @@ class ReviewFormWidget extends Widget implements WidgetInterface
 
         return [
             'general' => $this->request->get('general'),
-            'rating' => $this->request->get('rating'),
-            'photos' => $this->request->get('photos'),
-            'review_content' => $this->request->get('review_content'),
-            'reviewer' => $this->request->get('reviewer'),
-            'thank_you' => $this->request->get('thank_you'),
+            'rating' => [
+                'title' => $this->request->get('rating.title', '', 'html')
+            ],
+            'photos' => [
+                'button_text' => $this->request->get('photos.button_text'),
+                'description' => $this->request->get('photos.description', '', 'html'),
+                'discount_text' => $this->request->get('photos.discount_text', '', 'html'),
+                'title' => $this->request->get('photos.title'),
+            ],
+            'review_content' => [
+                'title' => $this->request->get('review_content.title'),
+                'placeholder' => $this->request->get('review_content.placeholder'),
+            ],
+            'reviewer' => [
+                'title' => $this->request->get('reviewer.title'),
+            ],
+            'thank_you' => [
+                'title' => $this->request->get('thank_you.title'),
+                'description' => $this->request->get('thank_you.description', '', 'html'),
+                'discount_info_title' => $this->request->get('thank_you.discount_info_title'),
+                'discount_info_description' => $this->request->get('thank_you.discount_info_description', '', 'html'),
+            ],
         ];
     }
 
@@ -104,4 +121,73 @@ class ReviewFormWidget extends Widget implements WidgetInterface
 
         return $style;
     }
+
+    public function getRatingTitle($product)
+    {
+        $product_name = $product->get_name();
+
+        $content = "<span class='r_rfw_rating-title__product_name'>" . $product_name .  " </span>";
+
+        $title =  $this->settings['rating']['title'];
+
+        return nl2br(preg_replace('/\{product_name\??\}/', $content, $title));
+    }
+
+    public function getPhotoTitle()
+    {
+        return $this->settings['photos']['title'];
+    }
+
+    public function getPhotoDescription()
+    {
+        return nl2br($this->settings['photos']['description']);
+    }
+
+    public function getPhotoButtonText()
+    {
+        return $this->settings['photos']['button_text'];
+    }
+
+    public function getPhotoDiscountText($discountSettings)
+    {
+        $discount_value = $discountSettings->photoDiscountString();
+
+        return nl2br(str_replace("{discont_value}", $discount_value, $this->settings['photos']['discount_text']));
+    }
+
+    public function getReviewContentPlaceholder()
+    {
+        return $this->settings['review_content']['placeholder'];
+    }
+
+    public function getReviewContentTitle()
+    {
+        return $this->settings['review_content']['title'];
+    }
+
+    public function getReviewerInfoTitle()
+    {
+        return $this->settings['reviewer']['title'];
+    }
+
+    public function getThankYouPageTitle()
+    {
+        return $this->settings['thank_you']['title'];
+    }
+
+    public function getThankYouPageDescription()
+    {
+        return $this->settings['thank_you']['description'];
+    }
+
+    public function getDiscountTitle()
+    {
+        return $this->settings['thank_you']['discount_info_title'];
+    }
+
+    public function getDiscountDescription()
+    {
+        return $this->settings['thank_you']['discount_info_description'];
+    }
 }
+

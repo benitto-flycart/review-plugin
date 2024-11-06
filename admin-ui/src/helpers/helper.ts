@@ -13,3 +13,6 @@ export const echo = (
 export const getErrorMessage = (error: any) => {
   return error?.response?.data?.data?.message ?? "Server Error Occurred";
 };
+export const nl2br = (str: string) => {
+  return str.replace(/(?:\r\n|\r|\n)/g, "<br>");
+};

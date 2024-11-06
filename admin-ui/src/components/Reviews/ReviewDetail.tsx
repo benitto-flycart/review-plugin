@@ -243,14 +243,14 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
           ) : null}
         </div>
         {review.replies.length
-          ? review.replies.map((reply: any) => {
+          ? review.replies.map((reply: any, index: number) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
                     <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
                     <span>{reply.content}</span>
                   </div>
-                </>
+                </React.Fragment>
               );
             })
           : null}
@@ -372,4 +372,3 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
     </div>
   );
 };
-

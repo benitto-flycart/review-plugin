@@ -31,7 +31,7 @@
                         <i class="review review-cross-icon"></i>
                     </div>
                     <div class="r_fpw-text_content_wrapper">
-                        <span>Reviews</span>
+                        <span class="r_fpw-text_content_text">Reviews</span>
                     </div>
                 </div>
             </div>

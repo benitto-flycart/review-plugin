@@ -46,4 +46,24 @@ class ReviewDetailWidget extends Widget implements WidgetInterface
             ],
         ];
     }
+
+    public function getReviewDetailWidgetStylesVars()
+    {
+        $vars =  [
+            "--r-rdw-dialog-bg-color" => $this->settings['colors']['dialog_bg_color'],
+            "--r-rdw-rating-icon-color" => $this->settings['colors']['rating_icon_color'],
+            "--r-rdw-text-color" => $this->settings['colors']['text_color'],
+            "--r-rdw-btn-text-color" => $this->settings['colors']['button_text_color'],
+            "--r-rdw-btn-bg-color" => $this->settings['colors']['button_bg_color'],
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
 }
+
