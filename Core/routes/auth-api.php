@@ -17,6 +17,7 @@ return [
     'get_all_reviews' => ['callable' => [ReviewApiController::class, 'getAllReviews']],
     'handle_save_reply' => ['callable' => [ReviewApiController::class, 'saveReply']],
     'review_action' => ['callable' => [ReviewApiController::class, 'updateReview']],
+    'photo_action' => ['callable' => [ReviewApiController::class, 'updatePhotoAction']],
 
     'get_email_preview' => ['callable' => [EmailSettingsController::class, 'getEmailPreview']],
     'get_email_status' => ['callable' => [EmailSettingsController::class, 'getEmailStatuses']],

@@ -160,134 +160,133 @@ class ReviewFormController
         }
     }
 
-    public static function saveReview(Request $request)
-    {
-        try {
-            $order_id = $request->get('order_id');
-            $product_id = $request->get('product_id');
-
-            if (!empty($order_id)) {
-                $order = wc_get_order($order_id);
-            } else {
-                $order = null;
-            }
-
-            $product = wc_get_product($product_id);
-
-            $comment = new Comment($product_id, $order_id);
-
-            $isPhotoAlreadyAdded = $comment->isPhotoAlreadyAdded();
-            $isPhotoReviewAddedAtFirstTime =  false;
-
-            $review_added = $comment->isCommentAlreadyAddedForProductOrder();
-
-            $submit_slide = $request->get('submit_slide');
-
-
-            if (!$review_added) {
-                $comment_data = static::getReviewData($product_id, $request, $order);
-                $rating = $request->get('rating');
-                $photos = [];
-
-
-                if (!$isPhotoAlreadyAdded && is_array($request->get('photos'))) {
-                    $photos = $request->get('photos', [], 'array') ?? [];
-                    $isPhotoReviewAddedAtFirstTime = count($photos);
-                }
-
-                $comment_meta_data = [
-                    'verified' => !empty($order) ? 1 : 0,
-                    'rating' => $rating,
-                    '_review_order_id' => $order_id,
-                    '_review_attachments' => Functions::jsonEncode([
-                        'photos' => array_map(function ($attachment) {
-                            return [
-                                'attachment_id' => $attachment['id']
-                            ];
-                        }, $photos)
-                    ])
-                ];
-
-                $comment->updateComment($comment_data, $comment_meta_data);
-            } else {
-                if ($submit_slide == 'photo') {
-
-                    $attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
-
-                    $attachments = Functions::jsonDecode($attachments);
-
-                    $photos = $request->get('photos', [], 'array');
-
-                    if (!$isPhotoAlreadyAdded) {
-                        $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos', [], 'array') ?? []);
-                    }
-
-                    $attachments['photos'] = array_merge($attachments['photos'] ?? [], array_map(function ($attachment) {
-                        return [
-                            'attachment_id' => $attachment['id']
-                        ];
-                    }, $request->get('photos', [], 'array') ?? []));
-
-                    $comment->updateComment([], [
-                        '_review_attachments' => Functions::jsonEncode($attachments),
-                    ]);
-                }
-            }
-
-            $discount_created = false;
-            $discount_content = null;
-
-            if (!$isPhotoReviewAddedAtFirstTime) {
-                Review::sendPhotoRequestEmail($product_id, $order_id);
-            } else if ($isPhotoReviewAddedAtFirstTime) {
-                $review_id = $comment->comment['comment_ID'];
-
-                //This will be used in the below view file
-                $discount_code = Review::createDiscountForPhotoReview($review_id, $order_id, $product_id);
-
-                error_log('printing discount code');
-                error_log($discount_code);
-
-                $discount_created = !empty($discount_code) ? true : false;
-
-                if ($discount_created) {
-                    $widget = flycart_review_app()->get('review_form_widget_object');
-
-                    if (empty($widget)) {
-                        $widgetFactory = new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null);
-                        $widget = $widgetFactory->widget;
-                        flycart_review_app()->set('review_form_widget_object', $widget);
-
-                        $discountSettings = (new DiscountSettings());
-                        $discount_title = $widget->getDiscountTitle();
-
-                        $discount_value = $discountSettings->photoDiscountString();
-                        //used in the view file
-                        $discount_info_title = str_replace("{discount_value}", $discount_value, $discount_title);
-                        $discount_description = $widget->getDiscountDescription();
-
-                        //used in the view file
-                        $discount_info_description = str_replace("{date_expiry}", "22/10/24", $discount_description);
-                    }
-
-                    $path = F_Review_PLUGIN_PATH . 'resources/templates/review-form/discount-content.php';
-
-                    ob_start(); // Start output buffering
-                    include $path;
-                    $discount_content = ob_get_clean();
-                }
-            }
-
-            return Response::success([
-                'discount_created' => $discount_created,
-                'discount_html' => $discount_created ?  $discount_content : null,
-                'message' => 'Comment Stored Successfully',
-            ]);
-        } catch (\Exception | \Error $exception) {
-            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
-            return Response::error(Functions::getServerErrorMessage());
-        }
-    }
+    // public static function saveReview(Request $request)
+    // {
+    //     try {
+    //         $order_id = $request->get('order_id');
+    //         $product_id = $request->get('product_id');
+    //
+    //         if (!empty($order_id)) {
+    //             $order = wc_get_order($order_id);
+    //         } else {
+    //             $order = null;
+    //         }
+    //
+    //         $product = wc_get_product($product_id);
+    //
+    //         $comment = new Comment($product_id, $order_id);
+    //
+    //         $isPhotoAlreadyAdded = $comment->isPhotoAlreadyAdded();
+    //         $isPhotoReviewAddedAtFirstTime =  false;
+    //
+    //         $review_added = $comment->isCommentAlreadyAddedForProductOrder();
+    //
+    //         $submit_slide = $request->get('submit_slide');
+    //
+    //         if (!$review_added) {
+    //             $comment_data = static::getReviewData($product_id, $request, $order);
+    //             $rating = $request->get('rating');
+    //             $photos = [];
+    //
+    //
+    //             if (!$isPhotoAlreadyAdded && is_array($request->get('photos'))) {
+    //                 $photos = $request->get('photos', [], 'array') ?? [];
+    //                 $isPhotoReviewAddedAtFirstTime = count($photos);
+    //             }
+    //
+    //             $comment_meta_data = [
+    //                 'verified' => !empty($order) ? 1 : 0,
+    //                 'rating' => $rating,
+    //                 '_review_order_id' => $order_id,
+    //                 '_review_attachments' => Functions::jsonEncode([
+    //                     'photos' => array_map(function ($attachment) {
+    //                         return [
+    //                             'attachment_id' => $attachment['id']
+    //                         ];
+    //                     }, $photos)
+    //                 ])
+    //             ];
+    //
+    //             $comment->updateComment($comment_data, $comment_meta_data);
+    //         } else {
+    //             if ($submit_slide == 'photo') {
+    //
+    //                 $attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
+    //
+    //                 $attachments = Functions::jsonDecode($attachments);
+    //
+    //                 $photos = $request->get('photos', [], 'array');
+    //
+    //                 if (!$isPhotoAlreadyAdded) {
+    //                     $isPhotoReviewAddedAtFirstTime = (bool) count($request->get('photos', [], 'array') ?? []);
+    //                 }
+    //
+    //                 $attachments['photos'] = array_merge($attachments['photos'] ?? [], array_map(function ($attachment) {
+    //                     return [
+    //                         'attachment_id' => $attachment['id']
+    //                     ];
+    //                 }, $request->get('photos', [], 'array') ?? []));
+    //
+    //                 $comment->updateComment([], [
+    //                     '_review_attachments' => Functions::jsonEncode($attachments),
+    //                 ]);
+    //             }
+    //         }
+    //
+    //         $discount_created = false;
+    //         $discount_content = null;
+    //
+    //         if (!$isPhotoReviewAddedAtFirstTime) {
+    //             Review::sendPhotoRequestEmail($product_id, $order_id);
+    //         } else if ($isPhotoReviewAddedAtFirstTime) {
+    //             $review_id = $comment->comment['comment_ID'];
+    //
+    //             //This will be used in the below view file
+    //             $discount_code = Review::createDiscountForPhotoReview($review_id, $order_id, $product_id);
+    //
+    //             error_log('printing discount code');
+    //             error_log($discount_code);
+    //
+    //             $discount_created = !empty($discount_code) ? true : false;
+    //
+    //             if ($discount_created) {
+    //                 $widget = flycart_review_app()->get('review_form_widget_object');
+    //
+    //                 if (empty($widget)) {
+    //                     $widgetFactory = new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null);
+    //                     $widget = $widgetFactory->widget;
+    //                     flycart_review_app()->set('review_form_widget_object', $widget);
+    //
+    //                     $discountSettings = (new DiscountSettings());
+    //                     $discount_title = $widget->getDiscountTitle();
+    //
+    //                     $discount_value = $discountSettings->photoDiscountString();
+    //                     //used in the view file
+    //                     $discount_info_title = str_replace("{discount_value}", $discount_value, $discount_title);
+    //                     $discount_description = $widget->getDiscountDescription();
+    //
+    //                     //used in the view file
+    //                     $discount_info_description = str_replace("{date_expiry}", "22/10/24", $discount_description);
+    //                 }
+    //
+    //                 $path = F_Review_PLUGIN_PATH . 'resources/templates/review-form/discount-content.php';
+    //
+    //                 ob_start(); // Start output buffering
+    //                 include $path;
+    //                 $discount_content = ob_get_clean();
+    //             }
+    //         }
+    //
+    //         return Response::success([
+    //             'discount_created' => $discount_created,
+    //             'discount_html' => $discount_created ?  $discount_content : null,
+    //             'message' => 'Comment Stored Successfully',
+    //         ]);
+    //     } catch (\Exception | \Error $exception) {
+    //         PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+    //         return Response::error(Functions::getServerErrorMessage());
+    //     }
+    // }
 
     public static function getReviewData($product_id, $request, $order = null)
     {
@@ -318,5 +317,110 @@ class ReviewFormController
             'comment_type' => Review::getCommentType(),
             'user_id' => $user_id,
         ];
+    }
+
+
+    public static function saveReview(Request $request)
+    {
+        try {
+            $order_id = $request->get('order_id');
+            $product_id = $request->get('product_id');
+            $submit_slide = $request->get('submit_slide');
+            $order = !empty($order_id) ? wc_get_order($order_id) : null;
+            $product = wc_get_product($product_id);
+            $comment = new Comment($product_id, $order_id);
+            $review_already_added = $comment->isCommentAlreadyAddedForProductOrder();
+            $is_photo_already_added = $comment->isPhotoAlreadyAdded();
+            $is_photo_review_first_time = false;
+
+            if (!$review_already_added) {
+                static::handleNewReview($comment, $request, $product_id, $order, $is_photo_already_added, $is_photo_review_first_time);
+            } elseif ($submit_slide === 'photo') {
+                static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
+            }
+
+            $discount_info = static::handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment);
+
+            return Response::success([
+                'discount_created' => $discount_info['created'],
+                'discount_html' => $discount_info['content'],
+                'message' => 'Comment Stored Successfully',
+            ]);
+        } catch (\Exception | \Error $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    protected static function handleNewReview($comment, $request, $product_id, $order, &$is_photo_already_added, &$is_photo_review_first_time)
+    {
+        $comment_data = static::getReviewData($product_id, $request, $order);
+        $rating = $request->get('rating');
+        $photos = is_array($request->get('photos')) ? $request->get('photos', [], 'array') : [];
+
+        if (!$is_photo_already_added && !empty($photos)) {
+            $is_photo_review_first_time = count($photos);
+        }
+
+        $comment_meta_data = [
+            'verified' => !empty($order) ? 1 : 0,
+            'rating' => $rating,
+            '_review_order_id' => $order->get_id(),
+            '_review_attachments' => Functions::jsonEncode([
+                'photos' => array_map(fn($attachment) => ['attachment_id' => $attachment['id']], $photos)
+            ])
+        ];
+
+        $comment->updateComment($comment_data, $comment_meta_data);
+    }
+
+    protected static function handlePhotoAttachment($comment, $request, $is_photo_already_added, &$is_photo_review_first_time)
+    {
+        $existing_attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
+        $attachments = Functions::jsonDecode($existing_attachments) ?? [];
+        $photos = $request->get('photos', [], 'array');
+
+        if (!$is_photo_already_added) {
+            $is_photo_review_first_time = !empty($photos);
+        }
+
+        $attachments['photos'] = array_merge($attachments['photos'] ?? [], array_map(fn($attachment) => ['attachment_id' => $attachment['id']], $photos));
+
+        $comment->updateComment([], [
+            '_review_attachments' => Functions::jsonEncode($attachments),
+        ]);
+    }
+
+    protected static function handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment)
+    {
+        if (!$is_photo_review_first_time) {
+            Review::sendPhotoRequestEmail($product_id, $order_id);
+            return ['created' => false, 'content' => null];
+        }
+
+        $review_id = $comment->comment['comment_ID'];
+        $discount_code = Review::createDiscountForPhotoReview($review_id, $order_id, $product_id);
+
+        if (!$discount_code) {
+            return ['created' => false, 'content' => null];
+        }
+
+        $discount_content = static::generateDiscountContent($discount_code);
+        return ['created' => true, 'content' => $discount_content];
+    }
+
+    protected static function generateDiscountContent($discount_code)
+    {
+        $widget = flycart_review_app()->get('review_form_widget_object') ?? (new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null))->widget;
+        flycart_review_app()->set('review_form_widget_object', $widget);
+
+        $discount_settings = new DiscountSettings();
+        $discount_value = $discount_settings->photoDiscountString();
+        $discount_title = str_replace("{discount_value}", $discount_value, $widget->getDiscountTitle());
+        $discount_description = str_replace("{date_expiry}", "22/10/24", $widget->getDiscountDescription());
+
+        ob_start();
+        include F_Review_PLUGIN_PATH . 'resources/templates/review-form/discount-content.php';
+        return ob_get_clean();
     }
 }

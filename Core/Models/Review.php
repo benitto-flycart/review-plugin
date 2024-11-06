@@ -3,6 +3,7 @@
 namespace Flycart\Review\Core\Models;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\Order;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
@@ -178,13 +179,14 @@ class Review extends Model
         return [
             'id' => $comment['comment_ID'],
             'reviewer_name' => $comment['comment_author'],
-            'rating' => static::getMeta($comment['comment_meta'], 'rating'),
-            'is_verified' => static::getMeta($comment['comment_meta'], 'verified'),
+            'rating' => (int)static::getMeta($comment['comment_meta'], 'rating'),
+            'is_verified' => (int)static::getMeta($comment['comment_meta'], 'verified'),
             'date' => Functions::getWcTimeFromGMT($comment['comment_date_gmt']),
             'content' => $comment['comment_content'],
-            'is_approved' => Functions::getBoolValue($comment['comment_approved']),
+            'is_approved' => (int)Functions::getBoolValue($comment['comment_approved']),
             'images' => static::getReviewImages($comment['comment_meta']),
-            'from_order' => static::getMeta($comment['comment_meta'], '_review_order_id'),
+            'from_order' => (int)$order_id = static::getMeta($comment['comment_meta'], '_review_order_id'),
+            'order_url' => $order_id ? Order::getOrderEditURL($order_id) : null,
             'replies' => static::getReviews([
                 'per_page' => 100,
                 'current_page' => 1,
@@ -222,18 +224,16 @@ class Review extends Model
         $attachments = Functions::jsonDecode($attachments);
 
         if (isset($attachments['photos'])) {
-            $ids = array_column(array_filter($attachments['photos'], function ($attachment) {
-                return !isset($attachment['is_hide']) || !$attachment['is_hide'];
-            }), 'attachment_id');
+            $ids = array_column($attachments['photos'], 'attachment_id');
 
             if (empty($ids)) return [];
 
             $args = array(
-                'post_type' => 'attachment', // You can use any post type like 'page', 'attachment', or custom post types
-                'posts_per_page' => 20,     // Retrieve all posts (or set a specific number)
-                'post__in' => $ids, // The array of post IDs to retrieve
+                'post_type' => 'attachment',
+                'posts_per_page' => 20,
+                'post__in' => $ids,
                 'post_parent' => 0,
-                'orderby' => 'DESC',          // Order by the array's order
+                'orderby' => 'DESC',
             );
 
             $posts = get_posts($args);
@@ -295,6 +295,7 @@ class Review extends Model
         $attachment['status'] = $attachment['post_status'];
         $attachment['modified_date'] = Functions::getWcTimeFromGMT($attachment['post_modified_gmt']);
         $attachment['is_cover_photo'] = Functions::getBoolValue(static::getMeta($post_meta, '_review_cover_photo'));
+        $attachment['is_hide'] = Functions::getBoolValue(static::getMeta($post_meta, '_review_hide_photo'));
 
         return $attachment;
     }

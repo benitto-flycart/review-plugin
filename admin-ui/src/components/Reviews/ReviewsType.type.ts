@@ -7,16 +7,17 @@ type Product = {
 };
 
 // Type for individual review
-type Review = {
-  id: string;
+export type TReview = {
+  id: number;
   reviewer_name: string;
-  rating: string | null;
+  rating: number;
   is_verified: string; // "1" or "0" indicating verification status
   date: string; // Date in "YYYY-MM-DD" format
   content: string;
   is_approved: boolean;
   images: string[]; // Array of image URLs (empty if no images)
   from_order: string | null;
+  order_url: string | null;
   replies: any[]; // Assuming replies structure is not defined in the data
   product: Product;
 };
@@ -40,5 +41,5 @@ export type TReviewData = {
   ratings: Ratings; // Rating breakdown
   total_review_count: number; // Total number of reviews
   total_review_average: number; // Average rating
-  reviews: Review[]; // Array of reviews
+  reviews: TReview[]; // Array of reviews
 };

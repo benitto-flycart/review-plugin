@@ -14,17 +14,10 @@ class GeneralSettingRequest implements FormRequest
         $data = $request->all();
 
         $rules = [
-            'enable_email_footer' => ['required'],
             'reviewers_name_format' => ['required'],
             'auto_publish_new_reviews' => ['required'],
-            'enable_review_notification' => ['required'],
-            'review_request_timing' => ['required'],
             'order_status' => ['required'],
         ];
-
-        if (isset($data['enable_email_footer']) && Functions::getBoolValue($data['enable_email_footer'])) {
-            $rules['footer_text'] = ['required'];
-        }
 
         return $rules;
     }
@@ -34,3 +27,4 @@ class GeneralSettingRequest implements FormRequest
         return [];
     }
 }
+
