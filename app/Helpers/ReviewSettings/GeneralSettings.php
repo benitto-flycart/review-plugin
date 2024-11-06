@@ -32,6 +32,8 @@ class GeneralSettings extends ReviewSettings
             'reviewers_name_format' => $settings['reviewers_name_format'] ?? 'first_name',
             'auto_publish_new_reviews' => Functions::getBoolValue($settings['auto_publish_new_reviews']),
             'order_status' => $settings['order_status'] ?? 'wc-completed',
+            'review_font_family' => $settings['review_font_family'] ?? '',
+            'review_font_variant_value' => $settings['review_font_variant_value'] ?? '',
             'emails' => [
                 'send_replies_to' => $settings['emails']['send_replies_to'] ?? '',
                 'enable_email_footer' => Functions::getBoolValue($settings['emails']['enable_email_footer'] ?? false),
@@ -49,7 +51,9 @@ class GeneralSettings extends ReviewSettings
 
     public function getFromRequest($request)
     {
-        $data = [];
+
+        $data =  $this->generalSettings;
+
         if (!empty($type = $request->get('settings_type')) && $type == 'email') {
             $data['emails'] = [
                 'send_replies_to' => $request->get('emails.send_replies_to') ?? '',
@@ -67,8 +71,9 @@ class GeneralSettings extends ReviewSettings
             $data['reviewers_name_format'] = $request->get('reviewers_name_format');
             $data['auto_publish_new_reviews'] = $request->get('auto_publish_new_reviews');
             $data['order_status'] = $request->get('order_status');
+            $data['review_font_family'] = $request->get('review_font_family') ?? '';
+            $data['review_font_variant_value'] = $request->get('review_font_variant_value') ?? '';
         }
-
         return $this->mergeWithDefault($data);
     }
 

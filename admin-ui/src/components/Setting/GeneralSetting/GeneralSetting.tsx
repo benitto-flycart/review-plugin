@@ -21,13 +21,13 @@ import SettingsColWrapper from "../SettingsColWrapper";
 import { Label } from "../../ui/label";
 import { produce } from "immer";
 import { showValidationError } from "../../../helpers/html";
-import AsyncSelect from 'react-select/async';
+import AsyncSelect from "react-select/async";
 import fontData from "../../../assets/fonts.json";
 
 const GeneralSetting = () => {
   const [loading, setLoading] = useState(true);
   const [saveChangesLoading, setSaveChangesLoading] = useState(false);
-  
+
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [settingsState, setSettingsState] = useState<any>({
@@ -35,31 +35,29 @@ const GeneralSetting = () => {
     reviewers_name_format: "first_name",
     order_status: "",
     review_font_family: "Advent Pro",
-    review_font_variant_value:"100",
+    review_font_variant_value: "100",
   });
-  const [originalSettings, setOriginalSettings] = useState<any>({});
   const fetchFontOptions = (inputValue: string) => {
     return fontData.fonts
-      .filter(font => font.family.toLowerCase().includes(inputValue.toLowerCase()))
-      .map(font => ({
+      .filter((font) =>
+        font.family.toLowerCase().includes(inputValue.toLowerCase()),
+      )
+      .map((font) => ({
         value: font.family,
         variant_value: font.variant_value,
         label: `${font.family} (${font.variant_value})`,
       }));
   };
 
-  const loadOptions = (inputValue: string, callback: (options: any[]) => void) => {
-    setTimeout(()=>{
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: any[]) => void,
+  ) => {
+    setTimeout(() => {
       const options = fetchFontOptions(inputValue);
       callback(options);
-    },1000);
+    }, 1000);
   };
-
-  useEffect(() => {
-    setLoading(true);
-    getGeneralSettings();
-    
-  }, []);
 
   const schema = yup.object().shape({
     auto_publish_new_reviews: yup
@@ -68,12 +66,8 @@ const GeneralSetting = () => {
     reviewers_name_format: yup
       .string()
       .required("Reviewers Name format is required"),
-    review_font_family: yup
-      .string()
-      .required("Review font is required"),
-    order_status: yup
-      .string()
-      .required("Order Status is required"),
+    review_font_family: yup.string().required("Review font is required"),
+    order_status: yup.string().required("Order Status is required"),
   });
 
   const getGeneralSettings = () => {
@@ -87,7 +81,6 @@ const GeneralSetting = () => {
         let data = response.data.data;
         let settings = data.settings;
         setSettingsState(settings);
-        setOriginalSettings({...settings});
         toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
@@ -107,13 +100,20 @@ const GeneralSetting = () => {
 
   const saveGeneralSettings = () => {
     setSaveChangesLoading(true);
-    const keysToTarget = ["auto_publish_new_reviews", "reviewers_name_format", "order_status","review_font_family","review_font_variant_value"];
+    const keysToTarget = [
+      "auto_publish_new_reviews",
+      "reviewers_name_format",
+      "order_status",
+      "review_font_family",
+      "review_font_variant_value",
+    ];
 
     const modifiedFields = keysToTarget.reduce(
       (changes: { [key: string]: any }, key) => {
         changes[key] = settingsState[key];
         return changes;
-      }, {}
+      },
+      {},
     );
 
     schema
@@ -124,7 +124,7 @@ const GeneralSetting = () => {
           .post("", {
             method: "save_general_settings",
             _wp_nonce_key: "flycart_review_nonce",
-            settings_type: "email",
+            settings_type: "general",
             _wp_nonce: localState?.nonces?.flycart_review_nonce,
             ...modifiedFields,
           })
@@ -227,21 +227,29 @@ const GeneralSetting = () => {
             <SettingsRowWrapper>
               <SettingsColWrapper>
                 <Label>Review Font</Label>
-                <Label className={"frt-text-xs frt-text-grayprimary"}>Select Review fonts for emails</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Select Review fonts for emails
+                </Label>
               </SettingsColWrapper>
               <SettingsColWrapper>
                 <AsyncSelect
                   cacheOptions
                   loadOptions={loadOptions}
-                  onChange={(selectedOption) => updateSettingFields((draft: any) => {
-                    draft.review_font_family = selectedOption ? selectedOption.value : "";
-                    draft.review_font_variant_value = selectedOption ? selectedOption.variant_value : "";
-                  })}
+                  onChange={(selectedOption) =>
+                    updateSettingFields((draft: any) => {
+                      draft.review_font_family = selectedOption
+                        ? selectedOption.value
+                        : "";
+                      draft.review_font_variant_value = selectedOption
+                        ? selectedOption.variant_value
+                        : "";
+                    })
+                  }
                   placeholder="Select Review fonts"
-                  getOptionLabel={(option) => option.label} 
-                  getOptionValue={(option) => option.value} 
+                  getOptionLabel={(option) => option.label}
+                  getOptionValue={(option) => option.value}
                 />
-                {showValidationError(errors,"review_font_family")}
+                {showValidationError(errors, "review_font_family")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
             <SettingsRowWrapper>

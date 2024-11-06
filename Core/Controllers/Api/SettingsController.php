@@ -131,12 +131,15 @@ class SettingsController
         }
     }
 
-    public static function getGeneralSettings()
+    public static function getGeneralSettings(Request $request)
     {
         try {
+
+            $type = $request->get('settings_type', 'general');
+
             $data = (new GeneralSettings())->get();
 
-            return GeneralSettingsResource::resource([$data]);
+            return GeneralSettingsResource::resource([$data, $type == 'email']);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([

@@ -9,6 +9,7 @@ use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\ReviewListCollection;
+use Flycart\Review\Core\Validation\ReviewAction\PhotoActionRequest;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -207,6 +208,8 @@ class ReviewApiController
         try {
             $content = $request->get('content');
             $review_id = $request->get('id');
+            $reply_id = $request->get('reply_id');
+            $type = $request->get('type');
 
             $comment = get_comment($review_id);
 
@@ -226,9 +229,18 @@ class ReviewApiController
                     'comment_type'         => $commentType,
                 ];
 
-                $reply_comment_id = wp_insert_comment($reply_data);
 
-                if (\ActionScheduler::is_initialized()) {
+                if ($type == 'edit') {
+                    $reply_data['comment_ID'] = $reply_id;
+                    wp_update_comment($reply_data);
+                    return Response::success([
+                        'message' => __("Reply Updated Successfully", 'f-review'),
+                    ]);
+                } else {
+                    $reply_comment_id = wp_insert_comment($reply_data);
+                }
+
+                if ($type == 'add' && \ActionScheduler::is_initialized()) {
                     NotificationHistory::query()->create([
                         'model_id' => $product_id = $comment->comment_post_ID,
                         'model_type' => 'product',
@@ -290,6 +302,42 @@ class ReviewApiController
             return Response::success([
                 'message' => __("Comment not found",  'f-review'),
             ], 404);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    //TODO: mark the first uploaded photo as cover photo in save review api
+    public function updatePhotoAction(Request $request)
+    {
+        $request->validate(new PhotoActionRequest());
+
+        try {
+            $type = $request->get('action_type');
+
+            $value = Functions::getBoolValue($request->get('value'));
+
+            $attachment_id = $request->get('attachment_id');
+
+            $attachment = get_post($attachment_id);
+
+            if (empty($attachment)) {
+                return Response::error([
+                    'message' => __('Attachment not found', 'f-review')
+                ], 404);
+            }
+
+            if ($type ==  'hide') {
+                update_post_meta($attachment_id, '_review_hide_photo', $value);
+            } else if ($type ==  'hide') {
+                //make the photo as cover photo
+                update_post_meta($attachment_id, '_review_cover_photo', $value);
+            }
+
+            Response::success([
+                'message' => __("Updated Successfully", 'f-review'),
+            ]);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());

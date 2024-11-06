@@ -24,6 +24,10 @@ class Order
         }
         return $product_ids;
     }
+    public static function getOrderEditURL($order_id)
+    {
+        return admin_url("post.php?post={$order_id}&action=edit");
+    }
     public function getProductImageForEmail($product)
     {
         $product_image_id = $product->get_image_id();

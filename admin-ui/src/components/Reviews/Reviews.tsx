@@ -8,8 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { ProductReview } from "./ReviewsList";
-//@ts-ignore
+import { ReviewList } from "./ReviewsList";
 import { ReviewRatings } from "./ReviewRatings";
 import { Pagination } from "../custom-hooks/pagination/Pagination";
 import usePaginationHook from "../custom-hooks/pagination/usePaginationHook";
@@ -31,7 +30,7 @@ type Filter = {
 };
 
 export const Reviews = () => {
-  const [reviewState, setReviewState] = useState<TReviewData>({
+  const [reviews, setReviews] = useState<TReviewData>({
     total: 0, // Total number of ratings
     per_page: 0, // Items per page
     total_pages: 0, // Total number of pages
@@ -117,7 +116,7 @@ export const Reviews = () => {
         seperate_filter: filter.seperate_filter,
       })
       .then((response: AxiosResponse<ApiResponse<TReviewData>>) => {
-        setReviewState(response.data.data);
+        setReviews(response.data.data);
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
         toastrError(getErrorMessage(error));
@@ -137,7 +136,7 @@ export const Reviews = () => {
         Reviews
       </h1>
       <div className={"frt-flex frt-gap-x-5 md:frt-flex-row frt-flex-col"}>
-        <ReviewRatings reviewState={reviewState} />
+        <ReviewRatings reviewState={reviews} />
         <div className={"md:frt-w-[80%]"}>
           <div className="frt-space-y-4">
             <div className="frt-flex frt-sm:flex-row frt-gap-4">
@@ -200,21 +199,22 @@ export const Reviews = () => {
             </span>
           ) : (
             <>
-              {reviewState.reviews.length == 0 ? (
+              {reviews.reviews.length == 0 ? (
                 <ReviewListEmpty />
               ) : (
                 <>
-                  <ProductReview
-                    reviewState={reviewState}
+                  <ReviewList
+                    reviews={reviews.reviews}
                     getReviews={getReviews}
+                    total={reviews.total}
                   />
                   <Pagination
                     handlePageClick={handlePagination}
                     selectedLimit={selectedLimit}
                     forcePage={currentPage - 1}
-                    pageCount={reviewState.total_pages}
+                    pageCount={reviews.total_pages}
                     updatePerPage={updatePerPage}
-                    limit={reviewState.per_page}
+                    limit={reviews.per_page}
                     loading={false}
                   />
                 </>

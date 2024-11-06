@@ -11,49 +11,82 @@ import { useLocalState } from "../zustand/localState";
 import { LoadingSpinner } from "../ui/loader";
 import { resetPointerEvents } from "../../helpers/resetPointerEvents";
 import { getErrorMessage } from "../../helpers/helper";
+import * as yup from "yup";
+import { showValidationError } from "../../helpers/html";
+import { TReview } from "./ReviewsType.type";
 
 const ReviewReplyDialog = ({
   review,
-  replyContent,
   show,
   toggle,
-  ref,
   getReviews,
-}: any) => {
+}: {
+  review: TReview;
+  show: any;
+  toggle: any;
+  getReviews: any;
+}) => {
   const { localState } = useLocalState();
+  const [errors, setErrors] = useState<any>();
   const [saveReplyLoading, setSaveReplyLoading] = useState<boolean>(false);
-  const [replyContentState, setReplyContentState] =
-    useState<string>(replyContent);
-  const handleSaveReply = () => {
-    setSaveReplyLoading(true);
-    axiosClient
-      .post(``, {
-        method: "handle_save_reply",
-        _wp_nonce_key: "flycart_review_nonce",
-        _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        content: replyContentState,
-        id: review.id,
-      })
-      .then((response: AxiosResponse) => {
-        const data: any = response.data.data;
-        toastrSuccess(data.message);
-        getReviews();
-      })
-      .catch((error: AxiosResponse<ApiErrorResponse>) => {
-        toastrError(getErrorMessage(error));
-      })
-      .finally(() => {
-        setSaveReplyLoading(false);
-      });
-  };
+  const [replyContentState, setReplyContentState] = useState<string>(
+    review?.replies?.[0]?.content || "",
+  );
+
+  const type = review?.replies?.[0] ? "edit" : "add";
 
   useEffect(() => {
     resetPointerEvents(show);
   }, [show]);
 
+  const handleSaveReply = () => {
+    setSaveReplyLoading(true);
+    schema
+      .validate({ reply_content: replyContentState }, { abortEarly: false })
+      .then(() => {
+        setErrors({});
+        axiosClient
+          .post(``, {
+            method: "handle_save_reply",
+            _wp_nonce_key: "flycart_review_nonce",
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+            content: replyContentState,
+            type: type,
+            id: review.id,
+            reply_id: review?.replies?.[0]?.id,
+          })
+          .then((response: AxiosResponse) => {
+            const data: any = response.data.data;
+            toastrSuccess(data.message);
+            getReviews();
+          })
+          .catch((error: AxiosResponse<ApiErrorResponse>) => {
+            toastrError(getErrorMessage(error));
+          })
+          .finally(() => {
+            setSaveReplyLoading(false);
+          });
+      })
+      .catch((validationError: any) => {
+        setSaveReplyLoading(false);
+        toastrError("Validation Failed");
+        const validationErrors = {};
+        validationError?.inner?.forEach((e: any) => {
+          // @ts-ignore
+          validationErrors[e.path] = [e.message];
+        });
+        setErrors(validationErrors);
+      });
+  };
+
+  const schema = yup.object().shape({
+    reply_content: yup.string().required("Reply content is required"),
+  });
+
   return (
     <Dialog open={show} onOpenChange={toggle}>
       <DialogContent
+        aria-describedby={undefined}
         className={"frt-rounded-md"}
         onInteractOutside={(e: any) => {
           e.preventDefault();
@@ -66,9 +99,9 @@ const ReviewReplyDialog = ({
             onChange={(e) => {
               setReplyContentState(e.target.value);
             }}
-          >
-            {replyContentState}
-          </Textarea>
+            value={replyContentState}
+          ></Textarea>
+          {showValidationError(errors, "reply_content")}
           <span className={"frt-accent-gray-400"}>
             This reply is public and will appear on reviews widget.
           </span>
@@ -77,9 +110,14 @@ const ReviewReplyDialog = ({
           <Button variant={"outline"} onClick={() => toggle(false)}>
             Cancel
           </Button>
-          <Button className={"frt-flex frt-gap-x-1"} onClick={handleSaveReply}>
+          <Button
+            className={"frt-flex frt-gap-x-1"}
+            onClick={() => {
+              handleSaveReply();
+            }}
+          >
             {saveReplyLoading ? <LoadingSpinner /> : null}
-            {replyContent ? "Edit reply" : "Add reply"}
+            {type == "edit" ? "Edit reply" : "Add reply"}
           </Button>
         </div>
       </DialogContent>

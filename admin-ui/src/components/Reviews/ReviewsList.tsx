@@ -17,14 +17,17 @@ import { useLocalState } from "../zustand/localState";
 import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { LoadingSpinner } from "../ui/loader";
 import { getErrorMessage } from "../../helpers/helper";
+import { TReview } from "./ReviewsType.type";
 
 export interface ReviewRatingsPropType {
-  reviewState: any;
+  reviews: TReview[];
+  total: number;
   getReviews: () => void;
 }
 
-export const ProductReview = <T extends ReviewRatingsPropType>({
-  reviewState,
+export const ReviewList = <T extends ReviewRatingsPropType>({
+  reviews,
+  total,
   getReviews,
 }: T) => {
   const { localState } = useLocalState();
@@ -34,8 +37,8 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
   });
   const [bulkActionLoading, setBulkActionLoading] =
     React.useState<boolean>(false);
-  const [bulkActionReviewIds, setBulkActionReviewIds] = React.useState([]);
-  const [selectAllChecked, setSelectAllChecked] = React.useState(false);
+  const [bulkActionReviewIds, setBulkActionReviewIds] = React.useState<any>([]);
+  const [selectAllChecked, setSelectAllChecked] = React.useState<any>(false);
 
   const publishActionButtonLabels = [
     {
@@ -54,7 +57,7 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
 
   const handleBulkCheckboxChange = (checked: boolean) => {
     if (checked) {
-      const allIds = reviewState.reviews.map((review: any) => review.id);
+      const allIds = reviews.map((review: any) => review.id);
       setBulkActionReviewIds(allIds);
     } else {
       setBulkActionReviewIds([]);
@@ -91,7 +94,7 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
         <div className={"frt-my-2"}>
           <span className={"frt-text-lg frt-font-bold "}>
             {" "}
-            {reviewState.total_review_count} Reviews found
+            {total} Reviews found
           </span>
         </div>
         <div className="frt-flex frt-justify-start frt-gap-x-3 frt-items-center frt-mb-4">
@@ -132,13 +135,13 @@ export const ProductReview = <T extends ReviewRatingsPropType>({
         </div>
       </div>
       <Card className="frt-bg-white frt-shadow-lg frt-max-w-4xl frt-mx-auto frt-p-6 frt-m-4 frt-flex frt-flex-col frt-gap-y-4">
-        {reviewState.reviews?.length > 0 &&
-          reviewState.reviews?.map((reviewData: any) => {
+        {reviews?.length > 0 &&
+          reviews?.map((item: any) => {
             return (
               <ReviewDetail
-                review={reviewData}
+                review={item}
                 getReviews={getReviews}
-                key={reviewData.id}
+                key={item.id}
                 bulkActionReviewIds={{
                   val: bulkActionReviewIds,
                   set: setBulkActionReviewIds,

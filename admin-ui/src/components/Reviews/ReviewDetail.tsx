@@ -20,6 +20,8 @@ import { LoadingSpinner } from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
 import ConfirmationDialog from "./ReviewConfirmDialgoue";
 import { getErrorMessage } from "../../helpers/helper";
+import { cn } from "@/src/lib/utils";
+import { TReview } from "./ReviewsType.type";
 
 interface BulkActionReviewIdsType {
   val: any;
@@ -27,7 +29,7 @@ interface BulkActionReviewIdsType {
 }
 
 interface ReviewDetailPropTypes {
-  review: any;
+  review: TReview;
   bulkActionReviewIds: BulkActionReviewIdsType;
   getReviews: () => void;
 }
@@ -60,14 +62,14 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
     },
   ];
   const statusOptions = review.is_approved
-    ? [{ label: "Disapprove", value: "disapprove" }]
+    ? [{ label: "Unapprove", value: "unapprove" }]
     : [{ label: "Approve", value: "approve" }];
 
   const moreOptions = [
     {
       label: "See order details",
       value: "see_order_details",
-      show: review.from_order,
+      show: review.from_order ? true : false,
     },
     // { "label": "See discount details", "value": "see_discount_details" },
     // { "label": "Tag as featured", "value": "tag_as_featured" },
@@ -117,13 +119,13 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
   };
 
   const handleDeleteReply = async () => {
-    console.log("Handling delete");
     setDeleteReplyLoading(true);
     axiosClient
       .post(``, {
-        method: "handle_delete_reply",
+        method: "review_action",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        type: "delete_review",
         id: review.id,
       })
       .then((response: AxiosResponse) => {
@@ -147,16 +149,12 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
     }
   };
   const handleReviewStatusActions = (type: any) => {
-    if (type == "see_order_details") {
-      review.order_id && window.open(review.order_url, "_blank");
-      return;
-    }
-
     if (type == "see_discount_details") {
       return;
     }
 
-    if (type == "approve" || type == "disapprove") {
+    if (type == "approve" || type == "unapprove") {
+      type = "approve";
       setApproveActionLoading(true);
     }
 
@@ -180,7 +178,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         toastrError("Error Occurred");
       })
       .finally(() => {
-        if (type == "approve" || type == "disaapprove") {
+        if (type == "approve" || type == "unapprove") {
           setApproveActionLoading(false);
         }
       });
@@ -198,11 +196,9 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         />
       </div>
       <Card
-        className={`frt-flex frt-bg-white frt-w-full frt-flex-col frt-border-l-4 frt-border-solid ${review.is_approved ? "frt-border-l-green-500" : "frt-border-l-gray-500"}`}
+        className={`frt-flex frt-bg-white frt-w-full frt-flex-col frt-border-l-4 frt-border-solid frt-divide-y-1 ${review.is_approved ? "frt-border-l-green-500" : "frt-border-l-gray-500"}`}
       >
-        <div
-          className={`frt-flex md:frt-flex-row frt-flex-col-reverse ${review.replies.length > 0 ? "frt-border-b frt-border-solid frt-border-b-gray-300" : ""}`}
-        >
+        <div className={`frt-flex md:frt-flex-row frt-flex-col-reverse`}>
           <div
             className={` ${review.images.length > 0 ? "md:frt-w-[70%]" : "frt-w-full"} `}
           >
@@ -222,7 +218,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                     {[...Array(5)].map((_, i) => (
                       <ReviewIcon
                         key={i}
-                        filled={i < review.rating}
+                        filled={i < review.rating ?? 0}
                         className="frt-w-5"
                       />
                     ))}
@@ -235,27 +231,33 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
               </div>
             </CardHeader>
             <CardContent>
-              <p className="frt-text-gray-700">{review.content}</p>
+              <p
+                className="frt-text-gray-700"
+                dangerouslySetInnerHTML={{ __html: review.content }}
+              ></p>
             </CardContent>
           </div>
           {review.images.length > 0 ? (
             <ReviewDetailImage review={review} getReviews={getReviews} />
           ) : null}
         </div>
+
         {review.replies.length
           ? review.replies.map((reply: any, index: number) => {
               return (
-                <React.Fragment key={index}>
+                <div key={index}>
                   <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
                     <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
                     <span>{reply.content}</span>
                   </div>
-                </React.Fragment>
+                </div>
               );
             })
           : null}
-        <CardFooter className="frt-flex frt-items-center frt-gap-x-4">
-          <div className="frt-flex frt-justify-between frt-items-center">
+        <CardFooter
+          className={"frt-flex frt-items-center frt-gap-x-4 !frt-p-0"}
+        >
+          <div className="frt-flex frt-justify-between frt-items-center frt-p-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className={"frt-flex frt-gap-x-1"}>
@@ -285,31 +287,28 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {
-                  // (review.replies.length ? replyEditButtonLabel : replyAddButtonLabel).map((label: any) => (
-                  replyEditButtonLabel.map((label: any) => (
-                    <DropdownMenuItem
-                      key={label.value}
-                      defaultValue={label.value}
-                      className={`${label.value == "delete" ? "frt-text-destructive" : ""}`}
-                      //   onClick={() => {
-                      //       handleReplyButtonAction(label.value)
-                      //   }}
-                      onClick={() => {
-                        if (label.value === "delete") {
-                          setIsDialogOpen(true);
-                        } else {
-                          handleReplyButtonAction(label.value);
-                        }
-                      }}
-                    >
-                      {label.value == "delete"
-                        ? deleteReplyLoading && <LoadingSpinner />
-                        : ""}{" "}
-                      {label.label}
-                    </DropdownMenuItem>
-                  ))
-                }
+                {(review.replies.length
+                  ? replyEditButtonLabel
+                  : replyAddButtonLabel
+                ).map((label: any) => (
+                  <DropdownMenuItem
+                    key={label.value}
+                    defaultValue={label.value}
+                    className={`${label.value == "delete" ? "frt-text-destructive" : ""}`}
+                    onClick={() => {
+                      if (label.value === "delete") {
+                        setIsDialogOpen(true);
+                      } else {
+                        handleReplyButtonAction(label.value);
+                      }
+                    }}
+                  >
+                    {label.value == "delete"
+                      ? deleteReplyLoading && <LoadingSpinner />
+                      : ""}{" "}
+                    {label.label}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -325,28 +324,34 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align={"start"}>
-                {moreOptions.map((item: any) => (
-                  <DropdownMenuItem
-                    // onClick={() => {
-                    //     handleReviewStatusActions(item.value)
-                    // }}
-                    onClick={() => {
-                      if (item.value === "delete_review") {
-                        setIsDialogOpen(true);
-                      } else {
-                        handleReviewStatusActions(item.value);
-                      }
-                    }}
-                    key={item.value}
-                    defaultValue={item.value}
-                    className={`${item.value === "delete_review" ? "frt-text-destructive" : ""}`}
-                  >
-                    {item.value === "delete_review"
-                      ? deleteReplyLoading && <LoadingSpinner />
-                      : ""}
-                    {item.label}
-                  </DropdownMenuItem>
-                ))}
+                {moreOptions
+                  .filter((i: any) => i.show)
+                  .map((item: any) => (
+                    <DropdownMenuItem
+                      // onClick={() => {
+                      //     handleReviewStatusActions(item.value)
+                      // }}
+                      onClick={() => {
+                        if (item.value === "delete_review") {
+                          setIsDialogOpen(true);
+                        } else if (item.value == "see_order_details") {
+                          review.from_order &&
+                            review.order_url &&
+                            window.open(review.order_url, "_blank");
+                        } else {
+                          handleReviewStatusActions(item.value);
+                        }
+                      }}
+                      key={item.value}
+                      defaultValue={item.value}
+                      className={`${item.value == "delete_review" ? "frt-text-destructive" : ""}`}
+                    >
+                      {item.value === "delete_review"
+                        ? deleteReplyLoading && <LoadingSpinner />
+                        : ""}
+                      {item.label}
+                    </DropdownMenuItem>
+                  ))}
               </DropdownMenuContent>
               <ConfirmationDialog
                 title="Are you sure you want to delete this review?"
@@ -363,7 +368,6 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         </CardFooter>
         <ReviewReplyDialog
           review={review}
-          replyContent={review.replies[0]?.content}
           show={showReplyDialog}
           toggle={setShowReplyDialog}
           getReviews={getReviews}
