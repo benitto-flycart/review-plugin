@@ -104,7 +104,7 @@ class DiscountSettings extends ReviewSettings
 
         $expiryInDays = $this->getPhotoDiscountExpiryDate();
 
-        $prefix_coupon = apply_filters('frap_test_review_prefix_for_discount_coupon', 'REVIW_DIS_');
+        $prefix_coupon = apply_filters('frap_test_review_prefix_for_discount_coupon', 'REVIEW_DIS_');
         $coupon_code = $prefix_coupon . Functions::generateRandomString(10);
         $coupon = new \WC_Coupon();
         $coupon->set_code($coupon_code);

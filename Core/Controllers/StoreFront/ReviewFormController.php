@@ -334,12 +334,17 @@ class ReviewFormController
             $is_photo_review_first_time = false;
 
             if (!$review_already_added) {
-                static::handleNewReview($comment, $request, $product_id, $order, $is_photo_already_added, $is_photo_review_first_time);
+                [$is_photo_review_first_time] =  static::handleNewReview($comment, $request, $product_id, $order, $is_photo_already_added, $is_photo_review_first_time);
             } elseif ($submit_slide === 'photo') {
-                static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
+                [$is_photo_review_first_time] = static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
             }
 
+            error_log('is_photo_review_first_time. =>  ' .  $is_photo_review_first_time);
+
             $discount_info = static::handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment);
+
+            error_log('logging discount info');
+            error_log(print_r($discount_info, true));
 
             return Response::success([
                 'discount_created' => $discount_info['created'],
@@ -372,6 +377,8 @@ class ReviewFormController
         ];
 
         $comment->updateComment($comment_data, $comment_meta_data);
+
+        return [$is_photo_review_first_time];
     }
 
     protected static function handlePhotoAttachment($comment, $request, $is_photo_already_added, &$is_photo_review_first_time)
@@ -389,6 +396,8 @@ class ReviewFormController
         $comment->updateComment([], [
             '_review_attachments' => Functions::jsonEncode($attachments),
         ]);
+
+        return $is_photo_review_first_time;
     }
 
     protected static function handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment)
@@ -399,7 +408,11 @@ class ReviewFormController
         }
 
         $review_id = $comment->comment['comment_ID'];
-        $discount_code = Review::createDiscountForPhotoReview($review_id, $order_id, $product_id);
+
+        error_log('printing review id');
+        error_log($review_id);
+
+        $discount_code = Review::createDiscountForPhotoReview($review_id, $product_id, $order_id);
 
         if (!$discount_code) {
             return ['created' => false, 'content' => null];
@@ -416,8 +429,8 @@ class ReviewFormController
 
         $discount_settings = new DiscountSettings();
         $discount_value = $discount_settings->photoDiscountString();
-        $discount_title = str_replace("{discount_value}", $discount_value, $widget->getDiscountTitle());
-        $discount_description = str_replace("{date_expiry}", "22/10/24", $widget->getDiscountDescription());
+        $discount_info_title = str_replace("{discount_value}", $discount_value, $widget->getDiscountTitle());
+        $discount_info_description = str_replace("{date_expiry}", "22/10/24", $widget->getDiscountDescription());
 
         ob_start();
         include F_Review_PLUGIN_PATH . 'resources/templates/review-form/discount-content.php';
