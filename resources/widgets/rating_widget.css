@@ -8,6 +8,20 @@
     gap: 1.5rem;
 }
 
+.frame-root {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.frame-content {
+    width: 50%;
+}
+
+.wd_preview_content {
+    padding: 1rem;
+}
+
 .r_rw__product_image_wrapper {
     width: 50%;
     flex: 1;

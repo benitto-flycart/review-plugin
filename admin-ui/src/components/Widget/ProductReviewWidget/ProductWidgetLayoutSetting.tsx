@@ -28,7 +28,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.widget_layout == "grid"}
                     value={"grid"}
@@ -146,7 +146,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.widget_layout == "list"}
                     value={"list"}
@@ -204,7 +204,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.widget_layout == "mosaic"}
                     value={"mosaic"}
@@ -319,7 +319,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.header_layout == "minimal"}
                     value={"minimal"}
@@ -389,7 +389,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.header_layout == "compact"}
                     value={"compact"}
@@ -459,7 +459,7 @@ const ProductWidgetLayoutSetting = ({ name }: { name: string }) => {
                   });
                 }}
               >
-                <div className="frt-flex frt-items-start frt-space-x-2">
+                <div className="frt-flex frt-items-center frt-space-x-2">
                   <Checkbox
                     checked={widget.layout.header_layout == "expanded"}
                     value={"expanded"}

@@ -3,6 +3,7 @@ import {ReviewDetailWidgetContext} from "./ReviewDetailWidgetContextAPI";
 import {useLocalState} from "../../zustand/localState";
 import ReviewIcon from "../../ReviewIcon";
 import {SampleReviewsContext} from "../SampleReviewsAPI";
+import {applyStylesToIframe} from "../../../helpers/utils";
 
 const ReviewDetailWidgetPreview = () => {
   const { widget, updateWidgetFields, methods } = useContext<any>(
@@ -24,20 +25,7 @@ const ReviewDetailWidgetPreview = () => {
 
     //@ts-ignore
     let iframe: any = window.frames["widget_preview_iframe"];
-
-    let linkElement: any = document.createElement("link");
-    linkElement.rel = "stylesheet";
-    linkElement.href =
-      localState.iframe_styles?.review_detail_widget?.widget_css; // Replace with the URL of your stylesheet
-
-    let head = iframe.contentDocument.head;
-    let body = iframe.contentDocument.body;
-    head.appendChild(linkElement);
-
-    let another = document.createElement("link");
-    another.rel = "stylesheet";
-    another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-    head.appendChild(another);
+    applyStylesToIframe(iframe,localState.iframe_styles?.review_detail_widget,localState.iframe_styles?.font_css)
 
     updateWidgetFields((draftState: any) => {
       draftState.widget_loading = false;
@@ -88,7 +76,7 @@ const ReviewDetailWidgetPreview = () => {
               })}
             </div>
 
-            <div className={"r_rdw-slide-actions"}>
+            {review.images.length > 1 ? <div className={"r_rdw-slide-actions"}>
               <button
                   className={`prev ${index == 1 ? "disabled" : ""}`}
                   onClick={decrease}
@@ -103,10 +91,10 @@ const ReviewDetailWidgetPreview = () => {
               >
                 <i className="review review-caret-right"> </i>
               </button>
-            </div>
+            </div> : null}
           </div>
           <div className="row">
-            {review.images.map((item: any, iteration: number) => {
+            { review.images.length> 1 ? review.images.map((item: any, iteration: number) => {
               return (
                   <div
                       key={iteration}
@@ -123,7 +111,7 @@ const ReviewDetailWidgetPreview = () => {
                     />
                   </div>
               );
-            })}
+            }) : null}
           </div>
         </div> : null }
         <div className="r_rdw-detail-wrapper">

@@ -103,7 +103,7 @@
   display: flex; /* show current slide image */
   animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
   text-overflow: ellipsis;
-  padding: 0.5em;
+  padding: 1rem;
   background-color: var(--r-srw-review-bg-color);
   border-radius: var(--r-srw-review-border-radius);
   border-color: var(--r-srw-review-border-color);

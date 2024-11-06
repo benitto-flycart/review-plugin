@@ -4,6 +4,7 @@ import { SnippetWidgetContext } from "./SnippetWidgetContextAPI";
 // import "./carosual.css";
 import ReviewIcon from "../../ReviewIcon";
 import { useLocalState } from "../../zustand/localState";
+import {applyStylesToIframe} from "../../../helpers/utils";
 
 const PreviewSnippetWidget = () => {
   const { widget, updateWidgetFields, methods } =
@@ -123,26 +124,16 @@ const PreviewSnippetWidget = () => {
     updateWidgetFields((draftState: any) => {
       draftState.widget_loading = true;
     });
+
     //@ts-ignore
-    let iframe: any = window.frames["widget_preview_iframe"];
-
-    let linkElement: any = document.createElement("link");
-    linkElement.rel = "stylesheet";
-    linkElement.href = localState.iframe_styles?.snippet_widget?.widget_css; // Replace with the URL of your stylesheet
-
-    let head = iframe.contentDocument.head;
-    let body = iframe.contentDocument.body;
-    head.appendChild(linkElement);
-
-    let another = document.createElement("link");
-    another.rel = "stylesheet";
-    another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-    head.appendChild(another);
+    const iframe = window.frames["widget_preview_iframe"];
+    applyStylesToIframe(iframe, localState.iframe_styles?.snippet_widget,localState.iframe_styles?.font_css);
 
     updateWidgetFields((draftState: any) => {
       draftState.widget_loading = false;
     });
   }, [widget.layout]);
+
 
   const snippetWidgetContent = () => {
     return (

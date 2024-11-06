@@ -9,6 +9,7 @@ import ThankyouSlide from "./ReviewForm/ThankyouSlide";
 import {useLocalState} from "../../zustand/localState";
 import RemainingItems from "./ReviewForm/RemainingItems";
 import * as yup from "yup";
+import {applyStylesToIframe} from "../../../helpers/utils";
 
 const ReviewFormWidgetPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(ReviewFormWidgetContext)
@@ -145,23 +146,9 @@ const ReviewFormWidgetPreview = () => {
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = true
         })
-
         //@ts-ignore
         let iframe: any = window.frames['widget_preview_iframe'];
-
-        let linkElement: any = document.createElement('link');
-        linkElement.rel = 'stylesheet';
-        linkElement.href = localState.iframe_styles?.review_form_widget?.widget_css; // Replace with the URL of your stylesheet
-
-        let head = iframe.contentDocument.head;
-        let body = iframe.contentDocument.body;
-        head.appendChild(linkElement);
-
-        let another = document.createElement('link');
-        another.rel = 'stylesheet';
-        another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-        head.appendChild(another);
-
+        applyStylesToIframe(iframe,localState.iframe_styles?.review_form_widget,localState.iframe_styles?.font_css)
         updateWidgetFields((draftState: any) => {
             draftState.widget_loading = false
         })

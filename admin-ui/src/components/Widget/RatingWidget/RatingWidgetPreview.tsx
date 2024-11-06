@@ -3,6 +3,7 @@ import React, {useContext, useEffect} from "react";
 import {RatingWidgetContext} from "./RatingWidgetContextAPI";
 import ReviewIcon from "../../ReviewIcon";
 import {useLocalState} from "../../zustand/localState";
+import { applyStylesToIframe } from "../../../helpers/utils";
 
 const RatingWidgetPreview = () => {
     const {widget, updateWidgetFields, methods} = useContext<any>(RatingWidgetContext)
@@ -12,27 +13,15 @@ const RatingWidgetPreview = () => {
             updateWidgetFields((draftState: any) => {
                 draftState.widget_loading = true
             })
+      console.log(localState.iframe_styles)
             //@ts-ignore
             let iframe: any = window.frames['widget_preview_iframe'];
-
-            let linkElement: any = document.createElement('link');
-            linkElement.rel = 'stylesheet';
-            linkElement.href = localState.iframe_styles?.rating_widget?.widget_css; // Replace with the URL of your stylesheet
-
-            let head = iframe.contentDocument.head;
-            let body = iframe.contentDocument.body;
-            head.appendChild(linkElement);
-
-            let another = document.createElement('link');
-            another.rel = 'stylesheet';
-            another.href = localState.iframe_styles?.font_css; // Replace with the URL of your stylesheet
-            head.appendChild(another);
-
+            applyStylesToIframe(iframe, localState.iframe_styles?.rating_widget,localState.iframe_styles?.font_css)
             updateWidgetFields((draftState: any) => {
                 draftState.widget_loading = false
             })
 
-    }, [widget.layout]);
+    }, []);
 
     return (
         <div

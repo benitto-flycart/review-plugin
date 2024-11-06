@@ -39,6 +39,32 @@ export const runUploader = (event: any, cb: any) => {
     frame.open()
 }
 
+export const applyStylesToIframe = (iframe:any, styles:any,fontCss:any) => {
+    if (!iframe?.contentDocument) return;
+
+    const head = iframe.contentDocument.head;
+    const body = iframe.contentDocument.body;
+
+    // Add custom stylesheets
+    const addLink = (href:any) => {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        head.appendChild(link);
+    };
+
+    if (styles?.widget_css) addLink(styles.widget_css);
+    if (fontCss) addLink(fontCss);
+
+    const htmlElement = iframe.contentDocument.documentElement;
+    htmlElement.style.display = 'block';
+    htmlElement.style.height = '100%';
+
+    body.style.display = 'flex';
+    body.style.justifyContent = 'center';
+    body.style.alignItems = 'center';
+    body.style.height = '100%';
+};
 
 
 export const getArrayForShimmering = () => {

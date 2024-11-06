@@ -23,7 +23,7 @@
                         <?php } ?>
                         <div class="r_sw__review_details_wrapper">
                             <div class="r_sw__review_details">
-                                <div><?php echo $reviewObj->getReviewerName() ?></div>
+                                <div><?php echo ( "No name")?></div>
                                 <div class="r_sw__review_details_icons">
                                     <?php foreach (range(0, 4) as $index) { ?>
                                         <i class="review review-<?php echo ($index < $reviewObj->getRatting()) ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
