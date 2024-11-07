@@ -61,6 +61,7 @@ const SidebarWidgetConfigSetting = ({name}: any) => {
                     <SidebarDetailField>
                         <Label className={"frt-text-xs"} htmlFor="hide_on_mobile">Button text</Label>
                         <Input
+                            type={"text"}
                             defaultValue={widget.button_text}
                             onChange={(e: any) => {
                                 updateWidgetFields((draftState: any) => {

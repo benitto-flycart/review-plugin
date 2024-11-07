@@ -1,17 +1,18 @@
 import React, {createContext, useEffect, useState} from "react";
 import {produce} from "immer";
 import {useLocalState} from "../../zustand/localState";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 
 export const RatingWidgetContext = createContext({});
 
 function RatingWidgetContextAPI({children}: { children: any }) {
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [saving, setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         view: 'desktop',
         show_setting: '',
         layout: 'default',
@@ -19,8 +20,6 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         direction: 'icon_first',
         text_content: "{{rating}} - ({{count}})",
         hide_text_content: false,
-        font_size: 25,
-        rating_icon_size: 25,
         style: {},
         colors: {
             text_color: '#141010',
@@ -28,47 +27,79 @@ function RatingWidgetContextAPI({children}: { children: any }) {
         }
     })
 
+
+    const saveSettings = () => {
+        setSaving(true)
+        axiosClient.post('', {
+            method: 'save_widget_settings',
+            widget_type: 'rating_widget',
+            language: localState.current_locale,
+            ...widget,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setSaving(false)
+        });
+    }
+
+    const getWidgetAlignment = () => {
+        let justifyContent = 'start';
+        switch (widget.widget_alignment) {
+            case 'right':
+                justifyContent = 'end'
+                break;
+            case 'left':
+                justifyContent = 'start'
+                break;
+            case 'center':
+                justifyContent = 'center'
+                break;
+        }
+
+        return justifyContent;
+    }
+
+    const getSettings = () => {
+        setLoading(true)
+        axiosClient.post('', {
+            method: 'get_widget_settings',
+            widget_type: 'rating_widget',
+            language: localState.current_locale,
+            _wp_nonce_key: 'flycart_review_nonce',
+            _wp_nonce: localState?.nonces?.flycart_review_nonce,
+        }).then((response: any) => {
+            let data = response.data.data
+            let settings = data.settings;
+            buildStateFromResponse(settings);
+            toastrSuccess(data.message);
+        }).catch((error: any) => {
+            toastrError('Server Error Occurred');
+        }).finally(() => {
+            setLoading(false)
+        });
+    }
+
     const widgetMethods = {
         getWidgetTextContent: () => {
             let content = widget.text_content;
             return content.replace("{{rating}}", "3.5").replace("{{count}}", "20");
         },
-        getTextStyles: () => {
+        getWidgetVars: () => {
             return {
-                color: widget.colors.text_color,
-                fontSize: widget.font_size + 'px'
+                "--r-rw-icon-color": widget.colors.rating_icon_color,
+                "--r-rw-text-color": widget.colors.text_color,
+                "--r-rw-flex-direction": widget.direction == 'text_first' ? 'row-reverse' : 'row',
+                "--r-rw-flex-justify-content": getWidgetAlignment(),
             };
         },
-        getRatingContainerStyle: () => {
-            let justifyContent = 'start';
-            let rowReverse = false;
-            switch (widget.widget_alignment) {
-                case 'right':
-                    justifyContent = 'end'
-                    break;
-                case 'left':
-                    justifyContent = 'start'
-                    break;
-                case 'center':
-                    justifyContent = 'center'
-                    break;
-            }
-
-            if (widget.direction == 'text_first') {
-                rowReverse = true;
-            }
-
-            return {
-                justifyContent: justifyContent,
-                flexDirection: rowReverse ? 'row-reverse' : 'row'
-            }
-        },
-        getRatingStyles: () => {
-            return {
-                fontSize: widget.rating_icon_size + 'px',
-                color: widget.colors.rating_icon_color,
-            }
-        }
+        saveSettings,
+        getSettings
     }
 
     const updateWidgetFields = (cb: any) => {
@@ -104,45 +135,6 @@ function RatingWidgetContextAPI({children}: { children: any }) {
             }
         })
     }
-    const getSettings = () => {
-        setLoading(true)
-        axiosClient.post('', {
-            method: 'get_widget_settings',
-            widget_type: 'rating_widget',
-            language: localState.current_locale,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-            toastrSuccess(data.message);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setLoading(false)
-        });
-    }
-
-    const saveSettings = () => {
-        setSaving(true)
-        axiosClient.post('', {
-            method: 'save_widget_settings',
-            widget_type: 'rating_widget',
-            language: localState.current_locale,
-            ...widget,
-            _wp_nonce_key: 'flycart_review_nonce',
-            _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        }).then((response: any) => {
-            let data = response.data.data
-            let settings = data.settings;
-            buildStateFromResponse(settings);
-        }).catch((error: any) => {
-            toastrError('Server Error Occurred');
-        }).finally(() => {
-            setSaving(false)
-        });
-    }
 
     useEffect(() => {
         getSettings();
@@ -161,7 +153,8 @@ function RatingWidgetContextAPI({children}: { children: any }) {
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving
         }}>
             {children}
         </RatingWidgetContext.Provider>

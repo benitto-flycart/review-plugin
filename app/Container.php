@@ -1,6 +1,7 @@
 <?php
 
 namespace Flycart\Review\App;
+
 class Container
 {
     public $bindings = [];
@@ -21,5 +22,8 @@ class Container
         if (isset($this->bindings[$key])) {
             return $this->bindings[$key];
         }
+
+        return null;
     }
 }
+

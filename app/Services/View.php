@@ -20,7 +20,8 @@ class View
 
     public function view($path, $data, $print = true)
     {
-        $file = F_Review_PLUGIN_PATH. 'resources/' . $path . '.php';
+        $file = F_Review_PLUGIN_PATH . 'resources/' . $path . '.php';
+
         return AssetHelper::renderTemplate($file, $data);
     }
 }

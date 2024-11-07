@@ -8,6 +8,8 @@ class OrderReview extends Model
 {
     protected static $table = 'order_reviews';
 
+    public  const COMMENT_META_ORDER_KEY = '_review_order_id';
+
     public function createTable()
     {
         $charset = static::getCharSetCollate();
@@ -16,7 +18,7 @@ class OrderReview extends Model
 
         return "CREATE TABLE {$table} (
                 id BIGINT UNSIGNED AUTO_INCREMENT,
-                order_id BIGINT UNSIGNED,
+                woo_order_id BIGINT UNSIGNED,
                 photo_added boolean default 0,
                 video_added boolean default 0,
                 photo_discount_code VARCHAR(255) NULL,
@@ -29,4 +31,9 @@ class OrderReview extends Model
                 ) {$charset};";
     }
 
+    public static function isPhotoAdded($orderReview)
+    {
+        return $orderReview->photo_added;
+    }
 }
+

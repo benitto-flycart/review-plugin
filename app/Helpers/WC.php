@@ -119,7 +119,7 @@ class WC
         $ids = [];
         foreach ($items as $item) {
             if (isset($item['value'])) {
-                $ids [] = $item['value'];
+                $ids[] = $item['value'];
             }
         }
         return $ids;
@@ -131,12 +131,12 @@ class WC
 
         $wc_countries = new WC_Countries();
 
-// Define the country code you want to retrieve details for
+        // Define the country code you want to retrieve details for
         $country_code = $countryCode; // Replace with the desired country code
 
         $countries = $wc_countries->get_countries();
 
-// Check if the country code exists in the list
+        // Check if the country code exists in the list
         if (isset($countries[$country_code])) {
 
             return [
@@ -147,7 +147,6 @@ class WC
         } else {
             return [];
         }
-
     }
 
     public static function getStateWithLabel($countryCode, $stateCode)
@@ -300,5 +299,24 @@ class WC
         $currencies = get_woocommerce_currencies();
 
         return $currencies;
+    }
+
+    public static function isHPOSEnabled(): bool
+    {
+        return Util::isMethodExists('\Automattic\WooCommerce\Utilities\OrderUtil', 'custom_orders_table_usage_is_enabled')
+            && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+    }
+
+    public static function getProduct($product_id)
+    {
+        if (function_exists('wc_get_product')) {
+            return wc_get_product($product_id);
+        }
+        return null;
+    }
+
+    public static function getShopPageURL()
+    {
+        return get_permalink(wc_get_page_id('shop'));
     }
 }

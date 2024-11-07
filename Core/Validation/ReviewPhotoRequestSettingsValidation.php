@@ -26,3 +26,4 @@ class ReviewPhotoRequestSettingsValidation implements FormRequest
         return [];
     }
 }
+

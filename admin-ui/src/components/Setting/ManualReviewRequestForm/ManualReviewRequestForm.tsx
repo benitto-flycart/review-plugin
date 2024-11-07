@@ -11,7 +11,7 @@ import SettingsRowWrapper from "../SettingsRowWrapper";
 import {produce} from "immer";
 import {Checkbox} from "../../ui/checkbox";
 import * as yup from "yup";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {showValidationError} from "../../../helpers/html";
 import {runUploader} from "../../../helpers/utils";
@@ -142,13 +142,13 @@ const ManualReviewRequestForm = () => {
                                                     draftState.logo_url = ""
                                                 })
                                             }}
-                                               className={"review-icon frt-cursor-pointer review review-Heart frt-absolute frt-top-0 frt-right-0"}></i>
+                                               className={"review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review review-Heart frt-absolute -frt-top-2 -frt-right-2"}></i>
                                         </div> : null
                                     }
                                     <div
                                         className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
                                             <span
-                                                className="frt-bg-amber-500 frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                                                className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
                                                 onClick={(e) => {
                                                     runUploader(e, (data: any) => {
                                                         updateSettingFields((draftState: any) => {
@@ -171,7 +171,7 @@ const ManualReviewRequestForm = () => {
                                 </Label>
                             </SettingsColWrapper>
                             <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                                <Input type="text" placeholder="Please let us know what you think!"
+                                <Input type={"text"} placeholder="Please let us know what you think!"
                                        onChange={(e: any) => {
                                            updateSettingFields((draftState: any) => {
                                                draftState.email_subject = e.target.value;
@@ -195,7 +195,7 @@ const ManualReviewRequestForm = () => {
                     <span>By sending this email, I confirm that the recipients have given consent</span>
                 </div>
                 {showValidationError(errors,"terms_is_accepted")}
-                <Button  onClick={saveManualReviewRequestFormSettings}>
+                <Button className={"frt-max-w-max"}  onClick={saveManualReviewRequestFormSettings}>
                     {saveChangesLoading && (
                         <span className="frt-mx-2"><LoadingSpinner/></span>
                     )}

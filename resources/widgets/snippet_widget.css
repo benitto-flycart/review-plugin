@@ -1,163 +1,230 @@
+/* "--r-srw-review-bg-color": widget.colors.bg_color, */
+/* "--r-srw-review-border-color": widget.colors.border_color, */
+/* "--r-srw-review-box-shadow": getReviewShadow( */
+/*   widget.style.review_card_shadow, */
+/*   widget.colors.shadow_color, */
+/* ), */
+/* "--r-srw-review-border-radius": getReviewBorderRadius( */
+/*   widget.style.review_card_openers, */
+/* ), */
+/* "--r-srw-review-text-color": widget.colors.text_color, */
+/* "--r-srw-reviewer-name-color": widget.colors.name_color, */
+/* "--r-srw-rating-icon-color": widget.colors.rating_icon_color, */
+/* "--r-srw-btn-text-color": widget.colors.text_color, */
+/* "--r-srw-btn-bg-color": widget.colors.bg_color, */
+/* "--r-srw-btn-border-radius": "50%", */
 
 * {
-    all: unset;
-    box-sizing: border-box;
+  all: unset;
+  box-sizing: border-box;
 }
 
 .r_sw__product_wrapper {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  justify-content: end;
+  background: white;
 }
 
 .r_sw__product_img_wrapper {
-    flex: 1;
-    max-width: 50%
+  /*max-width: 50%;*/
+  min-width: 40%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  /*max-width: 40%;*/
 }
 
 .r_sw__product_img {
-    width: 100%;
+  width: 70%;
 }
 
 .r_sw_product_details_wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    gap: 1rem;
+  flex: 1;
+  /*width: 40%;*/
+  /*max-width: 40%;*/
+  min-width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
 }
-
 .r_sw__product_title {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .r_sw__product_price {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .r_sw__product_description {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .r_sw__add_to_cart_button {
-    background-color: lightgray !important;
-    width: max-content;
-    padding: 1em;
+  background-color: lightgray !important;
+  width: max-content;
+  padding: 1em;
 }
 
 /*Carosal Logic*/
 
+.r_sw_container_wrapper {
+  max-width: 900px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.r_sw_admin_container_wrapper {
+  margin: 0;
+  max-width: 600px;
+  position: relative;
+}
 .r_sw__carousel {
-    max-width: 900px;
-    position: relative;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  padding: 1em;
+  gap: 1em;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
 }
 
-.r_sw__carousel .r_sw__carousel-item,
-.r_sw__carousel .r_sw__carousel-item-hidden {
-    display: none; /* hide all slide images not currently being viewed */
+.r_sw__carousel .r_sw__carousel-item {
+  min-width: 100%;
+  scroll-snap-align: start;
+  cursor: pointer;
 }
 
-.r_sw__carousel .r_sw__carousel-item-visible {
-    display: flex; /* show current slide image */
-    animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
-    text-overflow: ellipsis;
-    padding: 1rem;
-    background-color: lightgray;
-    border-radius: 16px;
-    box-shadow: #E5E4E7;
-    flex-direction: row;
-    gap: 0.5rem;
+.r_sw__carousel .r_sw__carousel-item {
+  margin: 0px auto 0px 0px;
+  display: flex; /* show current slide image */
+  animation: r_sw_fadeVisibility 0.5s; /* for fading effect when switching between slides */
+  text-overflow: ellipsis;
+  padding: 1rem;
+  background-color: var(--r-srw-review-bg-color);
+  border-radius: var(--r-srw-review-border-radius);
+  border-color: var(--r-srw-review-border-color);
+  border-width: 1px;
+  box-shadow: var(--r-srw-review-box-shadow);
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  /*transform: translateX(100%);*/
 }
 
 .r_sw__carousel-item-visible .r_sw__review_text {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+  color: var(--r-srw-review-text-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  z-index: 100;
 }
 
 /* Navigation control styles */
-.r_sw__carousel .r_sw__carousel-actions {
-    display: flex;
-    width: 100%;
-    justify-content: space-between; /* put space between the navigation buttons */
-    position: absolute; /* position navigation buttons on top */
-    top: 50%; /* center navigation buttons on the slide */
-    transform: translateY(-50%); /* align navigation buttons */
+.r_sw__carousel-actions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between; /* put space between the navigation buttons */
+  position: absolute; /* position navigation buttons on top */
+  top: 50%; /* center navigation buttons on the slide */
+  transform: translateY(-50%); /* align navigation buttons */
+  z-index: 10;
 }
 
-.r_sw__carousel .r_sw__carousel-actions button {
-    border: 0;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    width: 25px;
-    color: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.r_sw__carousel-actions button {
+  background: var(--r-srw-btn-bg-color);
+  color: var(--r-srw-btn-text-color);
+  border-radius: var(--r-srw-btn-border-radius);
+  border: 0;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  width: 25px;
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em;
 }
 
-.r_sw__carousel .r_sw__carousel-actions button svg {
-    width: 100px;
+.r_sw__carousel-actions button svg {
+  width: 100px;
 }
 
-.r_sw__carousel .r_sw__carousel-actions button.disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+.r_sw__carousel-actions button.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .r_sw__carousel-button-prev {
-    left: -12px;
+  left: -12px;
 }
 
 .r_sw__carousel-button-next {
-    right: -12px;
+  right: -12px;
 }
 
 .r_sw__carousel-dots {
-    text-align: center;
+  text-align: center;
 }
 
-.r_sw__carousel-item_imgae {
-    width: 50px;
+.r_sw__hide {
+  display: none;
 }
-
+.r_sw__carousel-item_image {
+  width: 50px;
+  height: 80px;
+}
+.r_sw__admin_carousel-item {
+  font-size: 12px;
+}
 .r_sw__review_details_wrapper {
-    padding: .5rem;
+  /*padding: .5rem;*/
 }
 
 .r_sw__review_details {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 16px;
+}
+
+.r_sw__review_details--reviewer-name {
+  color: var(--r-srw-reviewer-name-color);
 }
 
 .r_sw__review_details_icons {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: .5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 0.5rem;
+  color: var(--r-srw-rating-icon-color);
 }
-
-
 
 /* hanlde smooth transitions between slides */
 @keyframes r_sw_fadeVisibility {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-
 @media screen and (max-width: 650px) {
-    .r_sw__product_wrapper {
-        flex-direction: column;
-    }
+  .r_sw__product_wrapper {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem;
+    justify-content: end;
+    flex-direction: column;
+    background: white;
+  }
 }

@@ -1,3 +1,4 @@
+
 import React, {useCallback, useRef, useState} from "react";
 import {HexColorPicker} from "react-colorful";
 
@@ -8,10 +9,20 @@ import {Input} from "../ui/input";
 const PopoverPicker = ({color, onChange}: any) => {
     const popover = useRef<any>();
     const [isOpen, toggle] = useState<boolean>(false);
-
+    const colorInputFieldRef=useRef<any>()
     const close = useCallback(() => toggle(false), []);
-    useClickOutside(popover, close);
+    const [colorPickerPosition, setColorPickerPosition] = React.useState<any>({
+        top:0,
+    })
+    const isFieldContainsEmptyData=()=>{
+        if(!color){
+            onChange("transparent")
+        }
+    }
 
+    console.log(colorPickerPosition)
+    useClickOutside(popover, close);
+    useClickOutside(colorInputFieldRef,isFieldContainsEmptyData );
     return (
 
         <div className="review-color-picker">
@@ -19,19 +30,22 @@ const PopoverPicker = ({color, onChange}: any) => {
                 className="review-color-container frt-flex frt-items-center frt-gap-3 frt-p-3">
                 <button className={"review-color-swatch frt-flex-basis-[20%] frt-border frt-border-gray-700 "}
                         style={{backgroundColor: color ? color : 'transparent'}}
-                        onClick={() => toggle(true)}
+                        onClick={(e:any) => {toggle(true)
+                            const {top}=e.target.getBoundingClientRect()
+                            setColorPickerPosition({top})}}
                 ></button>
-                <div className={"frt-flex-basis-[80%]"}>
-                    {color ? (<Input
-                        value={color}
-                        onChange={(e: any) => {
-                            onChange(e.target.value)
-                        }}/>) : <span>Transparent</span>}
+                <div className={"frt-flex-basis-[80%]"}
+                >
+                    <Input ref={colorInputFieldRef}
+                           value={color}
+                           onChange={(e: any) => {
+                               onChange(e.target.value)
+                           }}/>
                 </div>
             </div>
             {isOpen && (
-                <div className="review-color-popover" ref={popover}>
-                    <HexColorPicker color={color ? color : ''} onChange={onChange}/>
+                <div className={`review-color-popover`} ref={popover} style={colorPickerPosition}>
+                    <HexColorPicker className={`frt-z-50`} color={color ? color : ''} onChange={onChange}/>
                 </div>
             )}
         </div>

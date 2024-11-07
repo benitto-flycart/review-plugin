@@ -1,0 +1,288 @@
+* {
+    all: unset;
+    box-sizing: border-box;
+}
+
+.r_rdw_container {
+    display: block;
+    position: relative;
+    background-color: var(--r-rdw-dialog-bg-color);
+    border-radius: 15px;
+    padding: 1rem;
+    max-width: 500px;
+    margin:auto;
+}
+
+.r_rdw-main_content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    height: 100%;
+    gap: 2rem;
+    padding: .6rem;
+    justify-content: center;
+}
+
+.r_rdw-main_content > div {
+    width: 100%;
+}
+
+
+.r_rdw-review-icons {
+    display: flex;
+    column-gap: 3px;
+    color: var(--r-rdw-rating-icon-color);
+}
+
+.r_rdw-image-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.r_rdw_all_images {
+    position: relative;
+    width: 100%;
+
+}
+
+.r_rdw_all_images_wrapper {
+    display: flex;
+    transition: transform ease-in-out .6s;
+    height: 100%;
+    width: 100%;
+}
+
+.r_rdw_active_image {
+    width: 100%
+}
+
+.r_rdw-slide-actions {
+    position: absolute;
+    top: 39%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.r_rdw-i-verified-notification {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+/* Show the notification when button or its parent container is focused */
+.r_rdw-overview:focus-within,.r_rdw-overview:focus,.r_rdw-overview:hover .r_rdw-i-verified-notification {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.r_rdw-slide-actions button {
+    padding: .3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--r-rdw-btn-text-color);
+    background-color: var(--r-rdw-btn-bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.r_rdw-slide-actions button.disabled {
+    opacity: .5;
+}
+
+.r_rdw-caption-container {
+    position: absolute;
+    bottom: 0;
+    background-color: transparent;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.mySlides {
+    height: 100%;
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    max-height: 150px;
+}
+
+.mySlides.active {
+    z-index: 1;
+}
+.row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin: .5rem;
+    padding: 1rem 0;
+}
+.r_rdw-image-options{
+    height: auto;
+}
+.column {
+    border-radius: 30%;
+    flex: 1;
+    cursor: pointer;
+    transition: scale ease-in-out 0.5s;
+    scale: 0.8;
+    width: 50px;
+    height: auto;
+}
+
+.column.active {
+    scale: 1.3;
+}
+.column.active img{
+    border-radius: .375rem;
+    overflow: hidden;
+}
+
+img {
+    width: inherit;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.column img {
+    object-fit: contain;
+}
+
+
+.r_rdw-detail-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: var(--r-rdw-text-color);
+    font-size: 14px;
+    line-height: 16px;
+    gap: 1rem;
+}
+.r_rdw-review-content-text{
+    font-size: 0.75rem;
+}
+
+.r_rdw-normal-text{
+    font-size: 0.75rem;
+}
+
+.r_rdw-review-details {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.r_rdw-spread-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: .5rem;
+    align-items: center;
+}
+
+.r_rdw-title{
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.r_rdw-button-info i{
+    font-size: 1rem;
+}
+
+.r_rdw-spread-container__review-date {
+    font-size: 12px;
+    opacity: .7;
+}
+
+.r_rdw-i-verified-notification {
+    top: -2rem;
+    position: absolute;
+    text-wrap: nowrap;
+    transform: translateX(-90%);
+    display: flex;
+    flex-direction: column;
+    left: .5rem;
+    background: white;
+    border-radius: 5px;
+    padding: .5rem;
+    box-shadow: 10px 10px transparent;
+    transition: opacity .5s;
+    z-index: 10;
+}
+
+.r_rdw_verified-notification-info-toggle {
+    opacity: 0;
+}
+
+
+.r_rdw-button-info {
+    font-weight: bold;
+    font-style: oblique;
+    font-size: 14px;
+}
+
+.r_rdw-overview {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.r_rdw-review-content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.r_rdw-review-content {
+    margin-bottom: 1rem;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.r_rdw-review-content:before {
+    content: open-quote;
+}
+
+.r_rdw-review-content:after {
+    content: close-quote;
+}
+
+.r_rdw-item-reply-title {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+.r_rdw-review-item-reply {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.r_rdw_close_icon {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.r_rdw_close_icon i {
+    padding: .4rem;
+    border-radius: 50%;
+    color: var(--r-rdw-btn-text-color);
+    background-color: var(--r-rdw-btn-bg-color);
+}
+
+.r_rdw_hide {
+    display: none;
+}
+
+@media screen and (max-width:480px){
+    .r_rdw-main_content{
+        grid-auto-flow: row;
+        grid-template-columns: none;
+    }
+}

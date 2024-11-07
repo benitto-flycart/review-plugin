@@ -16,6 +16,8 @@ class ReviewRemainderResource extends Resource
             'type' => EmailSetting::REVIEW_REQUEST_TYPE,
             'status' => $review_remainder['status'],
             'settings' => EmailSetting::getReviewSettingsAsArray($review_remainder['settings']),
+            'placeholders' => $review_remainder['placeholders'],
         ];
     }
 }
+

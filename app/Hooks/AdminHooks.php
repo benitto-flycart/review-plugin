@@ -16,26 +16,17 @@ class AdminHooks extends RegisterHooks
         }
     }
 
-    public static function init()
-    {
+    public static function init() {}
 
-    }
-
-    public static function head()
-    {
-
-    }
+    public static function head() {}
 
     public static function addMenu()
     {
         // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
         $pluginName = esc_html__(F_Review_PLUGIN_NAME, 'flycart-review');
-
-        error_log('adding menu in wp');
-
         add_menu_page(
-           $pluginName,
-           $pluginName,
+            $pluginName,
+            $pluginName,
             'manage_options',
             'flycart-review',
             [PageController::class, 'show'],

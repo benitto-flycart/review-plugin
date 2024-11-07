@@ -196,7 +196,6 @@ class Database
         }
 
         return $this->getSingleRow();
-
     }
 
     public function firstOrFail()
@@ -323,7 +322,7 @@ class Database
             case 'update':
             case 'insert':
             case 'query':
-            case 'delete' :
+            case 'delete':
                 $errorType = false;
                 break;
         }
@@ -405,5 +404,93 @@ class Database
 
         // Run the query.  Returns number of affected rows.
         return $this->db->prepare($sql, $data);
+    }
+
+
+    public static function table($table)
+    {
+        return new static($table);
+    }
+
+
+    public static function getWPTablePrefix()
+    {
+        global $wpdb;
+
+        $wpPrefix = $wpdb->prefix;
+
+        return $wpPrefix;
+    }
+
+    public static function getHPOSOrderTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'wc_orders';
+
+        return $table;
+    }
+
+    public static function getHPOSOrderMetaTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'wc_orders_meta';
+
+        return $table;
+    }
+
+    public static function getHPOSOrderAddressTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'wc_order_addresses';
+
+        return $table;
+    }
+
+    public static function getWCOrderItemsTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'woocommerce_order_items';
+
+        return $table;
+    }
+
+    public static function getWCOrderItemMetaTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'woocommerce_order_itemmeta';
+
+        return $table;
+    }
+
+    public static function getWPPostsTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'posts';
+
+        return $table;
+    }
+
+    public static function getWPPostMetaTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'postmeta';
+
+        return $table;
+    }
+
+    public static function getCommentsTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'comments';
+
+        return $table;
+    }
+
+    public static function getCommentsMetaTable()
+    {
+        $tablePrefix = static::getWPTablePrefix();
+        $table = $tablePrefix . 'commentmeta';
+
+        return $table;
     }
 }

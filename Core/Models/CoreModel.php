@@ -10,7 +10,8 @@ class CoreModel extends Model
 
     public function createTable()
     {
-        // TODO: Implement createTable() method.
+
+        //code
     }
 
     public static function getCoreModels()
@@ -28,3 +29,4 @@ class CoreModel extends Model
         ];
     }
 }
+

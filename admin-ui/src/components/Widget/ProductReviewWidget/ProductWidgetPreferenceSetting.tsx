@@ -1,84 +1,147 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {ProductWidgetContext} from "./ProductReviewContextAPI";
 import {Label} from "../../ui/label";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../../ui/select";
 import {Switch} from "../../ui/switch";
 import DetailHeading from "../Sidebar/DetailHeading";
 import SidebarDetail from "../Sidebar/SidebarDetail";
 import SidebarDetailSection from "../Sidebar/SidebarDetailSection";
-import SidebarDetailField from "../Sidebar/SidebarDetailField";
 import SidebarDetailWrapper from "../Sidebar/SidebarDetailWrapper";
+import SidebarDetailField from "../Sidebar/SidebarDetailField";
+import {SampleReviewsContext} from "../SampleReviewsAPI";
 
 const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
+    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext);
+    const {setEmptyReview} = useContext<any>(SampleReviewsContext);
+
+    useEffect(() => {
+       return ()=>{
+           setEmptyReview(false)
+       }
+    }, []);
 
     return (
         <SidebarDetailWrapper>
             <DetailHeading name={name} updateWidgetFields={updateWidgetFields}/>
 
             <SidebarDetail>
-                <SidebarDetailSection title={'Display'}>
+                <SidebarDetailSection title={"Display"}>
                     <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Product Reviews Widget</Label>
-                        <Select>
+                        <Label className={"frt-text-xs"} htmlFor="none">
+                            Product Reviews Widget
+                        </Label>
+                        <Select
+                            defaultValue={widget.preferences.product_review_widget}
+                            onValueChange={(value: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.preferences.product_review_widget = value;
+                                });
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select"/>
                             </SelectTrigger>
                             <SelectContent className={"!frt-z-10000000"}>
                                 <SelectGroup>
                                     <SelectItem value="always_shown">Always Shown</SelectItem>
-                                    <SelectItem value="hidden_when_empty">Hidden when empty</SelectItem>
+                                    <SelectItem value="hidden_when_empty">
+                                        Hidden when empty
+                                    </SelectItem>
                                     <SelectItem value="always_hidden">Always Hidden</SelectItem>
-                                    <SelectItem value="all_reviews_when_empty">All Reviews when
-                                        empty</SelectItem>
-                                    <SelectItem value="all_reviews_always">All Reviews Always</SelectItem>
+                                    <SelectItem value="all_reviews_when_empty">
+                                        All Reviews when empty
+                                    </SelectItem>
+                                    <SelectItem value="all_reviews_always">
+                                        All Reviews Always
+                                    </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                         <p>Check store to view this change</p>
                     </SidebarDetailField>
-
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
                             <Switch
-                                id="show_write_a_review_button"
+                                id="show_review_date"
+                                defaultChecked={widget.preferences.toggle_loading_screen}
                                 onCheckedChange={(value: boolean) => {
                                     updateWidgetFields((draftState: any) => {
-                                        draftState.preferences.show_write_a_review = value;
-                                    })
+                                        draftState.preferences.toggle_loading_screen = value;
+                                    });
                                 }}
                             />
-                            <Label htmlFor="show_write_a_review_button">Show a "Write a review button"</Label>
+                            <Label className={"frt-text-xs"} htmlFor="none">
+                                Toggle loading screen
+                            </Label>
                         </div>
                     </SidebarDetailField>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch id="show_review_date"
-                                    onCheckedChange={(value: boolean) => {
-                                        updateWidgetFields((draftState: any) => {
-                                            draftState.preferences.show_review_date = value;
-                                        })
-                                    }}
+                            <Switch
+                                id="show_review_date"
+                                defaultChecked={widget.preferences.toggle_empty_review}
+                                onCheckedChange={(value: boolean) => {
+                                    setEmptyReview(value);
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.preferences.toggle_empty_review = value;
+                                    });
+                                }}
+                            />
+                            <Label className={"frt-text-xs"} htmlFor="none">
+                                Toggle empty review
+                            </Label>
+                        </div>
+                    </SidebarDetailField>
+                    <SidebarDetailField>
+                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
+                            <Switch
+                                id="show_write_a_review_button"
+                                defaultChecked={widget.preferences.show_write_a_review}
+                                onCheckedChange={(value: boolean) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.preferences.show_write_a_review = value;
+                                    });
+                                }}
+                            />
+                            <Label htmlFor="show_write_a_review_button">
+                                Show a "Write a review button"
+                            </Label>
+                        </div>
+                    </SidebarDetailField>
+                    <SidebarDetailField>
+                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
+                            <Switch
+                                id="show_review_date"
+                                defaultChecked={widget.preferences.show_review_date}
+                                onCheckedChange={(value: boolean) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.preferences.show_review_date = value;
+                                    });
+                                }}
                             />
                             <Label htmlFor="show_review_date">Show review date</Label>
                         </div>
                     </SidebarDetailField>
 
                     <SidebarDetailField>
-                        <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch id="show_review_type" onCheckedChange={(value: boolean) => {
+                        <Label className={"frt-text-xs"} htmlFor="none">
+                            Thumbnail Size
+                        </Label>
+                        <Select
+                            defaultValue={widget.preferences.thumbnail_size}
+                            onValueChange={(value: string) => {
                                 updateWidgetFields((draftState: any) => {
-                                    draftState.preferences.show_item_type = value;
-                                })
-                            }}/>
-                            <Label htmlFor="show_review_type">Show item type</Label>
-                        </div>
-                        <p>Check store to view this change</p>
-                    </SidebarDetailField>
-
-                    <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Thumbnail Size</Label>
-                        <Select>
+                                    draftState.preferences.thumbnail_size = value;
+                                });
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select"/>
                             </SelectTrigger>
@@ -91,44 +154,63 @@ const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
                             </SelectContent>
                         </Select>
                         <p>Check store to view this change</p>
-
                     </SidebarDetailField>
 
                     <SidebarDetailField>
-
-                        <Label className={"frt-text-xs"} htmlFor="none">Reviews Per Page</Label>
-                        <Select>
+                        <Label className={"frt-text-xs"} htmlFor="none">
+                            Reviews Per Page
+                        </Label>
+                        <Select
+                            defaultValue={widget.preferences.reviews_per_page}
+                            onValueChange={(value: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.preferences.reviews_per_page = value;
+                                });
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select"/>
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value="small">20</SelectItem>
-                                    <SelectItem value="medium">25</SelectItem>
-                                    <SelectItem value="large">30</SelectItem>
+                                    <SelectItem value="5">5</SelectItem>
+                                    <SelectItem value="10">10</SelectItem>
+                                    <SelectItem value="15">15</SelectItem>
+                                    <SelectItem value="20">20</SelectItem>
+                                    <SelectItem value="30">30</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </SidebarDetailField>
                 </SidebarDetailSection>
 
-                <SidebarDetailSection title={'Sorting'}>
+                <SidebarDetailSection title={"Sorting"}>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch id="show_sorting_options"
-                                    onCheckedChange={(value: boolean) => {
-                                        updateWidgetFields((draftState: any) => {
-                                            draftState.preferences.show_sorting_options = value;
-                                        })
-                                    }}
+                            <Switch
+                                id="show_sorting_options"
+                                defaultChecked={widget.preferences.show_sorting_options}
+                                onCheckedChange={(value: boolean) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.preferences.show_sorting_options = value;
+                                    });
+                                }}
                             />
                             <Label htmlFor="show_sorting_options">Show Sorting Options</Label>
                         </div>
-                        <p>Check store to view this change</p>
                     </SidebarDetailField>
                     <SidebarDetailField>
-                        <Label className={"frt-text-xs"} htmlFor="none">Default Sorting</Label>
-                        <Select>
+                        <Label className={"frt-text-xs"} htmlFor="none">
+                            Default Sorting
+                        </Label>
+                        <Select
+                            defaultValue={widget.preferences.default_sorting}
+                            onValueChange={(value: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.preferences.default_sorting = value;
+                                });
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select"/>
                             </SelectTrigger>
@@ -143,15 +225,18 @@ const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
                     </SidebarDetailField>
                 </SidebarDetailSection>
 
-                <SidebarDetailSection title={'Filtering'}>
+                <SidebarDetailSection title={"Filtering"}>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-                            <Switch id="show_sorting_options"
-                                    onCheckedChange={(value: boolean) => {
-                                        updateWidgetFields((draftState: any) => {
-                                            draftState.preferences.show_rating_options = value;
-                                        })
-                                    }}/>
+                            <Switch
+                                id="show_sorting_options"
+                                defaultChecked={widget.preferences.show_rating_options}
+                                onCheckedChange={(value: boolean) => {
+                                    updateWidgetFields((draftState: any) => {
+                                        draftState.preferences.show_rating_options = value;
+                                    });
+                                }}
+                            />
                             <Label htmlFor="show_sorting_options">Show rating Options</Label>
                         </div>
                     </SidebarDetailField>
@@ -159,6 +244,6 @@ const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
             </SidebarDetail>
         </SidebarDetailWrapper>
     );
-}
+};
 
-export default ProductWidgetPreferenceSetting
+export default ProductWidgetPreferenceSetting;

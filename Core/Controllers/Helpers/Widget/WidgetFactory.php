@@ -6,10 +6,10 @@ class WidgetFactory
 {
     public $language;
     public $type;
-    public $widget;
+    public Widget $widget;
     public $request;
 
-    public function __construct($type, $language, $request)
+    public function __construct($type, $language, $request = null)
     {
         $this->type = $type;
         $this->language = $language;
@@ -27,8 +27,10 @@ class WidgetFactory
     {
         return $this->widget->get();
     }
-
-
+    /**
+     * widget object
+     * @return WidgetInterface 
+     */
     public function getWidgetObject()
     {
         switch ($this->type) {
@@ -44,9 +46,12 @@ class WidgetFactory
                 return SnippetWidget::make($this->language, $this->request);
             case 'rating_widget':
                 return RatingWidget::make($this->language, $this->request);
+            case 'review_form_widget':
+                return ReviewFormWidget::make($this->language, $this->request);
+            case 'review_detail_widget':
+                return ReviewDetailWidget::make($this->language, $this->request);
             default:
                 throw new \Error('Unknown widget type');
         }
     }
-
 }

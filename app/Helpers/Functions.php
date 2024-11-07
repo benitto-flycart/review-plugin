@@ -38,7 +38,6 @@ class Functions
         ]);
 
         return html_entity_decode(wp_strip_all_tags($price));
-
     }
 
     public static function utcToWPTime($datetime, $format = 'Y-m-d H:i:s')
@@ -50,7 +49,6 @@ class Functions
         $timestamp = $date->format('U');
 
         return wp_date($format, $timestamp);
-
     }
 
     public static function wpToUTCTime($datetime, $format = 'Y-m-d H:i:s')
@@ -64,7 +62,6 @@ class Functions
 
         // Format the date and time in UTC using wp_date
         return wp_date($format, $date->getTimestamp(), new DateTimeZone('UTC'));
-
     }
 
     public static function getWcTime($datetime, $format = 'Y-m-d H:i:s')
@@ -145,19 +142,14 @@ class Functions
 
     public static function getBoolValue($value)
     {
-        if ($value === 'false') return false;
-
-        if ($value === 'true') return true;
-
-        if ($value === '1') return true;
 
         if ($value === '0') return false;
-
-        if ($value === 1) return true;
-
+        if ($value === '1') return true;
+        if ($value === 'false') return false;
+        if ($value === 'true') return true;
         if ($value === 0) return false;
-
-        return (bool)$value;
+        if ($value === 1) return true;
+        return !empty($value);
     }
 
     public static function getUniqueKey($id = null)
@@ -231,5 +223,35 @@ class Functions
         return [
             'message' => __('Server Error Occurred', 'f-review'),
         ];
+    }
+
+    public static function isMobile()
+    {
+        return preg_match('/(android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile)/i', $_SERVER['HTTP_USER_AGENT'] ?? '');
+    }
+
+    public static function convertMBToKB($mb)
+    {
+        if (is_int($mb)) {
+            return $mb * 1024 * 1024;
+        }
+
+        throw new \Exception('Argument must be an integer');
+    }
+
+    public static function getWcTimeFromGMT($gmt_time)
+    {
+        return !empty($gmt_time) ? self::formatDate($gmt_time, 'Y-m-d') : null;
+    }
+
+    public static function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

@@ -15,17 +15,11 @@ class DiscountSettingRequest implements FormRequest
 
         $rules = [
             'enable_photo_discount' => ['required'],
-            'enable_video_discount' => ['required'],
         ];
 
         if (isset($data['enable_photo_discount']) && Functions::getBoolValue($data['enable_photo_discount'])) {
             $rules['photo_discount_type'] = ['required'];
             $rules['photo_discount_value'] = ['required'];
-        }
-
-        if (isset($data['enable_video_discount']) && Functions::getBoolValue($data['enable_video_discount'])) {
-            $rules['video_discount_type'] = ['required'];
-            $rules['video_discount_value'] = ['required'];
         }
 
         return $rules;
@@ -36,3 +30,4 @@ class DiscountSettingRequest implements FormRequest
         return [];
     }
 }
+

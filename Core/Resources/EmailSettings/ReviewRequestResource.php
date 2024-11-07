@@ -15,7 +15,8 @@ class ReviewRequestResource extends Resource
             'language_label' => WordpressHelper::getLanguageLabel($review_request['language']),
             'type' => EmailSetting::REVIEW_REQUEST_TYPE,
             'status' => $review_request['status'],
-            'settings' => EmailSetting::getReviewSettingsAsArray($review_request['settings']),
+            'settings' => $review_request['settings'],
+            'placeholders' => $review_request['placeholders'],
         ];
     }
 }

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",                      // Target ES5 for compatibility
+    "module": "commonjs",                  // Module system
+    "lib": ["dom", "es6"],                 // Include DOM and ES6 features
+    "moduleResolution": "node",            // Node-style module resolution
+    "outDir": "./dist",                    // Output directory for compiled files
+    "rootDir": "./src",                    // Directory for source files
+    "esModuleInterop": true,               // Support for commonjs to ES module interop
+    "strict": true,                        // Enable strict type-checking options
+    "sourceMap": true                      // Generate source maps
+  },
+  "include": ["src/**/*", "globals.d.ts"],                 // Include files in `src` folder
+  "exclude": ["node_modules"]              // Exclude `node_modules`
+}

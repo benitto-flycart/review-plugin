@@ -1,16 +1,31 @@
 import React from "react";
 import {useLocalState} from "./zustand/localState";
+import {reviewIcons} from "../helpers/icons";
 
-const ReviewIcon = ({color = 'inherit', fontSize = 'inherit', filled = true} : any) => {
+const ReviewIcon = ({icon = 'gem', color = 'inherit', fontSize = 'inherit', filled = true, className=''}: {
+    icon?: string,
+    color?: string,
+    fontSize?: string,
+    filled?: boolean,
+    className?: string
+}) => {
     const {localState} = useLocalState();
-    const icons = ['gem', 'gem-outline', 'heart', 'heart-outline', 'leaf', 'leaf-outline', 'rocket', 'rocket-outline', 'round-star', 'round-star-outline', 'star-sharp', 'star-sharp-outline', ]
-    const icon = icons[Math.floor(Math.random() * icons.length)];
 
+    //@ts-ignore
+    let reviewicon;
+
+    if(filled){
+        //@ts-ignore
+        reviewicon=reviewIcons[icon].filled
+    }else{
+        //@ts-ignore
+        reviewicon=reviewIcons[icon].outlined
+    }
     return (
-        <i className={`review-icon review review-${icon} ${filled ? 'review-icon-filled' : 'review-icon-empty'}`}
-           style={{fontSize: "inherit", color: "inherit"}}></i>
+        <i className={`review-icon review review-${reviewicon} ${className}`}
+           style={{fontSize: fontSize, color: color}}></i>
     );
 }
 
-export default  ReviewIcon;
+export default ReviewIcon;
 

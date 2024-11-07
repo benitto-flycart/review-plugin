@@ -1,20 +1,20 @@
-import {toast} from "sonner"
-
+import { toast, Toaster } from "sonner";
 
 export const toastrSuccess = (message: any) => {
-    console.log(message)
-    toast.success(message, {
-        position: 'top-right'
-    });
-}
+  toast.success(message, {
+    style: {color: "white", backgroundColor: "black"  },
+    position: "top-right"
+  });
+};
 
 export const toastrError = (message: any) => {
-    console.log(message)
-    if (!message) {
-        message = 'Error';
-    }
+  if (!message) {
+    message = "Error";
+  }
 
-    toast.error(message, {
-        position: 'top-right'
-    });
-}
+  toast.error(message, {
+    style: {color: "white", backgroundColor: "black"  },
+    position: "top-right",
+  });
+};
+

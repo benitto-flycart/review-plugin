@@ -9,9 +9,7 @@ $admin_hooks = [
         'admin_head' => ['callable' => [AdminHooks::class, 'head'], 'priority' => 10, 'accepted_args' => 1],
         'admin_menu' => ['callable' => [AdminHooks::class, 'addMenu'], 'priority' => 10, 'accepted_args' => 1],
     ],
-    'filters' => [
-
-    ],
+    'filters' => [],
 ];
 
 $store_front_hooks = [
@@ -23,3 +21,4 @@ return [
     'admin_hooks' => $admin_hooks,
     'store_front_hooks' => $store_front_hooks
 ];
+

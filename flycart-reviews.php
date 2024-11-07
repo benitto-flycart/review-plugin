@@ -12,14 +12,12 @@
  * Domain Path:          /i18n/languages
  * License:              GPL v3 or later
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
- *
+ * Requires Plugins: woocommerce
  * WC requires at least: 7.0
  */
 
 
 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-
-use Flycart\Review\App\App;
 
 defined('ABSPATH') or exit;
 
@@ -29,9 +27,8 @@ defined('F_Review_PLUGIN_FILE') or define('F_Review_PLUGIN_FILE', __FILE__);
 defined('F_Review_PLUGIN_NAME') or define('F_Review_PLUGIN_NAME', 'Review F');
 defined('F_Review_PLUGIN_SLUG') or define('F_Review_PLUGIN_SLUG', "wp-relay");
 defined('F_Review_VERSION') or define('F_Review_VERSION', "2.0");
-defined('F_Review_PREFIX') or define('F_Review_PREFIX', "prefix_");
+defined('F_Review_PREFIX') or define('F_Review_PREFIX', "f_review_");
 
-//__('joj', 'flycart-review');
 /**
  * Required PHP Version
  */
@@ -46,7 +43,7 @@ if (version_compare($php_version, F_Review_REQUIRED_PHP_VERSION, '<=')) {
     $status = 'warning';
 
     add_action('admin_notices', function () use ($message, $status) {
-        ?>
+?>
         <div class="notice notice-<?php echo __('benitto', 'flycart-review'); ?>">
             <p><?php echo wp_kses_post($message); ?></p>
         </div>
@@ -62,7 +59,6 @@ if (version_compare($php_version, F_Review_REQUIRED_PHP_VERSION, '<=')) {
 if (!defined('F_Review_WC_REQUIRED_VERSION')) {
     define('F_Review_WC_REQUIRED_VERSION', '7.0.0');
 }
-
 
 // To load PSR4 autoloader
 if (file_exists(F_Review_PLUGIN_PATH . '/vendor/autoload.php')) {
@@ -92,11 +88,11 @@ if (!function_exists('flycart_review_is_woo_commerce_installed')) {
             $status = 'warning';
 
             add_action('admin_notices', function () use ($message, $status) {
-                ?>
+        ?>
                 <div class="notice notice-<?php echo esc_attr($status); ?>">
                     <p><?php echo wp_kses_post($message); ?></p>
                 </div>
-                <?php
+            <?php
             }, 1);
             error_log($message);
             return false;
@@ -112,13 +108,12 @@ if (function_exists('flycart_review_is_woo_commerce_installed')) {
             $status = 'warning';
 
             add_action('admin_notices', function () use ($message, $status) {
-                ?>
+            ?>
                 <div class="notice notice-<?php echo esc_attr($status); ?>">
                     <p><?php echo wp_kses_post($message); ?></p>
                 </div>
-                <?php
+        <?php
             }, 1);
-            error_log($message);
             return false;
         }
     } else {
@@ -141,7 +136,7 @@ if (function_exists('flycart_review_is_woo_commerce_installed')) {
         <div class="notice notice-<?php echo esc_attr($status); ?>">
             <p><?php echo wp_kses_post($message); ?></p>
         </div>
-        <?php
+    <?php
     }, 1);
     error_log($message);
     return;
@@ -153,7 +148,7 @@ require_once(plugin_dir_path(__FILE__) . '../woocommerce/packages/action-schedul
 if (!function_exists('flycart_review_app')) {
     function flycart_review_app()
     {
-        return App::make();
+        return \Flycart\Review\App\App::make();
     }
 }
 
@@ -193,14 +188,25 @@ add_action('admin_head', function () {
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     $page = !empty($_GET['page']) ? $_GET['page'] : '';
     if (in_array($page, array('flycart-review'))) {
-        ?>
+    ?>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 self = window;
             });
         </script>
-        <?php
+<?php
     }
 }, 11);
 
+add_action('farp_prefix_get_google_font_link_for_email_template', function () {
+    return '<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">';
+});
 
+add_filter('farp_prefix_get_desired_font_style', function () {
+    return [
+        'class' => 'dm-serif-text-regular  dm-serif-text-regular-italic',
+        'content' => 'font-weight: 400; font-style: normal;  font-family: "DM Serif Text", serif; font-weight: 400; font-style: italic;'
+    ];
+});

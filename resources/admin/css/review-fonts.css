@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'review';
-  src:  url('fonts/review.eot?gxglgt');
-  src:  url('fonts/review.eot?gxglgt#iefix') format('embedded-opentype'),
-    url('fonts/review.ttf?gxglgt') format('truetype'),
-    url('fonts/review.woff?gxglgt') format('woff'),
-    url('fonts/review.svg?gxglgt#review') format('svg');
+  src:  url('fonts/review.eot?fud4ov');
+  src:  url('fonts/review.eot?fud4ov#iefix') format('embedded-opentype'),
+    url('fonts/review.ttf?fud4ov') format('truetype'),
+    url('fonts/review.woff?fud4ov') format('woff'),
+    url('fonts/review.svg?fud4ov#review') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,57 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.review-arrow-left:before {
+  content: "\e912";
+}
+.review-arrow-right:before {
+  content: "\e913";
+}
+.review-caret-left:before {
+  content: "\e914";
+}
+.review-caret-right:before {
+  content: "\e915";
+}
+.review-clipboard-text:before {
+  content: "\e916";
+}
+.review-desktop:before {
+  content: "\e917";
+}
+.review-mobile:before {
+  content: "\e918";
+}
+.review-funnel-simple:before {
+  content: "\e919";
+}
+.review-settings:before {
+  content: "\e91a";
+}
+.review-image-square:before {
+  content: "\e91b";
+}
+.review-info:before {
+  content: "\e91c";
+}
+.review-plus:before {
+  content: "\e91d";
+}
+.review-simple-start:before {
+  content: "\e91e";
+}
+.review-thank-you:before {
+  content: "\e91f";
+}
+.review-video-camera:before {
+  content: "\e920";
+}
+.review-warning:before {
+  content: "\e921";
+}
+.review-cross-icon:before {
+  content: "\e922";
+}
 .review-gem-outline:before {
   content: "\e900";
 }

@@ -1,161 +1,159 @@
 .wd_container {
-    min-width: 95vw !important;
-    max-width: 95vw !important;
+  min-width: 95vw !important;
+  max-width: 95vw !important;
 
-    height: 90vh;
-    max-height: 90vh;
-    z-index: 500000 !important;
-    /*overflow: scroll;*/
-    /*scrollbar-width: none;*/
-    display: flex;
+  height: 90vh;
+  max-height: 90vh;
+  z-index: 500000 !important;
+  /*overflow: scroll;*/
+  /*scrollbar-width: none;*/
+  display: flex;
 }
 
 .wd__sidebar {
-    flex-basis: 25%;
-    height: 100%;
-    overflow: scroll;
+  flex-basis: 25%;
+  height: 100%;
+  overflow: scroll;
 }
 
 .wd_preview {
-    flex-basis: 75%;
-    height: 100%;
+  flex-basis: 75%;
+  height: 100%;
 }
 
 .wd_preview_header {
-    height: auto;
+  height: auto;
 }
 
 .wd_preview__main_content {
-    overflow: scroll;
-    max-height: 80vh;
-    padding: 3vh 0;
+  overflow: scroll;
+  max-height: 80vh;
+  padding: 3vh 0;
 }
 
 .review-widget-preview * {
-    scrollbar-width: none !important;
+  scrollbar-width: none !important;
 }
 
 .review-color-picker {
-    position: relative;
+  position: relative;
 }
 
 .review-color-container {
-    border-radius: 15px;
-    border: .1px solid lightgray;
-    max-width: 150px;
+  border-radius: 15px;
+  border: 0.1px solid lightgray;
+  max-width: 150px;
 }
 
 .review-color-swatch {
-    width: 28px;
-    height: 28px;
-    border-radius: 50px;
-    min-width: 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50px;
+  min-width: 28px;
 }
 
 .review-color-popover {
-    position: absolute;
-    top: calc(100% + 2px);
-    left: 0;
-    z-index: 100;
+  position: fixed;
+  z-index: 100;
 }
 
 .preview-widget {
-    background-image: linear-gradient(to bottom, transparent 98%, #e8ebee 50%), linear-gradient(to right, white 98%, #e8ebee 50%);
-    background-size: 32px 32px;
-    height: 100%;
+  background-image: linear-gradient(to bottom, transparent 98%, #e8ebee 50%),
+    linear-gradient(to right, white 98%, #e8ebee 50%);
+  background-size: 32px 32px;
+  height: 100%;
 }
 
 .review-preview-wrap {
-    transition: .25s;
-    width: 90%;
-    margin: auto auto;
-    outline: unset;
-    background-color: #ffffff;
-    box-shadow: 0px -2px 12px rgba(0, 0, 0, .08);
+  transition: 0.25s;
+  width: 90%;
+  margin: auto auto;
+  outline: unset;
+  background-color: #ffffff;
+  box-shadow: 0px -2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .widget-header-title {
-    /*need to add padding here*/
+  /*need to add padding here*/
 }
 
 .wd__sidebar {
-    max-height: 100%;
-    overflow: scroll;
+  max-height: 100%;
+  overflow: scroll;
 }
 
-
 @-moz-keyframes WidgetfadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes WidgetfadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes WidgetfadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @-moz-keyframes WidgetfadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @-webkit-keyframes WidgetfadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes WidgetfadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .widget-setting-transform {
-    transition: transform 500ms;
+  transition: transform 500ms;
 }
 
 .widget-setting-transform.hide {
-    animation: WidgetfadeOut 2s;
-    display: none;
+  animation: WidgetfadeOut 2s;
+  display: none;
 }
 
 .widget-save-alert {
-    animation: widget-save-slide-in 100ms;
+  animation: widget-save-slide-in 100ms;
 }
 
 @keyframes widget-save-slide-in {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0%);
-    }
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
 }

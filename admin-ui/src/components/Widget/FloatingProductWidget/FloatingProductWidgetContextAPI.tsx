@@ -1,17 +1,18 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import {produce} from "immer";
-import {axiosClient} from "../../../helpers/axios";
+import {axiosClient} from "../../api/axios";
 import {toastrError, toastrSuccess} from "../../../helpers/ToastrHelper";
 import {useLocalState} from "../../zustand/localState";
 
 export const FloatingProductWidgetContext = createContext({});
 
 function FloatingProductWidgetContextAPI({children}: { children: any }) {
-    const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [saving, setSaving] = useState(false)
     const {localState} = useLocalState();
 
     const [widget, setWidget] = useState({
+        widget_loading: true,
         view: 'desktop',
         show_setting: '',
         text_content: "Reviews",
@@ -19,18 +20,6 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
         text_color: '#141010',
         bg_color: '#b64c4c',
     })
-
-    const widgetMethods = {
-        //code
-        getFPStyles: () => {
-            return {
-                backgroundColor: widget.bg_color,
-                font_size: widget.font_size + 'px',
-                color: widget.text_color,
-            }
-        }
-
-    }
 
     const updateWidgetFields = (cb: any) => {
         let newState = produce(widget, draft => {
@@ -88,24 +77,26 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
         });
     }
 
-    useEffect(() => {
-        fetchFloatingProductWidget();
-
-        let saveInterval = setInterval(() => {
-            // saveSettings();
-        }, 15000);
-
-        return () => {
-            clearInterval(saveInterval)
-        }
-    }, []);
+    const widgetMethods = {
+        //code
+        getFPStyles: () => {
+            return {
+                backgroundColor: widget.bg_color,
+                font_size: widget.font_size + 'px',
+                color: widget.text_color,
+            }
+        },
+        saveSettings,
+        getSettings:fetchFloatingProductWidget
+    }
 
     return (
         <FloatingProductWidgetContext.Provider value={{
             widget: widget,
             updateWidgetFields,
             methods: widgetMethods,
-            loading
+            loading,
+            saving,
         }}>
             {children}
         </FloatingProductWidgetContext.Provider>

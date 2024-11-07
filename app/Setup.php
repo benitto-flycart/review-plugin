@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+use Flycart\Review\App\Helpers\AssetHelper;
+
 class Setup
 {
     /**
@@ -21,7 +23,45 @@ class Setup
      */
     public static function activate()
     {
-        //code
+
+        static::create_custom_page_programmatically();
+
+        flush_rewrite_rules();
+    }
+
+    // Hook into theme activation
+    //add_action('after_switch_theme', 'create_custom_page_programmatically');
+    //Need to execute this hook in theme switch
+    public static function create_custom_page_programmatically()
+    {
+        // Define page details
+        $page_title = 'Review Form';  // Page title
+        $page_content = 'Review Form Page Content';  // Page content
+
+        $page_template = "templates/review-form.php";  // Optional: set a custom template
+
+        $page_id = get_option('flycart-review-form-page-id', 0);
+
+
+        // If the page doesn't exist, create it
+        if (empty($page_id)) {
+            // Prepare the page array
+            $new_page = array(
+                'post_title' => $page_title,
+                'post_content' => $page_content,
+                'post_status' => 'publish',
+                'post_type' => 'page',
+                'post_author' => 1, // Typically the admin ID
+                'post_name' => sanitize_title($page_title), // Page slug
+            );
+
+            // Insert the page into the database
+            $page_id = wp_insert_post($new_page);
+
+            update_post_meta($page_id, '_wp_page_template', $page_template);
+            // Optionally, assign a page template
+            update_option('flycart-review-form-page-id', $page_id);
+        }
     }
 
     /**
@@ -29,7 +69,7 @@ class Setup
      */
     public static function deactivate()
     {
-//        wp_clear_scheduled_hook('f_review_update_affiliate_coupons');
+        //        wp_clear_scheduled_hook('f_review_update_affiliate_coupons');
     }
 
     /**
@@ -37,21 +77,21 @@ class Setup
      */
     public static function uninstall()
     {
-//        $models = static::getModels();
-//
-//        global $wpdb;
-//        foreach ($models as $model) {
-//            $object = (new $model);
-//
-//            if ($object instanceof Model) {
-//                $query = $object->deleteTable();
-//                $wpdb->query("set foreign_key_checks = 0;");
-//                $wpdb->query($query);
-//                $wpdb->query("set foreign_key_checks = 1;");
-//            }
-//        }
-//        delete_option('f_review_current_version');
-//        delete_option('f_review_plugin_settings');
+        //        $models = static::getModels();
+        //
+        //        global $wpdb;
+        //        foreach ($models as $model) {
+        //            $object = (new $model);
+        //
+        //            if ($object instanceof Model) {
+        //                $query = $object->deleteTable();
+        //                $wpdb->query("set foreign_key_checks = 0;");
+        //                $wpdb->query($query);
+        //                $wpdb->query("set foreign_key_checks = 1;");
+        //            }
+        //        }
+        //        delete_option('f_review_current_version');
+        //        delete_option('f_review_plugin_settings');
     }
 
     /**
@@ -96,3 +136,4 @@ class Setup
         return apply_filters('flycart_review_get_models', []);
     }
 }
+

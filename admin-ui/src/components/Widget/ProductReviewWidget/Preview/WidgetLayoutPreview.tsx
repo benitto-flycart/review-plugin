@@ -5,21 +5,52 @@ import MosaicWidgetPreview from "./WidgetPreview/MosaicWidgetPreview";
 import {ProductWidgetContext} from "../ProductReviewContextAPI";
 
 const WidgetLayoutPreview = () => {
-    const {widget, updateWidgetFields} = useContext<any>(ProductWidgetContext)
+    const {widget, updateWidgetFields, sampleReviews, refetch} = useContext<any>(ProductWidgetContext)
+    const reviews: any = sampleReviews;
 
-    let layout: any = <GridWidgetPreview/>;
+    const getLayout = () => {
+        let layout: any = <GridWidgetPreview/>;
 
-    switch (widget.layout.widget_layout) {
-        case 'list':
-            layout = <ListWidgetPreview/>;
-            break;
-        case 'mosaic':
-            layout = <MosaicWidgetPreview/>
+        switch (widget.layout.widget_layout) {
+            case 'list':
+                layout = <ListWidgetPreview/>;
+                break;
+            case 'mosaic':
+                layout = <MosaicWidgetPreview/>
+        }
+        return layout
     }
 
     return (
-        <div>
-            {layout}
+        <div
+            className={`r_pw_main_container ${widget.preferences.toggle_empty_review ? "r_pw_main_toggle_empty_review_container" : ""}`}>
+            {
+                widget.preferences.toggle_empty_review ? <div className={"r_pw_empty_review_text"}>
+                    No reviews found </div> : <>
+                    {getLayout()}
+                    {reviews.total_pages > 0 ? (
+                        <div className="r_w_pagination">
+                    <span className={"r_w_pagination-link"} onClick={(e: any) => {
+                        e.preventDefault();
+                        refetch(1);
+                    }}>&laquo;</span>
+                            {Array.from({length: reviews.total_pages}, (_, index) => {
+                                return (
+                                    <span key={index} className={"r_w_pagination-link"} onClick={(e: any) => {
+                                        e.preventDefault();
+                                        refetch(1);
+                                    }}>{index + 1}</span>
+                                )
+                            })}
+                            <span className={"r_w_pagination-link"}
+                                  onClick={(e: any) => {
+                                      e.preventDefault();
+                                      refetch(reviews.total_pages);
+                                  }}
+                            >&raquo;</span>
+                        </div>) : null}
+                </>
+            }
         </div>
     )
 }

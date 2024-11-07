@@ -1,22 +1,20 @@
 import React, {useContext} from "react";
 
 import "@/src/styles/widgets/widget.css";
-import {LayoutIcon} from "@radix-ui/react-icons";
 import {ReviewFormWidgetContext} from "./ReviewFormWidgetContextAPI";
 
 import ReviewFormWidgetConfigSetting from "./ReviewFormWidgetConfigSetting";
 import ReviewFormWidgetPreview from "./ReviewFormWidgetPreview";
-import './preview.css'
 import RatingWidgetRatingSetting from "./ReviewFormWidgetRatingSetting";
 import RatingWidgetPhotoSetting from "./ReviewFormWidgetPhotoSetting";
 import ReviewFormWidgetReviewerSetting from "./ReviewFormWidgetReviewerSetting";
 import ReviewFormGetReviewSetting from "./ReviewFormGetReviewSetting";
 import ReviewFormWidgetThankyouSetting from "./ReviewFormWidgetThankyouSetting";
-import RatingWidgetPreview from "../RatingWidget/RatingWidgetPreview";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
+import {EyeIcon, HeartHandshakeIcon, ImageIcon, InfoIcon, SettingsIcon, StarIcon} from "lucide-react";
 
-
-const ReviewFormWidgetDialog = ({show, toggle}: any) => {
+const ReviewFormWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
     const context = useContext<any>(ReviewFormWidgetContext)
 
@@ -27,37 +25,37 @@ const ReviewFormWidgetDialog = ({show, toggle}: any) => {
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewFormWidgetConfigSetting name={"Settings"}/>,
             },
             {
                 key: 'rating',
                 name: 'Rating',
-                icon: <LayoutIcon/>,
+                icon: <StarIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <RatingWidgetRatingSetting name={"Rating"}/>,
             },
             {
                 key: 'photos',
                 name: 'Photos',
-                icon: <LayoutIcon/>,
+                icon: <ImageIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <RatingWidgetPhotoSetting name={"Photos"}/>,
             },
             {
                 key: 'reviewer_content',
                 name: 'Review Content',
-                icon: <LayoutIcon/>,
+                icon: <EyeIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewFormGetReviewSetting name={"Review Content"}/>,
             },
             {
                 key: 'reviewer_info',
                 name: 'Reviewer Info',
-                icon: <LayoutIcon/>,
+                icon: <InfoIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewFormWidgetReviewerSetting name={"Reviewer Info"}/>,
             },
             {
                 key: 'thank_you',
                 name: 'Thank you',
-                icon: <LayoutIcon/>,
+                icon: <HeartHandshakeIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewFormWidgetThankyouSetting name={"Thank you"}/>,
             }
         ]
@@ -69,6 +67,7 @@ const ReviewFormWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             context={context}
             settings={settings}
+            currentLocale={currentLocale}
         >
             <ReviewFormWidgetPreview/>
         </WidgetDialogWrapper>

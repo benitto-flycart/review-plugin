@@ -1,32 +1,32 @@
 import React, {useContext} from "react";
 // import PopupWidgetConfigSetting from "./PopupWidgetConfigSetting";
 // import PopupWidgetColorSetting from "./PopupWidgetColorSetting";
-import {ColorWheelIcon, LayoutIcon} from "@radix-ui/react-icons";
 import "@/src/styles/widgets/widget.css";
 import {SidebarWidgetContext} from "./SidebarWidgetContextAPI";
 import SidebarWidgetConfigSetting from "./SidebarWidgetConfigSetting";
 import SidebarWidgetConfigPages from "./SidebarWidgetConfigPages";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import PreviewPopupWidget from "../PopupWidget/PreviewPopupWidget";
 import PreviewSidebarWidget from "./PreviewSidebarWidget";
+import {getWidthAndHeightForIcons} from "../../../helpers/utils";
+import {BookOpenIcon, SettingsIcon} from "lucide-react";
 
-const SidebarWidgetDialog = ({show, toggle}: any) => {
+const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(SidebarWidgetContext)
 
     const settings = {
-        title: 'Popup Widget Configuration',
+        title: 'Sidebar Widget Configuration',
         widget_slug: 'sidebar',
         options: [
             {
                 key: 'settings',
                 name: 'Settings',
-                icon: <LayoutIcon/>,
+                icon: <SettingsIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <SidebarWidgetConfigSetting name={'Settings'}/>,
             },
             {
                 key: 'pages',
                 name: 'Pages',
-                icon: <ColorWheelIcon/>,
+                icon: <BookOpenIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <SidebarWidgetConfigPages name={"Pages"}/>
             }
         ]
@@ -37,6 +37,7 @@ const SidebarWidgetDialog = ({show, toggle}: any) => {
             toggle={toggle}
             settings={settings}
             context={context}
+            currentLocale={currentLocale}
         >
             <PreviewSidebarWidget/>
         </WidgetDialogWrapper>
