@@ -353,7 +353,7 @@
                                     <!--[if mso | IE]>
                         <td class="" style="vertical-align:top;width:150px;">
                         <![endif]-->
-                                    <div class="mj-column-per-25 mj-outlook-group-fix"
+                                    <div class="mj-column-per-100 mj-outlook-group-fix"
                                         style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                             style="vertical-align:top;" width="100%">
@@ -378,7 +378,7 @@
                                                                     style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;"
                                                                     valign="middle">
                                                                     <a href="<?php echo $reviewLink ?>"
-                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']) ?>;min-width:max-content;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;border-radius:3px;border:3px solid <?php echo esc_attr($data['styles']['button_border_color']) ?>"
+                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']) ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;border-radius:3px;border:3px solid <?php echo esc_attr($data['styles']['button_border_color']) ?>"
                                                                         target="_blank">
                                                                         {button_text}
                                                                     </a>
