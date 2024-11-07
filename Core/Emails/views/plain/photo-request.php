@@ -282,7 +282,7 @@
                                                                 style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                 valign="middle">
                                                                 <p
-                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;min-width:max-content;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
+                                                                        style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;border-radius:6px;">
                                                                     {button_text}
                                                                 </p>
                                                             </td>
