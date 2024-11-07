@@ -1,4 +1,7 @@
 <?php
+
+use Flycart\Review\App\Helpers\WC;
+
 ?>
 
 <div class="wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative rating-widget-preview-desktop">
@@ -131,7 +134,9 @@
 
                         <?php if ($enabled['next_products']) { ?>
                             <div class="r_rfw_thank_you_proceed_next">
-                                <button class="r_rfw_btn"><?php echo esc_attr__('Continue', 'f-review') ?></button>
+                                <a href="<?php echo esc_url(WC::getShopPageURL()) ?>" class="r_rfw_btn">
+                                    <?php echo esc_attr__('Continue', 'f-review') ?>
+                                </a>
                                 <button class="r_rfw_btn r_rfw_continue_btn">
                                     <?php echo esc_attr__('Review another item', 'f-review') ?>
                                 </button>

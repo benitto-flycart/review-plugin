@@ -31,24 +31,19 @@ class DiscountSettings extends ReviewSettings
             'enable_photo_discount' => $settings['enable_photo_discount'] ?? false,
             'photo_discount_type' => $settings['photo_discount_type'] ?? 'fixed',
             'photo_discount_value' => $settings['photo_discount_value'] ?? 0,
-            'enable_video_discount' => $settings['enable_video_discount'] ?? false,
-            'video_discount_type' => $settings['video_discount_type'] ?? 'fixed',
-            'video_discount_value' => $settings['video_discount_value'] ?? 0,
+            'photo_discount_expiry_in_days' => $settings['photo_discount_expiry_in_days'] ?? 0,
         ];
     }
 
     public function getFromRequest($request)
     {
         $photo_discount_enabled = Functions::getBoolValue($request->get('enable_photo_discount'));
-        $video_discount_enabled = Functions::getBoolValue($request->get('enable_video_discount'));
 
         $data = [
             'enable_photo_discount' => $photo_discount_enabled,
             'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed',
             'photo_discount_value' => $photo_discount_enabled ? $request->get('photo_discount_value') : 0,
-            'enable_video_discount' => $video_discount_enabled,
-            'video_discount_type' => $video_discount_enabled ? $request->get('video_discount_type') : 'fixed',
-            'video_discount_value' => $video_discount_enabled ? $request->get('video_discount_value') : 0,
+            'photo_discount_expiry_in_days' => $photo_discount_enabled ? $request->get('photo_discount_expiry_in_days') : '',
         ];
 
         return $this->mergeWithDefault($data);
@@ -90,7 +85,13 @@ class DiscountSettings extends ReviewSettings
 
     public function getPhotoDiscountExpiryDate()
     {
-        return $this->discountSettings['photo_discount_expiry_date'] ?? '-1';
+        $value =  $this->discountSettings['photo_discount_expiry_in_days'];
+
+        if (empty($value)) {
+            return -1;
+        }
+
+        return $this->discountSettings['photo_discount_expiry_in_days'];
     }
 
     public function generateCoupon($review_id, $for = 'photo')
@@ -111,7 +112,7 @@ class DiscountSettings extends ReviewSettings
         $coupon->set_discount_type($discount_type);
         $coupon->set_amount($discount_value);
         $coupon->set_individual_use(true);
-        $coupon->set_date_expires(gmdate('Y-m-d', strtotime("+{$expiryInDays} days")));
+        $coupon->set_date_expires($expiry_date = gmdate('Y-m-d', strtotime("+{$expiryInDays} days")));
         $coupon->set_free_shipping(false);
         $coupon->set_product_ids([]);
         $coupon->set_excluded_product_ids([]);
@@ -127,6 +128,6 @@ class DiscountSettings extends ReviewSettings
         $coupon->update_meta_data('review_id', $review_id);
         $coupon->update_meta_data('comment_post_ID', $comment->comment_post_ID);
 
-        return $coupon_code;
+        return [$coupon_code, $expiry_date];
     }
 }

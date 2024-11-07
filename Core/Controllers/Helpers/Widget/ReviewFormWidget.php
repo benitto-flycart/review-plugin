@@ -2,6 +2,7 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class ReviewFormWidget extends Widget implements WidgetInterface
@@ -148,11 +149,11 @@ class ReviewFormWidget extends Widget implements WidgetInterface
         return $this->settings['photos']['button_text'];
     }
 
-    public function getPhotoDiscountText($discountSettings)
+    public function getPhotoDiscountText(DiscountSettings $discountSettings)
     {
         $discount_value = $discountSettings->photoDiscountString();
 
-        return nl2br(str_replace("{discont_value}", $discount_value, $this->settings['photos']['discount_text']));
+        return nl2br(str_replace("{discount_value}", $discount_value, $this->settings['photos']['discount_text']));
     }
 
     public function getReviewContentPlaceholder()
@@ -190,4 +191,3 @@ class ReviewFormWidget extends Widget implements WidgetInterface
         return $this->settings['thank_you']['discount_info_description'];
     }
 }
-

@@ -379,9 +379,9 @@ class Review extends Model
             $orderReview = OrderReview::query()->where("woo_order_id = %d", [$order_id])->first();
         }
 
-        if (empty($orderReview)) return false;
+        if (empty($orderReview)) return [false, null];
 
-        $coupon_code = $discountSettings->generateCoupon($review_id);
+        [$coupon_code, $expiry_date] = $discountSettings->generateCoupon($review_id);
 
         OrderReview::query()->update([
             'photo_added' => true,
@@ -415,9 +415,7 @@ class Review extends Model
             as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
         }
 
-        error_log('printing coupon code');
-        error_log($coupon_code);
-        return $coupon_code;
+        return [$coupon_code, $expiry_date];
     }
 
 
