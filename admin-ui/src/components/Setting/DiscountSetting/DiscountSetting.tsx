@@ -32,6 +32,7 @@ const DiscountSetting = () => {
     enable_photo_discount: true,
     photo_discount_type: "fixed",
     photo_discount_value: "",
+    photo_discount_expiry_in_days: null,
   });
 
   const schema = yup.object().shape({
@@ -44,6 +45,18 @@ const DiscountSetting = () => {
     photo_discount_value: yup
       .string()
       .required("Photo Discount Value is required"),
+    photo_discount_expiry_in_days: yup
+      .number()
+      .nullable()
+      .notRequired()
+      .transform((value, originalValue) =>
+        originalValue === "" ? null : value,
+      )
+      .test(
+        "min-if-present",
+        "Photo discount expiry in days should be greater than 0",
+        (value) => value == null || value > 0,
+      ),
   });
 
   const getDiscountSettings = () => {
@@ -57,7 +70,6 @@ const DiscountSetting = () => {
         let data = response.data.data;
         let settings = data.settings;
         setSettingsState(settings);
-        console.log(data);
         toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
@@ -80,6 +92,7 @@ const DiscountSetting = () => {
     schema
       .validate(settingsState, { abortEarly: false })
       .then(() => {
+        setErrors({});
         axiosClient
           .post("", {
             method: "save_discount_settings",
@@ -182,7 +195,6 @@ const DiscountSetting = () => {
                     {showValidationError(errors, "photo_discount_type")}
                   </SettingsColWrapper>
                 </SettingsRowWrapper>
-
                 <SettingsRowWrapper>
                   <SettingsColWrapper>
                     <Label>Value</Label>
@@ -203,6 +215,32 @@ const DiscountSetting = () => {
                       }}
                     />
                     {showValidationError(errors, "photo_discount_value")}
+                  </SettingsColWrapper>
+                </SettingsRowWrapper>
+                <SettingsRowWrapper>
+                  <SettingsColWrapper>
+                    <Label>Expiry in Days</Label>
+                    <Label className={"frt-text-xs frt-text-grayprimary"}>
+                      Set the expiry days for photo discount, Leave Empty if you
+                      don't want expiry days
+                    </Label>
+                  </SettingsColWrapper>
+                  <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                    <Input
+                      type={"number"}
+                      placeholder="Days"
+                      value={settingsState.photo_discount_expiry_in_days ?? ""}
+                      onChange={(e: any) => {
+                        updateSettingFields((draftState: any) => {
+                          draftState.photo_discount_expiry_in_days =
+                            e.target.value;
+                        });
+                      }}
+                    />
+                    {showValidationError(
+                      errors,
+                      "photo_discount_expiry_in_days",
+                    )}
                   </SettingsColWrapper>
                 </SettingsRowWrapper>
               </>

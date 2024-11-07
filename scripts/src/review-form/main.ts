@@ -582,9 +582,13 @@ class ReviewFormWidget {
                 return icon?.classList.remove("visible");
               });
             addIcon?.classList.remove("hide");
-            if (!this.isSubmitSlidePhoto()) {
-              this.slideNext();
-            }
+
+            // Temporarily Commented out
+            // if (!this.isSubmitSlidePhoto()) {
+            //   this.slideNext();
+            // }
+
+            this.showFooter();
           }
         })
         .catch(() => {

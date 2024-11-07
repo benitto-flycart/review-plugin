@@ -339,12 +339,7 @@ class ReviewFormController
                 [$is_photo_review_first_time] = static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
             }
 
-            error_log('is_photo_review_first_time. =>  ' .  $is_photo_review_first_time);
-
             $discount_info = static::handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment);
-
-            error_log('logging discount info');
-            error_log(print_r($discount_info, true));
 
             return Response::success([
                 'discount_created' => $discount_info['created'],
@@ -370,7 +365,7 @@ class ReviewFormController
         $comment_meta_data = [
             'verified' => !empty($order) ? 1 : 0,
             'rating' => $rating,
-            '_review_order_id' => $order->get_id(),
+            '_review_order_id' => !empty($order) ? $order->get_id() : null,
             '_review_attachments' => Functions::jsonEncode([
                 'photos' => array_map(fn($attachment) => ['attachment_id' => $attachment['id']], $photos)
             ])
@@ -409,20 +404,17 @@ class ReviewFormController
 
         $review_id = $comment->comment['comment_ID'];
 
-        error_log('printing review id');
-        error_log($review_id);
-
-        $discount_code = Review::createDiscountForPhotoReview($review_id, $product_id, $order_id);
+        [$discount_code, $disount_expiry_date] = Review::createDiscountForPhotoReview($review_id, $product_id, $order_id);
 
         if (!$discount_code) {
             return ['created' => false, 'content' => null];
         }
 
-        $discount_content = static::generateDiscountContent($discount_code);
+        $discount_content = static::generateDiscountContent($discount_code, $disount_expiry_date);
         return ['created' => true, 'content' => $discount_content];
     }
 
-    protected static function generateDiscountContent($discount_code)
+    protected static function generateDiscountContent($discount_code, $discount_expiry_date)
     {
         $widget = flycart_review_app()->get('review_form_widget_object') ?? (new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null))->widget;
         flycart_review_app()->set('review_form_widget_object', $widget);
@@ -430,7 +422,11 @@ class ReviewFormController
         $discount_settings = new DiscountSettings();
         $discount_value = $discount_settings->photoDiscountString();
         $discount_info_title = str_replace("{discount_value}", $discount_value, $widget->getDiscountTitle());
-        $discount_info_description = str_replace("{date_expiry}", "22/10/24", $widget->getDiscountDescription());
+        $discount_info_description = $widget->getDiscountDescription();
+
+        if (!empty($discount_expiry_date)) {
+            $discount_info_description = str_replace("{discount_expiry}", $discount_expiry_date, $discount_info_description);
+        }
 
         ob_start();
         include F_Review_PLUGIN_PATH . 'resources/templates/review-form/discount-content.php';
