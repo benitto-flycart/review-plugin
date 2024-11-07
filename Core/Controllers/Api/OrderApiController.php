@@ -148,7 +148,7 @@ class OrderApiController
                 "product_id" => $product->product_id,
                 "review_product_id" => $product->review_product_id,
                 "review_added_at" => $product->review_added_at,
-                "email_status" => $product->email_status,
+                "email_status" => !empty($product->email_status) ? $product->email_status : 'awaiting_fullfillment',
             ];
         }
 

@@ -24,8 +24,8 @@ import { produce } from "immer";
 import { showValidationError } from "../../../helpers/html";
 
 const DiscountSetting = () => {
-  const [loading, setLoading] = useState(true);
-  const [saveChangesLoading, setSaveChangesLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [saveChangesLoading, setSaveChangesLoading] = useState<boolean>(false);
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [settingsState, setSettingsState] = useState<any>({
@@ -169,8 +169,9 @@ const DiscountSetting = () => {
                   <SettingsColWrapper>
                     <Label>Photo Discount Type</Label>
                     <Label className={"frt-text-xs frt-text-grayprimary"}>
-                      Incentivize customers to leave a review by offering a
-                      discount for their next purchase
+                      Choose the type of photo discount to offer customers as an
+                      incentive for submitting a review with a product photo,
+                      enhancing engagement and encouraging feedback
                     </Label>
                   </SettingsColWrapper>
                   <SettingsColWrapper customClassName={"!frt-gap-0"}>
@@ -199,8 +200,9 @@ const DiscountSetting = () => {
                   <SettingsColWrapper>
                     <Label>Value</Label>
                     <Label className={"frt-text-xs frt-text-grayprimary"}>
-                      Incentivize customers to leave a Photo review by offering
-                      a discount for their next purchase
+                      Select the discount value to offer customers as a reward
+                      for submitting a review with a product photo, motivating
+                      them to leave valuable feedback
                     </Label>
                   </SettingsColWrapper>
                   <SettingsColWrapper customClassName={"!frt-gap-0"}>

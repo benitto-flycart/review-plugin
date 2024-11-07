@@ -90,7 +90,7 @@ const Widget = () => {
     {
       title: "Product Reviews Widget",
       slug: "product_widget",
-      description: "Customize your new project in one-click.",
+      description: "Convert visitors into buyers",
       detailed_description:
         "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
       viewComponent: (
@@ -106,9 +106,9 @@ const Widget = () => {
     {
       title: "Popup Widget",
       slug: "popup_widget",
-      description: "Customize your new project in one-click",
+      description: "Spotlight relevant reviews",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Spotlight relevant reviews and drive visitors to your product pages with a subtle social proof pop-up",
       viewComponent: (
         <PopupWidgetContextAPI>
           <PopupWidgetDialog
@@ -122,9 +122,10 @@ const Widget = () => {
     {
       title: "Reviews Sidebar Widget",
       slug: "sidebar_widget",
-      description: "Customize your new project in one-click.",
+      description:
+        "Give your visitors easy access to all of your store's reviews",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Give your visitors easy access to all of your store's reviews by clicking a tab on the side of their screen",
       viewComponent: (
         <SidebarWidgetContextAPI>
           <SidebarWidgetDialog
@@ -138,9 +139,9 @@ const Widget = () => {
     {
       title: "Floating Product Reviews Widget",
       slug: "floating_product_widget",
-      description: "Customize your new project in one-click.",
+      description: "Present your reviews on a floating display",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Present your reviews on a floating display so users can browse through reviews without leaving the page they are currently on",
       viewComponent: (
         <FloatingProductWidgetContextAPI>
           <FloatingProductWidgetDialog
@@ -154,9 +155,10 @@ const Widget = () => {
     {
       title: "Snippet Widget",
       slug: "snippet_widget",
-      description: "Customize your new project in one-click.",
+      description:
+        "Build instant trust by showing a glimpse of your best reviews",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Build instant trust by showing a glimpse of your best reviews at the top of your product pages, where purchase decisions are made",
       viewComponent: (
         <SnippetWidgetContextAPI>
           <SnippetWidgetDialog
@@ -170,9 +172,9 @@ const Widget = () => {
     {
       title: "Rating Review Widget",
       slug: "rating_widget",
-      description: "Customize your new project in one-click.",
+      description: "Display your rating icons at the top of your product",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Display your rating icons at the top of your product pages and across your store to enhance your product’s credibility",
       viewComponent: (
         <RatingWidgetContextAPI>
           <RatingWidgetDialog
@@ -186,9 +188,9 @@ const Widget = () => {
     {
       title: "Review Form Widget",
       slug: "review_form_widget",
-      description: "Customize your new project in one-click.",
+      description: "Customize the Review Form",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Add a stylish review form to your store, enabling customers to easily share feedback and enhance trust. Fully customizable, this widget lets you adjust colors, themes, and styles to match your brand's look. Encourage reviews that build credibility and connect with potential buyers",
       route: "/emails/review-request",
       viewComponent: (
         <ReviewFormWidgetContextAPI>
@@ -205,7 +207,7 @@ const Widget = () => {
       slug: "review_detail_widget",
       description: "Customize the Review Detail Widget",
       detailed_description:
-        "Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts",
+        "Showcase customer feedback directly on your product pages with the Review Details widget to build trust and credibility. Customize colors, themes, and layout to align seamlessly with your brand's look and feel",
       route: "/emails/review-detail",
       viewComponent: (
         <ReviewDetailWidgetContextAPI>
@@ -347,4 +349,3 @@ const Widget = () => {
 };
 
 export default Widget;
-
