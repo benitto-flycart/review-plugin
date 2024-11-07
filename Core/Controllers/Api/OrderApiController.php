@@ -23,11 +23,6 @@ class OrderApiController
             $perPage = $request->get('per_page') ?? 10;
             $currentPage = $request->get('current_page')  ?? 1;
 
-            error_log('priting $perPage & $currentPage');
-
-            error_log(print_r($perPage, true));
-            error_log(print_r($currentPage, true));
-
             $orderItemTable = Database::getWCOrderItemsTable();
             $orderItemMetaTable = Database::getWCOrderItemMetaTable();
             $reviewsTable = Review::getTableName();
@@ -50,15 +45,9 @@ class OrderApiController
                     ->limit($perPage)
                     ->offset(($currentPage - 1) * $perPage);
 
-                error_log('printing sql query');
-                error_log(print_r($query->toSql(), true));
-
-
                 $data = $query->get();
 
                 $order_ids_as_string = static::getOrdersIdsAsString($data);
-
-
                 $products = Database::table($wcOrderTable)
                     ->select("
                         {$orderItemTable}.order_item_name as product_name,
@@ -127,15 +116,9 @@ class OrderApiController
                         )
                         ->where("{$postTable}.id IN ({$order_ids_as_string})");
 
-                    error_log('printing order product query');
-                    error_log($productQuery->toSql());
-
                     $products = $productQuery->get();
                 }
             }
-
-            error_log('prininting order data');
-            error_log(print_r($data, true));
 
             $results = static::buildOrderData($data, $products);
 
