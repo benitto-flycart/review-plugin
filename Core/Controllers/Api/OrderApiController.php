@@ -6,6 +6,7 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\OrderListCollection;
@@ -19,8 +20,13 @@ class OrderApiController
     {
         try {
 
-            $perPage = $request->get('per_page') ?? 30;
-            $currentPage = $request->get('current_page')  ?? 5;
+            $perPage = $request->get('per_page') ?? 10;
+            $currentPage = $request->get('current_page')  ?? 1;
+
+            error_log('priting $perPage & $currentPage');
+
+            error_log(print_r($perPage, true));
+            error_log(print_r($currentPage, true));
 
             $orderItemTable = Database::getWCOrderItemsTable();
             $orderItemMetaTable = Database::getWCOrderItemMetaTable();
@@ -40,12 +46,15 @@ class OrderApiController
 
                 $totalCount = $query->count();
 
-                $data = $query
+                $query = $query
                     ->limit($perPage)
                     ->offset(($currentPage - 1) * $perPage);
 
+                error_log('printing sql query');
+                error_log(print_r($query->toSql(), true));
 
-                $data = $data->get();
+
+                $data = $query->get();
 
                 $order_ids_as_string = static::getOrdersIdsAsString($data);
 
@@ -81,6 +90,11 @@ class OrderApiController
 
                 $totalCount = $query->count();
 
+                $query = $query
+                    ->limit($perPage)
+                    ->offset(($currentPage - 1) * $perPage);
+
+
                 $data = $query->get();
 
                 $order_ids_as_string = static::getOrdersIdsAsString($data);
@@ -88,7 +102,7 @@ class OrderApiController
                 $products = [];
 
                 if (!empty(trim($order_ids_as_string))) {
-                    $products = Database::table($postTable)
+                    $productQuery = Database::table($postTable)
                         ->select("
                         {$orderItemTable}.order_item_name as product_name,
                         {$orderItemTable}.order_id as order_id,
@@ -99,13 +113,29 @@ class OrderApiController
                         {$notificationHistoryTable}.status as email_status")
                         ->leftJoin($orderItemTable, "{$postTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
                         ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
-                        ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id AND {$notificationHistoryTable}.model_type = 'shop_order'")
-                        ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
-                        ->where("{$postTable}.id IN ({$order_ids_as_string})")
-                        ->get();
+                        ->leftJoin(
+                            $notificationHistoryTable,
+                            "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id 
+                            AND {$notificationHistoryTable}.model_type = 'shop_order'
+                            AND {$notificationHistoryTable}.notify_type = '" . EmailSetting::REVIEW_REQUEST_TYPE . "'"
+                        )
+                        ->leftJoin(
+                            $reviewsTable,
+                            "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value
+                            AND {$orderItemMetaTable}.meta_key = '_product_id'
+                            AND {$reviewsTable}.woo_order_id = {$orderItemTable}.order_id"
+                        )
+                        ->where("{$postTable}.id IN ({$order_ids_as_string})");
+
+                    error_log('printing order product query');
+                    error_log($productQuery->toSql());
+
+                    $products = $productQuery->get();
                 }
             }
 
+            error_log('prininting order data');
+            error_log(print_r($data, true));
 
             $results = static::buildOrderData($data, $products);
 
