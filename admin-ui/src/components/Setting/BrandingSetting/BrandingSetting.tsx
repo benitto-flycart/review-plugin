@@ -180,8 +180,9 @@ const BrandingSetting = () => {
               <SettingsColWrapper>
                 <Label>Enable Logo</Label>
                 <Label className={"frt-text-xs frt-text-grayprimary"}>
-                  select which reviews you want to auto-publish, Any changes
-                  will only affect new reviews
+                  Enabling the logo helps recipients instantly identify your
+                  brand, enhancing trust and engagement with your review
+                  requests
                 </Label>
               </SettingsColWrapper>
               <SettingsColWrapper customClassName={"!frt-gap-0"}>
@@ -202,9 +203,8 @@ const BrandingSetting = () => {
                 <SettingsColWrapper>
                   <Label className="frt-w-full">Logo</Label>
                   <p className={"frt-text-xs frt-text-grayprimary"}>
-                    Activate or deactivate the display of your brand logo on
-                    reviews. Any changes will only apply to new reviews
-                    submitted after this setting is modified.
+                    Display your logo in review emails to reinforce brand
+                    recognition and create a more professional look.
                   </p>
                 </SettingsColWrapper>
                 <SettingsColWrapper customClassName={"!frt-gap-0"}>
@@ -246,49 +246,11 @@ const BrandingSetting = () => {
 
             <SettingsRowWrapper>
               <SettingsColWrapper>
-                <Label className="frt-w-full">Corner Radius</Label>
-                <p className={"frt-text-xs frt-text-grayprimary"}>
-                  Adjust the corner radius of the review widget to control how
-                  rounded or sharp the corners appear. This setting will affect
-                  the visual style of newly published reviews.
-                </p>
-              </SettingsColWrapper>
-              <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                <Select
-                  value={settingsState.corner_radius}
-                  onValueChange={(value: string) => {
-                    updateSettingFields((draftState: any) => {
-                      draftState.corner_radius = value;
-                    });
-                  }}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Corner Radius" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="sharp">Sharp</SelectItem>
-                      <SelectItem value="slightly_rounded">
-                        Slightly Rounded
-                      </SelectItem>
-                      <SelectItem value="rounded">Rounded</SelectItem>
-                      <SelectItem value="extra_rounded">
-                        Extra Rounded
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {showValidationError(errors, "corner_radius")}
-              </SettingsColWrapper>
-            </SettingsRowWrapper>
-
-            <SettingsRowWrapper>
-              <SettingsColWrapper>
                 <Label>Icon</Label>
                 <Label className={"frt-text-xs frt-text-grayprimary"}>
-                  Choose whether to use a icon for review-related elements, such
-                  as rating stars or review badges. Changes will only impact
-                  future reviews.
+                  Choose an icon style for review elements, to enhance the
+                  visual appeal of all reviews. This selection will apply to
+                  both past and future reviews
                 </Label>
               </SettingsColWrapper>
               <SettingsColWrapper customClassName={"!frt-gap-0"}>
@@ -335,100 +297,11 @@ const BrandingSetting = () => {
 
             <SettingsRowWrapper>
               <SettingsColWrapper>
-                <Label>Rating RGB COLOR</Label>
-                <Label className={"frt-text-xs frt-text-grayprimary"}>
-                  select which reviews you want to auto-publish, Any changes
-                  will only affect new reviews
-                </Label>
-              </SettingsColWrapper>
-              <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                <PopOverColorPicker
-                  color={settingsState.rating_rgb_color}
-                  onChange={(color: string) => {
-                    updateSettingFields((draftState: any) => {
-                      draftState.rating_rgb_color = color;
-                    });
-                  }}
-                />
-                {showValidationError(errors, "rating_rgb_color")}
-              </SettingsColWrapper>
-            </SettingsRowWrapper>
-            <SettingsRowWrapper>
-              <SettingsColWrapper>
-                <Label>Enable Email Banners</Label>
-                <Label className={"frt-text-xs frt-text-grayprimary"}>
-                  Toggle the inclusion of banners in review-related emails. This
-                  feature helps highlight your brand and promotions in email
-                  communications with customers.
-                </Label>
-              </SettingsColWrapper>
-              <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                <Switch
-                  id="email-banners"
-                  checked={settingsState.enable_email_banners}
-                  onCheckedChange={(value: any) => {
-                    updateSettingFields((draftState: any) => {
-                      draftState.enable_email_banners = value;
-                    });
-                  }}
-                />
-                {showValidationError(errors, "enable_email_banners")}
-              </SettingsColWrapper>
-            </SettingsRowWrapper>
-            {settingsState.enable_email_banners ? (
-              <SettingsRowWrapper>
-                <SettingsColWrapper>
-                  <Label className="frt-w-full">Banner</Label>
-                  <Label className={"frt-text-xs frt-text-grayprimary"}>
-                    Customize the banner that appears in review emails. This
-                    banner will be included in future email notifications sent
-                    to customers.
-                  </Label>
-                </SettingsColWrapper>
-                <SettingsColWrapper customClassName={"!frt-gap-0"}>
-                  <div className="frt-w-full frt-flex frt-gap-3">
-                    {settingsState.banner_src ? (
-                      <div className={"frt-w-24 frt-relative"}>
-                        <img src={settingsState.banner_src} alt="banner" />
-                        <i
-                          onClick={() => {
-                            updateSettingFields((draftState: any) => {
-                              draftState.banner_src = "";
-                            });
-                          }}
-                          className={
-                            "review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review frt-absolute -frt-top-2 -frt-right-2"
-                          }
-                        ></i>
-                      </div>
-                    ) : null}
-                    <div className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
-                      <span
-                        className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
-                        onClick={(e: any) => {
-                          runUploader(e, (data: any) => {
-                            updateSettingFields((draftState: any) => {
-                              draftState.banner_src = data;
-                            });
-                          });
-                        }}
-                      >
-                        Upload File
-                      </span>
-                    </div>
-                  </div>
-                  {showValidationError(errors, "banner_src")}
-                </SettingsColWrapper>
-              </SettingsRowWrapper>
-            ) : null}
-
-            <SettingsRowWrapper>
-              <SettingsColWrapper>
-                <Label>Appearance</Label>
+                <Label>Email Appearance</Label>
                 <p className={"frt-text-xs frt-text-grayprimary"}>
-                  Modify the overall look and feel of the review widget,
-                  including themes, colors, and layout options. Updates will
-                  affect only new reviews.
+                  Modify the appearance of review emails by adjusting themes,
+                  colors, and layout options to better align with your brand.
+                  Changes will only apply to emails sent for new reviews.
                 </p>
               </SettingsColWrapper>
               <SettingsColWrapper customClassName={"!frt-gap-0"}>
