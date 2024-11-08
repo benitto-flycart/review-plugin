@@ -41,15 +41,17 @@ function Setting() {
   });
   const { localState, setLocalState } = useLocalState();
   const fetchFontOptions = (inputValue: string) => {
-    return fontData.fonts
-      .filter((font) =>
+    const filteredFonts = inputValue
+    ? fontData.fonts.filter((font) =>
         font.family.toLowerCase().includes(inputValue.toLowerCase()),
       )
-      .map((font) => ({
-        value: font.family,
-        variant_value: font.variant_value,
-        label: `${font.family} (${font.variant_value})`,
-      }));
+    : fontData.fonts.slice(0, 10); 
+
+    return filteredFonts.map((font) => ({
+      value: font.family,
+      variant_value: font.variant_value,
+      label: `${font.family} (${font.variant_value})`,
+    }));
   };
 
   const loadOptions = (
@@ -315,6 +317,7 @@ function Setting() {
                   placeholder="Select Email fonts"
                   getOptionLabel={(option) => option.label}
                   getOptionValue={(option) => option.value}
+                  defaultOptions={fetchFontOptions("")}
                 />
                 {showValidationError(errors, "email_font_family")}
               </SettingsColWrapper>
@@ -490,7 +493,7 @@ function Setting() {
                 {showValidationError(errors, "review_discount_reminder_timing")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
-            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings}>
+            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings} disabled={saveChangesLoading}>
               {saveChangesLoading && (
                 <span className="frt-mx-2">
                   <LoadingSpinner />
