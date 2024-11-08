@@ -45,9 +45,7 @@ const CustomCss = ({name,context}: { name: string ,context:any}) => {
         styleElement?.remove();
       };
     }
-  }, [widget]);
-
-  console.log(widget.custom_css)
+  }, [widget.custom_css]);
 
   return (
     <SidebarDetailWrapper>

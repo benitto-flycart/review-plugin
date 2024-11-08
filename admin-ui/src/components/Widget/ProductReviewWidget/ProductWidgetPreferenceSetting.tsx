@@ -81,6 +81,7 @@ const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
                                 Toggle loading screen
                             </Label>
                         </div>
+                        <p>Enable to show a loading screen in the widget area.</p>
                     </SidebarDetailField>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
@@ -98,6 +99,7 @@ const ProductWidgetPreferenceSetting = ({name}: { name: string }) => {
                                 Toggle empty review
                             </Label>
                         </div>
+                        <p>Enable to show an empty review screen in the widget area.</p>
                     </SidebarDetailField>
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
