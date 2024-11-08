@@ -26,11 +26,11 @@ class DiscountNotifyEmail extends WC_Email
     {
         // Email slug we can use to filter other data.
         $this->id = 'discount_reminder_wc_email';
-        $this->title = __('Discount Reminder WC Email', 'flycart-review');
+        $this->title = __('Discount Notifiy WC Email', 'flycart-review');
         $this->description = __('An Email Send for to remind the discount usage', 'flycart-review');
-        $this->heading = __("[{site_title}] Discount Reminder!", 'flycart-review');
+        $this->heading = __("[{site_title}] Discount Notify!", 'flycart-review');
 
-        $this->subject = __("[{site_title}] - Discount Reminder", 'flycart-review');
+        $this->subject = __("[{site_title}] - Discount Notify", 'flycart-review');
 
         // Template paths.
         $this->template_html = 'discount-notify.php';
@@ -50,13 +50,21 @@ class DiscountNotifyEmail extends WC_Email
 
         $notification = NotificationHistory::query()->find($notification_id);
 
-        if (empty($notification) || !NotificationHistory::isReviewRequestType($notification->notify_type) || NotificationHistory::isAlreadySent($notification->status)) {
+        if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
             return;
         }
 
         $orderReview = OrderReview::query()->find($order_review_id);
 
-        $this->woo_order = wc_get_order($notification->model_id);
+        $this->woo_order = wc_get_order($notification->order_id);
+
+        if (empty($this->woo_order)) {
+            return;
+        }
+
+        $this->brandSettings = new BrandSettings();
+        $this->generalSettings = new GeneralSettings();
+        $this->discountNotify = new DiscountNotifySetting(get_locale());
 
         $html = $this->get_content();
 
