@@ -44,16 +44,16 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                     <SidebarDetailField>
                         <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
                             <Switch
-                                checked={widget.show_empty_stars}
-                                onCheckedChange={(value: boolean) => {
-                                    updateWidgetFields((draftState: any) => {
-                                        draftState.show_empty_stars = value;
-                                    })
-                                }}
+                              checked={widget.show_empty_stars}
+                              onCheckedChange={(value: boolean) => {
+                                  updateWidgetFields((draftState: any) => {
+                                      draftState.show_empty_stars = value;
+                                  });
+                              }}
                             />
                             <Label className={"frt-text-xs"} htmlFor="none">Show Empty Stars</Label>
                         </div>
-                        <p>Show empty stars when there are no reviews</p>
+                        <p>Check the store to see empty stars displayed when there are no reviews.</p>
                     </SidebarDetailField>
                 </SidebarDetailSection>
             </SidebarDetail>

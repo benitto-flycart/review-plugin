@@ -49,6 +49,7 @@ export const Reviews = () => {
   });
   const { localState } = useLocalState();
   const [reviewLoading, setReviewLoading] = useState<boolean>(false);
+  const [includeMetaData, setIncludeMetaData] = useState<boolean>(true);
   const [filter, setFilter] = useState<Filter>({
     search: "",
     status: "all",
@@ -102,13 +103,13 @@ export const Reviews = () => {
 
   const getReviews = () => {
     setReviewLoading(true);
-
     axiosClient
       .post(``, {
         method: "get_all_reviews",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
         per_page: perPage,
+        include_meta: includeMetaData,
         current_page: currentPage,
         search: filter.search,
         status: filter.status,
@@ -116,7 +117,8 @@ export const Reviews = () => {
         seperate_filter: filter.seperate_filter,
       })
       .then((response: AxiosResponse<ApiResponse<TReviewData>>) => {
-        setReviews(response.data.data);
+        setReviews({ ...reviews, ...response.data.data });
+        setIncludeMetaData(false);
       })
       .catch((error: AxiosResponse<ApiErrorResponse>) => {
         toastrError(getErrorMessage(error));
@@ -136,7 +138,7 @@ export const Reviews = () => {
         Reviews
       </h1>
       <div className={"frt-flex frt-gap-x-5 md:frt-flex-row frt-flex-col"}>
-        <ReviewRatings reviewState={reviews} />
+        <ReviewRatings reviewState={reviews} reviewLoading={reviewLoading} includeMetaData={includeMetaData} />
         <div className={"md:frt-w-[80%]"}>
           <div className="frt-space-y-4">
             <div className="frt-flex frt-sm:flex-row frt-gap-4">
@@ -190,7 +192,7 @@ export const Reviews = () => {
               }}
             />
             <div className="frt-flex frt-justify-end">
-              <Button onClick={getReviews}>Search</Button>
+              <Button className={"frt-gap-x-2"} disabled={reviewLoading} onClick={getReviews}> {reviewLoading && !includeMetaData ? <LoadingSpinner/> : null}Search</Button>
             </div>
           </div>
           {reviewLoading ? (

@@ -35,6 +35,10 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
       border_color: "#4b0b0b",
       shadow_color: "#ab5d5d",
     },
+    custom_css:{
+      is_enabled:false,
+      styles:""
+    }
   });
 
   const getOtherStyles = () => {
@@ -80,6 +84,10 @@ function SnippetWidgetContextAPI({ children }: { children: any }) {
         rating_icon_color: settings?.colors?.rating_icon_color,
         border_color: settings?.colors?.border_color,
         shadow_color: settings?.colors?.shadow_color,
+      };
+      draftState.custom_css = {
+        is_enabled: settings?.custom_css?.is_enabled,
+        styles:settings?.custom_css?.styles,
       };
     });
   };

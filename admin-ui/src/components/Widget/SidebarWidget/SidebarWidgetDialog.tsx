@@ -8,7 +8,8 @@ import SidebarWidgetConfigPages from "./SidebarWidgetConfigPages";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import PreviewSidebarWidget from "./PreviewSidebarWidget";
 import {getWidthAndHeightForIcons} from "../../../helpers/utils";
-import {BookOpenIcon, SettingsIcon} from "lucide-react";
+import { BookOpenIcon, BracesIcon, SettingsIcon } from "lucide-react";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(SidebarWidgetContext)
@@ -28,7 +29,15 @@ const SidebarWidgetDialog = ({show, toggle,currentLocale}: any) => {
                 name: 'Pages',
                 icon: <BookOpenIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <SidebarWidgetConfigPages name={"Pages"}/>
-            }
+            },
+            {
+                key: "advanced_css",
+                name: "Advanced CSS",
+                icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+                component: (
+                  <CustomCss name={"Advanced CSS"} context={context} />
+                ),
+            },
         ]
     };
     return (

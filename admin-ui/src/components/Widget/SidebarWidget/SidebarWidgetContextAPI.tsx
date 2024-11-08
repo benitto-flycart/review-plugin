@@ -23,7 +23,11 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
         hide_on_mobile: true,
         show_on_home_page: true,
         show_on_cart_page: true,
-        show_on_product_page: true
+        show_on_product_page: true,
+        custom_css:{
+            is_enabled:false,
+            styles:""
+        }
     })
 
     //update editor state
@@ -45,6 +49,10 @@ function SidebarWidgetContextAPI({children}: { children: any }) {
             draftState.show_on_home_page = settings?.show_on_home_page;
             draftState.show_on_cart_page = settings?.show_on_cart_page;
             draftState.show_on_product_page = settings?.show_on_product_page;
+            draftState.custom_css = {
+                is_enabled: settings?.custom_css?.is_enabled,
+                styles:settings?.custom_css?.styles,
+            };
         })
     }
 

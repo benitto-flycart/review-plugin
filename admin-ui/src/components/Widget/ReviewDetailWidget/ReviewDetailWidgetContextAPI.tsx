@@ -25,6 +25,10 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
             text_color: '#040304',
             button_text_color: '#000000',
             button_bg_color: '#9e9e9e',
+        },
+        custom_css:{
+            is_enabled:false,
+            styles:""
         }
     })
 
@@ -35,6 +39,10 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
             draftState.colors.text_color = settings?.colors.text_color;
             draftState.colors.button_text_color = settings?.colors.button_text_color;
             draftState.colors.button_bg_color = settings?.colors.button_bg_color;
+            draftState.custom_css = {
+                is_enabled: settings?.custom_css?.is_enabled,
+                styles:settings?.custom_css?.styles,
+            };
         })
     }
 

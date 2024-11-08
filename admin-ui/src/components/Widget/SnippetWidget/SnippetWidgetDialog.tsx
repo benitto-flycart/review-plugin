@@ -10,7 +10,8 @@ import { FontStyleIcon } from "@radix-ui/react-icons";
 import SnippetWidgetStyleSetting from "./SnippetWidgetStyleSetting";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import { getWidthAndHeightForIcons } from "../../../helpers/utils";
-import { PaletteIcon, SettingsIcon } from "lucide-react";
+import { BracesIcon, PaletteIcon, SettingsIcon } from "lucide-react";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const SnippetWidgetDialog = ({ show, toggle, currentLocale }: any) => {
   const context = useContext<any>(SnippetWidgetContext);
@@ -46,6 +47,14 @@ const SnippetWidgetDialog = ({ show, toggle, currentLocale }: any) => {
           />
         ),
         component: <SnippetWidgetColorSetting name={"Colors"} />,
+      },
+      {
+        key: "advanced_css",
+        name: "Advanced CSS",
+        icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+        component: (
+          <CustomCss name={"Advanced CSS"} context={context} />
+        ),
       },
     ],
   };

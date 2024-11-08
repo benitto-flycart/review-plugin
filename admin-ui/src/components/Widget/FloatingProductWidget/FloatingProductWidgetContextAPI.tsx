@@ -19,6 +19,10 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
         font_size: 48,
         text_color: '#141010',
         bg_color: '#b64c4c',
+        custom_css:{
+            is_enabled:false,
+            styles:""
+        }
     })
 
     const updateWidgetFields = (cb: any) => {
@@ -35,6 +39,10 @@ function FloatingProductWidgetContextAPI({children}: { children: any }) {
             draftState.font_size = settings?.font_size;
             draftState.text_color = settings?.text_color;
             draftState.bg_color = settings?.bg_color;
+            draftState.custom_css = {
+                is_enabled: settings?.custom_css?.is_enabled,
+                styles:settings?.custom_css?.styles,
+            };
         })
     }
     const fetchFloatingProductWidget = () => {

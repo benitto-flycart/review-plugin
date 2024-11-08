@@ -10,8 +10,9 @@ import "./mobile.css"
 import RatingWidgetStyleSetting from "./RatingWidgetStyleSetting";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import {getWidthAndHeightForIcons} from "../../../helpers/utils";
-import {SettingsIcon} from "lucide-react";
+import { BracesIcon, SettingsIcon } from "lucide-react";
 import {FontStyleIcon} from "@radix-ui/react-icons";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const RatingWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
@@ -32,7 +33,15 @@ const RatingWidgetDialog = ({show, toggle,currentLocale}: any) => {
                 name: 'Styles',
                 icon: <FontStyleIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <RatingWidgetStyleSetting name={"Styles"}/>,
-            }
+            },
+            {
+                key: "advanced_css",
+                name: "Advanced CSS",
+                icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+                component: (
+                  <CustomCss name={"Advanced CSS"} context={context} />
+                ),
+            },
         ]
     }
 
