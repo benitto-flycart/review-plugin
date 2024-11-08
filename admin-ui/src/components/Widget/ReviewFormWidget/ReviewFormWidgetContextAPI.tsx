@@ -53,6 +53,10 @@ function ReviewFormWidgetContextAPI({ children }: { children: any }) {
       discount_info_description:
         "we'll also send it by email discount expires {date_expiry}",
     },
+    custom_css:{
+      is_enabled:false,
+      styles:""
+    }
   });
 
   const buildStateFromResponse = (settings: any) => {
@@ -78,6 +82,10 @@ function ReviewFormWidgetContextAPI({ children }: { children: any }) {
         rating_icon_color: settings?.colors?.rating_icon_color,
         border_color: settings?.colors?.border_color,
         shadow_color: settings?.colors?.shadow_color,
+      };
+      draftState.custom_css = {
+        is_enabled: settings?.custom_css?.is_enabled,
+        styles:settings?.custom_css?.styles,
       };
     });
   };

@@ -5,8 +5,9 @@ import PopupWidgetConfigSetting from "./PopupWidgetConfigSetting";
 import PopupWidgetColorSetting from "./PopupWidgetColorSetting";
 import "@/src/styles/widgets/widget.css";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import {PaletteIcon, SettingsIcon} from "lucide-react";
+import { BracesIcon, PaletteIcon, SettingsIcon } from "lucide-react";
 import {getWidthAndHeightForIcons} from "../../../helpers/utils";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const PopupWidgetDialog = ({show, toggle,currentLocale}: any) => {
     const context = useContext<any>(PopupWidgetContext)
@@ -26,7 +27,15 @@ const PopupWidgetDialog = ({show, toggle,currentLocale}: any) => {
                 name: 'Colors',
                 icon: <PaletteIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <PopupWidgetColorSetting name={"Colors"}/>
-            }
+            },
+            {
+                key: "advanced_css",
+                name: "Advanced CSS",
+                icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+                component: (
+                  <CustomCss name={"Advanced CSS"} context={context} />
+                ),
+            },
         ]
     }
 

@@ -216,11 +216,11 @@ const Orders = () => {
 
           <div className="frt-flex frt-flex-col frt-gap-4">
             {!loading ? (
-              <div>
+              <>
                 {orders.orders.length === 0 ? (
                   <OrderListEmpty />
                 ) : (
-                  <div>
+                  <>
                     {orders.orders.map((order: any, index) => (
                       <OrderEntry
                         key={index}
@@ -237,9 +237,9 @@ const Orders = () => {
                       loading={false}
                       forcePage={currentPage - 1}
                     />
-                  </div>
+                  </>
                 )}
-              </div>
+              </>
             ) : (
               <div className="frt-gap-4 rwr-w-full frt-flex frt-flex-col">
                 {getArrayForShimmering().map((index) => (

@@ -20,7 +20,6 @@ const PopoverPicker = ({color, onChange}: any) => {
         }
     }
 
-    console.log(colorPickerPosition)
     useClickOutside(popover, close);
     useClickOutside(colorInputFieldRef,isFieldContainsEmptyData );
     return (

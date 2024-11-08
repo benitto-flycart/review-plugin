@@ -34,14 +34,27 @@ interface ReviewDetailPropTypes {
   getReviews: () => void;
 }
 
+interface ReviewDetailLoadingStateTypes {
+  is_loading: boolean,
+  type: string
+}
+
 export const ReviewDetail = <T extends ReviewDetailPropTypes>({
-  review,
-  bulkActionReviewIds,
-  getReviews,
-}: T) => {
+                                                                review,
+                                                                bulkActionReviewIds,
+                                                                getReviews,
+                                                              }: T) => {
   const { localState } = useLocalState();
-  const [approveActionLoading, setApproveActionLoading] =
-    useState<boolean>(false);
+  const [reviewStatusActionLoading, setReviewStatusActionLoading] =
+    useState<ReviewDetailLoadingStateTypes>({
+      is_loading: false,
+      type: "",
+    });
+  const [reviewUpdateActionLoading, setReviewUpdateActionLoading] =
+    useState<ReviewDetailLoadingStateTypes>({
+      is_loading: false,
+      type: "",
+    });
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteReplyLoading, setDeleteReplyLoading] = useState(false);
@@ -61,9 +74,13 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
       value: "delete",
     },
   ];
-  const statusOptions = review.is_approved
-    ? [{ label: "Unapprove", value: "unapprove" }]
-    : [{ label: "Approve", value: "approve" }];
+
+  const statusOptions = [
+    { label: "Approve", value: "approved" },
+    { label: "Unapprove", value: "hold" },
+    { label: "Trash", value: "trash" },
+    { label: "Spam", value: "spam" },
+  ];
 
   const moreOptions = [
     {
@@ -88,18 +105,6 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
       show: true,
     },
   ];
-
-  const getValueBasedOnType = (type: any) => {
-    let value = false;
-
-    if (type == "verified_badge") {
-      value = !review.is_verified;
-    } else if (type == "approve") {
-      value = !review.is_approved;
-    }
-
-    return value;
-  };
 
   const handleAddSingeBulkActionId = (id: number, isChecked: any) => {
     if (isChecked) {
@@ -148,25 +153,60 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
       setShowReplyDialog(true);
     }
   };
-  const handleReviewStatusActions = (type: any) => {
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "approved":
+        return "Approved";
+      case "hold":
+        return "Unapproved";
+      case "trash":
+        return "In Trash";
+      case "spam":
+        return "Marked as Spam";
+    }
+  };
+
+  const filteredStatusOptions = statusOptions.filter(
+    (option) => option.value !== review.status,
+  );
+
+  const getBorderColorClassBasedUponReviewStatus = (status:string) => {
+    switch (status) {
+      case "approved":
+        return "frt-border-l-green-500";
+      case "hold":
+        return "frt-border-l-gray-400";
+      case "trash":
+        return "frt-border-l-red-500";
+      case "spam":
+        return "frt-border-l-[#FFE5CC]";
+      default:
+        return "frt-border-l-gray-200";
+    }
+  };
+
+  const handleReviewActions = (type: any, parent_type: string) => {
     if (type == "see_discount_details") {
       return;
     }
-
-    if (type == "approve" || type == "unapprove") {
-      type = "approve";
-      setApproveActionLoading(true);
+    if (parent_type == "status_update") {
+      setReviewStatusActionLoading({
+        is_loading: true,
+        type,
+      });
+    } else {
+      setReviewUpdateActionLoading({
+        is_loading: true,
+        type,
+      });
     }
-
-    const value = getValueBasedOnType(type);
-
     axiosClient
       .post(``, {
         method: "review_action",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
         type: type,
-        value: value,
         id: review.id,
       })
       .then((response: AxiosResponse) => {
@@ -178,8 +218,16 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         toastrError("Error Occurred");
       })
       .finally(() => {
-        if (type == "approve" || type == "unapprove") {
-          setApproveActionLoading(false);
+        if (parent_type == "status_update") {
+          setReviewStatusActionLoading({
+            is_loading: false,
+            type:"",
+          });
+        } else {
+          setReviewUpdateActionLoading({
+            is_loading: false,
+            type:"",
+          });
         }
       });
   };
@@ -196,7 +244,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         />
       </div>
       <Card
-        className={`frt-flex frt-bg-white frt-w-full frt-flex-col frt-border-l-4 frt-border-solid frt-divide-y-1 ${review.is_approved ? "frt-border-l-green-500" : "frt-border-l-gray-500"}`}
+        className={`frt-flex frt-bg-white frt-w-full frt-flex-col frt-border-l-4 frt-border-solid frt-divide-y-1 ${getBorderColorClassBasedUponReviewStatus(review.status)}`}
       >
         <div className={`frt-flex md:frt-flex-row frt-flex-col-reverse`}>
           <div
@@ -244,15 +292,15 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
 
         {review.replies.length
           ? review.replies.map((reply: any, index: number) => {
-              return (
-                <div key={index}>
-                  <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
-                    <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
-                    <span>{reply.content}</span>
-                  </div>
+            return (
+              <div key={index}>
+                <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
+                  <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
+                  <span>{reply.content}</span>
                 </div>
-              );
-            })
+              </div>
+            );
+          })
           : null}
         <CardFooter
           className={"frt-flex frt-items-center frt-gap-x-4 !frt-p-0"}
@@ -261,19 +309,18 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className={"frt-flex frt-gap-x-1"}>
-                  {review.is_approved ? "Approved" : "Not Approved"}{" "}
-                  <ChevronDown />
+                  {getStatusLabel(review?.status)}
+                  {reviewStatusActionLoading.is_loading ? <LoadingSpinner /> :   <ChevronDown />}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {statusOptions.map((option) => (
+                {filteredStatusOptions.map((option) => (
                   <DropdownMenuItem
                     className={"frt-flex frt-gap-x-1"}
                     key={option.value}
-                    onClick={() => handleReviewStatusActions(option.value)}
+                    onClick={() => handleReviewActions(option.value, "status_update")}
                   >
-                    {approveActionLoading ? <LoadingSpinner /> : null}{" "}
-                    {option.label}
+                    {reviewStatusActionLoading.type == option.value ? <LoadingSpinner /> : null} {option.label}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -288,8 +335,8 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {(review.replies.length
-                  ? replyEditButtonLabel
-                  : replyAddButtonLabel
+                    ? replyEditButtonLabel
+                    : replyAddButtonLabel
                 ).map((label: any) => (
                   <DropdownMenuItem
                     key={label.value}
@@ -320,7 +367,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   size="icon"
                   className={"frt-bg-white !frt-w-6 !frt-h-6"}
                 >
-                  <MoreHorizontal className="frt-h-4 frt-w-4 " />
+                  {reviewUpdateActionLoading.is_loading ? <LoadingSpinner width={"16px"} height={"16px"}/> :    <MoreHorizontal className="frt-h-4 frt-w-4 " />}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align={"start"}>
@@ -336,10 +383,10 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                           setIsDialogOpen(true);
                         } else if (item.value == "see_order_details") {
                           review.from_order &&
-                            review.order_url &&
-                            window.open(review.order_url, "_blank");
+                          review.order_url &&
+                          window.open(review.order_url, "_blank");
                         } else {
-                          handleReviewStatusActions(item.value);
+                          handleReviewActions(item.value, "review_update");
                         }
                       }}
                       key={item.value}
