@@ -412,7 +412,13 @@ class Review extends Model
 
             $delay = PluginHelper::getStrTimeString($delay, 'days');
 
-            as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [['notification_id' => $notificationHistoryId, 'product_id' => $product_id]]);
+            as_schedule_single_action(strtotime("+{$delay}"), $hook_name, [
+                [
+                    'notification_id' => $notificationHistoryId,
+                    'product_id' => $product_id,
+                    'order_review_id' => $orderReview->id,
+                ]
+            ]);
         }
 
         return [$coupon_code, $expiry_date];
