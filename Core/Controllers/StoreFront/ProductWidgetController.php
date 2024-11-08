@@ -28,7 +28,6 @@ class ProductWidgetController
 
             $rating = $request->get('rating', 0);
 
-            error_log(print_r($request->all(), true));
 
             $filter = [
                 'sorting' => $request->get('sorting', 'highest'),
@@ -68,12 +67,13 @@ class ProductWidgetController
             $rating_sum = array_sum(array_column($reviews, 'rating'));
             $overall_rating = $rating_sum ? round(($totalCount * 5) / $rating_sum, 1) : 0;
             $rating_count = Review::getRatingCounts($product_id);
-
+            $totalPages = $perPage ? ceil($totalCount / $perPage) : 0;
             $data = [
                 "total" => $totalCount,
                 "per_page" => $perPage,
-                "total_pages" => $perPage ? ceil($totalCount / $perPage) : 0,
+                "total_pages" => $totalPages,
                 "current_page" => $currentPage,
+                "pagination" => $widget->getPagination($totalPages, $currentPage),
                 'reviews' => $reviews,
                 'ratings' => [
                     'rating_icon' => 'gem',
@@ -104,8 +104,6 @@ class ProductWidgetController
                 ],
             ];
 
-            error_log('rating details');
-            error_log(print_r($data['ratings'], true));
 
             $template = [];
 

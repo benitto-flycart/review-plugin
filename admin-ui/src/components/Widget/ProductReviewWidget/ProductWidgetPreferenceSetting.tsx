@@ -162,6 +162,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
         </SidebarDetailSection>
 

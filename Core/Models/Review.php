@@ -184,6 +184,7 @@ class Review extends Model
             'date' => Functions::getWcTimeFromGMT($comment['comment_date_gmt']),
             'content' => $comment['comment_content'],
             'is_approved' => (int)Functions::getBoolValue($comment['comment_approved']),
+            'status' => static::getCommentStatus($comment['comment_approved']),
             'images' => static::getReviewImages($comment['comment_meta']),
             'from_order' => (int)$order_id = static::getMeta($comment['comment_meta'], '_review_order_id'),
             'order_url' => $order_id ? Order::getOrderEditURL($order_id) : null,
@@ -455,6 +456,20 @@ class Review extends Model
         $auto_publish_enabled = apply_filters('farp_test_auto_publish_enabled', $auto_publish_enabled, $rating);
 
         return $auto_publish_enabled ? 1 : 0;
+    }
+
+    public static function getCommentStatus($comment_approved)
+    {
+
+        if ($comment_approved == 1) {
+            return 'approved';
+        } else if ($comment_approved == 'trash') {
+            return 'trash';
+        } else if ($comment_approved == 'spam') {
+            return 'spam';
+        } else if ($comment_approved == 0) {
+            return 'hold';
+        }
     }
 
     public static function getStatusValue($status)

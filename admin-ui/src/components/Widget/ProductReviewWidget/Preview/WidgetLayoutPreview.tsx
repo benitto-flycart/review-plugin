@@ -8,16 +8,16 @@ const WidgetLayoutPreview = () => {
   const { widget, updateWidgetFields, sampleReviews, refetch } =
     useContext<any>(ProductWidgetContext);
 
-  const [activePage, setactivePage] = useState<number>(1);
+  const [activePage, setActivePage] = useState<number>(1);
 
   const reviews: any = sampleReviews;
 
-  const totalPages = reviews.total_pages;
+  const totalPages = 50; //reviews.total_pages;
 
   function getPagination(
     activePage: number,
     totalPages: number,
-    maxPagesToShow = 9,
+    maxPagesToShow = 6,
   ) {
     const pages = [];
     const half = Math.floor(maxPagesToShow / 2);
@@ -53,6 +53,7 @@ const WidgetLayoutPreview = () => {
   }
 
   const pagination = getPagination(activePage, totalPages);
+
   const getLayout = () => {
     let layout: any = <GridWidgetPreview />;
 
@@ -75,17 +76,30 @@ const WidgetLayoutPreview = () => {
       ) : (
         <>
           {getLayout()}
+
           {reviews.total_pages > 0 ? (
-            <div className="r_w_pagination">
-              <span
-                className={"r_w_pagination-link"}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  refetch(1);
-                }}
-              >
-                &laquo;
-              </span>
+            <div className="pagination r_w_pagination">
+              {pagination.map((page, index) =>
+                page === "..." ? (
+                  <span key={index} className="ellipsis">
+                    ...
+                  </span>
+                ) : (
+                  <a
+                    key={index}
+                    href={`#`}
+                    onClick={(e: any) => {
+                      e.preventDefault();
+
+                      //@ts-ignore
+                      setActivePage(page);
+                    }}
+                    className={`r_w_pagination-link ${page === activePage ? "active" : ""}`}
+                  >
+                    {page}
+                  </a>
+                ),
+              )}
             </div>
           ) : null}
         </>
@@ -95,8 +109,3 @@ const WidgetLayoutPreview = () => {
 };
 
 export default WidgetLayoutPreview;
-
-// &laquo;
-//
-// &raquo;
-

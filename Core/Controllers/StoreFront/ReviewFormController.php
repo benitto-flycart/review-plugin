@@ -421,11 +421,11 @@ class ReviewFormController
 
         $discount_settings = new DiscountSettings();
         $discount_value = $discount_settings->photoDiscountString();
-        $discount_info_title = str_replace("{discount_value}", $discount_value, $widget->getDiscountTitle());
+        $discount_info_title = str_replace("[discount_value]", $discount_value, $widget->getDiscountTitle());
         $discount_info_description = $widget->getDiscountDescription();
 
         if (!empty($discount_expiry_date)) {
-            $discount_info_description = str_replace("{discount_expiry}", $discount_expiry_date, $discount_info_description);
+            $discount_info_description = str_replace("[discount_expiry]", $discount_expiry_date, $discount_info_description);
         }
 
         ob_start();
