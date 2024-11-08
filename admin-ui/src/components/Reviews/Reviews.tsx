@@ -50,6 +50,7 @@ export const Reviews = () => {
   const { localState } = useLocalState();
   const [reviewLoading, setReviewLoading] = useState<boolean>(false);
   const [includeMetaData, setIncludeMetaData] = useState<boolean>(true);
+  const [searched,setSearched]=useState<boolean>(false)
   const [filter, setFilter] = useState<Filter>({
     search: "",
     status: "all",
@@ -68,7 +69,7 @@ export const Reviews = () => {
 
   const statusLabels = [
     { label: "All Reviews", value: "all" },
-    { label: "Approved", value: "approve" },
+    { label: "Approved", value: "approved" },
     { label: "Unapproved", value: "hold" },
     { label: "Trash", value: "trash" },
     { label: "Spam", value: "spam" },
@@ -192,7 +193,10 @@ export const Reviews = () => {
               }}
             />
             <div className="frt-flex frt-justify-end">
-              <Button className={"frt-gap-x-2"} disabled={reviewLoading} onClick={getReviews}> {reviewLoading && !includeMetaData ? <LoadingSpinner/> : null}Search</Button>
+              <Button className={"frt-gap-x-2"} disabled={reviewLoading} onClick={()=>{
+                setSearched(true)
+                getReviews()
+              }}> {reviewLoading && !includeMetaData ? <LoadingSpinner/> : null}Search</Button>
             </div>
           </div>
           {reviewLoading ? (
@@ -201,7 +205,7 @@ export const Reviews = () => {
             </span>
           ) : (
             <>
-              {reviews.reviews.length == 0 ? (
+              {reviews.reviews.length == 0 && searched ? (
                 <ReviewListEmpty />
               ) : (
                 <>
