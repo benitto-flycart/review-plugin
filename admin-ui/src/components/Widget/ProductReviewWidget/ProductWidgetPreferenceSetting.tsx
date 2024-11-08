@@ -81,7 +81,8 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                 Toggle loading screen
               </Label>
             </div>
-          </SidebarDetailField>
+          <p>Enable to show a loading screen in the widget area.</p>
+                    </SidebarDetailField>
           <SidebarDetailField>
             <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
               <Switch
@@ -97,7 +98,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
               <Label className={"frt-text-xs"} htmlFor="none">
                 Toggle empty review
               </Label>
-            </div>
+            </div><p>Enable to show an empty review screen in the widget area.</p>
           </SidebarDetailField>
           <SidebarDetailField>
             <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
@@ -110,7 +111,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                   });
                 }}
               />
-              <Label htmlFor="show_write_a_review_button">
+              <Label className={"frt-text-xs"}htmlFor="show_write_a_review_button">
                 Show a "Write a review button"
               </Label>
             </div>
@@ -126,7 +127,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                   });
                 }}
               />
-              <Label htmlFor="show_review_date">Show review date</Label>
+              <Label className={"frt-text-xs"}htmlFor="show_review_date">Show review date</Label>
             </div>
           </SidebarDetailField>
 
@@ -170,7 +171,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                   });
                 }}
               />
-              <Label htmlFor="show_sorting_options">Show Sorting Options</Label>
+              <Label className={"frt-text-xs"} htmlFor="show_sorting_options">Show Sorting Options</Label>
             </div>
           </SidebarDetailField>
           <SidebarDetailField>
@@ -211,7 +212,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                   });
                 }}
               />
-              <Label htmlFor="show_sorting_options">Show rating Options</Label>
+              <Label className={"frt-text-xs"} htmlFor="show_sorting_options">Show rating Options</Label>
             </div>
           </SidebarDetailField>
         </SidebarDetailSection>

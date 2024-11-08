@@ -8,8 +8,9 @@ import ProductWidgetPreferenceSetting from "./ProductWidgetPreferenceSetting";
 import "../preview-mobile.css";
 import {FontStyleIcon,} from "@radix-ui/react-icons";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
-import {LayoutDashboardIcon, PaletteIcon, Settings2Icon} from "lucide-react";
+import { BracesIcon, LayoutDashboardIcon, PaletteIcon, Settings2Icon } from "lucide-react";
 import {getWidthAndHeightForIcons} from "../../../helpers/utils";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const ProductWidget = ({ show, toggle, currentLocale }: any) => {
     const context = useContext<any>(ProductWidgetContext);
@@ -41,6 +42,14 @@ const ProductWidget = ({ show, toggle, currentLocale }: any) => {
                 icon: <Settings2Icon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
                 component: (
                     <ProductWidgetPreferenceSetting name={"Preferences"} />
+                ),
+            },
+            {
+                key: "advanced_css",
+                name: "Advanced CSS",
+                icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+                component: (
+                  <CustomCss name={"Advanced CSS"} context={context} />
                 ),
             },
         ],
