@@ -58,7 +58,6 @@ class ProductWidget extends Widget implements WidgetInterface
                 'product_review_widget' => $preferences['product_review_widget'] ?? '',
                 'show_write_a_review' => Functions::getBoolValue($preferences['show_write_a_review'] ?? true),
                 'show_review_date' => Functions::getBoolValue($preferences['show_review_date'] ?? true),
-                'thumbnail_size' => $preferences['thumbnail_size'] ?? 'medium',
                 'reviews_per_page' => $preferences['reviews_per_page'] ?? 5,
                 'show_sorting_options' => Functions::getBoolValue($preferences['show_sorting_options'] ?? true),
                 'default_sorting' => $preferences['default_sorting'] ?? 'newest',

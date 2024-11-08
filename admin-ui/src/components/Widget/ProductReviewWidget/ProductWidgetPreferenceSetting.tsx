@@ -181,6 +181,7 @@ const ProductWidgetPreferenceSetting = ({ name }: { name: string }) => {
                 Show Sorting Options
               </Label>
             </div>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
           <SidebarDetailField>
             <Label className={"frt-text-xs"} htmlFor="none">
