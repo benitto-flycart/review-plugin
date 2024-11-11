@@ -76,7 +76,7 @@ class DiscountNotifyEmail extends WC_Email
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
             '{customer_name}' => $this->discountNotify->getCustomerName($this->woo_order),
             '{body}' => $this->discountNotify->getBody($this->woo_order),
-            '{button_text}' => $this->discountNotify->getBody($this->woo_order),
+            '{button_text}' => $this->discountNotify->getButtonText(),
             '{footer_text}' => $this->generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{shop_page_url}' => $shop_page_url,
