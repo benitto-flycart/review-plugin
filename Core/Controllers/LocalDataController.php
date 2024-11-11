@@ -491,6 +491,39 @@ class LocalDataController
                     'title'=>__('Review Sidebar Widgets','reviewPlugin'),
                     'description'=>__("Give your visitors easy access to all of your store's reviews",'reviewPlugin'),
                     'detailed_description'=>__("Give your visitors easy access to all of your store's reviews by clicking a tab on the side of their screen","reviewPlugin"),
+                    'sidebar_widget_config'=>[
+                        'title'=>__('Sidebar Widget Configuration','reviewPlugin'),
+                        'settings'=>[
+                            'title'=>__('Settings','reviewPlugin'),
+                            'position'=>[
+                                'title'=>__('Position','reviewPlugin'),
+                                'options'=>[
+                                    'left'=>__('Left','reviewPlugin'),
+                                    'right'=>__('Right','reviewPlugin'),
+                                ]
+                            ],
+                            'orientation'=>[
+                                'title'=>__('Orientation','reviewPlugin'),
+                                'options'=>[
+                                    'top_bottom'=>__('Top-bottom','reviewPlugin'),
+                                    'bottom_top'=>__('Bottom-top','reviewPlugin'),
+                                ]
+                            ],
+                            'button_text'=>[
+                                'title'=>__('Button Text','reviewPlugin'),
+                            ],
+                            'button_background_color'=>__('Button Background Color','reviewPlugin'),
+                            'text'=>__('Text','reviewPlugin'),
+                            'hide_on_mobile'=>__('Hide On Mobile','reviewPlugin'),
+                            'description'=>__('Check store to view this change','reviewPlugin'),
+                        ],
+                        'pages'=>[
+                            'home_page'=>__('Home Page','reviewPlugin'),
+                            'product_page'=>__('Product Page','reviewPlugin'),
+                            'cart_page'=>__('Cart Page','reviewPlugin'),
+                            'description'=>__('Check store to view this change','reviewPlugin'),
+                        ]
+                    ]
                 ],
                 'floating_product_reviews_widget'=>[
                     'title'=>__('Floating Product Reviews Widget','reviewPlugin'),
