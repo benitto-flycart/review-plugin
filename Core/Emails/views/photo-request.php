@@ -278,13 +278,12 @@
                                                                         style="border-collapse:separate;line-height:100%;">
                                                                         <tr>
                                                                             <td align="center" role="presentation"
-                                                                                href="{review_link}"
                                                                                 style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                                 valign="middle">
-                                                                                <p
+                                                                                <a href="{review_link}"
                                                                                     style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;border-radius:6px;">
                                                                                     {button_text}
-                                                                                </p>
+                                                                                </a>
                                                                             </td>
                                                                         </tr>
                                                                     </table>

@@ -281,15 +281,15 @@
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td align="center"
-                                                                                    style="font-size:0px;padding:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
-                                                                                    <div style="font-size:39px;font-style:normal;line-height:1.5;text-align:center;">
+                                                                                    style="word-break:break-word;">
+                                                                                    <div style="font-size:39px;border:0.5px solid #ffffff;border-radius: 10px;font-style:normal;line-height:1.5;text-align:center;">
                                                                                         {discount_code}<span style="font-size:14px;"><br></span>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td align="center"
-                                                                                    style="font-size:0px;padding:2px;padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
+                                                                                    style="font-size:0px;padding:2px;padding-top:6px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
                                                                                     <div style="font-size:13px;font-style:normal;line-height:1.5;text-align:center;">
                                                                                         Discount expires :{discount_expires}
                                                                                     </div>
@@ -336,16 +336,16 @@
                                     <tbody>
                                         <tr>
                                             <td align="center" vertical-align="middle"
-                                                style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                                style="font-size:0px;padding:0px 25px 10px 25px;word-break:break-word;">
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation"
                                                     style="border-collapse:separate;line-height:100%;">
                                                     <tr>
                                                         <td align="center" role="presentation"
                                                             style="border:3px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:3px;cursor:auto;mso-padding-alt:10px 50px;"
                                                             valign="middle">
-                                                            <p style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:14px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;">
+                                                            <a <a href="{review_link}" style="display:inline-block;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:14px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px;mso-padding-alt:0px;">
                                                                 {button_text}
-                                                            </p>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </table>

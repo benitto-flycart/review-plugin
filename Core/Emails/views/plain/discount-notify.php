@@ -264,16 +264,16 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="center"
-                                                    style="font-size:0px;padding:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
-                                                    <div style="font-size:39px;font-style:normal;line-height:1.5;text-align:center;">
-                                                        {discount_code}<span style="font-size:14px;"><br></span>
+                                                <td align="center" style="font-size:0px;word-break:break-word;">
+                                                    <div style="font-size:39px;font-style:normal;border: 0.5px solid #ffffff;border-radius: 10px;max-width:max-content;padding:0px 20px 0px 20px;line-height:1.5;text-align:center;">
+                                                        {discount_code}
+                                                        <span style="font-size:14px;"><br></span>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td align="center"
-                                                    style="font-size:0px;padding:2px;padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
+                                                    style="font-size:0px;padding:2px;padding-top:6px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
                                                     <div style="font-size:13px;font-style:normal;line-height:1.5;text-align:center;">
                                                         Discount expires :{discount_expires}
                                                     </div>
@@ -287,13 +287,12 @@
                                                            style="border-collapse:separate;line-height:100%;">
                                                         <tr>
                                                             <td align="center" role="presentation"
-                                                                href="{shop_page_url}"
                                                                 style="border:4px solid <?php echo esc_attr($data['styles']['button_border_color']); ?>;border-radius:6px;cursor:auto;mso-padding-alt:10px 25px;background-color:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;"
                                                                 valign="middle">
-                                                                <p
-                                                                        style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
+                                                                <a href="{shop_page_url}"
+                                                                   style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
                                                                     {button_text}
-                                                                </p>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </table>
