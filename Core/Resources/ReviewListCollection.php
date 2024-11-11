@@ -17,7 +17,7 @@ class ReviewListCollection extends Collection
         return [
             "total" => $totalCount,
             "per_page" => $perPage,
-            "total_pages" => ceil($totalCount / $perPage),
+            "total_pages" => $totalCount ? ceil($totalCount / $perPage) : 0,
             "current_page" => $currentPage,
             'ratings' => $review_overview['ratings'],
             'total_review_count' => $review_overview['total_count'],

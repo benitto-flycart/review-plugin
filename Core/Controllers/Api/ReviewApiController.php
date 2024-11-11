@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Api;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
@@ -10,6 +12,7 @@ use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\ReviewListCollection;
 use Flycart\Review\Core\Validation\ReviewAction\PhotoActionRequest;
+use Flycart\Review\Core\Validation\ReviewAction\ReviewBulkActionRequest;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -165,7 +168,9 @@ class ReviewApiController
             $review_id = $request->get('id');
 
             if (empty($review_id)) {
-                return Response::error([], 422);
+                return Response::error([
+                    'message' => esc_attr("Review id required", 'f-review'),
+                ], 422);
             }
 
             if (empty($type)) {
@@ -174,25 +179,44 @@ class ReviewApiController
                 ], 422);
             }
 
-            if ($type == 'delete_review') {
-                Review::deleteReview($review_id);
+            if ($type == 'approved') {
+                Review::updateApproveStatus($review_id, true);
 
                 return Response::success([
-                    'message' => 'Review Deleted Successfully'
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
                 ]);
-            } else if ($type == 'approve') {
-                Review::updateApproveStatus($review_id, $value);
+            } else if ($type == 'hold') {
+                Review::updateApproveStatus($review_id, 0);
 
                 return Response::success([
-                    'message' => 'Review Updated Successfully'
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
+                ]);
+            } else if ($type == 'spam') {
+                wp_update_comment([
+                    'comment_ID' => $review_id,
+                    'comment_approved' => 'spam',
+                ]);
+
+                return Response::success([
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
+                ]);
+            } else if ($type == 'trash') {
+                wp_update_comment([
+                    'comment_ID' => $review_id,
+                    'comment_approved' => 'trash',
+                ]);
+
+                return Response::success([
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
                 ]);
             } else if ($type == 'verified_badge') {
-                Review::updateVerifiedStatus($review_id, $value);
+                Review::updateVerifiedStatus($review_id, 1);
 
                 return Response::success([
-                    'message' => 'Review Updated Successfully'
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
                 ]);
             }
+
 
             return Response::success([
                 'message' => 'Unable to Update right now, please try again later'
@@ -308,19 +332,18 @@ class ReviewApiController
         }
     }
 
-    //TODO: mark the first uploaded photo as cover photo in save review api
     public function updatePhotoAction(Request $request)
     {
         $request->validate(new PhotoActionRequest());
 
         try {
-            $type = $request->get('action_type');
+            $type = $request->get('type');
+            $review_id = $request->get('review_id');
 
-            $value = Functions::getBoolValue($request->get('value'));
-
-            $attachment_id = $request->get('attachment_id');
+            $attachment_id = $request->get('image_id');
 
             $attachment = get_post($attachment_id);
+
 
             if (empty($attachment)) {
                 return Response::error([
@@ -328,15 +351,68 @@ class ReviewApiController
                 ], 404);
             }
 
-            if ($type ==  'hide') {
-                update_post_meta($attachment_id, '_review_hide_photo', $value);
-            } else if ($type ==  'hide') {
-                //make the photo as cover photo
-                update_post_meta($attachment_id, '_review_cover_photo', $value);
+            if ($type ==  'hide_photo') {
+                update_post_meta($attachment_id, '_review_hide_photo', 1);
+            } else if ($type ==  'show_photo') {
+                update_post_meta($attachment_id, '_review_hide_photo', 0);
+            } else if ($type ==  'set_as_cover') {
+                $attachments = get_posts([
+                    'post_type' => 'attachment',
+                    'meta_key' => '_review_id',
+                    'meta_value' => $review_id,
+                    'exclude' => [$attachment_id],
+                ]);
+
+                update_post_meta($attachment_id, '_review_cover_photo', 1);
+
+                foreach ($attachments as $attachment) {
+                    update_post_meta($attachment->ID, '_review_cover_photo', 0);
+                }
+            } else if ($type ==  'remove_cover') {
+                update_post_meta($attachment_id, '_review_cover_photo', 0);
+            } else {
+                Response::error([
+                    'message' => __('Invalid Type', 'f-review')
+                ]);
             }
 
             Response::success([
                 'message' => __("Updated Successfully", 'f-review'),
+            ]);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
+    }
+
+    public function reviewBulkUpdate(Request $request)
+    {
+        $request->validate(new ReviewBulkActionRequest());
+
+        try {
+            $comment_ids = $request->get('ids', [], 'array');
+
+            $bulk_action = $request->get('bulk_action');
+
+            if ($bulk_action == 'approve_all_reviews') {
+                $status = 1;
+            } else if ($bulk_action == 'delete_all_reviews') {
+                $status = 'trash';
+            } else if ($bulk_action == 'un_approve_all_reviews') {
+                $status = 0;
+            } else if ($bulk_action == 'spam_all_reviews') {
+                $status = 'spam';
+            }
+
+            foreach ($comment_ids as $comment_id) {
+                wp_update_comment([
+                    'comment_ID' => $comment_id,
+                    'comment_approved' => $status,
+                ]);
+            }
+
+            return Response::success([
+                'message' => esc_attr('Review Updated Successfully', 'f-review')
             ]);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);

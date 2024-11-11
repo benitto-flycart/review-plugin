@@ -35,15 +35,15 @@ interface ReviewDetailPropTypes {
 }
 
 interface ReviewDetailLoadingStateTypes {
-  is_loading: boolean,
-  type: string
+  is_loading: boolean;
+  type: string;
 }
 
 export const ReviewDetail = <T extends ReviewDetailPropTypes>({
-                                                                review,
-                                                                bulkActionReviewIds,
-                                                                getReviews,
-                                                              }: T) => {
+  review,
+  bulkActionReviewIds,
+  getReviews,
+}: T) => {
   const { localState } = useLocalState();
   const [reviewStatusActionLoading, setReviewStatusActionLoading] =
     useState<ReviewDetailLoadingStateTypes>({
@@ -171,7 +171,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
     (option) => option.value !== review.status,
   );
 
-  const getBorderColorClassBasedUponReviewStatus = (status:string) => {
+  const getBorderColorClassBasedUponReviewStatus = (status: string) => {
     switch (status) {
       case "approved":
         return "frt-border-l-green-500";
@@ -221,12 +221,12 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         if (parent_type == "status_update") {
           setReviewStatusActionLoading({
             is_loading: false,
-            type:"",
+            type: "",
           });
         } else {
           setReviewUpdateActionLoading({
             is_loading: false,
-            type:"",
+            type: "",
           });
         }
       });
@@ -292,15 +292,15 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
 
         {review.replies.length
           ? review.replies.map((reply: any, index: number) => {
-            return (
-              <div key={index}>
-                <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
-                  <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
-                  <span>{reply.content}</span>
+              return (
+                <div key={index}>
+                  <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
+                    <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
+                    <span>{reply.content}</span>
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
           : null}
         <CardFooter
           className={"frt-flex frt-items-center frt-gap-x-4 !frt-p-0"}
@@ -310,7 +310,11 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className={"frt-flex frt-gap-x-1"}>
                   {getStatusLabel(review?.status)}
-                  {reviewStatusActionLoading.is_loading ? <LoadingSpinner /> :   <ChevronDown />}
+                  {reviewStatusActionLoading.is_loading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <ChevronDown />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -318,9 +322,14 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   <DropdownMenuItem
                     className={"frt-flex frt-gap-x-1"}
                     key={option.value}
-                    onClick={() => handleReviewActions(option.value, "status_update")}
+                    onClick={() =>
+                      handleReviewActions(option.value, "status_update")
+                    }
                   >
-                    {reviewStatusActionLoading.type == option.value ? <LoadingSpinner /> : null} {option.label}
+                    {reviewStatusActionLoading.type == option.value ? (
+                      <LoadingSpinner />
+                    ) : null}{" "}
+                    {option.label}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -335,8 +344,8 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {(review.replies.length
-                    ? replyEditButtonLabel
-                    : replyAddButtonLabel
+                  ? replyEditButtonLabel
+                  : replyAddButtonLabel
                 ).map((label: any) => (
                   <DropdownMenuItem
                     key={label.value}
@@ -367,7 +376,11 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   size="icon"
                   className={"frt-bg-white !frt-w-6 !frt-h-6"}
                 >
-                  {reviewUpdateActionLoading.is_loading ? <LoadingSpinner width={"16px"} height={"16px"}/> :    <MoreHorizontal className="frt-h-4 frt-w-4 " />}
+                  {reviewUpdateActionLoading.is_loading ? (
+                    <LoadingSpinner width={"16px"} height={"16px"} />
+                  ) : (
+                    <MoreHorizontal className="frt-h-4 frt-w-4 " />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align={"start"}>
@@ -383,8 +396,8 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                           setIsDialogOpen(true);
                         } else if (item.value == "see_order_details") {
                           review.from_order &&
-                          review.order_url &&
-                          window.open(review.order_url, "_blank");
+                            review.order_url &&
+                            window.open(review.order_url, "_blank");
                         } else {
                           handleReviewActions(item.value, "review_update");
                         }
