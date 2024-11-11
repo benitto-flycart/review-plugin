@@ -41,6 +41,10 @@ function PopupWidgetContextAPI({ children }: { children: any }) {
         bg_color: "#d3adad",
       },
     },
+    custom_css:{
+      is_enabled:false,
+      styles:""
+    }
   });
 
   const buildStateFromResponse = (settings: any) => {
@@ -70,6 +74,10 @@ function PopupWidgetContextAPI({ children }: { children: any }) {
           text_color: settings?.colors?.close_icon?.text_color,
           bg_color: settings?.colors?.close_icon?.bg_color,
         },
+      };
+      draftState.custom_css = {
+        is_enabled: settings?.custom_css?.is_enabled,
+        styles:settings?.custom_css?.styles,
       };
     });
   };

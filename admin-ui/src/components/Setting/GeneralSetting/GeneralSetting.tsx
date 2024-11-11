@@ -23,6 +23,8 @@ import { produce } from "immer";
 import { showValidationError } from "../../../helpers/html";
 import AsyncSelect from "react-select/async";
 import fontData from "../../../assets/fonts.json";
+import { Input } from "../../ui/input";
+
 
 const GeneralSetting = () => {
   const [loading, setLoading] = useState(true);
@@ -36,17 +38,21 @@ const GeneralSetting = () => {
     order_status: "",
     review_font_family: "Advent Pro",
     review_font_variant_value: "100",
+    review_image_size_max_limit: 20,
+    review_image_upload_max_limit: 5,
   });
   const fetchFontOptions = (inputValue: string) => {
-    return fontData.fonts
-      .filter((font) =>
+    const filteredFonts = inputValue
+    ? fontData.fonts.filter((font) =>
         font.family.toLowerCase().includes(inputValue.toLowerCase()),
       )
-      .map((font) => ({
-        value: font.family,
-        variant_value: font.variant_value,
-        label: `${font.family} (${font.variant_value})`,
-      }));
+    : fontData.fonts.slice(0, 10);
+
+    return filteredFonts.map((font) => ({
+      value: font.family,
+      variant_value: font.variant_value,
+      label: `${font.family} (${font.variant_value})`,
+    }));
   };
 
   const loadOptions = (
@@ -80,7 +86,7 @@ const GeneralSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
-        setSettingsState(settings);
+        setSettingsState({...settingsState,...settings});
         toastrSuccess("Settings fetched successfully");
       })
       .catch((error: any) => {
@@ -106,6 +112,8 @@ const GeneralSetting = () => {
       "order_status",
       "review_font_family",
       "review_font_variant_value",
+      "review_image_size_max_limit",
+      "review_image_upload_max_limit"
     ];
 
     const modifiedFields = keysToTarget.reduce(
@@ -248,6 +256,7 @@ const GeneralSetting = () => {
                   placeholder="Select Review fonts"
                   getOptionLabel={(option) => option.label}
                   getOptionValue={(option) => option.value}
+                  defaultOptions={fetchFontOptions("")}
                 />
                 {showValidationError(errors, "review_font_family")}
               </SettingsColWrapper>
@@ -288,7 +297,39 @@ const GeneralSetting = () => {
                 {showValidationError(errors, "order_status")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
-            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings}>
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review image size max limit</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Maximum allowable file size (in MB) for each review image uploaded
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Input type={"number"} value={settingsState.review_image_size_max_limit} onChange={(e) => {
+                  updateSettingFields((draftState: any) => {
+                    draftState.review_image_size_max_limit = e.target.value;
+                  });
+                }} />
+                {showValidationError(errors, "order_status")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Review image max upload limit</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Maximum number of images that can be uploaded per review
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Input type={"number"} value={settingsState.review_image_upload_max_limit} onChange={(e) => {
+                  updateSettingFields((draftState: any) => {
+                    draftState.review_image_upload_max_limit = e.target.value;
+                  });
+                }} />
+                {showValidationError(errors, "order_status")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings} disabled={saveChangesLoading}>
               {saveChangesLoading && (
                 <span className="frt-mx-2">
                   <LoadingSpinner />

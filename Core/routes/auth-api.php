@@ -14,7 +14,11 @@ use Flycart\Review\Core\Controllers\LocalDataController;
 return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],
     'get_wc_orders' => ['callable' => [OrderApiController::class, 'getAllOrders']],
+    'update_order_meta' => ['callable' => [OrderApiController::class, 'updateOrder']],
+
     'get_all_reviews' => ['callable' => [ReviewApiController::class, 'getAllReviews']],
+    'review_bulk_action' => ['callable' => [ReviewApiController::class, 'reviewBulkUpdate']],
+
     'handle_save_reply' => ['callable' => [ReviewApiController::class, 'saveReply']],
     'review_action' => ['callable' => [ReviewApiController::class, 'updateReview']],
     'photo_action' => ['callable' => [ReviewApiController::class, 'updatePhotoAction']],

@@ -1,7 +1,6 @@
 import { Button } from "../ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { EyeOff, MoreHorizontal } from "lucide-react";
 import React from "react";
-
 import {
   Carousel,
   type CarouselApi,
@@ -23,11 +22,12 @@ import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { ApiErrorResponse } from "../api/api.types";
 import { useLocalState } from "../zustand/localState";
 import { getErrorMessage } from "../../helpers/helper";
-
+import { Badge } from "../ui/badge";
 interface ReviewDetailImageProps {
   review: any;
   getReviews: () => void;
 }
+
 export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
   review,
   getReviews,
@@ -42,15 +42,34 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
       value: "view_photo",
       label: "View Photo",
     },
-    {
-      value: "download_photo",
-      label: "Download Photo",
-    },
-    {
+  ];
+
+  if (review.images[current - 1]?.is_hide) {
+    imageOptions.push({
+      value: "show_photo",
+      label: "Show Photo",
+    });
+  } else {
+    imageOptions.push({
       value: "hide_photo",
       label: "Hide Photo",
-    },
-  ];
+    });
+  }
+
+  if (review.images.length) {
+    if (!review.images[current - 1]?.is_cover_photo) {
+      imageOptions.push({
+        value: "set_as_cover",
+        label: "Set as Cover Photo",
+      });
+    } else if (review.images[current - 1]?.is_cover_photo) {
+      imageOptions.push({
+        value: "remove_cover",
+        label: "Remove Cover Photo",
+      });
+    }
+  }
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -65,14 +84,19 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
   }, [api]);
 
   const imageOptionActions = (status: any) => {
-    const imageId = review.images[current].id;
+    const currentImage = review.images[current - 1];
+    if (status == "view_photo") {
+      window.open(currentImage.variants.full, "_blank");
+      return;
+    }
     axiosClient
       .post(``, {
-        method: "review_action",
+        method: "photo_action",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        status: status,
-        id: review.id,
+        type: status,
+        review_id: review.id,
+        image_id: currentImage.id,
       })
       .then((response: AxiosResponse) => {
         const data: any = response.data.data;
@@ -87,6 +111,12 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
   return (
     <div className="frt-m-4 md:frt-w-[30%] frt-bg-gray-200 frt-p-4 frt-rounded-lg frt-relative">
       <div className="frt-flex frt-justify-between frt-items-center">
+        {review.images[current - 1]?.is_hide ? (
+          <EyeOff width={"18px"} height={"18px"} className={"frt-opacity-70"} />
+        ) : null}
+        {review.images[current - 1]?.is_cover_photo ? (
+          <Badge>Cover photo</Badge>
+        ) : null}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

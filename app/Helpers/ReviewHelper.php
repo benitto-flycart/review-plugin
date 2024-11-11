@@ -28,7 +28,7 @@ class ReviewHelper
 
     public function hasImages()
     {
-        return isset($this->review['images']) && count($this->review['images']) > 0;
+        return isset($this->review['images']) && count($this->getReviewImages()) > 0;
     }
 
     public function getFirstImage()
@@ -37,9 +37,27 @@ class ReviewHelper
             return '';
         }
 
-        $image = $this->review['images'][0];
+        $cover = $this->getCoverImage();
 
-        return $image['variants']['full'];
+        return $cover['variants']['full'];
+    }
+
+    private function getCoverImage()
+    {
+        $images = $this->getReviewImages();
+
+        $cover  = $images[0];
+
+        foreach ($images as $image) {
+            $is_cover_photo = Functions::getBoolValue($image['is_cover_photo'] ?? false) && !Functions::getBoolValue($image['is_hide'] ?? false);
+
+            if ($is_cover_photo) {
+                $cover = $image;
+                break;
+            }
+        }
+
+        return $cover;
     }
 
     public function getFirstImageTitle()
@@ -48,9 +66,9 @@ class ReviewHelper
             return '';
         }
 
-        $image = $this->review['images'][0];
+        $cover = $this->getCoverImage();
 
-        return $image['title'];
+        return $cover['title'];
     }
 
     public function getReviewerName()
@@ -101,11 +119,13 @@ class ReviewHelper
 
     public function getReviewImages()
     {
-        return $this->review['images'];
+        return array_filter($this->review['images'], function ($image) {
+            return !Functions::getBoolValue($image['is_hide']);
+        });
     }
 
     public function getImagesCount()
     {
-        return count($this->review['images']);
+        return count($this->getReviewImages());
     }
 }

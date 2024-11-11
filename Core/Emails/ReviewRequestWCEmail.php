@@ -89,6 +89,8 @@ class ReviewRequestWCEmail extends WC_Email
             'id' => $notification_id
         ]);
 
+        do_action(F_Review_PREFIX . 'mark_review_request_email_as_success', $this->woo_order);
+
         $inSeconds = $this->generalSettings->getReviewReminderDelay();
 
         if (\ActionScheduler::is_initialized()) {
