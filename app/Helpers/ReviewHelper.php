@@ -44,11 +44,12 @@ class ReviewHelper
 
     private function getCoverImage()
     {
-        $image = $this->getReviewImages()[0];
-        $cover  = $image;
+        $images = $this->getReviewImages();
 
-        foreach ($this->review['images'] as $image) {
-            $is_cover_photo = Functions::getBoolValue($image['is_cover'] ?? false) && !Functions::getBoolValue($image['is_hide'] ?? false);
+        $cover  = $images[0];
+
+        foreach ($images as $image) {
+            $is_cover_photo = Functions::getBoolValue($image['is_cover_photo'] ?? false) && !Functions::getBoolValue($image['is_hide'] ?? false);
 
             if ($is_cover_photo) {
                 $cover = $image;
@@ -128,4 +129,3 @@ class ReviewHelper
         return count($this->getReviewImages());
     }
 }
-

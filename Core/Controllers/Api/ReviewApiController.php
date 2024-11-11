@@ -364,6 +364,7 @@ class ReviewApiController
                 ]);
 
                 update_post_meta($attachment_id, '_review_cover_photo', 1);
+                update_post_meta($attachment_id, '_review_hide_photo', 0);
 
                 foreach ($attachments as $attachment) {
                     update_post_meta($attachment->ID, '_review_cover_photo', 0);
