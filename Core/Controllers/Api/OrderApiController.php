@@ -8,8 +8,10 @@ use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
+use Flycart\Review\Core\Models\OrderReview;
 use Flycart\Review\Core\Models\Review;
 use Flycart\Review\Core\Resources\OrderListCollection;
+use Flycart\Review\Core\Validation\OrderAction\OrderUpdateRequest;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -63,8 +65,6 @@ class OrderApiController
                     ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id AND {$notificationHistoryTable}.model_type = 'shop_order'")
                     ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
                     ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})");
-
-
 
                 $products = $products->get();
             } else {
@@ -180,5 +180,68 @@ class OrderApiController
         $benitto_as_string = implode(", ", $benitto);
 
         return $benitto_as_string;
+    }
+
+    public static function updateOrder(Request $request)
+    {
+
+        $request->validate(new OrderUpdateRequest);
+
+        try {
+            $order_id = $request->get('order_id');
+            $type = $request->get('type');
+
+            $woo_order = wc_get_order($order_id);
+
+            if (empty($woo_order)) {
+                Response::error([
+                    'message' => __('Order Not Found', 'f-review'),
+                ], 422);
+            }
+
+            if ($type == 'send_mail') {
+                OrderReview::query()->create([
+                    'woo_order_id' => $order_id,
+                    'created_at' => Functions::currentUTCTime(),
+                    'updated_at' => Functions::currentUTCTime(),
+                ]);
+
+                $order_review_id =  OrderReview::query()->lastInsertedId();
+
+                NotificationHistory::query()->create([
+                    'model_id' => $order_id,
+                    'model_type' => 'shop_order',
+                    'order_id' => $order_id,
+                    'status' =>  'processing',
+                    'notify_type' => EmailSetting::REVIEW_REQUEST_TYPE,
+                    'medium' => NotificationHistory::MEDIUM_EMAIL,
+                    'created_at' => Functions::currentUTCTime(),
+                    'updated_at' => Functions::currentUTCTime(),
+                ]);
+
+                $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+
+                if (\ActionScheduler::is_initialized()) {
+                    $hook_name = F_Review_PREFIX . 'send_review_request_email';
+                    $time = PluginHelper::getStrTimeString(0, 'seconds');
+                    as_schedule_single_action(strtotime("+$time"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+                }
+            } else if ($type == 'cancel_mail') {
+
+                $woo_order->update_meta_data('_review_request_email_status', 'cancelled');
+                $woo_order->save();
+            } else {
+                Response::error([
+                    'message' => __('Invalid Type', 'f-review'),
+                ], 422);
+            }
+
+            return Response::success([
+                'message' => __('Order Updated Successfully', 'f-review'),
+            ]);
+        } catch (\Error | \Exception $exception) {
+            PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
+            return Response::error(Functions::getServerErrorMessage());
+        }
     }
 }
