@@ -99,7 +99,10 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
         </div>
         <div className="frt-flex frt-justify-start frt-gap-x-3 frt-items-center frt-mb-4">
           <div>
-              <Checkbox checked={bulkActionReviewIds.length==reviews.length} onCheckedChange={handleBulkCheckboxChange}/>
+            <Checkbox
+              checked={bulkActionReviewIds.length == reviews.length}
+              onCheckedChange={handleBulkCheckboxChange}
+            />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -126,7 +129,7 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
           </DropdownMenu>
           <Button
             onClick={performBulkAction}
-            disabled={bulkActionLoading || bulkActionReviewIds.length==0}
+            disabled={bulkActionLoading || bulkActionReviewIds.length == 0}
             className={"frt-flex frt-gap-x-1"}
           >
             {" "}
