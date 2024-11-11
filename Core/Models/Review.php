@@ -461,7 +461,6 @@ class Review extends Model
 
     public static function getCommentStatus($comment_approved)
     {
-
         if ($comment_approved == 1) {
             return 'approved';
         } else if ($comment_approved == 'trash') {
@@ -488,18 +487,5 @@ class Review extends Model
         }
 
         return null;
-    }
-
-    public static function getCommentStatus($comment_approved)
-    {
-        if ($comment_approved == 1) {
-            return 'approved';
-        } else if ($comment_approved == 'trash') {
-            return 'trash';
-        } else if ($comment_approved == 'spam') {
-            return 'spam';
-        } else if ($comment_approved == 0) {
-            return 'hold';
-        }
     }
 }

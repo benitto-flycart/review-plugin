@@ -11,7 +11,6 @@ class FloatingProductWidget extends Widget implements WidgetInterface
     {
         return [
             'text_content' => $settings['text_content'] ?? 'Reviews',
-            'font_size' => $settings['font_size'] ?? 48,
             'text_color' => $settings['text_color'] ?? '#6D033D',
             'bg_color' => $settings['bg_color'] ?? '#FEE1F1',
         ];
@@ -26,9 +25,25 @@ class FloatingProductWidget extends Widget implements WidgetInterface
     {
         return [
             'text_content' => $this->request->get('text_content'),
-            'font_size' => $this->request->get('font_size'),
             'text_color' => $this->request->get('text_color'),
             'bg_color' => $this->request->get('bg_color'),
         ];
     }
+
+    public function getStyles()
+    {
+        $vars = [
+            "--r-frw-bg-color" => $this->settings['bg_color'],
+            "--r-frw-text-color" => $this->settings['text_color'],
+        ];
+
+        $style = '';
+
+        foreach ($vars as $var => $value) {
+            $style .= "$var:$value;";
+        }
+
+        return $style;
+    }
 }
+

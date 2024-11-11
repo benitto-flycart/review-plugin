@@ -26,7 +26,7 @@
             <link rel="stylesheet"
                 href="<?php echo $font_css ?>">
             <div id="r_rfw_container_wrapper">
-                <div class="r_fpw-container" style="background-color: rgb(252, 228, 228); color: rgb(20, 16, 16);">
+                <div class="r_fpw-container" style="<?php echo $styles ?>">
                     <div class="r_fpw-close_icon wd_fp_header_container__close_icon">
                         <i class="review review-cross-icon"></i>
                     </div>

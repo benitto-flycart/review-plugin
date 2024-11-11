@@ -17,7 +17,7 @@ class FloatingProductWidgetShortCode
             $widget = flycart_review_app()->get('floating_widget_object');
 
             if (empty($widget)) {
-                $widgetFactory = new WidgetFactory(Widget::SIDEBAR_WIDGET, get_locale(), null);
+                $widgetFactory = new WidgetFactory(Widget::FLOATING_WIDGET, get_locale(), null);
                 $widget = $widgetFactory->widget;
                 flycart_review_app()->set('floating_widget_object', $widget);
             }
@@ -42,6 +42,7 @@ class FloatingProductWidgetShortCode
 
             $floating_widget_css = "$resourcePath/widgets/floating_product_widget.css?ver=2.0";
             $path = F_Review_PLUGIN_PATH . 'resources/templates/floating-widget';
+            $styles = $widget->getStyles();
 
             $data = [
                 'ratings' => [

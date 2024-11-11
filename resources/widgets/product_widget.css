@@ -1,6 +1,6 @@
 /*COMPACT HEADER*/
 .wd_preview_content {
-  background-color: var(--r-prw-wrapper-bg-color, black);
+  background-color: var(--r-prw-wrapper-bg-color, white);
 }
 
 .r_pw_main_container {
