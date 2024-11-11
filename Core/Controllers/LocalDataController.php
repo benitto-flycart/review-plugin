@@ -624,6 +624,56 @@ class LocalDataController
                     'title'=>__('Rating Review Widget','reviewPlugin'),
                     'description'=>__("Display your rating icons at the top of your product","reviewPlugin"),
                     'detailed_description'=>__("Display your rating icons at the top of your product pages and across your store to enhance your product’s credibility","reviewPlugin"),
+                    'rating_widgets_config'=>[
+                        'title'=>__('Rating Widgets Configuration','reviewPlugin'),
+                        'settings'=>[
+                            'title'=>__('Settings','reviewPlugin'),
+                            'general'=>[
+                                'title'=>__('General','reviewPlugin'),
+                                'text'=>__('Text','reviewPlugin'),
+                                'description'=>__('Use the following placeholders: {{count}} - Displays the total number of reviews. {{rating}} - Displays the average rating','reviewPlugin'),
+                                'hide_text'=>[
+                                    'title'=>__('Hide Text','reviewPlugin'),
+                                    'description'=>__('Hide the Text Content','reviewPlugin'),
+                                ],
+                                'show_empty_stars'=>[
+                                    'title'=>__('Show Empty Stars','reviewPlugin'),
+                                    'description'=>__('Show empty stars when there are no reviews','reviewPlugin'),
+                                ]
+                            ],
+
+                        ],
+                        'styles'=>[
+                            'title'=>__('Styles','reviewPlugin'),
+                            'general'=>[
+                                'title'=>__('General','reviewPlugin'),
+                                'widget_alignment'=>[
+                                    'title'=>__('Widget Alignment','reviewPlugin'),
+                                    'options'=>[
+                                        'left'=>__('Left','reviewPlugin'),
+                                        'right'=>__('Right','reviewPlugin'),
+                                        'center'=>__('Center','reviewPlugin'),
+                                    ]
+                                ],
+                                'layout'=>[
+                                    'title'=>__('Layout','reviewPlugin'),
+                                    'options'=>[
+                                        'default'=>__('Default','reviewPlugin'),
+                                        'single'=>__('Single','reviewPlugin'),
+                                    ]
+                                ],
+                                'directions'=>[
+                                    'title'=>__('Directions','reviewPlugin'),
+                                    'options'=>[
+                                        'icon_first'=>__('Icon First','reviewPlugin'),
+                                        'text_first'=>__('Text First','reviewPlugin'),
+                                    ]
+                                ],
+                                'text_color'=>__('Text color','reviewPlugin'),
+                                'rating_icon_color'=>__('Rating icon color','reviewPlugin'),
+                            ]
+                        ]
+                    ]
                 ],
                 'review_form_widget'=>[
                     'title'=>__('Review Form Widget','reviewPlugin'),
