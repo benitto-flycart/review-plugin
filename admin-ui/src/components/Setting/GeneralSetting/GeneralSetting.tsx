@@ -41,17 +41,18 @@ const GeneralSetting = () => {
     review_image_size_max_limit: 20,
     review_image_upload_max_limit: 5,
   });
-
   const fetchFontOptions = (inputValue: string) => {
-    return fontData.fonts
-      .filter((font) =>
+    const filteredFonts = inputValue
+    ? fontData.fonts.filter((font) =>
         font.family.toLowerCase().includes(inputValue.toLowerCase()),
       )
-      .map((font) => ({
-        value: font.family,
-        variant_value: font.variant_value,
-        label: `${font.family} (${font.variant_value})`,
-      }));
+    : fontData.fonts.slice(0, 10);
+
+    return filteredFonts.map((font) => ({
+      value: font.family,
+      variant_value: font.variant_value,
+      label: `${font.family} (${font.variant_value})`,
+    }));
   };
 
   const loadOptions = (
@@ -255,6 +256,7 @@ const GeneralSetting = () => {
                   placeholder="Select Review fonts"
                   getOptionLabel={(option) => option.label}
                   getOptionValue={(option) => option.value}
+                  defaultOptions={fetchFontOptions("")}
                 />
                 {showValidationError(errors, "review_font_family")}
               </SettingsColWrapper>
@@ -327,7 +329,7 @@ const GeneralSetting = () => {
                 {showValidationError(errors, "order_status")}
               </SettingsColWrapper>
             </SettingsRowWrapper>
-            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings}>
+            <Button className={"frt-max-w-max"} onClick={saveGeneralSettings} disabled={saveChangesLoading}>
               {saveChangesLoading && (
                 <span className="frt-mx-2">
                   <LoadingSpinner />

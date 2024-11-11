@@ -2,7 +2,7 @@
 import React, {useCallback, useRef, useState} from "react";
 import {HexColorPicker} from "react-colorful";
 
-import useClickOutside from "./useClickOutside";
+import useClickOutside from "./useClickOutSide";
 import {Input} from "../ui/input";
 
 
