@@ -264,8 +264,24 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="center"
+                                                                    style="font-size:0px;padding:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word-break:break-word;">
+                                                                    <div style="font-size:39px;font-style:normal;line-height:1.5;text-align:center;">
+                                                                        {discount_code}<span style="font-size:14px;"><br></span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="font-size:0px;padding:2px;padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
+                                                                    <div style="font-size:13px;font-style:normal;line-height:1.5;text-align:center;">
+                                                                        Discount expires :{discount_expires}
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td align="center" vertical-align="middle"
-                                                                    style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                                                    style="font-size:0px;padding:10px;word-break:break-word;">
                                                                     <table border="0" cellpadding="0" cellspacing="0"
                                                                         role="presentation"
                                                                         style="border-collapse:separate;line-height:100%;">
@@ -276,7 +292,7 @@
                                                                                 valign="middle">
                                                                                 <p
                                                                                     style="display:inline-block;background:<?php echo esc_attr($data['styles']['button_bg_color']); ?>;color:<?php echo esc_attr($data['styles']['button_text_color']); ?>;font-size:13px;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:6px;">
-                                                                                    {discount_code}
+                                                                                    {button_text}
                                                                                 </p>
                                                                             </td>
                                                                         </tr>
