@@ -35,14 +35,14 @@ interface OrderEntryProps {
 }
 
 interface OrderEntryLoadingState {
-  is_loading:boolean,
-  type:string
+  is_loading: boolean;
+  type: string;
 }
 
 export const OrderEntry = <T extends OrderEntryProps>({
-                                                        order,
-                                                        fetchOrders,
-                                                      }: T) => {
+  order,
+  fetchOrders,
+}: T) => {
   const { localState } = useLocalState();
   const [loading, setLoading] = useState<OrderEntryLoadingState>({
     is_loading: false,
@@ -52,7 +52,7 @@ export const OrderEntry = <T extends OrderEntryProps>({
   const sendMail = (type: string) => {
     setLoading({
       is_loading: true,
-      type
+      type,
     });
     axiosClient
       .post(``, {
@@ -70,13 +70,15 @@ export const OrderEntry = <T extends OrderEntryProps>({
       })
       .finally(() => {
         setLoading({
-          is_loading:false,
-          type:""
+          is_loading: false,
+          type: "",
         });
       });
   };
   const areAllEmailsSent = () => {
-    return order.order_items.every((item) => item.email_status == "awaiting_fullfillment");
+    return order.order_items.every(
+      (item) => item.email_status == "awaiting_fullfillment",
+    );
   };
   return (
     <div className="frt-space-y-4">
@@ -101,8 +103,12 @@ export const OrderEntry = <T extends OrderEntryProps>({
                       }}
                       className="frt-whitespace-nowrap frt-flex frt-items-center frt-mr-[10px] frt-border-r frt-border-r-gray-300 frt-border-solid frt-pr-[10px] frt-cursor-pointer frt-text-sm frt-font-normal"
                     >
-                      {loading.is_loading && loading.type=="send_mail"  ? (
-                        <LoadingSpinner width={"18px"} height={"18px"} className={"!frt-mr-2"}/>
+                      {loading.is_loading && loading.type == "send_mail" ? (
+                        <LoadingSpinner
+                          width={"18px"}
+                          height={"18px"}
+                          className={"!frt-mr-2"}
+                        />
                       ) : (
                         <Send className="frt-h-4 frt-w-4 frt-mr-2" />
                       )}
@@ -116,8 +122,12 @@ export const OrderEntry = <T extends OrderEntryProps>({
                       }}
                       className="frt-whitespace-nowrap frt-flex frt-items-center frt-mr-[10px] frt-border-r frt-border-r-gray-300 frt-border-solid frt-pr-[10px] frt-cursor-pointer frt-text-sm frt-font-normal"
                     >
-                      {loading.is_loading && loading.type=="cancel_mail"? (
-                        <LoadingSpinner width={"18px"} height={"18px"} className={"!frt-mr-2"}/>
+                      {loading.is_loading && loading.type == "cancel_mail" ? (
+                        <LoadingSpinner
+                          width={"18px"}
+                          height={"18px"}
+                          className={"!frt-mr-2"}
+                        />
                       ) : (
                         <Send className="frt-h-4 frt-w-4 frt-mr-2" />
                       )}
@@ -148,8 +158,14 @@ export const OrderEntry = <T extends OrderEntryProps>({
                         <Send className="frt-h-4 frt-w-4 frt-mr-2" />
                         <span>Sent : {item.email_send_at}</span>
                       </div>
+                    ) : item.email_status == "awaiting_fullfillment" ? (
+                      <span> Awaiting fulfillment</span>
+                    ) : item.email_status == "processing" ? (
+                      <span>Processing</span>
+                    ) : item.email_status == "cancelled" ? (
+                      <span>Cancelled</span>
                     ) : (
-                      <span>{item.email_status=="awaiting_fullfillment" ? "Awaiting fulfillment": null}</span>
+                      ""
                     )}
                   </div>
                 </div>
