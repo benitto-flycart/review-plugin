@@ -15,6 +15,7 @@ export type TReview = {
   date: string; // Date in "YYYY-MM-DD" format
   content: string;
   is_approved: boolean;
+  status:string;
   images: string[]; // Array of image URLs (empty if no images)
   from_order: string | null;
   order_url: string | null;

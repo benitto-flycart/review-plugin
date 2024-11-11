@@ -25,7 +25,7 @@ const usePaginationHook = () => {
 
     return {
         handlePagination, updatePerPage,
-        selectedLimit, perPage, currentPage, setCurrentPage
+        selectedLimit, perPage, currentPage, setCurrentPage,
     }
 
 }

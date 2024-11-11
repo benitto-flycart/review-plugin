@@ -46,8 +46,8 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
       value: "approve_all_reviews",
     },
     {
-      label: "DisApprove all reviews",
-      value: "dis_approve_all_reviews",
+      label: "UnApprove all reviews",
+      value: "un_approve_all_reviews",
     },
     {
       label: "Delete all reviews",
@@ -98,9 +98,12 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
           </span>
         </div>
         <div className="frt-flex frt-justify-start frt-gap-x-3 frt-items-center frt-mb-4">
-          {/* <div>
-              <Checkbox checked={bulkActionReviewIds.length==reviewState.reviews.length} onCheckedChange={handleBulkCheckboxChange}/>
-          </div> */}
+          <div>
+            <Checkbox
+              checked={bulkActionReviewIds.length == reviews.length}
+              onCheckedChange={handleBulkCheckboxChange}
+            />
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className={"frt-gap-x-2"}>
@@ -126,7 +129,7 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
           </DropdownMenu>
           <Button
             onClick={performBulkAction}
-            disabled={bulkActionLoading}
+            disabled={bulkActionLoading || bulkActionReviewIds.length == 0}
             className={"frt-flex frt-gap-x-1"}
           >
             {" "}
@@ -134,7 +137,7 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
           </Button>
         </div>
       </div>
-      <Card className="frt-bg-white frt-shadow-lg frt-max-w-4xl frt-mx-auto frt-p-6 frt-m-4 frt-flex frt-flex-col frt-gap-y-4">
+      <Card className="frt-bg-white frt-shadow-lg frt-max-w-4xl frt-p-6 frt-flex frt-flex-col frt-gap-y-4">
         {reviews?.length > 0 &&
           reviews?.map((item: any) => {
             return (

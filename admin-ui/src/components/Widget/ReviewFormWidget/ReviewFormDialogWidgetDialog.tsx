@@ -12,7 +12,8 @@ import ReviewFormGetReviewSetting from "./ReviewFormGetReviewSetting";
 import ReviewFormWidgetThankyouSetting from "./ReviewFormWidgetThankyouSetting";
 import WidgetDialogWrapper from "../WidgetDialogWrapper";
 import {getWidthAndHeightForIcons} from "../../../helpers/utils";
-import {EyeIcon, HeartHandshakeIcon, ImageIcon, InfoIcon, SettingsIcon, StarIcon} from "lucide-react";
+import { BracesIcon, EyeIcon, HeartHandshakeIcon, ImageIcon, InfoIcon, SettingsIcon, StarIcon } from "lucide-react";
+import CustomCss from "@/src/components/Widget/CustomCss";
 
 const ReviewFormWidgetDialog = ({show, toggle,currentLocale}: any) => {
 
@@ -57,7 +58,15 @@ const ReviewFormWidgetDialog = ({show, toggle,currentLocale}: any) => {
                 name: 'Thank you',
                 icon: <HeartHandshakeIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height}/>,
                 component: <ReviewFormWidgetThankyouSetting name={"Thank you"}/>,
-            }
+            },
+            {
+                key: "advanced_css",
+                name: "Advanced CSS",
+                icon: <BracesIcon width={getWidthAndHeightForIcons().width} height={getWidthAndHeightForIcons().height} />,
+                component: (
+                  <CustomCss name={"Advanced CSS"} context={context} />
+                ),
+            },
         ]
     }
 

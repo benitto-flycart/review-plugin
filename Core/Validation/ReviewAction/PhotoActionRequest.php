@@ -11,19 +11,18 @@ class PhotoActionRequest implements FormRequest
     {
 
         return [
-            'action_type' => ['required'],
-            'value' => ['required'],
-            'attachment_id' => ['required'],
+            'type' => ['required'],
+            'review_id' => ['required'],
+            'image_id' => ['required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'action_type.required' => 'Action type is required',
-            'value.required' => 'Value is required',
-            'attachment_id.required' => 'Attachment ID is required',
-
+            'type.required' => vsprintf(esc_attr('%s is required', 'f-review'), [__('type', 'f-review')]),
+            'review_id.required' => vsprintf(esc_attr('%s is required', 'f-review'), [__('review_id', 'f-review')]),
+            'image_id.required' => vsprintf(esc_attr('%s is required', 'f-review'), [__('image_id', 'f-review')]),
         ];
     }
 }

@@ -25,7 +25,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
       <DetailHeading name={name} updateWidgetFields={updateWidgetFields} />
       <SidebarDetail>
         <SidebarDetailSection title={"General"}>
-          <div className={"frt-grid frt-grid-cols-2 frt-gap-2"}>
+          <div className={"frt-grid frt-grid-cols-2 frt-gap-4"}>
             <SidebarDetailField>
               <Label className={"frt-text-xs"} htmlFor="none">
                 Position
@@ -108,7 +108,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
               </Select>
             </SidebarDetailField>
             <SidebarDetailField>
-              <Label htmlFor="show_review_type">Initial Delay</Label>
+              <Label className={"frt-text-xs"} htmlFor="show_review_type">Initial Delay</Label>
               <Select
                 value={widget.initial_delay}
                 onValueChange={(value: string) => {
@@ -224,23 +224,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Hide on Mobile
               </Label>
             </div>
-          </SidebarDetailField>
-
-          <SidebarDetailField>
-            <div className="frt-flex frt-flex-row  frt-items-center frt-space-x-2">
-              <Switch
-                id="auto_play_video_review"
-                checked={widget.auto_play_video}
-                onCheckedChange={(value: boolean) => {
-                  updateWidgetFields((draftState: any) => {
-                    draftState.auto_play_video = value;
-                  });
-                }}
-              />
-              <Label className={"frt-text-xs"} htmlFor="auto_play_video_review">
-                Auto Play Video Review
-              </Label>
-            </div>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -258,6 +242,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Shop Page
               </Label>
             </div>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -275,6 +260,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Cart Page
               </Label>
             </div>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -292,6 +278,7 @@ const PopupWidgetConfigSetting = ({ name }: any) => {
                 Show on Product Page
               </Label>
             </div>
+            <p>Check store to view this change</p>
           </SidebarDetailField>
         </SidebarDetailSection>
       </SidebarDetail>

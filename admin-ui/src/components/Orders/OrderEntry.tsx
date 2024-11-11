@@ -34,18 +34,30 @@ interface OrderEntryProps {
   fetchOrders: () => void;
 }
 
-export const OrderEntry = <T extends OrderEntryProps>({
-  order,
-  fetchOrders,
-}: T) => {
-  const { localState } = useLocalState();
-  const [loading, setLoading] = useState<boolean>(false);
+interface OrderEntryLoadingState {
+  is_loading:boolean,
+  type:string
+}
 
-  const sendMail = () => {
-    setLoading(true);
+export const OrderEntry = <T extends OrderEntryProps>({
+                                                        order,
+                                                        fetchOrders,
+                                                      }: T) => {
+  const { localState } = useLocalState();
+  const [loading, setLoading] = useState<OrderEntryLoadingState>({
+    is_loading: false,
+    type: "",
+  });
+
+  const sendMail = (type: string) => {
+    setLoading({
+      is_loading: true,
+      type
+    });
     axiosClient
       .post(``, {
-        method: "send_mail",
+        method: "update_order_meta",
+        type: type,
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
         order_id: order.order_id,
@@ -57,11 +69,14 @@ export const OrderEntry = <T extends OrderEntryProps>({
         toastrError(getErrorMessage(error));
       })
       .finally(() => {
-        setLoading(false);
+        setLoading({
+          is_loading:false,
+          type:""
+        });
       });
   };
   const areAllEmailsSent = () => {
-    return order.order_items.every((item) => item.email_send_at);
+    return order.order_items.every((item) => item.email_status == "awaiting_fullfillment");
   };
   return (
     <div className="frt-space-y-4">
@@ -77,19 +92,36 @@ export const OrderEntry = <T extends OrderEntryProps>({
                     className="frt-whitespace-nowrap frt-flex frt-items-center frt-mr-[10px] frt-border-r frt-border-r-gray-300 frt-border-solid frt-pr-[10px] frt-cursor-pointer frt-text-sm frt-font-normal"
                   >
                     <ShoppingCart className="frt-h-4 frt-w-4 frt-mr-2" />
-                    Go to order
+                    Go to order #{order.order_id}
                   </a>
                   {areAllEmailsSent() ? (
                     <a
-                      onClick={sendMail}
+                      onClick={() => {
+                        sendMail("send_mail");
+                      }}
                       className="frt-whitespace-nowrap frt-flex frt-items-center frt-mr-[10px] frt-border-r frt-border-r-gray-300 frt-border-solid frt-pr-[10px] frt-cursor-pointer frt-text-sm frt-font-normal"
                     >
-                      {loading ? (
-                        <LoadingSpinner />
+                      {loading.is_loading && loading.type=="send_mail"  ? (
+                        <LoadingSpinner width={"18px"} height={"18px"} className={"!frt-mr-2"}/>
                       ) : (
                         <Send className="frt-h-4 frt-w-4 frt-mr-2" />
                       )}
                       Send now
+                    </a>
+                  ) : null}
+                  {areAllEmailsSent() ? (
+                    <a
+                      onClick={() => {
+                        sendMail("cancel_mail");
+                      }}
+                      className="frt-whitespace-nowrap frt-flex frt-items-center frt-mr-[10px] frt-border-r frt-border-r-gray-300 frt-border-solid frt-pr-[10px] frt-cursor-pointer frt-text-sm frt-font-normal"
+                    >
+                      {loading.is_loading && loading.type=="cancel_mail"? (
+                        <LoadingSpinner width={"18px"} height={"18px"} className={"!frt-mr-2"}/>
+                      ) : (
+                        <Send className="frt-h-4 frt-w-4 frt-mr-2" />
+                      )}
+                      Cancel
                     </a>
                   ) : null}
                   <div className="frt-text-right frt-text-muted-foreground">
@@ -117,7 +149,7 @@ export const OrderEntry = <T extends OrderEntryProps>({
                         <span>Sent : {item.email_send_at}</span>
                       </div>
                     ) : (
-                      <span>{item.email_status}</span>
+                      <span>{item.email_status=="awaiting_fullfillment" ? "Awaiting fulfillment": null}</span>
                     )}
                   </div>
                 </div>
