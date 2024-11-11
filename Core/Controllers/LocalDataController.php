@@ -340,6 +340,76 @@ class LocalDataController
                             'title'=>__('Verified Badges','reviewPlugin'),
                             'icon_color'=>__('Icon Color','reviewPlugin'),
                         ]
+                    ],
+                    'preferences'=>[
+                        'title'=>__('Preferences','reviewPlugin'),
+                        'display'=>[
+                            'title'=>__('Display','reviewPlugin'),
+                            'product_reviews_widget'=>[
+                                'title'=>__('Product Reviews Widget','reviewPlugin'),
+                                'options'=>[
+                                    'always_shown'=>__('Always Shown','reviewPlugin'),
+                                    'always_hidden'=>__('Always Hidden','reviewPlugin'),
+                                    'hidden_when_empty'=>__('Hidden When Empty','reviewPlugin'),
+                                    'all_reviews_when_empty'=>__('All Reviews When Empty','reviewPlugin'),
+                                    'all_reviews_always'=>__('All Reviews Always','reviewPlugin'),
+                                ],
+                                'description'=>__('Check store to view this change','reviewPlugin'),
+                            ],
+                            'toggle_loading_screen'=>[
+                                'title'=>__('Toggle Loading Screen','reviewPlugin'),
+                                'description'=>__('Enable to show a loading screen in the widget area.','reviewPlugin'),
+                            ],
+                            'toggle_empty_review'=>[
+                                'title'=>__('Toggle Empty Review','reviewPlugin'),
+                                'description'=>__('Enable to show an empty review screen in the widget area.','reviewPlugin'),
+                            ],
+                            'review_button'=>__('Show a "Write a review button"','reviewPlugin'),
+                            'review_date'=>__('Show review date','reviewPlugin'),
+                            'thumbnail_size'=>[
+                                'title'=>__('Thumbnail Size','reviewPlugin'),
+                                'options'=>[
+                                    'small'=>__('Small','reviewPlugin'),
+                                    'medium'=>__('Medium','reviewPlugin'),
+                                    'large'=>__('Large','reviewPlugin'),
+                                ],
+                                'description'=>__('Check store to view this change','reviewPlugin'),
+                            ],
+                            'reviews_per_page'=>[
+                                'title'=>__('Reviews Per Page','reviewPlugin'),
+                                'options'=>[
+                                    '5'=>__('5','reviewPlugin'),
+                                    '10'=>__('10','reviewPlugin'),
+                                    '15'=>__('15','reviewPlugin'),
+                                    '20'=>__('20','reviewPlugin'),
+                                    '30'=>__('30','reviewPlugin'),
+                                ]
+                            ]
+
+                        ],
+                        'sorting'=>[
+                            'title'=>__('Sorting','reviewPlugin'),
+                            'sorting_options'=>__('Show Sorting Options','reviewPlugin'),
+                            'default_sorting'=>[
+                                'title'=>__('Default Sorting','reviewPlugin'),
+                                'options'=>[
+                                    'newest'=>__('Newest','reviewPlugin'),
+                                    'lowest'=>__('Lowest','reviewPlugin'),
+                                    'highest'=>__('Highest','reviewPlugin'),
+                                ]
+                            ]
+                        ],
+                        'filtering'=>[
+                            'title'=>__('Filtering','reviewPlugin'),
+                            'rating_options'=>__('Show Rating Options','reviewPlugin'),
+                        ]
+                    ],
+                    'advanced_css'=>[
+                        'title'=>__('Advanced CSS','reviewPlugin'),
+                        'display'=>[
+                            'title'=>__('Display','reviewPlugin'),
+                            'enable_css'=>__('Enable CSS','reviewPlugin'),
+                        ]
                     ]
                 ],
                 'popup_widgets'=>[
@@ -379,7 +449,8 @@ class LocalDataController
                 ],
                 'common'=>[
                     'customize'=>__('Customize','reviewPlugin'),
-                    'save'=>__('Save','reviewPlugin')
+                    'save'=>__('Save','reviewPlugin'),
+                    'changes_applied_to_english_language'=>__('Changes applied to English Language','reviewPlugin'),
                 ]
             ]
         ];
