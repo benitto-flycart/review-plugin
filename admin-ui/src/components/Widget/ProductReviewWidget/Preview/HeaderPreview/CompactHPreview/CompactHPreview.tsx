@@ -28,7 +28,7 @@ const CompactHPreview = () => {
           }
         >
           {review_details.map((detail: any, rating: number) => (
-            <div key={rating} className={"r_pw_ch_rd_detail"}>
+            <div key={rating} className={"r_pw_h_rd_detail r_pw_ch_rd_detail"}>
               <div className={"r_pw_ch_rd_detail_icon"}>
                 {Array.from({ length: 5 }, (_, index) => (
                   <ReviewIcon key={index} filled={rating >= index} />
@@ -85,4 +85,3 @@ const CompactHPreview = () => {
 };
 
 export default CompactHPreview;
-

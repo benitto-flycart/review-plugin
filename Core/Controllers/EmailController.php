@@ -133,7 +133,7 @@ class EmailController
                 $emails['DiscountNotifyEmail']->trigger($data);
             }
         } catch (\Error $error) {
-            PluginHelper::logError('Error Occurred While Sending Review Request Email', [__CLASS__, __FUNCTION__], $error);
+            PluginHelper::logError('Error Occurred While Sending Review Discount Notify Email', [__CLASS__, __FUNCTION__], $error);
         }
     }
     public static function sendReplyToEmail($data)

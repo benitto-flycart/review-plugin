@@ -58,7 +58,6 @@ class ProductWidget extends Widget implements WidgetInterface
                 'product_review_widget' => $preferences['product_review_widget'] ?? '',
                 'show_write_a_review' => Functions::getBoolValue($preferences['show_write_a_review'] ?? true),
                 'show_review_date' => Functions::getBoolValue($preferences['show_review_date'] ?? true),
-                'thumbnail_size' => $preferences['thumbnail_size'] ?? 'medium',
                 'reviews_per_page' => $preferences['reviews_per_page'] ?? 5,
                 'show_sorting_options' => Functions::getBoolValue($preferences['show_sorting_options'] ?? true),
                 'default_sorting' => $preferences['default_sorting'] ?? 'newest',
@@ -206,5 +205,41 @@ class ProductWidget extends Widget implements WidgetInterface
         ];
 
         return isset($openers[$type]) ? $openers[$type]['border-radius'] : '';
+    }
+
+    public static function getPagination($totalPages, $activePage)
+    {
+        $maxPagesToShow = apply_filters('frap_get_max_pages_to_show', 9);
+
+        $pages = [];
+        $half = floor($maxPagesToShow / 2);
+
+        $start = max(1, $activePage - $half);
+        $end = min($totalPages, $activePage + $half);
+
+        // Adjust the start and end if they're out of bounds
+        if ($activePage <= $half) {
+        } elseif ($activePage + $half >= $totalPages) {
+            $start = max(1, $totalPages - $maxPagesToShow + 1);
+        }
+
+        // Add the first page
+        if ($start > 1) {
+            $pages[] = 1;
+            if ($start > 2) $pages[] = '...';
+        }
+
+        // Add the range of pages
+        for ($i = $start; $i <= $end; $i++) {
+            $pages[] = $i;
+        }
+
+        // Add the last page
+        if ($end < $totalPages) {
+            if ($end < $totalPages - 1) $pages[] = '...';
+            $pages[] = $totalPages;
+        }
+
+        return $pages;
     }
 }

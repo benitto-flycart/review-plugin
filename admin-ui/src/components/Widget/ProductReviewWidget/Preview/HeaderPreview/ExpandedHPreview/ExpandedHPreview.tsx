@@ -29,7 +29,10 @@ const ExpandedHPreview = () => {
           }
         >
           {review_details.map((detail: any, rating: number) => (
-            <div key={rating} className={"r_pw_eh_rating_details"}>
+            <div
+              key={rating}
+              className={"r_pw_h_rd_detail r_pw_eh_rating_details"}
+            >
               <div className={"r_pw_eh_rating_details--icons-info"}>
                 {Array.from({ length: 5 }, (_, index) => (
                   <ReviewIcon key={index} filled={rating >= index} />
@@ -86,4 +89,3 @@ const ExpandedHPreview = () => {
 };
 
 export default ExpandedHPreview;
-

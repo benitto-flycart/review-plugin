@@ -64,7 +64,6 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
       toggle_loading_screen: false,
       toggle_empty_review: false,
       show_review_date: true,
-      thumbnail_size: "medium",
       reviews_per_page: 5,
       show_sorting_options: true,
       default_sorting: "newest",
@@ -127,7 +126,6 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         product_review_widget: settings?.preferences?.product_review_widget,
         show_write_a_review: settings?.preferences?.show_write_a_review,
         show_review_date: settings?.preferences?.show_review_date,
-        thumbnail_size: settings?.preferences?.thumbnail_size,
         reviews_per_page: settings?.preferences?.reviews_per_page,
         show_sorting_options: settings?.preferences?.show_sorting_options,
         default_sorting: settings?.preferences?.default_sorting,
@@ -142,7 +140,8 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
   };
 
   const saveSettings = () => {
-    const { toggle_loading_screen, toggle_empty_review, ...preferences } = widget.preferences;
+    const { toggle_loading_screen, toggle_empty_review, ...preferences } =
+      widget.preferences;
     setSaving(true);
     axiosClient
       .post("", {
@@ -244,7 +243,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         "--r-prw-progress-fill-color": widget.colors.header.bar_fill_color,
         "--r-prw-progress-bg-color": widget.colors.header.bar_bg_color,
         "--r-prw-header-text-icon-color":
-        widget.colors.header.text_and_icon_color,
+          widget.colors.header.text_and_icon_color,
 
         "--r-prw-review-color": widget.colors.reviews.text_color,
         "--r-prw-review-bg-color": widget.colors.reviews.bg_color,
@@ -253,7 +252,7 @@ function ProductWidgetContextAPI({ children }: { children: any }) {
         "--r-prw-review-replies-color": widget.colors.replies.text_color,
         "--r-prw-review-replies-bg-color": widget.colors.replies.bg_color,
         "--r-prw-review-verified-color":
-        widget.colors.verified_badge.icon_color,
+          widget.colors.verified_badge.icon_color,
 
         "--r-prw-review-border-radius": getReviewOpener(
           widget.style.review_card_openers,

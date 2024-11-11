@@ -74,6 +74,7 @@ const ReviewFormWidgetThankyouSetting = ({ name }: any) => {
               ></Textarea>
             </div>
             <p>Make sure the discount is enabled in discount settings</p>
+            <p>Use Following Placeholders [discount_value]</p>
           </SidebarDetailField>
 
           <SidebarDetailField>
@@ -94,6 +95,7 @@ const ReviewFormWidgetThankyouSetting = ({ name }: any) => {
               ></Textarea>
             </div>
             <p>Make sure the discount is enabled in discount settings</p>
+            <p>Use Following Placeholders [discount_expiry]</p>
           </SidebarDetailField>
         </SidebarDetailSection>
       </SidebarDetail>

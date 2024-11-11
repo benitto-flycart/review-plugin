@@ -459,6 +459,20 @@ class Review extends Model
         return $auto_publish_enabled ? 1 : 0;
     }
 
+    public static function getCommentStatus($comment_approved)
+    {
+
+        if ($comment_approved == 1) {
+            return 'approved';
+        } else if ($comment_approved == 'trash') {
+            return 'trash';
+        } else if ($comment_approved == 'spam') {
+            return 'spam';
+        } else if ($comment_approved == 0) {
+            return 'hold';
+        }
+    }
+
     public static function getStatusValue($status)
     {
         if ($status == 'all') {
