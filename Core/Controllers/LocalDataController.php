@@ -778,6 +778,23 @@ class LocalDataController
                     'title'=>__('Review Details Widget','reviewPlugin'),
                     'description'=>__("Customize the Review Detail Widget","reviewPlugin"),
                     'detailed_description'=>__("Showcase customer feedback directly on your product pages with the Review Details widget to build trust and credibility. Customize colors, themes, and layout to align seamlessly with your brand's look and feel","reviewPlugin"),
+                    'review_detail_widgets_config'=>[
+                        'title'=>__('Review Detail Widgets Configuration','reviewPlugin'),
+                        'settings'=>[
+                            'title'=>__('Settings','reviewPlugin'),
+                            'general'=>[
+                                'title'=>__('General','reviewPlugin'),
+                                'background_color'=>__('Background color','reviewPlugin'),
+                                'rating_icon_color'=>__('Rating icon color','reviewPlugin'),
+                                'text_color'=>__('Text color','reviewPlugin'),
+                            ],
+                            'button'=>[
+                                'title'=>__('Button','reviewPlugin'),
+                                'color'=>__('Color','reviewPlugin'),
+                                'background_color'=>__('Background color','reviewPlugin'),
+                            ]
+                        ]
+                    ]
                 ],
                 'common'=>[
                     'customize'=>__('Customize','reviewPlugin'),
