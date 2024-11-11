@@ -529,6 +529,21 @@ class LocalDataController
                     'title'=>__('Floating Product Reviews Widget','reviewPlugin'),
                     'description'=>__("Present your reviews on a floating display","reviewPlugin"),
                     'detailed_description'=>__("Present your reviews on a floating display so users can browse through reviews without leaving the page they are currently on","reviewPlugin"),
+                    'floating_product_widget_config'=>[
+                        'title'=>__('Floating Product Reviews Widget','reviewPlugin'),
+                        'settings'=>[
+                            'title'=>__('Settings','reviewPlugin'),
+                            'general'=>[
+                                'title'=>__('General','reviewPlugin'),
+                                'label'=>__('Title','reviewPlugin'),
+                            ],
+                            'colors'=>[
+                                'title'=>__('Colors','reviewPlugin'),
+                                'background_color'=>__('Background color','reviewPlugin'),
+                                'text_color'=>__('Text color','reviewPlugin'),
+                            ]
+                        ]
+                    ]
                 ],
                 'snippet_widgets'=>[
                     'title'=>__('Snippet Widgets','reviewPlugin'),
