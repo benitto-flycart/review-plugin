@@ -269,6 +269,78 @@ class LocalDataController
                     'title'=>__('Product Reviews Widget','reviewPlugin'),
                     'description'=>__('Convert visitors into buyers','reviewPlugin'),
                     'detailed_description'=>__('Convert visitors into buyers with an eye-catching gallery showcasing your reviews. Choose from multiple layouts','reviewPlugin'),
+                    'layout'=>[
+                        'title'=>__('Layout','reviewPlugin'),
+                        'widget_layout'=>__('Widget Layout','reviewPlugin'),
+                        'grid'=>__('Grid','reviewPlugin'),
+                        'List'=>__('List','reviewPlugin'),
+                        'mosaic'=>__('Mosaic','reviewPlugin'),
+                        'minimal'=>__('Minimal','reviewPlugin'),
+                        'compact'=>__('Compact','reviewPlugin'),
+                        'expanded'=>__('Expanded','reviewPlugin'),
+                    ],
+                    'style'=>[
+                        'title'=>__('Style','reviewPlugin'),
+                        'review_card_shadow'=>[
+                            'title'=>__('Review Card Shadow','reviewPlugin'),
+                            'classic'=>__('Classic','reviewPlugin'),
+                            'dark'=>__('Dark','reviewPlugin'),
+                            'light'=>__('Light','reviewPlugin'),
+                            'none'=>__('None','reviewPlugin'),
+                        ],
+                        'review_card_openers'=>[
+                            'title'=>__('Review Card Openers','reviewPlugin'),
+                            'sharp'=>__('Sharp','reviewPlugin'),
+                            'slightly_rounded'=>__('Slight Rounded','reviewPlugin'),
+                            'rounded'=>__('Rounded','reviewPlugin'),
+                            'extra_rounded'=>__('Extra Rounded','reviewPlugin'),
+                            'none'=>__('None','reviewPlugin'),
+                        ]
+                    ],
+                    'color'=>[
+                        'title'=>__('Color','reviewPlugin'),
+                        'widget_colors'=>[
+                            'title'=>__('Widget Colors','reviewPlugin'),
+                            'dark_text'=>__('Dark Text','reviewPlugin'),
+                            'light_text'=>__('Light Text','reviewPlugin'),
+                            'custom'=>__('Custom','reviewPlugin'),
+                        ],
+                        'widget_wrapper'=>[
+                            'title'=>__('Widget Wrapper','reviewPlugin'),
+                            'background_color'=>__('Background Color','reviewPlugin'),
+                        ],
+                        'header'=>[
+                            'title'=>__('Header','reviewPlugin'),
+                            'text_and_icon_color'=>__('Text & Icon Color','reviewPlugin'),
+                            'bar_fill'=>__('Bar Fill','reviewPlugin'),
+                            'bar_background'=>__('Bar Background','reviewPlugin'),
+                        ],
+                        'buttons'=>[
+                            'title'=>__('Buttons','reviewPlugin'),
+                            'text'=>__('Text','reviewPlugin'),
+                            'text_hover'=>__('Text Hover','reviewPlugin'),
+                            'background_hover'=>__('Background Hover','reviewPlugin'),
+                            'background'=>__('Background','reviewPlugin'),
+                            'border'=>__('Border','reviewPlugin'),
+                        ],
+                        'reviews'=>[
+                            'title'=>__('Reviews','reviewPlugin'),
+                            'text'=>__('Text','reviewPlugin'),
+                            'background'=>__('Background','reviewPlugin'),
+                            'background_hover'=>__('Background Hover','reviewPlugin'),
+                            'shadow_color'=>__('Shadow Color','reviewPlugin'),
+                            'separator_color'=>__('Separator Color','reviewPlugin'),
+                        ],
+                        'replies'=>[
+                            'title'=>__('Replies','reviewPlugin'),
+                            'text'=>__('Text','reviewPlugin'),
+                            'background'=>__('Background','reviewPlugin'),
+                        ],
+                        'verified_badges'=>[
+                            'title'=>__('Verified Badges','reviewPlugin'),
+                            'icon_color'=>__('Icon Color','reviewPlugin'),
+                        ]
+                    ]
                 ],
                 'popup_widgets'=>[
                     'title'=>__('Popup Widgets','reviewPlugin'),
@@ -300,13 +372,14 @@ class LocalDataController
                     'description'=>__("Customize the Review Form","reviewPlugin"),
                     'detailed_description'=>__("Add a stylish review form to your store, enabling customers to easily share feedback and enhance trust. Fully customizable, this widget lets you adjust colors, themes, and styles to match your brand's look. Encourage reviews that build credibility and connect with potential buyers","reviewPlugin"),
                 ],
-                'review_details_widget'=>[
+                'review_detail_widget'=>[
                     'title'=>__('Review Details Widget','reviewPlugin'),
                     'description'=>__("Customize the Review Detail Widget","reviewPlugin"),
                     'detailed_description'=>__("Showcase customer feedback directly on your product pages with the Review Details widget to build trust and credibility. Customize colors, themes, and layout to align seamlessly with your brand's look and feel","reviewPlugin"),
                 ],
                 'common'=>[
                     'customize'=>__('Customize','reviewPlugin'),
+                    'save'=>__('Save','reviewPlugin')
                 ]
             ]
         ];
