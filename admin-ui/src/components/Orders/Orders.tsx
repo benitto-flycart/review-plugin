@@ -71,14 +71,15 @@ const Orders = () => {
 
   const filterOrderStatus = [
     { value: "all_orders", label: "All orders" },
-    { value: "sent", label: "Sent" },
+    { value: "success", label: "Sent" },
     {
-      value: "scheduled/pending-fulfillment",
-      label: "Schedules / Pending fulfillment",
+      value: "awaiting_fulfillment",
+      label: "Awaiting fulfillment",
     },
-    { value: "review_received", label: "Review received" },
-    { value: "blocked-list", label: "Blocked list" },
-    { value: "cancel", label: "Cancel" },
+    {
+      value: "processing",
+      label: "Processing",
+    },
   ];
 
   const fetchOrders = (searched?: boolean) => {

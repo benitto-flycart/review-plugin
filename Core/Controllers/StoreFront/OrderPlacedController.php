@@ -72,6 +72,7 @@ class OrderPlacedController
                 $notificationHistoryId = $notificationHistory->id;
             }
 
+            do_action(F_Review_PREFIX . 'mark_review_request_email_as_processing', $order);
             if (\ActionScheduler::is_initialized()) {
                 $hook_name = F_Review_PREFIX . 'send_review_request_email';
                 $time = PluginHelper::getStrTimeString($inSeconds, 'days');

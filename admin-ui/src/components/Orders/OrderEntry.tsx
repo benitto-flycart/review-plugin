@@ -162,6 +162,8 @@ export const OrderEntry = <T extends OrderEntryProps>({
                       <span> Awaiting fulfillment</span>
                     ) : item.email_status == "processing" ? (
                       <span>Processing</span>
+                    ) : item.email_status == "cancelled" ? (
+                      <span>Cancelled</span>
                     ) : (
                       ""
                     )}

@@ -24,6 +24,10 @@ class OrderApiController
 
             $perPage = $request->get('per_page') ?? 10;
             $currentPage = $request->get('current_page')  ?? 1;
+            $range = $request->get('range')  ?? 'all_time';
+            $start_date = $request->get('start_date')  ?? null;
+            $end_date = $request->get('end_date')  ?? null;
+
 
             $orderItemTable = Database::getWCOrderItemsTable();
             $orderItemMetaTable = Database::getWCOrderItemMetaTable();
@@ -75,6 +79,9 @@ class OrderApiController
                         {$postTable}.post_date_gmt as date_created_gmt,
                         {$postTable}.post_modified_gmt as date_updated_gmt")
                     ->where("post_type = %s", ['shop_order'])
+                    ->when($range == 'custom', function ($query) use ($start_date, $end_date, $postTable) {
+                        return $query->where("{$postTable}.post_date_gmt >= %s AND {$postTable}.post_date_gmt <= %s", [$start_date, $end_date]);
+                    })
                     ->orderBy("{$postTable}.ID", "DESC");
 
                 $totalCount = $query->count();
@@ -82,7 +89,6 @@ class OrderApiController
                 $query = $query
                     ->limit($perPage)
                     ->offset(($currentPage - 1) * $perPage);
-
 
                 $data = $query->get();
 
@@ -199,37 +205,61 @@ class OrderApiController
                 ], 422);
             }
 
-            if ($type == 'send_mail') {
+            if ($type != 'send_mail' && $type != 'cancel_mail') {
+                Response::error([
+                    'message' => __('Invalid Type', 'f-review'),
+                ], 422);
+            }
+
+            $orderReview = OrderReview::query()->where("woo_order_id = %d", [$order_id])->first();
+
+            if (empty($orderReview)) {
                 OrderReview::query()->create([
                     'woo_order_id' => $order_id,
                     'created_at' => Functions::currentUTCTime(),
                     'updated_at' => Functions::currentUTCTime(),
                 ]);
-
                 $order_review_id =  OrderReview::query()->lastInsertedId();
+            } else {
+                $order_review_id = $orderReview->id;
+            }
+            $order_review_id =  OrderReview::query()->lastInsertedId();
 
+            $notificationHistory = NotificationHistory::query()
+                ->where(
+                    "model_id = %d AND model_type = %s AND notify_type = %s AND medium = %s",
+                    [$order_id, 'shop_order', EmailSetting::REVIEW_REQUEST_TYPE, NotificationHistory::MEDIUM_EMAIL]
+                )
+                ->first();
+
+            if (empty($notificationHistory)) {
                 NotificationHistory::query()->create([
                     'model_id' => $order_id,
                     'model_type' => 'shop_order',
                     'order_id' => $order_id,
-                    'status' =>  'processing',
+                    'status' =>  $type == 'send_mail' ? 'processing' : 'cancelled',
                     'notify_type' => EmailSetting::REVIEW_REQUEST_TYPE,
                     'medium' => NotificationHistory::MEDIUM_EMAIL,
                     'created_at' => Functions::currentUTCTime(),
                     'updated_at' => Functions::currentUTCTime(),
                 ]);
-
                 $notificationHistoryId = NotificationHistory::query()->lastInsertedId();
+            } else {
+                $notificationHistoryId = $notificationHistory->id;
+            }
 
+            if ($type == 'send_mail') {
+                do_action(F_Review_PREFIX . 'mark_review_request_email_as_processing', $woo_order);
                 if (\ActionScheduler::is_initialized()) {
                     $hook_name = F_Review_PREFIX . 'send_review_request_email';
                     $time = PluginHelper::getStrTimeString(0, 'seconds');
-                    as_schedule_single_action(strtotime("+$time"), $hook_name, [['notification_id' => $notificationHistoryId]]);
+
+                    as_schedule_single_action(strtotime("+$time"), $hook_name, [
+                        ['notification_id' => $notificationHistoryId]
+                    ]);
                 }
             } else if ($type == 'cancel_mail') {
-
-                $woo_order->update_meta_data('_review_request_email_status', 'cancelled');
-                $woo_order->save();
+                do_action(F_Review_PREFIX . 'mark_review_request_email_as_cancelled', $woo_order);
             } else {
                 Response::error([
                     'message' => __('Invalid Type', 'f-review'),

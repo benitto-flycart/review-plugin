@@ -54,8 +54,6 @@ class DiscountNotifySetting extends Emails
         return $order->get_billing_first_name();
     }
 
-
-
     private function getDefaults()
     {
         $data['body'] = "";
