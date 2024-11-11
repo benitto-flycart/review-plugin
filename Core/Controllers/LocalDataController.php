@@ -379,13 +379,6 @@ class LocalDataController
                                 ],
                                 'reviews_per_page'=>[
                                     'title'=>__('Reviews Per Page','reviewPlugin'),
-                                    'options'=>[
-                                        '5'=>__('5','reviewPlugin'),
-                                        '10'=>__('10','reviewPlugin'),
-                                        '15'=>__('15','reviewPlugin'),
-                                        '20'=>__('20','reviewPlugin'),
-                                        '30'=>__('30','reviewPlugin'),
-                                    ]
                                 ]
 
                             ],
@@ -454,38 +447,14 @@ class LocalDataController
                                 ],
                                 'initial_delay'=>[
                                     'title'=>__('Initial Delay','reviewPlugin'),
-                                    'options'=>[
-                                        '1'=>__('1','reviewPlugin'),
-                                        '2'=>__('2','reviewPlugin'),
-                                        '3'=>__('3','reviewPlugin'),
-                                        '4'=>__('4','reviewPlugin'),
-                                        '5'=>__('5','reviewPlugin'),
-                                        '10'=>__('10','reviewPlugin'),
-                                    ],
                                     'description'=>__('Check store to view this change','reviewPlugin'),
                                 ],
                                 'delay_between_popup'=>[
                                     'title'=>__('Delay Between Popup','reviewPlugin'),
-                                    'options'=>[
-                                        '1'=>__('1','reviewPlugin'),
-                                        '2'=>__('2','reviewPlugin'),
-                                        '3'=>__('3','reviewPlugin'),
-                                        '4'=>__('4','reviewPlugin'),
-                                        '5'=>__('5','reviewPlugin'),
-                                        '10'=>__('10','reviewPlugin'),
-                                    ],
                                     'description'=>__('Check store to view this change','reviewPlugin'),
                                 ],
                                 'popup_display_time'=>[
                                     'title'=>__('Popup Display Time','reviewPlugin'),
-                                    'options'=>[
-                                        '1'=>__('1','reviewPlugin'),
-                                        '2'=>__('2','reviewPlugin'),
-                                        '3'=>__('3','reviewPlugin'),
-                                        '4'=>__('4','reviewPlugin'),
-                                        '5'=>__('5','reviewPlugin'),
-                                        '10'=>__('10','reviewPlugin'),
-                                    ],
                                     'description'=>__('Check store to view this change','reviewPlugin'),
                                 ]
                             ],
