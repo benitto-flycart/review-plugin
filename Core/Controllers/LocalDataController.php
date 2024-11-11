@@ -679,6 +679,100 @@ class LocalDataController
                     'title'=>__('Review Form Widget','reviewPlugin'),
                     'description'=>__("Customize the Review Form","reviewPlugin"),
                     'detailed_description'=>__("Add a stylish review form to your store, enabling customers to easily share feedback and enhance trust. Fully customizable, this widget lets you adjust colors, themes, and styles to match your brand's look. Encourage reviews that build credibility and connect with potential buyers","reviewPlugin"),
+                    'rating_widgets_config'=>[
+                        'title'=>__('Rating Form Widgets Configuration','reviewPlugin'),
+                        'settings'=>[
+                            'title'=>__('Settings','reviewPlugin'),
+                            'dialog'=>[
+                                'title'=>__('Dialog','reviewPlugin'),
+                                'background_color'=>__('Background color','reviewPlugin'),
+                                'rating_icon_color'=>__('Rating icon color','reviewPlugin'),
+                                'title_color'=>__('Title color','reviewPlugin'),
+                                'description_color'=>__('Description color','reviewPlugin'),
+                            ],
+                            'button'=>[
+                                'title'=>__('Button','reviewPlugin'),
+                                'button_background_color'=>__('Button Background Color','reviewPlugin'),
+                                'text_color'=>__('Text color','reviewPlugin'),
+                            ],
+                            'input'=>[
+                                'title'=>__('Input','reviewPlugin'),
+                                'border_color'=>__('Border color','reviewPlugin'),
+                                'label_color'=>__('Label color','reviewPlugin'),
+                                'error_color'=>__('Error color','reviewPlugin'),
+                            ]
+                        ],
+                        'rating'=>[
+                            'title'=>__('Rating','reviewPlugin'),
+                            'placeholder'=>__('How would you rate {product_name?}','reviewPlugin'),
+                        ],
+                        'photos'=>[
+                            'title'=>__('Photos','reviewPlugin'),
+                            'general'=>[
+                                'title'=>[
+                                    'title'=>__('Title','reviewPlugin'),
+                                    'placeholder'=>__('Show it Off','reviewPlugin'),
+                                ],
+                                'description'=>[
+                                    'title'=>__('Description','reviewPlugin'),
+                                    'placeholder'=>__("We'd love to see it again",'reviewPlugin'),
+                                ],
+                                'discount_text'=>[
+                                    'title'=>__('Discount Text','reviewPlugin'),
+                                    'placeholder'=>__("Get {discount_value} off your next purchase!",'reviewPlugin'),
+                                ],
+                                'button_text'=>[
+                                    'title'=>__('Button Text','reviewPlugin'),
+                                    'placeholder'=>__('Add Photos','reviewPlugin'),
+                                ]
+                            ]
+                        ],
+                        'review_content'=>[
+                            'title'=>__('Review Content','reviewPlugin'),
+                            'general'=>[
+                                'title'=>[
+                                    'title'=>__('Title','reviewPlugin'),
+                                    'placeholder'=>__('Tell us more!','reviewPlugin'),
+                                ],
+                                'placeholder'=>[
+                                    'title'=>__('Placeholder','reviewPlugin'),
+                                    'placeholder'=>__('Share your experience','reviewPlugin')
+                                ]
+                            ]
+                        ],
+                        'reviewer_info'=>[
+                            'title'=>__('Reviewer Info','reviewPlugin'),
+                            'general'=>[
+                                'title'=>[
+                                    'title'=>__('Title','reviewPlugin'),
+                                    'placeholder'=>__('About you','reviewPlugin'),
+                                ]
+                            ]
+                        ],
+                        'thank_you'=>[
+                            'title'=>__('Thank You','reviewPlugin'),
+                            'general'=>[
+                                'title'=>[
+                                    'title'=>__('Title','reviewPlugin'),
+                                    'placeholder'=>__('Thank you','reviewPlugin'),
+                                ],
+                                'description'=>[
+                                    'title'=>__('Description','reviewPlugin'),
+                                    'placeholder'=>__('Your Review was submitted','reviewPlugin'),
+                                ],
+                                'discount_title'=>[
+                                    'title'=>__('Discount Title','reviewPlugin'),
+                                    'placeholder'=>__('Use the following discount code for {discount_value} off your next purchase','reviewPlugin'),
+                                    'description'=>__('Make sure the discount is enabled in discount settings','reviewPlugin'),
+                                ],
+                                'discount_description'=>[
+                                    'title'=>__('Discount Description','reviewPlugin'),
+                                    'placeholder'=>__("we'll also send it by email discount expires {date_expiry}",'reviewPlugin'),
+                                    'description'=>__("Make sure the discount is enabled in discount settings Changes Applied to English Language")
+                                ],
+                            ]
+                        ]
+                    ]
                 ],
                 'review_detail_widget'=>[
                     'title'=>__('Review Details Widget','reviewPlugin'),
