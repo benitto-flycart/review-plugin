@@ -94,11 +94,9 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
       label: review.is_verified
         ? "Remove verified badge"
         : "Add verified badge",
-      value: "verified_badge",
+      value: review.is_verified ? "remove_verified_badge" : "verified_badge",
       show: true,
     },
-    // { "label": "Add to Carousel", "value": "add_to_carousel" },
-    // { "label": "Add to Video Slider", "value": "add_to_video_slider" },
     {
       label: "Delete review",
       value: "delete_review",

@@ -126,10 +126,8 @@ div[data-radix-popper-content-wrapper] {
 }
 
 #flycart-reviews-admin-main {
-  overflow-y: scroll;
   overflow-x: hidden;
   box-sizing: border-box;
-  max-height: 100vh;
   scrollbar-width: none;
 }
 

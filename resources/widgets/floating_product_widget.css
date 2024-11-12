@@ -1,43 +1,44 @@
 .wd_preview_content {
-    background: white;
-    width: 90%;
-    margin: auto;
-    padding: .5rem;
+  background: white;
+  width: 90%;
+  margin: auto;
+  padding: 0.5rem;
 }
-.product-widget-preview-desktop{
-    background: var(--r-prw-wrapper-bg-color, black);
+
+.product-widget-preview-desktop {
+  background: var(--r-prw-wrapper-bg-color, white);
 }
 /*FLoating Product Widget*/
 
 .r_fpw-container {
-    display: flex;
-    align-items: center;
-    padding: .5rem;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 1rem;
+  background: var(--r-frw-bg-color, white);
+  color: var(--r-frw-text-color, white);
 }
 
 .r_fpw-close_icon {
-    padding: .5em;
-    opacity: 0.5;
-    cursor: pointer;
-    border-radius: 20%;
-    background-color: lightgray;
+  padding: 0.5em;
+  font-weight: bolder;
+  cursor: pointer;
+  color: var(--r-frw-text-color, black);
 }
 
 .r_fpw-close_icon:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .r_fpw-text_content_wrapper {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 
-.r_fpw-text_content_wrapper .r_fpw-text_content_text{
-    font-size: 16px;
-    font-weight: 600;
+.r_fpw-text_content_wrapper .r_fpw-text_content_text {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 /*Ending Floating Product Widget CSS*/
-
