@@ -215,6 +215,12 @@ class ReviewApiController
                 return Response::success([
                     'message' => esc_attr('Review Updated Successfully', 'f-review')
                 ]);
+            } else if ($type == 'remove_verified_badge') {
+                Review::updateVerifiedStatus($review_id, 0);
+
+                return Response::success([
+                    'message' => esc_attr('Review Updated Successfully', 'f-review')
+                ]);
             }
 
 

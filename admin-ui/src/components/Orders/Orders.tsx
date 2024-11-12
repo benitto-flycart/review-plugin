@@ -23,6 +23,7 @@ import { paginationDefault } from "../custom-hooks/pagination/TPagination";
 import { OrderListEmpty } from "./OrderListEmpty";
 import { getErrorMessage } from "../../helpers/helper";
 import { toastrError } from "../../helpers/ToastrHelper";
+import { SelectGroup } from "@radix-ui/react-select";
 
 interface Option {
   value: string;
@@ -45,7 +46,7 @@ const Orders = () => {
 
   const [filterState, setFilterState] = useState<FilterStateTypes>({
     search: "",
-    order_status: "all_orders",
+    order_status: "all",
     range: "all_time",
     start_date: "",
     end_date: "",
@@ -95,7 +96,7 @@ const Orders = () => {
         per_page: perPage,
         current_page: currentPage,
         search: filterState.search,
-        orders_status: filterState.order_status,
+        order_status: filterState.order_status,
         range: filterState.range,
         start_date: filterState.start_date,
         end_date: filterState.end_date,
@@ -133,7 +134,7 @@ const Orders = () => {
                 onChange={(e) =>
                   setFilterState({ ...filterState, search: e.target.value })
                 }
-                placeholder="Search by email"
+                placeholder="Search by billing email"
                 className="frt-w-full"
               />
               <Select
@@ -146,11 +147,20 @@ const Orders = () => {
                   <SelectValue placeholder="Order Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  {filterOrderStatus.map((filterOrder, index) => (
-                    <SelectItem key={index} value={filterOrder.value}>
-                      {filterOrder.label}
+                  <SelectGroup>
+                    <SelectItem key={"all"} value={"all"}>
+                      All Orders
                     </SelectItem>
-                  ))}
+                    {Object.entries(localState.order_statuses)?.map(
+                      (obj: any, index: number) => {
+                        return (
+                          <SelectItem key={index} value={obj[0]}>
+                            {obj[1]}
+                          </SelectItem>
+                        );
+                      },
+                    )}
+                  </SelectGroup>
                 </SelectContent>
               </Select>
               <Select
@@ -210,7 +220,7 @@ const Orders = () => {
                 className="frt-bg-gray-900 frt-text-white frt-hover:bg-gray-800"
                 onClick={() => fetchOrders(true)}
               >
-                Search
+                Filter
               </Button>
             </div>
           </div>

@@ -54,8 +54,8 @@ class SnippetWidgetShortCode
 
             $data = [
                 'ratings' => [
-                    'rating_icon' => 'star-sharp',
-                    'rating_outline_icon' => 'star-lc-outline',
+                    'rating_icon' => 'gem',
+                    'rating_outline_icon' => 'gem-outline',
                 ]
             ];
 

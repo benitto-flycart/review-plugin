@@ -24,10 +24,11 @@ class OrderApiController
 
             $perPage = $request->get('per_page') ?? 10;
             $currentPage = $request->get('current_page')  ?? 1;
+            $search = $request->get('search')  ?? '';
             $range = $request->get('range')  ?? 'all_time';
             $start_date = $request->get('start_date')  ?? null;
             $end_date = $request->get('end_date')  ?? null;
-
+            $order_status = $request->get('order_status')  ?? 'all';
 
             $orderItemTable = Database::getWCOrderItemsTable();
             $orderItemMetaTable = Database::getWCOrderItemMetaTable();
@@ -39,10 +40,22 @@ class OrderApiController
 
                 $query = Database::table($wcOrderTable)
                     ->select("{$wcOrderTable}.id as order_id, 
-                        {$wcOrderTable}.date_created_gmt, 
-                        {$wcOrderTable}.billing_email as order_email, 
+                        {$wcOrderTable}.date_created_gmt as date_created, 
+                        {$wcOrderTable}.billing_email as billing_email, 
                         {$wcOrderTable}.date_updated_gmt")
                     ->where('type = %s', ['shop_order'])
+                    ->when($order_status != 'all', function ($query) use ($wcOrderTable, $order_status) {
+                        return $query->where("{$wcOrderTable}.status = %s", [$order_status]);
+                    })
+
+                    ->when($range == 'custom', function ($query) use ($start_date, $end_date, $wcOrderTable) {
+                        $gmt_start_date = get_gmt_from_date($start_date);
+                        return $query->where("{$wcOrderTable}.date_created_gmt >= %s ", [$gmt_start_date])
+                            ->when(!empty($end_date), function (Database $query) use ($end_date, $wcOrderTable) {
+                                $gmt_end_date = get_gmt_from_date($end_date);
+                                return $query->where("{$wcOrderTable}.date_created_gmt <= %s", [$gmt_end_date]);
+                            });
+                    })
                     ->orderBy("{$wcOrderTable}.id", "DESC");
 
                 $totalCount = $query->count();
@@ -60,28 +73,50 @@ class OrderApiController
                         {$orderItemTable}.order_id as order_id,
                         {$orderItemTable}.order_item_id as order_item_id, 
                         {$orderItemMetaTable}.meta_value as product_id, 
-                        {$reviewsTable}.product_id as review_product_id, 
-                        {$reviewsTable}.created_at as review_added_at, 
+                        {$reviewsTable}.product_id as review_product_id,                        {$reviewsTable}.created_at as review_added_at, 
                         {$notificationHistoryTable}.status as email_status
                         ")
                     ->leftJoin($orderItemTable, "{$wcOrderTable}.id = {$orderItemTable}.order_id AND {$orderItemTable}.order_item_type = 'line_item'")
                     ->leftJoin($orderItemMetaTable, "{$orderItemMetaTable}.order_item_id = {$orderItemTable}.order_item_id AND {$orderItemMetaTable}.meta_key = '_product_id'")
-                    ->leftJoin($notificationHistoryTable, "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id AND {$notificationHistoryTable}.model_type = 'shop_order'")
-                    ->leftJoin($reviewsTable, "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value")
+                    ->leftJoin(
+                        $notificationHistoryTable,
+                        "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id 
+                            AND {$notificationHistoryTable}.model_type = 'shop_order'
+                            AND {$notificationHistoryTable}.notify_type = '" . EmailSetting::REVIEW_REQUEST_TYPE . "'"
+                    )
+                    ->leftJoin(
+                        $reviewsTable,
+                        "{$reviewsTable}.product_id = {$orderItemMetaTable}.meta_value
+                            AND {$orderItemMetaTable}.meta_key = '_product_id'
+                            AND {$reviewsTable}.woo_order_id = {$orderItemTable}.order_id"
+                    )
                     ->where("{$wcOrderTable}.id IN ({$order_ids_as_string})");
 
                 $products = $products->get();
             } else {
                 $postTable = Database::getWPPostsTable();
+                $postMetaTable = Database::getWPPostMetaTable();
 
                 $query = Database::table($postTable)
-                    ->select("{$postTable}.ID as order_id, 
-                        {$postTable}.post_date_gmt as date_created_gmt,
-                        {$postTable}.post_modified_gmt as date_updated_gmt")
+                    ->select(
+                        "{$postTable}.ID as order_id, 
+                        {$postTable}.post_date as date_created"
+                    )
+                    ->join($postMetaTable, "{$postTable}.ID = {$postMetaTable}.post_id")
                     ->where("post_type = %s", ['shop_order'])
-                    ->when($range == 'custom', function ($query) use ($start_date, $end_date, $postTable) {
-                        return $query->where("{$postTable}.post_date_gmt >= %s AND {$postTable}.post_date_gmt <= %s", [$start_date, $end_date]);
+                    ->when($order_status != 'all', function ($query) use ($postTable, $order_status) {
+                        return $query->where("{$postTable}.post_status = %s", [$order_status]);
                     })
+                    ->when(!empty($search), function ($query) use ($search, $postMetaTable) {
+                        return $query->where("{$postMetaTable}.meta_key = %s AND {$postMetaTable}.meta_value = %s", ['_billing_email', $search]);
+                    })
+                    ->when($range == 'custom', function ($query) use ($start_date, $end_date, $postTable) {
+                        return $query->where("{$postTable}.post_date >= %s", [$start_date])
+                            ->when(!empty($end_date), function (Database $query) use ($end_date, $postTable) {
+                                return $query->where("{$postTable}.post_date <= %s", [$end_date]);
+                            });
+                    })
+                    ->groupBy("{$postTable}.ID")
                     ->orderBy("{$postTable}.ID", "DESC");
 
                 $totalCount = $query->count();
@@ -166,7 +201,7 @@ class OrderApiController
                 'order_id' => $order->order_id,
                 'order_url' => admin_url('post.php?post=' . $order->order_id . '&action=edit'),
                 'email' => $orderObj->get_billing_email(),
-                'created_at'   => Functions::getWcTimeFromGMT($order->date_created_gmt),
+                'created_at'   => Functions::getWcTimeFromGMT($order->date_created),
                 'order_items' => $groupedByOrderId[$order->order_id],
             );
         }
@@ -176,16 +211,15 @@ class OrderApiController
 
     private static function getOrdersIdsAsString($data): string
     {
-        $benitto = [];
+        $orderIds = [];
 
         foreach ($data as $order) {
-            $benitto[] = $order->order_id;
+            $orderIds[] = $order->order_id;
         }
 
+        $order_ids_as_string = implode(", ", $orderIds);
 
-        $benitto_as_string = implode(", ", $benitto);
-
-        return $benitto_as_string;
+        return $order_ids_as_string;
     }
 
     public static function updateOrder(Request $request)
