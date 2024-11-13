@@ -50,6 +50,10 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
       value: "un_approve_all_reviews",
     },
     {
+      label: "Trash all reviews",
+      value: "trash_all_reviews",
+    },
+    {
       label: "Delete all reviews",
       value: "delete_all_reviews",
     },

@@ -69,10 +69,10 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
       label: "Edit",
       value: "edit",
     },
-    {
-      label: "Delete",
-      value: "delete",
-    },
+    // {
+    //   label: "Delete",
+    //   value: "delete",
+    // },
   ];
 
   const statusOptions = [
@@ -291,11 +291,17 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
         {review.replies.length
           ? review.replies.map((reply: any, index: number) => {
               return (
-                <div key={index}>
+                <div key={index} className="frt-flex frt-flex-row frt-justify-between ">
                   <div className={"frt-p-4 frt-flex frt-flex-col frt-gap-y-3"}>
                     <h3 className={"!frt-text-lg frt-font-bold"}>Your reply</h3>
                     <span>{reply.content}</span>
                   </div>
+                    
+                    <div className={"frt-mr-4 frt-mt-4"}>
+                      <Button  onClick={() => {
+                          setIsDialogOpen(true);
+                      }}>Delete</Button>
+                    </div>
                 </div>
               );
             })
@@ -334,37 +340,20 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
             </DropdownMenu>
           </div>
           <div className="frt-flex frt-justify-between frt-items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className={"frt-flex frt-gap-x-1"}>
-                  Reply <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {(review.replies.length
+          {(review.replies.length
                   ? replyEditButtonLabel
                   : replyAddButtonLabel
                 ).map((label: any) => (
-                  <DropdownMenuItem
+                  <Button
                     key={label.value}
                     defaultValue={label.value}
-                    className={`${label.value == "delete" ? "frt-text-destructive" : ""}`}
                     onClick={() => {
-                      if (label.value === "delete") {
-                        setIsDialogOpen(true);
-                      } else {
                         handleReplyButtonAction(label.value);
-                      }
                     }}
                   >
-                    {label.value == "delete"
-                      ? deleteReplyLoading && <LoadingSpinner />
-                      : ""}{" "}
                     {label.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </Button>
+          ))}
           </div>
           <div className="frt-flex frt-justify-between frt-items-center">
             <DropdownMenu>
