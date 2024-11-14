@@ -508,9 +508,9 @@
 }
 
 .r_pw_r_g_container--review-details--image {
-  border-radius: 5px 5px 0 0;
+  border-top-left-radius: var(--r-prw-review-border-radius);
+  border-top-right-radius: var(--r-prw-review-border-radius);
 }
-
 .r_pw_r_g_container--review-info {
   display: flex;
   flex-direction: column;

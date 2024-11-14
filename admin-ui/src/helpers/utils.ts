@@ -39,7 +39,7 @@ export const runUploader = (event: any, cb: any) => {
     frame.open()
 }
 
-export const applyStylesToIframe = (iframe:any, styles:any,fontCss:any) => {
+export const applyStylesToIframe = (iframe:any, styles:any,fontCss:any,shouldExtraStyleApply:boolean=true) => {
     if (!iframe?.contentDocument) return;
 
     const head = iframe.contentDocument.head;
@@ -56,14 +56,16 @@ export const applyStylesToIframe = (iframe:any, styles:any,fontCss:any) => {
     if (styles?.widget_css) addLink(styles.widget_css);
     if (fontCss) addLink(fontCss);
 
-    const htmlElement = iframe.contentDocument.documentElement;
-    htmlElement.style.display = 'block';
-    htmlElement.style.height = '100%';
+    if(shouldExtraStyleApply){
+        const htmlElement = iframe.contentDocument.documentElement;
+        htmlElement.style.display = 'block';
+        htmlElement.style.height = '100%';
 
-    body.style.display = 'flex';
-    body.style.justifyContent = 'center';
-    body.style.alignItems = 'center';
-    body.style.height = '100%';
+        body.style.display = 'flex';
+        body.style.justifyContent = 'center';
+        body.style.alignItems = 'center';
+        body.style.height = '100%';
+    }
 };
 
 
