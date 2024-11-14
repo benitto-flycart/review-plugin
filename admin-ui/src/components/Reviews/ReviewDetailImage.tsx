@@ -23,6 +23,7 @@ import { ApiErrorResponse } from "../api/api.types";
 import { useLocalState } from "../zustand/localState";
 import { getErrorMessage } from "../../helpers/helper";
 import { Badge } from "../ui/badge";
+import EnhancedCarousel from "./EnhancedCarousel";
 interface ReviewDetailImageProps {
   review: any;
   getReviews: () => void;
@@ -117,8 +118,8 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
         {review.images[current - 1]?.is_cover_photo ? (
           <Badge>Cover photo</Badge>
         ) : null}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <DropdownMenu >
+          <DropdownMenuTrigger asChild className={"frt-z-10"}>
             <Button
               variant="ghost"
               size="icon"
@@ -144,35 +145,8 @@ export const ReviewDetailImage = <T extends ReviewDetailImageProps>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="frt-flex frt-justify-center frt-items-center frt-h-64">
-        <Carousel className="frt-w-full frt-max-w-xs" setApi={setApi}>
-          <CarouselContent>
-            {review.images.map((image: any, index: any) => {
-              return (
-                <CarouselItem key={index}>
-                  <div className="frt-p-1">
-                    <Card>
-                      <CardContent className="frt-flex frt-aspect-square frt-items-center frt-justify-center frt-p-6">
-                        <img
-                          src={image.variants.full}
-                          alt={`Product image`}
-                          className="frt-max-h-full"
-                        />
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
-
-          {review.images?.length > 1 ? (
-            <>
-              <CarouselPrevious />
-              <CarouselNext />
-            </>
-          ) : null}
-        </Carousel>
+      <div className="frt-flex frt-justify-center frt-items-center frt-h-75">
+        <EnhancedCarousel images={review.images.map((img: any) => img.variants.full)} setApi={setApi} api={api}/>
       </div>
     </div>
   );
