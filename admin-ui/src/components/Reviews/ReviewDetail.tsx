@@ -22,6 +22,10 @@ import ConfirmationDialog from "./ReviewConfirmDialgoue";
 import { getErrorMessage } from "../../helpers/helper";
 import { cn } from "@/src/lib/utils";
 import { TReview } from "./ReviewsType.type";
+import { Trash2 } from 'lucide-react';
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { PencilRuler } from 'lucide-react';
+import CustomPopover from '../Widget/ProductReviewWidget/CustomPopover';
 
 interface BulkActionReviewIdsType {
   val: any;
@@ -297,10 +301,24 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                     <span>{reply.content}</span>
                   </div>
                     
-                    <div className={"frt-mr-4 frt-mt-4"}>
-                      <Button  onClick={() => {
+                    <div className={"frt-mr-7 frt-mt-4"}>
+                      {/* <Button  onClick={() => {
                           setIsDialogOpen(true);
-                      }}>Delete</Button>
+                      }}>Delete</Button> */}
+                      
+                      <Tooltip.Provider>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger  asChild>
+                            <Trash2 className="frt-delete hover:frt-cursor-pointer frt-h-5 frt-w-5 frt-text-destructive" onClick={()=>setIsDialogOpen(true)}/>
+                          </Tooltip.Trigger>
+                          <Tooltip.Portal>
+                            <Tooltip.Content side={"bottom"}>
+                              Delete
+                              <Tooltip.Arrow />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     </div>
                 </div>
               );
@@ -344,15 +362,29 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   ? replyEditButtonLabel
                   : replyAddButtonLabel
                 ).map((label: any) => (
-                  <Button
-                    key={label.value}
-                    defaultValue={label.value}
-                    onClick={() => {
-                        handleReplyButtonAction(label.value);
-                    }}
-                  >
-                    {label.label}
-                  </Button>
+                  // <Button
+                  //   key={label.value}
+                  //   defaultValue={label.value}
+                  //   onClick={() => {
+                  //       handleReplyButtonAction(label.value);
+                  //   }}
+                  // >
+                  //   {label.label}
+                  // </Button>
+                  // 
+                  <Tooltip.Provider>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger>
+                        <PencilRuler  key={label.value} onClick={() => handleReplyButtonAction(label.value)} className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" />
+                      </Tooltip.Trigger>
+                      <Tooltip.Portal>
+                        <Tooltip.Content side="bottom">
+                            {label.label}
+                          <Tooltip.Arrow />
+                        </Tooltip.Content>
+                      </Tooltip.Portal>
+                    </Tooltip.Root>
+                  </Tooltip.Provider>
           ))}
           </div>
           <div className="frt-flex frt-justify-between frt-items-center">
