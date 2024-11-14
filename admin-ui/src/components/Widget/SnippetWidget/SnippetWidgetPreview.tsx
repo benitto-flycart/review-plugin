@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
-import { SnippetWidgetContext } from "./SnippetWidgetContextAPI";
+import {SnippetWidgetContext} from "./SnippetWidgetContextAPI";
 // import "./carosual.css";
 import ReviewIcon from "../../ReviewIcon";
-import { useLocalState } from "../../zustand/localState";
+import {useLocalState} from "../../zustand/localState";
 import {applyStylesToIframe} from "../../../helpers/utils";
 
 const PreviewSnippetWidget = () => {
@@ -127,8 +127,13 @@ const PreviewSnippetWidget = () => {
 
     //@ts-ignore
     const iframe = window.frames["widget_preview_iframe"];
-    applyStylesToIframe(iframe, localState.iframe_styles?.snippet_widget,localState.iframe_styles?.font_css);
+    if(widget.view=="desktop"){
+      applyStylesToIframe(iframe, localState.iframe_styles?.snippet_widget,localState.iframe_styles?.font_css,true);
+    }
+else{
+      applyStylesToIframe(iframe, localState.iframe_styles?.snippet_widget,localState.iframe_styles?.font_css,false);
 
+    }
     updateWidgetFields((draftState: any) => {
       draftState.widget_loading = false;
     });
