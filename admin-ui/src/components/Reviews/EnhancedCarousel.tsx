@@ -92,7 +92,7 @@ export default function EnhancedCarousel({ images, setApi, api }: EnhancedCarous
               width={500}
               height={500}
               className={cn(
-                "frt-object-cover frt-transition-opacity frt-duration-300",
+                "frt-object-contain frt-transition-opacity frt-duration-300",
                 index === currentIndex ? "frt-opacity-100" : "frt-opacity-50"
               )}
             />
