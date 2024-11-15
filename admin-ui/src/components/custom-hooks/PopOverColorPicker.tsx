@@ -21,11 +21,11 @@ const PopoverPicker = ({ color, onChange }: any) => {
   useClickOutside(popover, close);
   useClickOutside(colorInputFieldRef, isFieldContainsEmptyData);
   return (
-    <div className="farp-color-picker">
-      <div className="farp-color-container frt-flex frt-items-center frt-gap-3 frt-p-3">
+    <div className="review-color-picker">
+      <div className="review-color-container frt-flex frt-items-center frt-gap-3 frt-p-3">
         <button
           className={
-            "farp-color-swatch frt-flex-basis-[20%] frt-border frt-border-gray-700 "
+            "review-color-swatch frt-flex-basis-[20%] frt-border frt-border-gray-700 "
           }
           style={{ backgroundColor: color ? color : "transparent" }}
           onClick={(e: any) => {
@@ -46,7 +46,7 @@ const PopoverPicker = ({ color, onChange }: any) => {
       </div>
       {isOpen && (
         <div
-          className={`farp-color-popover`}
+          className={`review-color-popover`}
           ref={popover}
           style={colorPickerPosition}
         >
