@@ -4,12 +4,12 @@ defined('ABSPATH') || exit;
 use Flycart\Review\App\Helpers\WC;
 ?>
 
-<div class="wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative rating-widget-preview-desktop">
+<div class="wd_preview_content review_form_widget farp-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative rating-widget-preview-desktop">
     <div class="r_rfw_container"
         style="<?php echo $widget->getProductWidgetStylesVars() ?>">
         <div class="r_rfw_header">
             <button class="r_rfw_btn r_rfw_dialog_close_icon">
-                <span class="review review-cross-icon"></span>
+                <span class="farp farp-cross-icon"></span>
             </button>
         </div>
 
@@ -31,20 +31,20 @@ use Flycart\Review\App\Helpers\WC;
                         </p>
                         <div class="r_rfw_rating_icons_wrapper">
                             <div class="r_rwf_rating_icons_wrapper_with_text">
-                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
+                                <i class="r_rfw_rating_icon farp-icon farp farp-<?php echo $icon['outlined'] ?>"></i>
                                 <span class="r_rwf_rating_icons_text"><?php echo esc_attr__('Dislike it', 'f-review') ?></span>
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
-                                <i class="r_rfw_rating_icon review-icon review  review-<?php echo $icon['outlined'] ?>"></i>
+                                <i class="r_rfw_rating_icon farp-icon farp  farp-<?php echo $icon['outlined'] ?>"></i>
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
-                                <i class="r_rfw_rating_icon review-icon review  review-<?php echo $icon['outlined'] ?>"></i>
+                                <i class="r_rfw_rating_icon farp-icon farp  farp-<?php echo $icon['outlined'] ?>"></i>
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
-                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
+                                <i class="r_rfw_rating_icon farp-icon farp farp-<?php echo $icon['outlined'] ?>"></i>
                             </div>
                             <div class="r_rwf_rating_icons_wrapper_with_text">
-                                <i class="r_rfw_rating_icon review-icon review review-<?php echo $icon['outlined'] ?>"></i>
+                                <i class="r_rfw_rating_icon farp-icon farp farp-<?php echo $icon['outlined'] ?>"></i>
                                 <span class="r_rwf_rating_icons_text"><?php echo esc_attr__('Love it!', 'f-review') ?></span>
                             </div>
                         </div>
@@ -63,11 +63,11 @@ use Flycart\Review\App\Helpers\WC;
                         <div class="r_frw_add_photos_container">
                             <div class="r_frw_view_photos_container r_rfw_hide">
                                 <div class="r_frw_photos_list">
-                                    <div class="r_frw_img_container r_rfw_hide"><span class="review review-cross-icon r_frw_img_close_icon"></span>
+                                    <div class="r_frw_img_container r_rfw_hide"><span class="farp farp-cross-icon r_frw_img_close_icon"></span>
                                         <img class="r_frw_img-uploaded" src="#" alt="Uploaded Preview 1">
                                     </div>
                                     <div class="r_rfw_add_photos_div wd_add_photos_btn">
-                                        <i class="review-plus visible frt-text-inherit review-icon review"></i>
+                                        <i class="farp-plus visible frt-text-inherit farp-icon farp"></i>
                                         <span class="r_frw_img_loader"></span>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@ use Flycart\Review\App\Helpers\WC;
         </div>
         <div class="r_rfw_footer_wrapper r_rfw_footer_wrapper_down">
             <button class="r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn ">
-                <span class="review review-arrow-left"></span>
+                <span class="farp farp-arrow-left"></span>
             </button>
             <button class="r_rfw-submit_button r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn">
                 <span class="r_rfw-button__text"><?php echo esc_attr__('Continue', 'f-review') ?></span>
