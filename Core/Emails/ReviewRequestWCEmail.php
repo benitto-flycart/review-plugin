@@ -11,6 +11,7 @@ use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
+use Flycart\Review\Core\Models\SettingsModel;
 use WC_Email;
 use WC_Order;
 
@@ -101,7 +102,7 @@ class ReviewRequestWCEmail extends WC_Email
                 'model_type' => 'shop_order',
                 'order_id' => $this->woo_order->get_id(),
                 'status' =>  'pending',
-                'notify_type' => EmailSetting::REVIEW_REMINDER_TYPE,
+                'notify_type' => SettingsModel::EMAIL_REVIEW_REMINDER_TYPE,
                 'medium' => NotificationHistory::MEDIUM_EMAIL,
                 'created_at' => Functions::currentUTCTime(),
                 'updated_at' => Functions::currentUTCTime(),
