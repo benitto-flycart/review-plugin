@@ -55,7 +55,7 @@ const ReviewDetailWidgetPreview = () => {
       style={methods.getReviewDetailVariables()}
     >
       <div className={"r_rdw_close_icon"}>
-        <i className="review review-cross-icon"></i>
+        <i className="farp farp-cross-icon"></i>
       </div>
       <div className={"r_rdw-main_content"}>
         { review.images.length > 0 ? <div className="r_rdw-image-container">
@@ -82,14 +82,14 @@ const ReviewDetailWidgetPreview = () => {
                   onClick={decrease}
                   disabled={index == 1}
               >
-                <i className="review review-caret-left"> </i>
+                <i className="farp farp-caret-left"> </i>
               </button>
               <button
                   className={`next ${index == review.images.length ? "disabled" : ""}`}
                   onClick={increase}
                   disabled={index == review.images.length}
               >
-                <i className="review review-caret-right"> </i>
+                <i className="farp farp-caret-right"> </i>
               </button>
             </div> : null}
           </div>
@@ -120,7 +120,7 @@ const ReviewDetailWidgetPreview = () => {
               <div className="r_rdw-title">{review.reviewer_name}</div>
               <div className="r_rdw-overview">
                 <button className="r_rdw-button-info">
-                  <i className="review review-info"></i>
+                  <i className="farp farp-info"></i>
                 </button>
                 <div className="r_rdw-i-verified-notification r_rdw_hide">
                   <span>

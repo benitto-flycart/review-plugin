@@ -35,7 +35,7 @@ const MinimalHPreview = () => {
                   setfilterOpened(!filterOpened);
                 }}
               >
-                <i className="review review-caret-right"></i>
+                <i className="farp farp-caret-right"></i>
               </span>
               <div
                 className={`r_pw_ratings-row-progress-bar-details r_pw_mh_rd_container ${filterOpened ? "" : "r_pw_hide"}`}
@@ -94,7 +94,7 @@ const MinimalHPreview = () => {
                 type="button"
                 className="r_pw_header_button r_pw_mh_actions_container--sorting_container-btn"
               >
-                <i className="review review-gem"></i>
+                <i className="farp farp-gem"></i>
               </button>
             </CustomPopover>
           </div>

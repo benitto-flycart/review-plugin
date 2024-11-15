@@ -25,7 +25,7 @@ const RatingSlide = ({ rating, updateRating }: any) => {
             <div className={"r_rwf_rating_icons_wrapper_with_text"} key={index}>
               <i
                 key={index + "_" + rating}
-                className={`r_rfw_rating_icon review-icon review  review_rating review_rating_${index + 1} ${index + 1 <= rating ? "review-gem review_rating_active" : "review-gem-outline"}`}
+                className={`r_rfw_rating_icon farp-icon farp  review_rating review_rating_${index + 1} ${index + 1 <= rating ? "farp-gem review_rating_active" : "farp-gem-outline"}`}
                 onClick={() => updateRating(index + 1)}
               ></i>
               {(index === 0 || index === 4) && (

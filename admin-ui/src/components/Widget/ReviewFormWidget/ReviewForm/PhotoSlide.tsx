@@ -62,7 +62,7 @@ const PhotoSlide = ({ images, setImages, handleNextClick }: any) => {
               return (
                 <div className={"r_frw_img_container"} key={index}>
                   <span
-                    className={"review review-cross-icon r_frw_img_close_icon"}
+                    className={"farp farp-cross-icon r_frw_img_close_icon"}
                     onClick={() => {
                       removeImageFromArray(index);
                     }}
@@ -85,7 +85,7 @@ const PhotoSlide = ({ images, setImages, handleNextClick }: any) => {
               onClick={handleButtonClick}
             >
               <i
-                className={"review-plus frt-text-inherit review-icon review"}
+                className={"farp-plus frt-text-inherit farp-icon farp"}
               />
             </div>
           </div>

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flycart-reviews';
-  src:  url('fonts/flycart-reviews.eot?757bfm');
-  src:  url('fonts/flycart-reviews.eot?757bfm#iefix') format('embedded-opentype'),
-    url('fonts/flycart-reviews.ttf?757bfm') format('truetype'),
-    url('fonts/flycart-reviews.woff?757bfm') format('woff'),
-    url('fonts/flycart-reviews.svg?757bfm#flycart-reviews') format('svg');
+  src:  url('fonts/flycart-reviews.eot?b7x2fo');
+  src:  url('fonts/flycart-reviews.eot?b7x2fo#iefix') format('embedded-opentype'),
+    url('fonts/flycart-reviews.ttf?b7x2fo') format('truetype'),
+    url('fonts/flycart-reviews.woff?b7x2fo') format('woff'),
+    url('fonts/flycart-reviews.svg?b7x2fo#flycart-reviews') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,105 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.farp-thank-you:before {
+  content: "\e944";
+}
+.farp-video-camera:before {
+  content: "\e945";
+}
+.farp-ArrowLeft:before {
+  content: "\e946";
+}
+.farp-star:before {
+  content: "\e947";
+}
+.farp-caret-left:before {
+  content: "\e948";
+}
+.farp-info:before {
+  content: "\e949";
+}
+.farp-warning:before {
+  content: "\e94a";
+}
+.farp-gear-six:before {
+  content: "\e94b";
+}
+.farp-plus:before {
+  content: "\e94c";
+}
+.farp-funnel-simple:before {
+  content: "\e94d";
+}
+.farp-clipboard-text:before {
+  content: "\e94e";
+}
+.farp-caret-right:before {
+  content: "\e94f";
+}
+.farp-arrow-right:before {
+  content: "\e950";
+}
+.farp-desktop:before {
+  content: "\e9cf";
+}
+.farp-image-square:before {
+  content: "\e9d0";
+}
+.farp-device-mobile:before {
+  content: "\e9d1";
+}
+.farp-cross-icon:before {
+  content: "\e9d2";
+}
+.farp-trophy-outline:before {
+  content: "\e9d3";
+}
+.farp-round-star-outline:before {
+  content: "\e9d4";
+}
+.farp-leaf-outlined:before {
+  content: "\e9d5";
+}
+.farp-star-sharp-outline:before {
+  content: "\e9d6";
+}
+.farp-rocket-outline:before {
+  content: "\e9d9";
+}
+.farp-heart-outline:before {
+  content: "\e9da";
+}
+.farp-gem-outline:before {
+  content: "\e9db";
+}
+.farp-heart:before {
+  content: "\e9dc";
+}
+.farp-star-four:before {
+  content: "\e9dd";
+}
+.farp-rocket:before {
+  content: "\e9de";
+}
+.farp-star-two:before {
+  content: "\e9df";
+}
+.farp-leaf:before {
+  content: "\e9e0";
+}
+.farp-gem:before {
+  content: "\e9e1";
+}
+.farp-trophy:before {
+  content: "\e9e2";
+}
+.farp-star-three:before {
+  content: "\e9e3";
+}
+.farp-star-one:before {
+  content: "\e9e4";
+}
 .farp-mosaic:before {
   content: "\e93f";
 }
@@ -616,13 +715,13 @@
   margin-left: -1em;
   color: rgb(13, 7, 25);
 }
-.farp-twitter-outlined:before {
+.farp-twitter-outline:before {
   content: "\e984";
 }
-.farp-linkedin-outlined:before {
+.farp-linkedin-outline:before {
   content: "\e985";
 }
-.farp-facebook-outlined:before {
+.farp-facebook-outline:before {
   content: "\e986";
 }
 .farp-youtube .path1:before {

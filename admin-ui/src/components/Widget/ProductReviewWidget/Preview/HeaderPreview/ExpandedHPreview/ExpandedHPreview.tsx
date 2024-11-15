@@ -78,7 +78,7 @@ const ExpandedHPreview = () => {
                 type="button"
                 className="r_pw_header_button r_pw_eh_actions_container--sorting_container-btn"
               >
-                <i className="review review-gem"></i>
+                <i className="farp farp-gem"></i>
               </button>
             </CustomPopover>
           </div>
