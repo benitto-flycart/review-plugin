@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\ShortCode;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;

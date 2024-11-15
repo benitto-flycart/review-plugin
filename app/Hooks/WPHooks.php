@@ -1,5 +1,8 @@
 <?php
+
 namespace Flycart\Review\App\Hooks;
+
+defined('ABSPATH') || exit;
 
 class WPHooks extends RegisterHooks
 {
@@ -12,3 +15,4 @@ class WPHooks extends RegisterHooks
         }
     }
 }
+

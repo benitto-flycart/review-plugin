@@ -1,4 +1,8 @@
 <?php
+defined('ABSPATH') || exit;
+?>
+
+<?php
 $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
 ?>
 <div class="r_rdw_container"

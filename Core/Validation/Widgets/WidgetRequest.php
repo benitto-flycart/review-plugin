@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation\Widgets;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Request;
 
 class WidgetRequest
@@ -17,10 +19,7 @@ class WidgetRequest
 
     public function messages()
     {
-        return [
-
-        ];
+        return [];
     }
-
-
 }
+

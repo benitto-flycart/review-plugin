@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Resources\EmailSettings;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Resource;
 use Flycart\Review\Core\Models\EmailSetting;

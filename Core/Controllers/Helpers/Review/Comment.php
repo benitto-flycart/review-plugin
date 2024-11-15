@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Review;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\OrderReview;

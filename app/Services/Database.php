@@ -2,6 +2,7 @@
 
 namespace Flycart\Review\App\Services;
 
+defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Traits\Conditionable;
 use Flycart\Review\App\Traits\useScopes;

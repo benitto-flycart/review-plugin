@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Emails\DiscountNotifyEmail;
 use Flycart\Review\Core\Emails\DiscountReminderWCEmail;

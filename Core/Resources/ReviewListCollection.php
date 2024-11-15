@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Resources;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Collection;
 
 class ReviewListCollection extends Collection

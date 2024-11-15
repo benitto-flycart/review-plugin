@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;

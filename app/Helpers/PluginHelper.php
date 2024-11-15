@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Helpers;
 
+defined('ABSPATH') || exit;
+
 use DateTime;
 use Exception;
 use Flycart\Review\App\Services\Encrypt;

@@ -1,5 +1,8 @@
 <?php
+
 namespace Flycart\Review\App\Hooks;
+
+defined('ABSPATH') || exit;
 
 class WooCommerceHooks extends RegisterHooks
 {
@@ -12,3 +15,4 @@ class WooCommerceHooks extends RegisterHooks
         }
     }
 }
+

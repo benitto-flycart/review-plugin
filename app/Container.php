@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
+
 class Container
 {
     public $bindings = [];
@@ -26,4 +28,3 @@ class Container
         return null;
     }
 }
-

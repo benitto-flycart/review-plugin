@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <style>
     #r_rdw_review_detail_dialog {
         width: 100%;

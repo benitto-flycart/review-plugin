@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Validation\FormRequest;
 
@@ -26,4 +28,3 @@ class ReviewPhotoRequestSettingsValidation implements FormRequest
         return [];
     }
 }
-

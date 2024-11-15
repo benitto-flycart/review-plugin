@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div class="r_pw_eh_container">
     <div class="r_pw_header_rating_container r_pw_eh_rating_container">
         <div class="r_pw_eh_rating_overview">

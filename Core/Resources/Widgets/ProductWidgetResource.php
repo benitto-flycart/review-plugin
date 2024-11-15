@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Resources\Widgets;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Resource;
 
 class ProductWidgetResource extends Resource
@@ -43,8 +45,10 @@ class ProductWidgetResource extends Resource
                 ],
                 'verified_badge' => [
                     'icon_color' => '#282828'
-                ]],
-            'preferences' => ['icon_size' => 'small',
+                ]
+            ],
+            'preferences' => [
+                'icon_size' => 'small',
                 'product_review_widget' => '',
                 'show_write_a_review' => true,
                 'show_review_date' => true,
@@ -58,3 +62,4 @@ class ProductWidgetResource extends Resource
         ];
     }
 }
+

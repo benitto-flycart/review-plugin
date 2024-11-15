@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Hooks;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\PluginHelper;
 
 class RegisterHooks
@@ -74,3 +76,4 @@ class RegisterHooks
         }
     }
 }
+

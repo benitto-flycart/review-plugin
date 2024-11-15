@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Hooks;
 
+defined('ABSPATH') || exit;
+
 
 class CustomHooks extends RegisterHooks
 {
@@ -14,3 +16,4 @@ class CustomHooks extends RegisterHooks
         }
     }
 }
+

@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div class="r_pw_main_container">
     <?php if (!empty($data['reviews'])) { ?>
         <?php

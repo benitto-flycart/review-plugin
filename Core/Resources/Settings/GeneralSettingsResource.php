@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Resources\Settings;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Resource;
 
 class GeneralSettingsResource extends Resource

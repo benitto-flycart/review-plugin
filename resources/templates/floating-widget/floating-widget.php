@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <style>
     #r_rfw_floating_widget_dialog_wrapper {
         height: 80%;

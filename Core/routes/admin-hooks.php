@@ -1,5 +1,6 @@
 <?php
 
+defined('ABSPATH') || exit;
 //All routes actions will be performed in Route::handleAuthRequest method.
 use Flycart\Review\App\Hooks\AdminHooks;
 
@@ -21,4 +22,3 @@ return [
     'admin_hooks' => $admin_hooks,
     'store_front_hooks' => $store_front_hooks
 ];
-

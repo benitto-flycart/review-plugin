@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div id="r_rpw_product_widget_container_wrapper">
     <!--    <template id="r_rpw_shadow_template">-->
     <template id="r_rpw_product_widget_container">

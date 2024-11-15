@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Hooks;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Controllers\Api\PageController;
 

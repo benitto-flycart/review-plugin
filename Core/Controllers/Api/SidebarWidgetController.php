@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Api;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
@@ -99,4 +101,3 @@ class SidebarWidgetController
         }
     }
 }
-

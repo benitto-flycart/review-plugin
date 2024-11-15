@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation\ReviewAction;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Validation\FormRequest;
 

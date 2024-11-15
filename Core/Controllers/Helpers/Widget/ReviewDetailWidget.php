@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 class ReviewDetailWidget extends Widget implements WidgetInterface
 {
 
@@ -66,4 +68,3 @@ class ReviewDetailWidget extends Widget implements WidgetInterface
         return $style;
     }
 }
-

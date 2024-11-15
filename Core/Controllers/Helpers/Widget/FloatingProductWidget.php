@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Core\Models\Widget as WidgetAlias;
 
 class FloatingProductWidget extends Widget implements WidgetInterface
@@ -46,4 +48,3 @@ class FloatingProductWidget extends Widget implements WidgetInterface
         return $style;
     }
 }
-

@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Package\Request;
 
+defined('ABSPATH') || exit;
+
 class Response
 {
     public static function success($data = [], $status = 200)
@@ -14,3 +16,4 @@ class Response
         return wp_send_json_error($data, $status);
     }
 }
+

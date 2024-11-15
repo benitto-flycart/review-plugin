@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <p>
     <?php echo $discount_info_title  ?>
 </p>

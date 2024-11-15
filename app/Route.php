@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
@@ -124,4 +126,3 @@ class Route
         return wp_send_json_success($response);
     }
 }
-

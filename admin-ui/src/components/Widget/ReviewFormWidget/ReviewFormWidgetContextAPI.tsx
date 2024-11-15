@@ -53,39 +53,59 @@ function ReviewFormWidgetContextAPI({ children }: { children: any }) {
       discount_info_description:
         "we'll also send it by email discount expires {date_expiry}",
     },
-    custom_css:{
-      is_enabled:false,
-      styles:""
-    }
+    custom_css: {
+      is_enabled: false,
+      styles: "",
+    },
   });
 
   const buildStateFromResponse = (settings: any) => {
     updateWidgetFields((draftState: any) => {
-      draftState.widget_alignment = settings?.widget_alignment;
-      draftState.width = settings?.width;
-      draftState.shadow_type = settings?.shadow_type;
-      draftState.show_rating = settings?.show_rating;
-      draftState.show_review_image = settings?.show_review_image;
-      draftState.hide_arrows_on_mobile = settings?.hide_arrows_on_mobile;
-      draftState.font_size = settings?.font_size;
-      draftState.name_font_size = settings?.name_font_size;
-      draftState.icon_font_size = settings?.icon_font_size;
-      draftState.no_of_reviews_to_display = settings?.no_of_reviews_to_display;
-      draftState.style = {
-        review_card_shadow: settings?.style?.review_card_shadow,
-        review_card_openers: settings?.style?.review_card_openers,
+      draftState.general = {
+        title_color: settings.general?.title_color,
+        description_color: settings.general?.description_color,
+        button_text_color: settings.general?.button_text_color,
+        button_bg_color: settings.general?.button_bg_color,
+        input_label_color: settings.general?.input_label_color,
+        input_border_color: settings.general?.input_border_color,
+        input_error_color: settings.general?.input_error_color,
+        dialog_bg_color: settings.general?.dialog_bg_color,
+        rating_icon_color: settings.general?.rating_icon_color,
       };
-      draftState.colors = {
-        text_color: settings?.colors?.text_color,
-        bg_color: settings?.colors?.bg_color,
-        name_color: settings?.colors?.name_color,
-        rating_icon_color: settings?.colors?.rating_icon_color,
-        border_color: settings?.colors?.border_color,
-        shadow_color: settings?.colors?.shadow_color,
+
+      draftState.rating = {
+        title: settings.rating?.title,
       };
+
+      draftState.photos = {
+        title: settings.photos?.title,
+        description: settings.photos?.description,
+        button_text: settings.photos?.button_text,
+        discount_text: settings.photos?.discount_text,
+      };
+
+      draftState.review_content = {
+        title: settings.review_content?.title,
+        placeholder: settings.review_content?.placeholder,
+      };
+
+      draftState.reviewer = {
+        title: settings.reviewer?.title,
+        label_color: settings.reviewer?.label_color,
+        description_color: settings.reviewer?.description_color,
+      };
+
+      draftState.thank_you = {
+        title: settings.thank_you?.title,
+        description: settings.thank_you?.description,
+        discount_info_title: settings.thank_you?.discount_info_title,
+        discount_info_description:
+          settings.thank_you?.discount_info_description,
+      };
+
       draftState.custom_css = {
         is_enabled: settings?.custom_css?.is_enabled,
-        styles:settings?.custom_css?.styles,
+        styles: settings?.custom_css?.styles,
       };
     });
   };
@@ -107,6 +127,7 @@ function ReviewFormWidgetContextAPI({ children }: { children: any }) {
         buildStateFromResponse(settings);
       })
       .catch((error: any) => {
+        console.log(error);
         toastrError("Server Error Occurred");
       })
       .finally(() => {

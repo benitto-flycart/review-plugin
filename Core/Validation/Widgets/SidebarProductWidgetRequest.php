@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation\Widgets;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Request;
 
 class SidebarProductWidgetRequest
@@ -28,3 +30,4 @@ class SidebarProductWidgetRequest
         return [];
     }
 }
+

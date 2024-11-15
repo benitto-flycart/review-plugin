@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class SnippetWidget extends Widget implements WidgetInterface

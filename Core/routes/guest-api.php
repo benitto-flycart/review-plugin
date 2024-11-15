@@ -1,5 +1,6 @@
 <?php
 
+defined('ABSPATH') || exit;
 //All routes actions will be performed in Route::handleGuestRequest method.
 
 use Flycart\Review\App\ShortCode\PopupWidgetShortCode;

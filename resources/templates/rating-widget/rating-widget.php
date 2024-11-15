@@ -1,5 +1,9 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div class="r_rw_rating_widget_outer_container_wrapper"
-     data-reference-id="r_rpw_popup_widget_container-<?php echo $count ?>">
+    data-reference-id="r_rpw_popup_widget_container-<?php echo $count ?>">
     <div class="r_rw_container_wrapper" style="<?php echo $widget->getStyleVars() ?>">
         <div class="r_rw_rating_details">
             <?php if (!$widget->isSingleIconEnabled()) : ?>
@@ -24,4 +28,3 @@
         </div>
     </div>
 </div>
-

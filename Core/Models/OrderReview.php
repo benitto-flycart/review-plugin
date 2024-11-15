@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Models;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Model;
 
 class OrderReview extends Model
@@ -36,4 +38,3 @@ class OrderReview extends Model
         return $orderReview->photo_added;
     }
 }
-

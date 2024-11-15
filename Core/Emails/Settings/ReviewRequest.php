@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Emails\Settings;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
@@ -64,17 +66,17 @@ class ReviewRequest extends Emails
 
     public function getBody()
     {
-        return $this->getValue('body');
+        return stripslashes($this->getValue('body'));
     }
 
     public function getSubject()
     {
-        return $this->getValue('subject');
+        return stripslashes($this->getValue('subject'));
     }
 
     public function getButtonText()
     {
-        return $this->getValue('button_text');
+        return stripslashes($this->getValue('button_text'));
     }
 
     public function getTemplatePreview()

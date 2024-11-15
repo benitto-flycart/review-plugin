@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Services;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Validation\Rules;
 use Valitron\Validator;
 
@@ -41,7 +43,7 @@ class CustomRules extends Rules
             // Implement your logic to check uniqueness in the database
             // You might need to adapt this based on your database library
 
-//            $result = your_database_check_uniqueness($params[0], $params[1], $value);
+            //            $result = your_database_check_uniqueness($params[0], $params[1], $value);
 
         }, 'The {field} is already taken');
     }
@@ -60,3 +62,4 @@ class CustomRules extends Rules
         return false;
     }
 }
+

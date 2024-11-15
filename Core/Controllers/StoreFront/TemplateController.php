@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\StoreFront;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Services\Encrypt;
 
