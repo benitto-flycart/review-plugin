@@ -24,7 +24,6 @@ interface EnhancedCarouselProps {
 
 export default function EnhancedCarousel({ images, setApi, api }: EnhancedCarouselProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const imageCount = images?.length ?? 0;
 
   const onSelect = useCallback(() => {
     if (!api) return;
@@ -64,18 +63,11 @@ export default function EnhancedCarousel({ images, setApi, api }: EnhancedCarous
             </CarouselItem>
           ))}
         </CarouselContent>
-
-        { imageCount > 1 &&(
-          <>
-          <CarouselPrevious />
-          <CarouselNext />
-        </>)
-        }
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
 
-      {
-      imageCount > 1 &&
-      (<div className="frt-flex frt-justify-center frt-space-x-2 frt-overflow-x-auto frt-py-2">
+      <div className="frt-flex frt-justify-center frt-space-x-2 frt-overflow-x-auto frt-py-2">
         {(images ?? []).map((src, index) => 
         {
             //  console.log("index: ",index, "current index: ", currentIndex);
@@ -107,7 +99,7 @@ export default function EnhancedCarousel({ images, setApi, api }: EnhancedCarous
           </Button>
         )}
         )}
-      </div>)}
+      </div>
     </div>
   );
 }
