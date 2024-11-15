@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Emails\Hooks;
 
+defined('ABSPATH') || exit;
+
 use WC_Order;
 
 class EmailStatusUpdateHook

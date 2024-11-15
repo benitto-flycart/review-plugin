@@ -15,7 +15,7 @@ import { AxiosResponse } from "axios";
 import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { ApiErrorResponse } from "../api/api.types";
 import { useLocalState } from "../zustand/localState";
-import { BadgeCheck, ChevronDown, MoreHorizontal } from "lucide-react";
+import { BadgeCheck, ChevronDown, MoreHorizontal, Pencil, ReplyAll } from "lucide-react";
 import { LoadingSpinner } from "../ui/loader";
 import ReviewReplyDialog from "./ReviewReplyDialog";
 import ConfirmationDialog from "./ReviewConfirmDialgoue";
@@ -325,7 +325,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
             })
           : null}
         <CardFooter
-          className={"frt-flex frt-items-center frt-gap-x-4 !frt-p-0"}
+          className={"frt-flex frt-items-center frt-gap-x-5 !frt-p-0"}
         >
           <div className="frt-flex frt-justify-between frt-items-center frt-p-4">
             <DropdownMenu>
@@ -362,20 +362,18 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   ? replyEditButtonLabel
                   : replyAddButtonLabel
                 ).map((label: any) => (
-                  // <Button
-                  //   key={label.value}
-                  //   defaultValue={label.value}
-                  //   onClick={() => {
-                  //       handleReplyButtonAction(label.value);
-                  //   }}
-                  // >
-                  //   {label.label}
-                  // </Button>
-                  // 
                   <Tooltip.Provider>
                     <Tooltip.Root>
                       <Tooltip.Trigger>
-                        <PencilRuler  key={label.value} onClick={() => handleReplyButtonAction(label.value)} className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" />
+                        {review.replies.length 
+                        ? <ReplyAll 
+                        key={label.value} 
+                        onClick={() => handleReplyButtonAction(label.value)} 
+                        className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" /> 
+                        : <Pencil  
+                            key={label.value} 
+                            onClick={() => handleReplyButtonAction(label.value)} 
+                            className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" />}
                       </Tooltip.Trigger>
                       <Tooltip.Portal>
                         <Tooltip.Content side="bottom">
@@ -385,7 +383,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                       </Tooltip.Portal>
                     </Tooltip.Root>
                   </Tooltip.Provider>
-          ))}
+            ))}
           </div>
           <div className="frt-flex frt-justify-between frt-items-center">
             <DropdownMenu>

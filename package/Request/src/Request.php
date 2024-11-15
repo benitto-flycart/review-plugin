@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Package\Request;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Validation\Rules;
 use Valitron\Validator;
 
@@ -268,6 +270,7 @@ class Request
             $old_data = $data;
             $data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
         } while ($old_data !== $data);
+
         return is_string($data) ? $data : '';
     }
 

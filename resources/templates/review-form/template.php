@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div id="r_rfw_dialog_wrapper">
     <template id="r_rfw_shadow_template">
         <link rel="stylesheet"

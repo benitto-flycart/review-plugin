@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 interface WidgetInterface
 {
     /**

@@ -1,25 +1,19 @@
 <?php
+defined('ABSPATH') || exit;
 
 //All routes actions will be performed in Route::handleAuthRequest method.
 
 $store_front_hooks = [
-    'actions' => [
+    'actions' => [],
 
 
-    ],
-
-
-    'filters' => [
-
-    ],
+    'filters' => [],
 ];
 
 $admin_hooks = [
-    'actions' => [
-    ],
+    'actions' => [],
 
-    'filters' => [
-    ],
+    'filters' => [],
 ];
 
 

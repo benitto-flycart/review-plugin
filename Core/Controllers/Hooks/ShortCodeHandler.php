@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Hooks;
 
+defined('ABSPATH') || exit;
+
 class ShortCodeHandler
 {
 

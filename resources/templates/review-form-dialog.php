@@ -1,7 +1,7 @@
 <?php
+defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\WC;
-
 ?>
 
 <div class="wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative rating-widget-preview-desktop">

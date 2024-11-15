@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 
 class Setup
@@ -136,4 +138,3 @@ class Setup
         return apply_filters('flycart_review_get_models', []);
     }
 }
-

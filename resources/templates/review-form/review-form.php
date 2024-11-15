@@ -1,4 +1,8 @@
 <?php
+defined('ABSPATH') || exit;
+?>
+
+<?php
 wp_head();
 $data = get_query_var('review_form_data', array());
 $order_id = $data['order_id'];

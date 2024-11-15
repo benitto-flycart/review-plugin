@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation\Widgets;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Package\Request\Request;
 
 class FloatingProductWidgetRequest
@@ -24,3 +26,4 @@ class FloatingProductWidgetRequest
         return [];
     }
 }
+

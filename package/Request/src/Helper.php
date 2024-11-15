@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Package\Request;
 
+defined('ABSPATH') || exit;
+
 class Helper
 {
     public static function dataGet(array $array, string $key, $default = null)
@@ -19,3 +21,4 @@ class Helper
         return $array;
     }
 }
+

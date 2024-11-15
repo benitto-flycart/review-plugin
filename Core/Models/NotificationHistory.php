@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Models;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Model;
 
 class NotificationHistory extends Model

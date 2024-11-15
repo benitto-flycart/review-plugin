@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
     xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -140,9 +144,9 @@
                                                             <tr>
                                                                 <td style="width:100%;">
                                                                     <img height="auto"
-                                                                         src="{logo_src}"
-                                                                         style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
-                                                                         alt="">
+                                                                        src="{logo_src}"
+                                                                        style="border:0;outline:none;text-decoration:none;height:50px;font-size:13px;"
+                                                                        alt="">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -169,7 +173,7 @@
            >
         <tr>
             <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-        <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']);?>;">
+        <div style="margin:0px auto;max-width:600px;background-color: <?php echo esc_attr($data['styles']['email_content_bg_color']); ?>;">
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                 style="width:100%;">
                 <tbody>
@@ -212,9 +216,9 @@
                                                                                 <tr>
                                                                                     <td style="width:100%;">
                                                                                         <img height="auto"
-                                                                                             src="{logo_src}"
-                                                                                             style="border:0;display:block;outline:none;width:100%;min-height:100px;max-height:200px;text-decoration:none;font-size:13px;"
-                                                                                             alt="">
+                                                                                            src="{logo_src}"
+                                                                                            style="border:0;display:block;outline:none;width:100%;min-height:100px;max-height:200px;text-decoration:none;font-size:13px;"
+                                                                                            alt="">
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -331,17 +335,17 @@
                                                             style="vertical-align:top;" width="100%">
                                                             <tbody>
                                                                 <tr>
-<!--                                                                    <td align="center"-->
-<!--                                                                        style="font-size:0px;padding:10px 25px;word-break:break-word;">-->
-<!--                                                                        <p-->
-<!--                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>-->
-<!--                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">-->
-<!--                                                        <tr>-->
-<!--                                                            <td style="height:0;line-height:0;"> &nbsp;-->
-<!--                                                            </td>-->
-<!--                                                        </tr>-->
-<!--                                                    </table><![endif]-->-->
-<!--                                                                    </td>-->
+                                                                    <!--                                                                    <td align="center"-->
+                                                                    <!--                                                                        style="font-size:0px;padding:10px 25px;word-break:break-word;">-->
+                                                                    <!--                                                                        <p-->
+                                                                    <!--                                                                            style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:100%;"></p><!--[if mso | IE]>-->
+                                                                    <!--                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px ;font-size:1px;margin:0px auto;width:NaNpx;" role="presentation" width="NaNpx">-->
+                                                                    <!--                                                        <tr>-->
+                                                                    <!--                                                            <td style="height:0;line-height:0;"> &nbsp;-->
+                                                                    <!--                                                            </td>-->
+                                                                    <!--                                                        </tr>-->
+                                                                    <!--                                                    </table><![endif]-->-->
+                                                                    <!--                                                                    </td>-->
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center"

@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Resources\Widgets;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Resource;
 
 class SidebarProductWidgetResource extends Resource
@@ -23,3 +25,4 @@ class SidebarProductWidgetResource extends Resource
         ];
     }
 }
+

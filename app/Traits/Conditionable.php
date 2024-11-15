@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Traits;
 
+defined('ABSPATH') || exit;
+
 trait Conditionable
 {
     /**
@@ -42,3 +44,4 @@ trait Conditionable
         return $this;
     }
 }
+

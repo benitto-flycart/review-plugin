@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Hooks;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Controllers\Hooks\ShortCodeHandler;
 use Flycart\Review\Core\Models\Widget;
@@ -28,4 +30,3 @@ class ConditionalHooks
         }
     }
 }
-

@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <div class="r_pw_all_reviews_container r_pw_g_all_reviews_container">
     <?php foreach ($data['reviews'] as $review) { ?>
         <?php $reviewObject = new \Flycart\Review\App\Helpers\ReviewHelper($review); ?>

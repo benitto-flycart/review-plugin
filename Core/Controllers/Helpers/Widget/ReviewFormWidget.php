@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\Core\Models\Widget as WidgetModel;
 
@@ -29,13 +31,13 @@ class ReviewFormWidget extends Widget implements WidgetInterface
                 'rating_icon_color' => $general['rating_icon_color'] ?? 'white',
             ],
             'rating' => [
-                'title' => $rating['title'] ?? 'How would you rate {product_name?}',
+                'title' => stripslashes($rating['title'] ?? 'How would you rate {product_name?}'),
             ],
             'photos' => [
-                'title' => $photos['title'] ?? 'Show it Off',
-                'description' => $photos['description'] ?? "We'd love to see it again",
+                'title' => stripslashes($photos['title'] ?? 'Show it Off'),
+                'description' => stripslashes($photos['description'] ?? "We'd love to see it again"),
                 'button_text' => $photos['button_text'] ?? "Add Photos",
-                'discount_text' => $photos['discount_text'] ?? "Get {{discount_value}} off your next purchase!",
+                'discount_text' => stripslashes($photos['discount_text'] ?? "Get {{discount_value}} off your next purchase!"),
             ],
             'review_content' => [
                 'title' => $review_content['title'] ?? 'Tell us more!',
@@ -48,9 +50,9 @@ class ReviewFormWidget extends Widget implements WidgetInterface
             ],
             'thank_you' => [
                 'title' => $thank_you['title'] ?? 'Thank you',
-                'description' => $thank_you['description_color'] ?? 'Your Review was submitted',
-                'discount_info_title' => $thank_you['discount_info_title'] ?? 'Use the following discount code for {discount_value} off your next purchase',
-                'discount_info_description' => $thank_you['discount_info_description'] ?? "we'll also send it by email discount expires {date_expiry}",
+                'description' => stripslashes($thank_you['description_color'] ?? 'Your Review was submitted'),
+                'discount_info_title' => stripslashes($thank_you['discount_info_title'] ?? 'Use the following discount code for {discount_value} off your next purchase'),
+                'discount_info_description' => stripslashes($thank_you['discount_info_description'] ?? "we'll also send it by email discount expires {date_expiry}"),
             ],
 
         ];
@@ -73,12 +75,12 @@ class ReviewFormWidget extends Widget implements WidgetInterface
         return [
             'general' => $this->request->get('general'),
             'rating' => [
-                'title' => $this->request->get('rating.title', '', 'html')
+                'title' => $this->request->get('rating.title', '', '')
             ],
             'photos' => [
                 'button_text' => $this->request->get('photos.button_text'),
-                'description' => $this->request->get('photos.description', '', 'html'),
-                'discount_text' => $this->request->get('photos.discount_text', '', 'html'),
+                'description' => $this->request->get('photos.description', '', ''),
+                'discount_text' => $this->request->get('photos.discount_text', '', ''),
                 'title' => $this->request->get('photos.title'),
             ],
             'review_content' => [
@@ -90,7 +92,7 @@ class ReviewFormWidget extends Widget implements WidgetInterface
             ],
             'thank_you' => [
                 'title' => $this->request->get('thank_you.title'),
-                'description' => $this->request->get('thank_you.description', '', 'html'),
+                'description' => $this->request->get('thank_you.description', '', ''),
                 'discount_info_title' => $this->request->get('thank_you.discount_info_title'),
                 'discount_info_description' => $this->request->get('thank_you.discount_info_description', '', 'html'),
             ],

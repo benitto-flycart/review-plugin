@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Models;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Model;
 
 class ReviewConversion extends Model
@@ -28,5 +30,5 @@ class ReviewConversion extends Model
                 PRIMARY KEY (id)
                 ) {$charset};";
     }
-
 }
+

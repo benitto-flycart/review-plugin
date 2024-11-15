@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Api;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
@@ -39,8 +41,7 @@ class FloatingProductReviewWidgetController
             ];
 
             return FloatingProductWidgetResource::resource([$widgetSettings]);
-
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
@@ -83,10 +84,10 @@ class FloatingProductReviewWidgetController
             return Response::success([
                 'message' => __('Floating Product Widget Settings Saved Successfully', 'flycart-review'),
             ]);
-
-        } catch (\Error|\Exception $exception) {
+        } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());
         }
     }
 }
+

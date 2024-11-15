@@ -2,6 +2,7 @@
 
 namespace Flycart\Review\App\Helpers;
 
+defined('ABSPATH') || exit;
 
 class AssetHelper
 {
@@ -34,3 +35,4 @@ class AssetHelper
         return F_Review_PLUGIN_URL . 'admin-ui/dist';
     }
 }
+

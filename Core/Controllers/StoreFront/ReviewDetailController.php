@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\StoreFront;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
@@ -50,4 +52,3 @@ class ReviewDetailController
         }
     }
 }
-

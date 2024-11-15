@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Helpers;
 
+defined('ABSPATH') || exit;
+
 class ReviewHelper
 {
     public $review;

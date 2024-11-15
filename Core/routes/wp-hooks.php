@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Core\Controllers\Hooks\ShortCodeHandler;
 
 

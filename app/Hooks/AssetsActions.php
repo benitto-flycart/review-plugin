@@ -2,11 +2,11 @@
 
 namespace Flycart\Review\App\Hooks;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
-
-defined('ABSPATH') or exit;
 
 class AssetsActions
 {

@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Models;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Model;
 use Flycart\Review\Core\Emails\Settings\DiscountNotifySetting;

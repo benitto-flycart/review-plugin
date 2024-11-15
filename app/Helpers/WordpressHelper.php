@@ -2,7 +2,7 @@
 
 namespace Flycart\Review\App\Helpers;
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 class WordpressHelper
 {

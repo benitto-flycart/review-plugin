@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <style>
     #r_sw_widget_container_wrapper {
         margin: 1rem 0;
@@ -23,7 +27,7 @@
                         <?php } ?>
                         <div class="r_sw__review_details_wrapper">
                             <div class="r_sw__review_details">
-                                <div><?php echo ( "No name")?></div>
+                                <div><?php echo ("No name") ?></div>
                                 <div class="r_sw__review_details_icons">
                                     <?php foreach (range(0, 4) as $index) { ?>
                                         <i class="review review-<?php echo ($index < $reviewObj->getRatting()) ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
@@ -41,8 +45,7 @@
 
                         <i class="review review-caret-left"></i>
                     </button>
-                    <button class="r_sw__carousel-button-next"
-                        >
+                    <button class="r_sw__carousel-button-next">
                         <i class="review review-caret-right"></i>
                     </button>
                 </div>

@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
+
 
 use Flycart\Review\Package\Request\Response;
 
@@ -19,4 +21,3 @@ abstract class Collection
         return $response;
     }
 }
-

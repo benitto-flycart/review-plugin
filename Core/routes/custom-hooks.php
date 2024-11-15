@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\Core\Controllers\EmailController;
 use Flycart\Review\Core\Emails\Hooks\EmailStatusUpdateHook;
 use Flycart\Review\Core\Models\CoreModel;

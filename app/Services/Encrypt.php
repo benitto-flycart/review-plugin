@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Services;
 
+defined('ABSPATH') || exit;
+
 class Encrypt
 {
     private const FIRST_KEY = 'Lk5Uz3slx3BrAghS1aaW5AYgWZRV0tIX5eI0yPchFz4=';
@@ -20,7 +22,7 @@ class Encrypt
         $second_encrypted = hash_hmac('sha3-512', $first_encrypted, $second_key, TRUE);
 
         $output = base64_encode($iv . $second_encrypted . $first_encrypted);
-        if($urlSafe) {
+        if ($urlSafe) {
             return static::urlSafe($output);
         }
 
@@ -60,3 +62,4 @@ class Encrypt
         return urldecode($data);
     }
 }
+

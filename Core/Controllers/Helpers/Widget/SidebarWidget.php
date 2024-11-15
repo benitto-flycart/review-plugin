@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\Core\Models\Widget as WidgetModel;
 
@@ -85,5 +87,5 @@ class SidebarWidget extends Widget implements WidgetInterface
 
         return $style;
     }
-
 }
+

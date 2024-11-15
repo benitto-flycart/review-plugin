@@ -1,6 +1,8 @@
 <?php
+
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
 
 use Flycart\Review\App\ShortCode\FloatingProductWidgetShortCode;
 use Flycart\Review\App\ShortCode\PopupWidgetShortCode;
@@ -51,3 +53,4 @@ class App extends Container
         ViewReviewDetailWidgetShortCode::register();
     }
 }
+

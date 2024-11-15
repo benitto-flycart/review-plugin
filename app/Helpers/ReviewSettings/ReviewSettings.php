@@ -2,7 +2,7 @@
 
 namespace Flycart\Review\App\Helpers\ReviewSettings;
 
-class ReviewSettings
-{
+defined('ABSPATH') || exit;
 
-}
+class ReviewSettings {}
+

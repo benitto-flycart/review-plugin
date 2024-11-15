@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Package\Request;
 
+defined('ABSPATH') || exit;
+
 class ParameterBag
 {
     /**

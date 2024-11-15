@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\App\Traits\Conditionable;
 use Flycart\Review\App\Traits\ForwardCalls;
@@ -76,3 +78,4 @@ abstract class Model
         return dbDelta($query);
     }
 }
+

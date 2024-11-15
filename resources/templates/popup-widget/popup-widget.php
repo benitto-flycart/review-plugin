@@ -1,3 +1,7 @@
+<?php
+defined('ABSPATH') || exit;
+?>
+
 <style>
     #r_rpw_popup_widget_container_wrapper {
         position: fixed;
@@ -32,9 +36,9 @@
 <div id="r_rpw_popup_widget_container_wrapper" class="">
     <template id="r_rpw_popup_widget_container">
         <link rel="stylesheet"
-              href="<?php echo $popup_widget_css ?>">
+            href="<?php echo $popup_widget_css ?>">
         <link rel="stylesheet"
-              href="<?php echo $popup_widget_font_css ?>">
+            href="<?php echo $popup_widget_font_css ?>">
         <div id="r_puw_container_wrapper">
         </div>
     </template>
@@ -42,4 +46,3 @@
 <div class="r_f_toast_container">
     <div class="r_f_toast_title"></div>
 </div>
-

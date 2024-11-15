@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Api;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Services\View;
 
 class PageController
@@ -17,3 +19,4 @@ class PageController
         echo View::render('admin');
     }
 }
+

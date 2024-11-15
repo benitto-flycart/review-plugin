@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\App\Helpers;
 
+defined('ABSPATH') || exit;
+
 use DateTime;
 use DateTimeZone;
 use Exception;

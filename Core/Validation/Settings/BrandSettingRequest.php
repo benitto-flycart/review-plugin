@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Validation\Settings;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Validation\FormRequest;
@@ -55,4 +57,3 @@ class BrandSettingRequest implements FormRequest
         return [];
     }
 }
-

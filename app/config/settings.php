@@ -1,5 +1,6 @@
 <?php
 
+defined('ABSPATH') || exit;
 return [
     //settings goes here.
     'brand_settings' => [
@@ -43,3 +44,4 @@ return [
         'show_in_cart_page' => false
     ]
 ];
+

@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || exit;
+
 $items = [
     [
         'id' => 1,
@@ -643,3 +645,4 @@ $items = [
 ];
 
 return $items;
+

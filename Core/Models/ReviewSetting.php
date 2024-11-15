@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Models;
 
+defined('ABSPATH') || exit;
+
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Model;
@@ -38,6 +40,5 @@ class ReviewSetting extends Model
     {
         return (new BrandSettings())->get();
     }
-
-
 }
+
