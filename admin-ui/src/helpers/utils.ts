@@ -36,7 +36,7 @@ export const runUploader = (event: any, cb: any) => {
   frame.open();
 };
 
-export const applyStylesToIframe = (iframe: any, styles: any, fontCss: any) => {
+export const applyStylesToIframe = (iframe: any, styles: any, fontCss: any,shouldExtraStyleApply:boolean=true) => {
   if (!iframe?.contentDocument) return;
 
   const head = iframe.contentDocument.head;

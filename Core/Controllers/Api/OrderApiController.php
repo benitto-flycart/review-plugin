@@ -203,6 +203,7 @@ class OrderApiController
                 'order_id' => $order->order_id,
                 'order_url' => admin_url('post.php?post=' . $order->order_id . '&action=edit'),
                 'email' => $orderObj->get_billing_email(),
+                'email_status' => $groupedByOrderId[$order->order_id][0]['email_status'],
                 'created_at'   => Functions::getWcTimeFromGMT($order->date_created),
                 'order_items' => $groupedByOrderId[$order->order_id],
             );
