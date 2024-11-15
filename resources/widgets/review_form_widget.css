@@ -81,6 +81,7 @@
   width: 100%;
   /*//iphone se height*/
   height: 70%;
+  max-height: 600px;
   margin: 0 auto;
   flex: 1;
   transition: transform 1s ease-in-out;
@@ -438,8 +439,9 @@
 .r_rfw_remaining_items_wrapper {
   width: 100%;
   text-align: center;
-  justify-content: center;
+  /* justify-content: center; */
   gap: 1rem;
+  overflow: scroll;
 }
 
 .r_rfw_review_remaining_available_items {
@@ -710,4 +712,3 @@
     width: 100%;
   }
 }
-
