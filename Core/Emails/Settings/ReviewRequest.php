@@ -8,17 +8,19 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ReviewRequest extends Emails
 {
 
     public function __construct($language)
     {
-        $this->locale = $language;
+        parent::__construct($language);
 
-        $reviewRequest = EmailSetting::query()
+        $reviewRequest = SettingsModel::query()
             ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::REVIEW_REQUEST_TYPE])
+            ->where("type = %s", [SettingsModel::EMAIL_TYPE])
+            ->where("sub_type = %s", [SettingsModel::EMAIL_REVIEW_REQUEST_TYPE])
             ->first();
 
         if (empty($reviewRequest)) {
@@ -26,7 +28,7 @@ class ReviewRequest extends Emails
             $this->status = 'active';
         } else {
             $settings = $reviewRequest->settings;
-            $settings = EmailSetting::getReviewSettingsAsArray($settings);
+            $settings = $this->settingsAsArray($settings);
 
             $this->status = $reviewRequest->status;
         }

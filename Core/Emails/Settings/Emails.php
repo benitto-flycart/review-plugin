@@ -4,6 +4,7 @@ namespace Flycart\Review\Core\Emails\Settings;
 
 defined('ABSPATH') || exit;
 
+use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\WC;
 
@@ -20,6 +21,23 @@ abstract class Emails
     public $settings = [];
 
     public $placeholders = [];
+
+    public $statuses = [];
+
+
+    public function __construct($language)
+    {
+
+        $this->locale = $language;
+
+        $settings = get_option('flycart_review_app_status_settings', "[]");
+
+        $settings = Functions::jsonDecode($settings);
+
+        $email_settings = $this->getCurrentLocaleStatues($settings);
+
+        $this->statuses = $email_settings;
+    }
 
     abstract public function getPlaceHolders();
 
@@ -128,5 +146,25 @@ abstract class Emails
     private function formatValue($value)
     {
         return nl2br($value);
+    }
+
+    public function settingsAsArray($settings)
+    {
+        if (is_array($settings)) return $settings;
+
+        return Functions::jsonDecode($settings);
+    }
+
+    public function getCurrentLocaleStatues($settings)
+    {
+        if (!empty($settings['email'])) {
+            $email_settings = $settings['email'];
+            if (!empty($email_settings[$this->locale])) {
+                $current_locale_email_settings = $email_settings[$this->locale];
+                return $current_locale_email_settings;
+            }
+        }
+
+        return [];
     }
 }

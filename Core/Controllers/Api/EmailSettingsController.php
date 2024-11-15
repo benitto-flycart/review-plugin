@@ -15,6 +15,7 @@ use Flycart\Review\Core\Emails\Settings\ReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReplyRequest;
 use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountNotifySettingResource;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountReminderEmailSetting;
@@ -28,6 +29,7 @@ use Flycart\Review\Core\Validation\ReviewPhotoRequestSettingsValidation;
 use Flycart\Review\Core\Validation\ReviewRemainderSettingsValidation;
 use Flycart\Review\Core\Validation\ReviewReplyToRequestSettingsValidation;
 use Flycart\Review\Core\Validation\ReviewRequestSettingsValidation;
+use Flycart\Review\Core\Validation\UpdateEmailStatusValidation;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -575,17 +577,23 @@ class EmailSettingsController
     public static function getEmailStatuses(Request $request)
     {
         try {
-            $language = $request->get('language');
+            $language = $request->get('current_locale');
 
-            $emails = EmailSetting::query()
-                ->where("language = %s", [$language])
-                ->get();
+            $settings = SettingsModel::getPluginStatusSettings();
 
-            $statuses = EmailSetting::getDefaultEmailSettingStatus();
+            error_log('printing whole settings');
 
-            foreach ($emails as $email) {
-                $statuses[$email->type] = [
-                    'is_enabled' => $email->status == EmailSetting::ACTIVE
+            error_log(print_r($settings, true));
+
+            $settings = $settings['emails'][$language] ?? [];
+
+            $emails_statues = SettingsModel::getDefaultEmailSettingStatus();
+
+            $statuses = [];
+
+            foreach ($emails_statues as $key => $value) {
+                $statuses[$key] = [
+                    'is_enabled' => isset($settings[$key]) ? ($settings[$key] == 'active') : $value['is_enabled']
                 ];
             }
 
@@ -598,25 +606,28 @@ class EmailSettingsController
 
     public static function updateEmailStatus(Request $request)
     {
+        $request->validate(new UpdateEmailStatusValidation());
+
         try {
             $email_type = $request->get('email_type');
-            $is_enabled = $request->get('is_enabled');
+            $is_enabled = Functions::getBoolValue($request->get('is_enabled'));
+            $current_locale = $request->get('current_locale');
 
-            if (empty($email_type)) {
-                Response::error([
-                    'message' => __('Email type is required', 'f-review'),
-                ], 422);
+            $settings = SettingsModel::getPluginStatusSettings();
+
+            $settings['emails'][$current_locale][$email_type] = $is_enabled ? EmailSetting::ACTIVE : EmailSetting::DRAFT;
+
+            $is_updated = SettingsModel::updatePluginStatusSettings($settings);
+
+            if ($is_updated) {
+                return Response::success([
+                    'message' => __('Email Status Updated', 'f-review'),
+                ], 200);
             }
 
-            EmailSetting::query()->update([
-                'status' => $is_enabled ? EmailSetting::ACTIVE : EmailSetting::DRAFT,
-            ], [
-                'type' => $email_type
-            ]);
-
-            Response::success([
-                'message' => __('Email Status Updated', 'f-review'),
-            ], 200);
+            return Response::success([
+                'message' => __('Unable to update at the moment', 'f-review'),
+            ], 500);
         } catch (\Error | \Exception $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error(Functions::getServerErrorMessage());

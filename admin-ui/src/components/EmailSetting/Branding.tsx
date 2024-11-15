@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import { LoadingSpinner } from "../ui/loader";
 import { toastrError, toastrSuccess } from "../../helpers/ToastrHelper";
 import { axiosClient } from "../api/axios";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 type EmailState = {
   review_request: { is_enabled: boolean };
@@ -35,10 +36,14 @@ function Branding() {
   const { localState, setLocalState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [saveChangesLoading, setSaveChangesLoading] = useState(false);
+
   const [currentLocale, setCurrentLocale] = useState<string>(
     localState.current_locale,
   );
+
   const [loading, setLoading] = useState<boolean>(false);
+
+  const availableLanguages = localState.available_languages;
 
   const emails = [
     {
@@ -118,10 +123,11 @@ function Branding() {
         <Switch
           checked={emailState[item.slug as keyof EmailState].is_enabled}
           onCheckedChange={(value) => {
-            setEmailStatus(item.slug, value);
             updateEmailStateFields((draftState) => {
               draftState[item.slug as keyof EmailState].is_enabled = value;
             });
+
+            setEmailStatus(item.slug, value);
           }}
         />
         <Button>
@@ -137,7 +143,7 @@ function Branding() {
       .post(``, {
         method: "email_update_status",
         email_type: type,
-        language: currentLocale,
+        current_locale: currentLocale,
         is_enabled: is_enabled,
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
@@ -163,7 +169,7 @@ function Branding() {
         method: "get_email_status",
         _wp_nonce_key: "flycart_review_nonce",
         _wp_nonce: localState?.nonces?.flycart_review_nonce,
-        language: currentLocale,
+        current_locale: currentLocale,
       })
       .then((response: any) => {
         let data = response.data.data;
@@ -182,19 +188,49 @@ function Branding() {
   useEffect(() => {
     setLoading(true);
     getEmailStatus();
-  }, []);
+  }, [currentLocale]);
 
-  return <div className="frt-grid frt-grid-cols-1 frt-gap-4">
+  return (
+    <div className="frt-grid frt-grid-cols-1 frt-gap-4">
+      {availableLanguages.length > 0 && (
+        <Tabs defaultValue={currentLocale} className="w-[400px]">
+          <TabsList
+            className={
+              "!frt-flex-wrap !frt-h-auto !frt-justify-start !frt-gap-1"
+            }
+          >
+            {availableLanguages.map((item: any, index: number) => {
+              return (
+                <TabsTrigger
+                  key={index}
+                  value={item.value}
+                  onClick={() => {
+                    setCurrentLocale(item.value);
+                  }}
+                >
+                  {item.label}
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+        </Tabs>
+      )}
       {loading ? (
         <div className="frt-grid frt-justify-center frt-items-center frt-h-[60vh]">
           <LoadingSpinner />
         </div>
       ) : (
         emails.map((item, index) => (
-          <EmailItem key={index} item={item} emailState={emailState} setEmailStatus={setEmailStatus} />
+          <EmailItem
+            key={index}
+            item={item}
+            emailState={emailState}
+            setEmailStatus={setEmailStatus}
+          />
         ))
       )}
-    </div>;
+    </div>
+  );
 }
 
 export default Branding;
