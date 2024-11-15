@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flycart-reviews';
-  src:  url('fonts/flycart-reviews.eot?euf83a');
-  src:  url('fonts/flycart-reviews.eot?euf83a#iefix') format('embedded-opentype'),
-    url('fonts/flycart-reviews.ttf?euf83a') format('truetype'),
-    url('fonts/flycart-reviews.woff?euf83a') format('woff'),
-    url('fonts/flycart-reviews.svg?euf83a#flycart-reviews') format('svg');
+  src:  url('fonts/flycart-reviews.eot?b7x2fo');
+  src:  url('fonts/flycart-reviews.eot?b7x2fo#iefix') format('embedded-opentype'),
+    url('fonts/flycart-reviews.ttf?b7x2fo') format('truetype'),
+    url('fonts/flycart-reviews.woff?b7x2fo') format('woff'),
+    url('fonts/flycart-reviews.svg?b7x2fo#flycart-reviews') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -76,31 +76,25 @@
 .farp-cross-icon:before {
   content: "\e9d2";
 }
-.farp-trophy-outlined:before {
+.farp-trophy-outline:before {
   content: "\e9d3";
 }
-.farp-star-two-outined:before {
+.farp-round-star-outline:before {
   content: "\e9d4";
 }
 .farp-leaf-outlined:before {
   content: "\e9d5";
 }
-.farp-star-one-outlined:before {
+.farp-star-sharp-outline:before {
   content: "\e9d6";
 }
-.farp-star-three-outlined:before {
-  content: "\e9d7";
-}
-.farp-star-four-outlined:before {
-  content: "\e9d8";
-}
-.farp-rocket-outlined:before {
+.farp-rocket-outline:before {
   content: "\e9d9";
 }
-.farp-heart-outlined:before {
+.farp-heart-outline:before {
   content: "\e9da";
 }
-.farp-gem-outlined:before {
+.farp-gem-outline:before {
   content: "\e9db";
 }
 .farp-heart:before {
@@ -721,13 +715,13 @@
   margin-left: -1em;
   color: rgb(13, 7, 25);
 }
-.farp-twitter-outlined:before {
+.farp-twitter-outline:before {
   content: "\e984";
 }
-.farp-linkedin-outlined:before {
+.farp-linkedin-outline:before {
   content: "\e985";
 }
-.farp-facebook-outlined:before {
+.farp-facebook-outline:before {
   content: "\e986";
 }
 .farp-youtube .path1:before {
