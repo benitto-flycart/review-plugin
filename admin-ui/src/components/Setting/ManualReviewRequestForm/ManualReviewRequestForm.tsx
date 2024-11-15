@@ -142,7 +142,7 @@ const ManualReviewRequestForm = () => {
                                                     draftState.logo_url = ""
                                                 })
                                             }}
-                                               className={"review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review review-Heart frt-absolute -frt-top-2 -frt-right-2"}></i>
+                                               className={"farp farp-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 farp farp-Heart frt-absolute -frt-top-2 -frt-right-2"}></i>
                                         </div> : null
                                     }
                                     <div

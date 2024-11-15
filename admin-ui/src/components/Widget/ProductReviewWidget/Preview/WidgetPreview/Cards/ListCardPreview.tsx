@@ -25,7 +25,7 @@ const ListCardPreview = ({ review }: any) => {
                   "r_pw_r--review-is-verified r_pw_r_l_container--review_details-review_verfied"
                 }
               >
-                <i className="review review-trophy"></i>
+                <i className="farp farp-trophy"></i>
               </span>
             ) : null}
           </div>

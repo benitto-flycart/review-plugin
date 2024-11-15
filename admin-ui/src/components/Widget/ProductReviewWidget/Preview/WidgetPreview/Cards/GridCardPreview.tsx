@@ -29,7 +29,7 @@ const GridCardPreview = ({ review }: any) => {
                   "r_pw_r--review-is-verified r_pw_r_g_container--review-is-verified"
                 }
               >
-                <i className="review review-trophy"></i>
+                <i className="farp farp-trophy"></i>
               </span>
             ) : null}
           </div>

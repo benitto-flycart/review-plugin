@@ -198,14 +198,14 @@ else{
               disabled={index == 0}
               onClick={handlePrevious}
             >
-              <i className="review review-caret-left"></i>
+              <i className="farp farp-caret-left"></i>
             </button>
             <button
               className={`${index == reviews.length - 1 ? "disabled" : ""} r_sw__carousel-button-next`}
               disabled={index == reviews.length - 1}
               onClick={handleNext}
             >
-              <i className="review review-caret-right"></i>
+              <i className="farp farp-caret-right"></i>
             </button>
           </div>
         </div>
