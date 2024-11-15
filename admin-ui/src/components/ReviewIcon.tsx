@@ -22,7 +22,7 @@ const ReviewIcon = ({icon = 'gem', color = 'inherit', fontSize = 'inherit', fill
         reviewicon=reviewIcons[icon].outlined
     }
     return (
-        <i className={`review-icon review review-${reviewicon} ${className}`}
+        <i className={`farp-icon farp farp-${reviewicon} ${className}`}
            style={{fontSize: fontSize, color: color}}></i>
     );
 }

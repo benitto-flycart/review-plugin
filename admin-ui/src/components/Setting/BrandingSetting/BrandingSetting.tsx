@@ -219,7 +219,7 @@ const BrandingSetting = () => {
                             });
                           }}
                           className={
-                            "review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review frt-absolute -frt-top-2 -frt-right-2"
+                            "farp farp-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 farp frt-absolute -frt-top-2 -frt-right-2"
                           }
                         ></i>
                       </div>

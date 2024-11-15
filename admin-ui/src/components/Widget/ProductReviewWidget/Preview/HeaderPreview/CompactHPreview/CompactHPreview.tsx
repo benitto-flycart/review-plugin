@@ -74,7 +74,7 @@ const CompactHPreview = () => {
                 type="button"
                 className="r_pw_header_button r_pw_ch_actions_sorting_container_btn"
               >
-                <i className="review review-gem"></i>
+                <i className="farp farp-gem"></i>
               </button>
             </CustomPopover>
           </div>

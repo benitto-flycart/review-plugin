@@ -69,10 +69,10 @@ export const Pagination = ({
       <div>
         <ReactPaginate
           previousLabel={
-            <i className="rwp rwp-back-arrow frt-w-4 frt-h-4 frt-flex frt-justify-center frt-items-center hover:frt-bg-light-gray"></i>
+            <i className="farp farp-back-arrow frt-w-4 frt-h-4 frt-flex frt-justify-center frt-items-center hover:frt-bg-light-gray"></i>
           }
           nextLabel={
-            <i className="rwp rwp-forward-arrow frt-w-4 frt-h-4 frt-flex frt-justify-center frt-items-center hover:frt-bg-light-gray"></i>
+            <i className="farp farp-forward-arrow frt-w-4 frt-h-4 frt-flex frt-justify-center frt-items-center hover:frt-bg-light-gray"></i>
           }
           // prevPageRel={null}
 

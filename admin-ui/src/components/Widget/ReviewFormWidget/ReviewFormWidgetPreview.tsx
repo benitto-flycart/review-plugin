@@ -157,12 +157,12 @@ const ReviewFormWidgetPreview = () => {
 
     return (
         <div
-            className={`wd_preview_content review_form_widget review-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative ${widget.view == 'mobile' ? 'rating-widget-preview-mobile' : 'rating-widget-preview-desktop'}`}>
+            className={`wd_preview_content review_form_widget farp-preview-wrap frt-flex frt-flex-col frt-gap-2 frt-relative ${widget.view == 'mobile' ? 'rating-widget-preview-mobile' : 'rating-widget-preview-desktop'}`}>
             <div className={"r_rfw_container"} style={methods.getReviewFormVariables()}>
                 {activeSlide.name == 'rating' ? (
                     <div className={"r_rfw_header"}>
                         <button className={"r_rfw_btn"}>
-                            <span className={"review review-cross-icon r_rfw_btn_back"}></span>
+                            <span className={"farp farp-cross-icon r_rfw_btn_back"}></span>
                         </button>
                     </div>) : null}
                 <div className={`r_rfw_main_content_wrapper`}
@@ -200,7 +200,7 @@ const ReviewFormWidgetPreview = () => {
                 <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_down"}>
                     <button onClick={handlePrevClick}
                             className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn ${activeSlide.name != 'rating' ? '' : 'r_rfw_hide'}`}>
-                        <span className={"review review-arrow-left"}></span>
+                        <span className={"farp farp-arrow-left"}></span>
                     </button>
                     <button onClick={handleNextClick}
                             className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn ${isNeedToShowNext() ? '' : 'r_rfw_hide'}`}>
