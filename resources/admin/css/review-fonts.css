@@ -118,13 +118,13 @@
 .farp-heart:before {
   content: "\e9dc";
 }
-.farp-star-four:before {
+.farp-round-star:before {
   content: "\e9dd";
 }
 .farp-rocket:before {
   content: "\e9de";
 }
-.farp-star-two:before {
+.farp-star-sharp:before {
   content: "\e9df";
 }
 .farp-leaf:before {
