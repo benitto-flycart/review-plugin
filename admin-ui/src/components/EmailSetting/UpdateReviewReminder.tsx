@@ -181,13 +181,8 @@ const UpdateReviewReminder = () => {
                     {showValidationError(errors, "subject")}
                   </div>
                   <div>
-                    Notes:
+                    <p>Notes:</p>
                     <p>Use [order_number] for the customer's order number</p>
-                    <p>Use [order_number] for the customer's order number</p>
-                    <p>
-                      Use [name] or [last_name] as a placeholder for the user's
-                      first or last name
-                    </p>
                   </div>
                 </div>
               </div>
@@ -206,6 +201,13 @@ const UpdateReviewReminder = () => {
                       placeholder={state.body_placeholder}
                     ></Textarea>
                     {showValidationError(errors, "body")}
+                    <div>
+                      <p>Notes:</p>
+                      <p>
+                        Use [name] or [first_name] or [last_name] as a
+                        placeholder for the user's first or last name
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -265,4 +267,3 @@ const UpdateReviewReminder = () => {
 };
 
 export default UpdateReviewReminder;
-

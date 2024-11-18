@@ -25,11 +25,12 @@ class ReviewRequestWCEmail extends WC_Email
     public function __construct()
     {
         // Email slug we can use to filter other data.
-        $this->id = 'review_request_email';
+        $this->id = 'flycart_review_review_request_email';
         $this->title = __('Review Request Email', 'flycart-review');
         $this->description = __('An Email Send to request review', 'flycart-review');
         $this->heading = __("[{site_title}] Add Review!", 'flycart-review');
 
+        #It will be overrided below
         $this->subject = __("[{site_title}] - Add Review", 'flycart-review');
 
         // Template paths.

@@ -208,9 +208,9 @@ class ReviewFormController
             $is_photo_review_first_time = false;
 
             if (!$review_already_added) {
-                [$is_photo_review_first_time] =  static::handleNewReview($comment, $request, $product_id, $order, $is_photo_already_added, $is_photo_review_first_time);
+                static::handleNewReview($comment, $request, $product_id, $order, $is_photo_already_added, $is_photo_review_first_time);
             } elseif ($submit_slide === 'photo') {
-                [$is_photo_review_first_time] = static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
+                static::handlePhotoAttachment($comment, $request, $is_photo_already_added, $is_photo_review_first_time);
             }
 
             $discount_info = static::handleDiscountCreation($product_id, $order_id, $is_photo_review_first_time, $comment);
@@ -257,6 +257,7 @@ class ReviewFormController
     protected static function handlePhotoAttachment($comment, $request, $is_photo_already_added, &$is_photo_review_first_time)
     {
         $existing_attachments = get_comment_meta($comment->comment['comment_ID'], '_review_attachments', true);
+
         $attachments = Functions::jsonDecode($existing_attachments) ?? [];
         $photos = $request->get('photos', [], 'array');
 

@@ -227,10 +227,6 @@ const UpdatePhotoRequest = () => {
                     <span>
                       Notes: Use [order_number] for the customer's order number
                     </span>
-                    <span>
-                      Use [name] or [last_name] as a placeholder for the user's
-                      first or last name
-                    </span>
                   </div>
                 </div>
               </div>
@@ -248,6 +244,13 @@ const UpdatePhotoRequest = () => {
                     placeholder={state.body_placeholder}
                   ></Textarea>
                   {showValidationError(errors, "body")}
+                  <div>
+                    <span>Notes:</span>
+                    <span>
+                      Use [name] or [first_name] or [last_name] as a placeholder
+                      for the user's name, first or last name
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="frt-grid frt-gap-3">

@@ -275,14 +275,6 @@ defined('ABSPATH') || exit;
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="center"
-                                                                    style="font-size:0px;padding:2px;padding-top:6px;padding-right:2px;padding-bottom:2px;padding-left:2px;word-break:break-word;">
-                                                                    <div style="font-size:13px;font-style:normal;line-height:1.5;text-align:center;">
-                                                                        Discount expires :{discount_expires}
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td align="center" vertical-align="middle"
                                                                     style="font-size:0px;padding:10px;word-break:break-word;">
                                                                     <table border="0" cellpadding="0" cellspacing="0"

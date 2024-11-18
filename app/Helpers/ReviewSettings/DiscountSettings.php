@@ -34,7 +34,7 @@ class DiscountSettings extends ReviewSettings
     {
         return [
             'enable_photo_discount' => $settings['enable_photo_discount'] ?? false,
-            'photo_discount_type' => $settings['photo_discount_type'] ?? 'fixed',
+            'photo_discount_type' => $settings['photo_discount_type'] ?? 'fixed_cart',
             'photo_discount_value' => $settings['photo_discount_value'] ?? 0,
             'photo_discount_expiry_in_days' => $settings['photo_discount_expiry_in_days'] ?? 0,
         ];
@@ -46,7 +46,7 @@ class DiscountSettings extends ReviewSettings
 
         $data = [
             'enable_photo_discount' => $photo_discount_enabled,
-            'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed',
+            'photo_discount_type' => $photo_discount_enabled ? $request->get('photo_discount_type') : 'fixed_cart',
             'photo_discount_value' => $photo_discount_enabled ? $request->get('photo_discount_value') : 0,
             'photo_discount_expiry_in_days' => $photo_discount_enabled ? $request->get('photo_discount_expiry_in_days') : '',
         ];
@@ -69,11 +69,16 @@ class DiscountSettings extends ReviewSettings
         $discount_type = $this->discountSettings['photo_discount_type'];
         $discount_value = $this->discountSettings['photo_discount_value'];
 
-        if ($discount_type == 'fixed') {
+        $label = '';
+
+        if ($discount_type == 'fixed_cart') {
             $label = get_woocommerce_currency_symbol() . ' Fixed';
-        } else {
+        } else if ($discount_type == 'percent') {
             $label = '% Percentage';
+        } else if ($discount_type == 'fixed_product') {
+            $label = get_woocommerce_currency_symbol() . 'Fixed Product discount';
         }
+
         /* translators: placeholder description */
         return vsprintf(esc_html__('%s %s', 'f-review'), [$discount_value, $label]);
     }
@@ -110,7 +115,7 @@ class DiscountSettings extends ReviewSettings
 
         $expiryInDays = $this->getPhotoDiscountExpiryDate();
 
-        $prefix_coupon = apply_filters('frap_test_review_prefix_for_discount_coupon', 'REVIEW_DIS_');
+        $prefix_coupon = apply_filters('frap_test_review_prefix_for_discount_coupon', 'REVIEW-DIS-');
         $coupon_code = $prefix_coupon . Functions::generateRandomString(10);
         $coupon = new \WC_Coupon();
         $coupon->set_code($coupon_code);

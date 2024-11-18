@@ -47,11 +47,11 @@ class PhotoRequest extends Emails
 
     public function getPlaceHolders()
     {
-        $data['body'] = "Hello [Name] \n\nWe wanted to thank you again for your review of [product]. \nPlease add your photo to the review and help our community of shopers!";
-        $data['discount_text'] = 'Add a photo or a video to the review and get a discount off your next purchase';
+        $data['body'] = "Hello [name] \n\nWe wanted to thank you again for your review of [product]. \nPlease add your photo to the review and help our community of shopers!";
+        $data['discount_text'] = 'Add a photo to the review and get a discount off your next purchase';
         $data['subject'] = 'Reminder: Add a photo to your review of [product]';
         $data['minimum_star'] = '5';
-        $data['button_text'] = 'Write a Review';
+        $data['button_text'] = 'Add a photo';
 
         return $data;
     }
@@ -90,9 +90,9 @@ class PhotoRequest extends Emails
             '{email}' => $order->get_billing_email(),
             '{logo_src}' => $brandSettings->getLogoSrc(),
             '{banner_src}' => $brandSettings->getEmailBanner(),
-            '{body}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getBody(), $order),
-            '{button_text}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getButtonText(), $order),
-            '{discount_text}' => $this->replaceCustomeEmailPlaceholders($photoRequest->getDiscountText(), $order),
+            '{body}' => $photoRequest->getBody(),
+            '{button_text}' => $photoRequest->getButtonText(),
+            '{discount_text}' => $photoRequest->getDiscountText(),
             '{footer_text}' => $generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
         ];
@@ -109,15 +109,17 @@ class PhotoRequest extends Emails
     }
 
 
-    public function replaceCustomeEmailPlaceholders($content, \WC_Order $wooOrder)
+    public function replaceCustomeEmailPlaceholders($content, \WC_Product $product, \WC_Order $wooOrder)
     {
         return str_replace([
             "[order_number]",
+            "[product]",
             "[name]",
             "[first_name]",
             "[last_name]"
         ], [
             $wooOrder->get_id(),
+            $product->get_name(),
             $wooOrder->get_formatted_billing_full_name(),
             $wooOrder->get_billing_first_name(),
             $wooOrder->get_billing_last_name(),
