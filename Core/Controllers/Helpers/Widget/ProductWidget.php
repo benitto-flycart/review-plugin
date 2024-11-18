@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\Core\Models\Widget as WidgetModel;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ProductWidget extends Widget implements WidgetInterface
 {
@@ -93,7 +93,7 @@ class ProductWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return WidgetModel::PRODUCT_WIDGET;
+        return SettingsModel::PRODUCT_WIDGET;
     }
 
     public function getRequestFromSettings()

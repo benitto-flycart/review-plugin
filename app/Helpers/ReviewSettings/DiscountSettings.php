@@ -6,6 +6,7 @@ defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\Core\Models\ReviewSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class DiscountSettings extends ReviewSettings
 {
@@ -13,11 +14,13 @@ class DiscountSettings extends ReviewSettings
 
     public function __construct()
     {
-        $brand_setting = ReviewSetting::query()
-            ->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
+        $this->settings_type = SettingsModel::DISCOUNT_SETTINGS;
+
+        $discount_settings = SettingsModel::query()
+            ->where("type = %s AND sub_type = %s", [SettingsModel::SETTINGS_TYPE, $this->settings_type])
             ->first();
 
-        $data = Functions::jsonDecode($brand_setting->meta_value ?? '{}');
+        $data = Functions::jsonDecode($discount_settings->settings ?? '{}');
 
         $this->discountSettings = $this->mergeWithDefault($data);
     }

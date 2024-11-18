@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
-use Flycart\Review\Core\Models\Widget as WidgetModel;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ReviewFormWidget extends Widget implements WidgetInterface
 {
@@ -62,7 +62,7 @@ class ReviewFormWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return WidgetModel::REVIEW_FORM_WIDGET;
+        return SettingsModel::REVIEW_FORM_WIDGET;
     }
 
     public function getRequestFromSettings()

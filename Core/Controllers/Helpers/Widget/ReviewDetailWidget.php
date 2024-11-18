@@ -2,6 +2,8 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+use Flycart\Review\Core\Models\SettingsModel;
+
 defined('ABSPATH') || exit;
 
 class ReviewDetailWidget extends Widget implements WidgetInterface
@@ -26,7 +28,7 @@ class ReviewDetailWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return \Flycart\Review\Core\Models\Widget::REVIEW_DETAIL_WIDGET;
+        return SettingsModel::REVIEW_DETAIL_WIDGET;
     }
 
     public function getRequestFromSettings()

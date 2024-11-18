@@ -8,6 +8,7 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 use WC_Order;
 
 class DiscountNotifySetting extends Emails
@@ -15,24 +16,8 @@ class DiscountNotifySetting extends Emails
     public function __construct($language)
     {
         $this->locale = $language;
-
-        $discountEmail = EmailSetting::query()
-            ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::DISCOUNT_NOTIFY_TYPE])
-            ->first();
-
-        if (empty($discountEmail)) {
-            $settings = $this->getDefaults($this->locale);
-            $this->status = 'active';
-        } else {
-            $settings = $discountEmail->settings;
-            $settings = EmailSetting::getReviewSettingsAsArray($settings);
-
-            $this->status = $discountEmail->status;
-        }
-
-        $this->settings = $settings;
-        $this->placeholders = $this->getPlaceHolders();
+        $this->email_type = SettingsModel::EMAIL_DISCOUNT_REMINDER_TYPE;
+        $this->init();
     }
 
 

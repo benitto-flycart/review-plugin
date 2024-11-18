@@ -20,14 +20,13 @@ class CoreModel extends Model
     {
         return [
             //list of models to run migrations
-            EmailSetting::class,
             NotificationHistory::class,
             OrderReview::class,
             Review::class,
-            Review::class,
             ReviewConversion::class,
-            ReviewSetting::class,
-            Widget::class,
+            // ReviewSetting::class,
+            // Widget::class,
+            SettingsModel::class,
         ];
     }
 }

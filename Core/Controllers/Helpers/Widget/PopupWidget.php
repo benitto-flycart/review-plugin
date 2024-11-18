@@ -5,13 +5,13 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\Core\Models\Widget as WidgetModel;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class PopupWidget extends Widget implements WidgetInterface
 {
     public function getWidgetType(): string
     {
-        return WidgetModel::POPUP_WIDGET;
+        return SettingsModel::POPUP_WIDGET;
     }
 
     public function getRequestFromSettings(): array

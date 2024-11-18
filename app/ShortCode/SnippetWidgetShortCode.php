@@ -9,6 +9,7 @@ use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Models\Widget;
 
 class SnippetWidgetShortCode
@@ -23,11 +24,11 @@ class SnippetWidgetShortCode
             $registrationHandle = "{$pluginSlug}-snippet-widget";
             $storeConfig = static::getSnippetWidgetConfigValues();
 
-            $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(SettingsModel::SNIPPET_WIDGET, get_locale(), null);
             $widget = $widgetFactory->widget;
 
 
-            $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(SettingsModel::SNIPPET_WIDGET, get_locale(), null);
             $widget = $widgetFactory->widget;
 
             $no_of_reviews_count = $widget->getNoOfReviewsCount();

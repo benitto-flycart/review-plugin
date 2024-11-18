@@ -6,7 +6,7 @@ defined('ABSPATH') || exit;
 
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Controllers\Hooks\ShortCodeHandler;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ConditionalHooks
 {
@@ -18,7 +18,7 @@ class ConditionalHooks
     public static function WcConditionalHooks()
     {
         //Snippet Widget 
-        $widgetFactory = new WidgetFactory(Widget::SNIPPET_WIDGET, get_locale(), null);
+        $widgetFactory = new WidgetFactory(SettingsModel::SNIPPET_WIDGET, get_locale(), null);
 
         $widget = $widgetFactory->widget;
 

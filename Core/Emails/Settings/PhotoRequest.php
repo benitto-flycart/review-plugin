@@ -7,31 +7,15 @@ defined('ABSPATH') || exit;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
-use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class PhotoRequest extends Emails
 {
     public function __construct($language)
     {
         $this->locale = $language;
-
-        $photoRequest = EmailSetting::query()
-            ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::PHOTO_REQUEST_TYPE])
-            ->first();
-
-        if (empty($photoRequest)) {
-            $settings =  $this->getDefaults($this->locale);
-            $this->status = 'active';
-        } else {
-            $settings = $photoRequest->settings;
-            $settings = EmailSetting::getReviewSettingsAsArray($settings);
-
-            $this->status = $photoRequest->status;
-        }
-
-        $this->settings = $settings;
-        $this->placeholders = $this->getPlaceHolders();
+        $this->email_type = SettingsModel::EMAIL_PHOTO_REQUEST_TYPE;
+        $this->init();
     }
 
     public function getDefaults()

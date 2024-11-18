@@ -10,6 +10,7 @@ use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\OrderReview;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class OrderPlacedController
 {
@@ -54,7 +55,7 @@ class OrderPlacedController
             $notificationHistory = NotificationHistory::query()
                 ->where(
                     "model_id = %d AND model_type = %s AND notify_type = %s AND medium = %s",
-                    [$order_id, 'shop_order', EmailSetting::REVIEW_REQUEST_TYPE, NotificationHistory::MEDIUM_EMAIL]
+                    [$order_id, 'shop_order', SettingsModel::EMAIL_REVIEW_REQUEST_TYPE, NotificationHistory::MEDIUM_EMAIL]
                 )
                 ->first();
 
@@ -64,7 +65,7 @@ class OrderPlacedController
                     'model_type' => 'shop_order',
                     'order_id' => $order_id,
                     'status' =>  'pending',
-                    'notify_type' => EmailSetting::REVIEW_REQUEST_TYPE,
+                    'notify_type' => SettingsModel::EMAIL_REVIEW_REQUEST_TYPE,
                     'medium' => NotificationHistory::MEDIUM_EMAIL,
                     'created_at' => Functions::currentUTCTime(),
                     'updated_at' => Functions::currentUTCTime(),

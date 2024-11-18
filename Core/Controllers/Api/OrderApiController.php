@@ -12,6 +12,7 @@ use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\OrderReview;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Resources\OrderListCollection;
 use Flycart\Review\Core\Validation\OrderAction\OrderUpdateRequest;
 use Flycart\Review\Package\Request\Request;
@@ -84,7 +85,7 @@ class OrderApiController
                         $notificationHistoryTable,
                         "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id 
                             AND {$notificationHistoryTable}.model_type = 'shop_order'
-                            AND {$notificationHistoryTable}.notify_type = '" . EmailSetting::REVIEW_REQUEST_TYPE . "'"
+                            AND {$notificationHistoryTable}.notify_type = '" . SettingsModel::EMAIL_REVIEW_REQUEST_TYPE . "'"
                     )
                     ->leftJoin(
                         $reviewsTable,
@@ -149,7 +150,7 @@ class OrderApiController
                             $notificationHistoryTable,
                             "{$notificationHistoryTable}.model_id = {$orderItemTable}.order_id 
                             AND {$notificationHistoryTable}.model_type = 'shop_order'
-                            AND {$notificationHistoryTable}.notify_type = '" . EmailSetting::REVIEW_REQUEST_TYPE . "'"
+                            AND {$notificationHistoryTable}.notify_type = '" . SettingsModel::EMAIL_REVIEW_REQUEST_TYPE . "'"
                         )
                         ->leftJoin(
                             $reviewsTable,
@@ -205,7 +206,7 @@ class OrderApiController
                 'email' => $orderObj->get_billing_email(),
                 'email_status' => $groupedByOrderId[$order->order_id][0]['email_status'],
                 'created_at'   => Functions::getWcTimeFromGMT($order->date_created),
-                'order_items' => $groupedByOrderId[$order->order_id],
+                'order_items' => $groupedByOrderId[$order->order_id] ?? [],
             );
         }
 
@@ -265,7 +266,7 @@ class OrderApiController
             $notificationHistory = NotificationHistory::query()
                 ->where(
                     "model_id = %d AND model_type = %s AND notify_type = %s AND medium = %s",
-                    [$order_id, 'shop_order', EmailSetting::REVIEW_REQUEST_TYPE, NotificationHistory::MEDIUM_EMAIL]
+                    [$order_id, 'shop_order', SettingsModel::EMAIL_REVIEW_REQUEST_TYPE, NotificationHistory::MEDIUM_EMAIL]
                 )
                 ->first();
 
@@ -275,7 +276,7 @@ class OrderApiController
                     'model_type' => 'shop_order',
                     'order_id' => $order_id,
                     'status' =>  $type == 'send_mail' ? 'processing' : 'cancelled',
-                    'notify_type' => EmailSetting::REVIEW_REQUEST_TYPE,
+                    'notify_type' => SettingsModel::email_REVIEW_REQUEST_TYPE,
                     'medium' => NotificationHistory::MEDIUM_EMAIL,
                     'created_at' => Functions::currentUTCTime(),
                     'updated_at' => Functions::currentUTCTime(),

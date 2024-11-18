@@ -6,7 +6,7 @@ defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Resource;
-use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ReviewDiscountNotifySettingResource extends Resource
 {
@@ -15,9 +15,9 @@ class ReviewDiscountNotifySettingResource extends Resource
         return [
             'language' => $settings['language'],
             'language_label' => WordpressHelper::getLanguageLabel($settings['language']),
-            'type' => EmailSetting::DISCOUNT_NOTIFY_TYPE,
+            'type' => SettingsModel::EMAIL_DISCOUNT_NOTIFY_TYPE,
             'status' => $settings['status'],
-            'settings' => EmailSetting::getReviewSettingsAsArray($settings['settings']),
+            'settings' => $settings['settings'],
             'placeholders' => $settings['placeholders'],
         ];
     }

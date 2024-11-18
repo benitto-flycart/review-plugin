@@ -7,6 +7,7 @@ defined('ABSPATH') || exit;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Resource;
 use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ReviewRequestResource extends Resource
 {
@@ -15,7 +16,7 @@ class ReviewRequestResource extends Resource
         return [
             'language' => $review_request['language'],
             'language_label' => WordpressHelper::getLanguageLabel($review_request['language']),
-            'type' => EmailSetting::REVIEW_REQUEST_TYPE,
+            'type' => SettingsModel::EMAIL_REVIEW_REQUEST_TYPE,
             'status' => $review_request['status'],
             'settings' => $review_request['settings'],
             'placeholders' => $review_request['placeholders'],

@@ -3,7 +3,7 @@
 /**
  * Plugin Name:          Flycart Reviews
  * Description:          Reviews for Woo Commerce
- * Version:              2.0
+ * Version:              3.0
  * Requires at least:    5.9
  * Requires PHP:         7.3
  * Author:               FlycartReviews
@@ -16,17 +16,14 @@
  * WC requires at least: 7.0
  */
 
-
-// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-
 defined('ABSPATH') or exit;
 
 defined('F_Review_PLUGIN_PATH') or define('F_Review_PLUGIN_PATH', plugin_dir_path(__FILE__));
 defined('F_Review_PLUGIN_URL') or define('F_Review_PLUGIN_URL', plugin_dir_url(__FILE__));
 defined('F_Review_PLUGIN_FILE') or define('F_Review_PLUGIN_FILE', __FILE__);
 defined('F_Review_PLUGIN_NAME') or define('F_Review_PLUGIN_NAME', 'Review F');
-defined('F_Review_PLUGIN_SLUG') or define('F_Review_PLUGIN_SLUG', "wp-relay");
-defined('F_Review_VERSION') or define('F_Review_VERSION', "2.0");
+defined('F_Review_PLUGIN_SLUG') or define('F_Review_PLUGIN_SLUG', "flycart-review");
+defined('F_Review_VERSION') or define('F_Review_VERSION', "3.0");
 defined('F_Review_PREFIX') or define('F_Review_PREFIX', "f_review_");
 
 /**
