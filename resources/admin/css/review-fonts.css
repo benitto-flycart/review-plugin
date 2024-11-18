@@ -157,16 +157,16 @@
 .farp-compact:before {
   content: "\e943";
 }
-.farp-rounded-1:before {
+.farp-rounded:before {
   content: "\e901";
 }
 .farp-sharp:before {
   content: "\e9ca";
 }
-.farp-rounded-2:before {
+.farp-slightly-rounded:before {
   content: "\e9cb";
 }
-.farp-rounded-3:before {
+.farp-extra-rounded:before {
   content: "\e9cc";
 }
 .farp-dark:before {
