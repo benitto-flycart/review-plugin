@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
         <div class="r_rfw_header" style="float: right">
             <button class="r_rfw_btn r_rfw_dialog_close_icon"
                 style="color: rgb(231, 6, 128); background-color: rgb(254, 210, 234);"><span
-                    class="review review-cross-icon"></span></button>
+                    class="farp farp-cross-icon"></span></button>
         </div>
         <div class="r_rfw_main_content_wrapper" style="padding: 2rem;">
             <p>

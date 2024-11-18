@@ -8,7 +8,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
 <div class="r_rdw_container"
     style="<?php echo $styles ?>">
     <div class="r_rdw_close_icon">
-        <i class="review review-cross-icon"></i>
+        <i class="farp farp-cross-icon"></i>
     </div>
     <div class="r_rdw-main_content">
         <?php if ($reviewObj->hasImages()): ?>
@@ -24,8 +24,8 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                     </div>
                     <?php if ($reviewObj->getImagesCount() != 1) : ?>
                         <div class="r_rdw-slide-actions">
-                            <button class="prev "><i class="review review-caret-left"></i></button>
-                            <button class="next disabled" disabled=""><i class="review review-caret-right"></i></button>
+                            <button class="prev "><i class="farp farp-caret-left"></i></button>
+                            <button class="next disabled" disabled=""><i class="farp farp-caret-right"></i></button>
                         </div>
                     <?php endif ?>
                 </div>
@@ -49,7 +49,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                 <div class="r_rdw-spread-container">
                     <div class="r_rdw-title"><?php echo esc_attr($reviewObj->getReviewerName()) ?></div>
                     <div class="r_rdw-overview">
-                        <button class="r_rdw-button-info"><i class="review review-info"></i></button>
+                        <button class="r_rdw-button-info"><i class="farp farp-info"></i></button>
                         <div class="r_rdw-i-verified-notification r_rdw_verified-notification-info-toggle"><span>This review was written by a site visitor.</span>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review)
                     <?php if ($reviewObj->isRatingGiven()): ?>
                         <div class="r_rdw-review-icons">
                             <?php foreach (range(0, 4) as $index) { ?>
-                                <i class="review review-<?php echo $index < $reviewObj->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                <i class="farp farp-<?php echo $index < $reviewObj->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                             <?php } ?>
                         </div>
                     <?php endif ?>
