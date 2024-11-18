@@ -41,6 +41,14 @@ const RatingWidgetConfigSetting = ({name}: any) => {
                                 })
                             }}/>
                         </SidebarDetailField>
+                        <SidebarDetailField>
+                            <Label className={"frt-text-xs"} htmlFor="none">Reply background Color</Label>
+                            <PopOverColorPicker color={widget.colors.secondary_bg_color} onChange={(color: string) => {
+                                updateWidgetFields((draftState: any) => {
+                                    draftState.colors.secondary_bg_color = color;
+                                })
+                            }}/>
+                        </SidebarDetailField>
                     </div>
                 </SidebarDetailSection>
                 <SidebarDetailSection title={"Button"}>

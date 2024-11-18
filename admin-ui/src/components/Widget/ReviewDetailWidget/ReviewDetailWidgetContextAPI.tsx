@@ -25,6 +25,7 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
             text_color: '#040304',
             button_text_color: '#000000',
             button_bg_color: '#9e9e9e',
+            secondary_bg_color:"#f1f1f1"
         },
         custom_css:{
             is_enabled:false,
@@ -34,7 +35,7 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
 
     const buildStateFromResponse = (settings: any) => {
         updateWidgetFields((draftState: any) => {
-            draftState.colors.dialog_bg_color = settings?.colors.dialog_bg_color;
+            draftState.colors.secondary_bg_color = settings?.colors.secondary_bg_color;
             draftState.colors.rating_icon_color = settings?.colors.rating_icon_color;
             draftState.colors.text_color = settings?.colors.text_color;
             draftState.colors.button_text_color = settings?.colors.button_text_color;
@@ -94,6 +95,7 @@ function ReviewDetailWidgetContextAPI({children}: { children: any }) {
                 "--r-rdw-text-color": widget.colors.text_color,
                 "--r-rdw-btn-text-color": widget.colors.button_text_color,
                 "--r-rdw-btn-bg-color": widget.colors.button_bg_color,
+                "--r-rdw-secondary_bg-color": widget.colors.secondary_bg_color,
             }
         },
         saveSettings,

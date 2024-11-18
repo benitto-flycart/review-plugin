@@ -12,6 +12,7 @@ defined('ABSPATH') || exit;
         border: none;
         outline: none;
         box-sizing: border-box;
+        border-radius: 20px;
         padding: 0;
     }
 </style>
