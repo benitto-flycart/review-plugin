@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 <div class="r_pw_eh_container">
     <div class="r_pw_header_rating_container r_pw_eh_rating_container">
         <div class="r_pw_eh_rating_overview">
-            <i class="review-icon review review-gem review-icon-filled"></i>
+            <i class="review-icon farp farp-gem review-icon-filled"></i>
             <span><?php echo $data['ratings']['overall_rating'] ?></span>
         </div>
         <span><?php echo esc_attr__($data['total'] . " Reviews") ?></span>
@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
             <div class="r_pw_h_rd_detail r_pw_eh_rating_details" data-rating="<?php echo $index + 1 ?>">
                 <div class="r_pw_eh_rating_details--icons-info">
                     <?php foreach (range(0, 4) as $i) { ?>
-                        <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                        <i class="farp farp-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                     <?php } ?>
                 </div>
                 <div class="r_pw_eh_rating_details--progress_bar_container">
@@ -44,7 +44,7 @@ defined('ABSPATH') || exit;
                 <div class="r_pw_h_sorting_container--trigger r_pw_h_popover-trigger" aria-haspopup="true"
                     aria-expanded="false" aria-controls="popover-content">
                     <button type="button" class="r_pw_header_button r_pw_eh_actions_container--sorting_container-btn">
-                        <i class="review review-rocket"></i>
+                        <i class="farp farp-rocket"></i>
                     </button>
                 </div>
             </div>

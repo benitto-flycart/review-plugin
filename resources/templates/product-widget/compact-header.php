@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 <div class="r_pw_ch_container">
     <div class="r_pw_ch_rating_container">
         <div class="r_pw_ch_rating">
-            <i class="review-icon review review-gem review-icon-filled"></i>
+            <i class="review-icon farp farp-gem review-icon-filled"></i>
             <span><?php echo $data['ratings']['overall_rating'] ?></span>
         </div>
         <span><?php echo esc_attr__($data['total'] . " Reviews") ?></span>
@@ -27,7 +27,7 @@ defined('ABSPATH') || exit;
                 data-rating="<?php echo $index + 1 ?>">
                 <div class="r_pw_ch_rd_detail_icon">
                     <?php foreach (range(0, 4) as $i) { ?>
-                        <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                        <i class="farp farp-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                     <?php } ?>
                 </div>
                 <div class="r_pw_ch_rd_detail_progress_bar">
@@ -56,7 +56,7 @@ defined('ABSPATH') || exit;
                 <div class="r_pw_h_sorting_container--trigger r_pw_h_sorting_container--trigger r_pw_h_popover-trigger" aria-haspopup="true"
                     aria-expanded="false" aria-controls="popover-content">
                     <button type="button" class="r_pw_header_button r_pw_ch_actions_sorting_container_btn">
-                        <i class="review review-rocket"></i>
+                        <i class="farp farp-rocket"></i>
                     </button>
                 </div>
             </div>

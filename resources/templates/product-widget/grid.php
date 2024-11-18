@@ -19,7 +19,7 @@ defined('ABSPATH') || exit;
                             <?php echo $reviewObject->getReviewerName() ?>
                         </span>
                         <span class="r_pw_r--review-is-verified r_pw_r_g_container--review-is-verified">
-                            <i class="review review-trophy"></i>
+                            <i class="farp farp-trophy"></i>
                         </span>
                     </div>
                     <span class="r_pw_r_g_container--review-date <?php echo !$widget->isReviewDateEnabled() ? 'r_pw_hide' : '' ?>">
@@ -28,7 +28,7 @@ defined('ABSPATH') || exit;
                     <?php if ($reviewObject->isRatingGiven()): ?>
                         <div class="r_pw_r_g_container--review-rating-details">
                             <?php foreach (range(0, 4) as $index) { ?>
-                                <i class="review review-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                <i class="farp farp-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                             <?php } ?>
                         </div>
                     <?php endif ?>

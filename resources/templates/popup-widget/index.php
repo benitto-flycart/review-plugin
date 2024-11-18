@@ -8,7 +8,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review);
 <div class="r_puw_container <?php echo $widget->getCornerRadiusClass() ?>"
     style="<?php echo $styles ?>" onclick="REVIEW_DETAIL_WIDGET(<?php echo esc_attr($reviewObj->getId()) ?>)">
     <span class="r_puw_close-icon">
-        <i class="review review-cross-icon"></i>
+        <i class="farp farp-cross-icon"></i>
     </span>
     <div class="r_puw-review_wrapper">
         <?php if ($reviewObj->hasImages()) { ?>
@@ -21,7 +21,7 @@ $reviewObj = new \Flycart\Review\App\Helpers\ReviewHelper($review);
             <?php if ($reviewObj->isRatingGiven()) : ?>
                 <div class="r_puw-review-details-icons">
                     <?php foreach (range(0, 4) as $index) { ?>
-                        <i class="review review-<?php echo $index < $reviewObj->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                        <i class="farp farp-<?php echo $index < $reviewObj->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                     <?php } ?>
                 </div>
             <?php endif ?>
