@@ -212,6 +212,10 @@ class Functions
             return null;
         }
 
+        if (is_string($data)) {
+            return $data;
+        }
+
         return wp_json_encode($data, true);
     }
 

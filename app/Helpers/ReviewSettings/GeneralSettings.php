@@ -7,6 +7,7 @@ defined('ABSPATH') || exit;
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Models\ReviewSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class GeneralSettings extends ReviewSettings
 {
@@ -14,11 +15,14 @@ class GeneralSettings extends ReviewSettings
 
     public function __construct()
     {
-        $brand_setting = ReviewSetting::query()
-            ->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
+        $this->settings_type = SettingsModel::GENERAL_SETTINGS;
+
+        $general_settings = SettingsModel::query()
+            ->where("type = %s", [SettingsModel::SETTINGS_TYPE])
+            ->where("sub_type = %s", [$this->settings_type])
             ->first();
 
-        $data = Functions::jsonDecode($brand_setting->meta_value);
+        $data = Functions::jsonDecode($general_settings->settings ?? '{}');
 
         $this->generalSettings = $this->mergeWithDefault($data);
     }
@@ -36,6 +40,8 @@ class GeneralSettings extends ReviewSettings
             'order_status' => $settings['order_status'] ?? 'wc-completed',
             'review_font_family' => $settings['review_font_family'] ?? '',
             'review_font_variant_value' => $settings['review_font_variant_value'] ?? '',
+            'review_image_size_max_limit' => $settings['review_image_size_max_limit'] ?? null,
+            'review_image_upload_max_limit' => $settings['review_image_upload_max_limit'] ?? null,
             'emails' => [
                 'send_replies_to' => $settings['emails']['send_replies_to'] ?? '',
                 'enable_email_footer' => Functions::getBoolValue($settings['emails']['enable_email_footer'] ?? false),
@@ -75,6 +81,8 @@ class GeneralSettings extends ReviewSettings
             $data['order_status'] = $request->get('order_status');
             $data['review_font_family'] = $request->get('review_font_family') ?? '';
             $data['review_font_variant_value'] = $request->get('review_font_variant_value') ?? '';
+            $data['review_image_size_max_limit'] = $request->get('review_image_size_max_limit') ?? '';
+            $data['review_image_upload_max_limit'] = $request->get('review_image_upload_max_limit') ?? '';
         }
         return $this->mergeWithDefault($data);
     }

@@ -13,9 +13,10 @@ class BrandSettings extends ReviewSettings
 
     public function __construct()
     {
+        $this->settings_type = SettingsModel::BRAND_SETTINGS;
         $brand_setting = SettingsModel::query()
             ->where("type = %s", [SettingsModel::SETTINGS_TYPE])
-            ->where("sub_type = %s", [SettingsModel::BRAND_SETTINGS])
+            ->where("sub_type = %s", [$this->settings_type])
             ->first();
 
         $data = Functions::jsonDecode($brand_setting->settings ?? '{}');
