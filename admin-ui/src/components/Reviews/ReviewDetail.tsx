@@ -357,7 +357,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="frt-flex frt-justify-between frt-items-center">
+          <div className="frt-flex frt-justify-between frt-items-center frt-mt-1">
           {(review.replies.length
                   ? replyEditButtonLabel
                   : replyAddButtonLabel
@@ -366,14 +366,10 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                     <Tooltip.Root>
                       <Tooltip.Trigger>
                         {review.replies.length 
-                        ? <ReplyAll 
-                        key={label.value} 
-                        onClick={() => handleReplyButtonAction(label.value)} 
-                        className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" /> 
-                        : <Pencil  
-                            key={label.value} 
-                            onClick={() => handleReplyButtonAction(label.value)} 
-                            className="frt-h-5 frt-w-5 hover:frt-cursor-pointer" />}
+                        ? <i className="farp farp-edit  lg:frt-text-xl  md:frt-text-4.5 frt-text-4.5" key={label.value} 
+                        onClick={() => handleReplyButtonAction(label.value)} ></i>:
+                        <i className="farp farp-add-circle  lg:frt-text-xl  md:frt-text-4.5 frt-text-4.5" key={label.value} 
+                        onClick={() => handleReplyButtonAction(label.value)} ></i>}
                       </Tooltip.Trigger>
                       <Tooltip.Portal>
                         <Tooltip.Content side="bottom">
