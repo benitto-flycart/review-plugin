@@ -10,6 +10,7 @@ use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Models\NotificationHistory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Resources\ReviewListCollection;
 use Flycart\Review\Core\Validation\ReviewAction\PhotoActionRequest;
 use Flycart\Review\Core\Validation\ReviewAction\ReviewBulkActionRequest;
@@ -276,7 +277,7 @@ class ReviewApiController
                         'model_type' => 'product',
                         'status' =>  'pending',
                         'order_id' =>  NULL,
-                        'notify_type' => EmailSetting::REPLY_REQUEST_TYPE,
+                        'notify_type' => SettingsModel::EMAIL_REVIEW_REPLY_TYPE,
                         'medium' => NotificationHistory::MEDIUM_EMAIL,
                         'created_at' => Functions::currentUTCTime(),
                         'updated_at' => Functions::currentUTCTime(),

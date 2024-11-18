@@ -9,7 +9,7 @@ use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 use Flycart\Review\Core\Controllers\Helpers\Widget\RatingWidget;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class RatingWidgetShortCode
 {
@@ -21,7 +21,7 @@ class RatingWidgetShortCode
             $widget = flycart_review_app()->get('rating_widget_object');
 
             if (empty($widget)) {
-                $widgetFactory = new WidgetFactory(Widget::RATING_WIDGET, get_locale(), null);
+                $widgetFactory = new WidgetFactory(SettingsModel::RATING_WIDGET, get_locale(), null);
                 $widget = $widgetFactory->widget;
                 flycart_review_app()->set('rating_widget_object', $widget);
             }

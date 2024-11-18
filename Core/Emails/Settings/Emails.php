@@ -4,11 +4,10 @@ namespace Flycart\Review\Core\Emails\Settings;
 
 defined('ABSPATH') || exit;
 
+use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\WC;
-
-/*
-*/
+use Flycart\Review\Core\Models\SettingsModel;
 
 abstract class Emails
 {
@@ -20,6 +19,52 @@ abstract class Emails
     public $settings = [];
 
     public $placeholders = [];
+
+    public $statuses = [];
+
+    public $email_type;
+
+    public function init()
+    {
+        $previous = SettingsModel::query()
+            ->where("language = %s", [$this->locale])
+            ->where("type = %s", [SettingsModel::EMAIL_TYPE])
+            ->where("sub_type = %s", [$this->email_type])
+            ->first();
+
+        if (empty($previous)) {
+            $settings =  $this->getDefaults($this->locale);
+        } else {
+            $settings = $previous->settings;
+            $settings = $this->settingsAsArray($settings);
+        }
+
+        $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
+
+        # code...
+    }
+    // public function __construct($language)
+    // {
+    //
+    //     $this->locale = $language;
+    //
+    //     $settings = get_option(SettingsModel::STATUS_OPTION_KEY, "[]");
+    //
+    //
+    //     if (is_string($settings)) {
+    //         $settings = Functions::jsonDecode($settings);
+    //     }
+    //
+    //     $email_settings = $this->getCurrentLocaleStatues($settings);
+    //
+    //     error_log('printing email settings');
+    //     error_log(print_r($email_settings, true));
+    //
+    //     $this->statuses = $email_settings;
+    //
+    //     error_log(print_r($this->statuses, true));
+    // }
 
     abstract public function getPlaceHolders();
 
@@ -128,5 +173,58 @@ abstract class Emails
     private function formatValue($value)
     {
         return nl2br($value);
+    }
+
+    public function settingsAsArray($settings)
+    {
+        if (is_array($settings)) return $settings;
+
+        return Functions::jsonDecode($settings);
+    }
+
+    public function getCurrentLocaleStatues($settings)
+    {
+        if (!empty($settings['emails'])) {
+            $emails_settings = $settings['emails'];
+            if (!empty($emails_settings[$this->locale])) {
+                $current_locale_emails_settings = $emails_settings[$this->locale];
+                return $current_locale_emails_settings;
+            }
+        }
+
+        return [];
+    }
+
+    public function saveSettings($data)
+    {
+        $previous = SettingsModel::query()
+            ->where(
+                "language = %s AND type = %s AND sub_type = %s",
+                [
+                    $this->locale,
+                    SettingsModel::EMAIL_TYPE,
+                    $this->email_type
+                ]
+            )
+            ->first();
+
+        if (empty($previous)) {
+            $updated = SettingsModel::query()->create([
+                'type' => SettingsModel::EMAIL_TYPE,
+                'sub_type' => $this->email_type,
+                'language' => $this->locale,
+                'settings' => Functions::jsonEncode($data),
+            ]);
+        } else {
+            $updated = SettingsModel::query()->update([
+                'type' => SettingsModel::EMAIL_TYPE,
+                'sub_type' => $this->email_type,
+                'settings' => Functions::jsonEncode($data),
+            ], [
+                'language' => $this->locale,
+            ]);
+        }
+
+        return $updated;
     }
 }

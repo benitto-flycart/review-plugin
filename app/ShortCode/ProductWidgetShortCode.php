@@ -8,7 +8,7 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 
 /**
  * Shortcode class for Product Widget.
@@ -20,7 +20,7 @@ class ProductWidgetShortCode
      */
     public static function getProductWidgetConfigValues(): array
     {
-        $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+        $widgetFactory = new WidgetFactory(SettingsModel::PRODUCT_WIDGET, get_locale(), null);
         $widget = $widgetFactory->widget;
 
         $header =        $widget->getHeaderLayout();

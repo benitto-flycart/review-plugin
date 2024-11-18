@@ -9,14 +9,14 @@ defined('ABSPATH') || exit;
             <?php if (!$widget->isSingleIconEnabled()) : ?>
                 <div class="r_rw_rating_icons">
                     <?php foreach (range(0, 4) as $index) { ?>
-                        <i class="review review-<?php echo $index < $rating_count ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                        <i class="farp farp-<?php echo $index < $rating_count ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                     <?php } ?>
                 </div>
             <?php endif ?>
 
             <?php if ($widget->isSingleIconEnabled()) : ?>
                 <div class="r_rw_single_rating_icon">
-                    <i class="review review-<?php echo $data['ratings']['rating_icon'] ?>"></i>
+                    <i class="farp farp-<?php echo $data['ratings']['rating_icon'] ?>"></i>
                 </div>
             <?php endif ?>
 

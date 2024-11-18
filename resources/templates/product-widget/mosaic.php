@@ -12,13 +12,13 @@ defined('ABSPATH') || exit;
                     <div class="r_pw_reviewer_name_container">
                         <span><?php echo $reviewObject->getReviewerName() ?></span>
                         <span class="r_pw_r--review-is-verified r_pw_r_m_container--review-is-verified">
-                            <i class="review review-trophy"></i>
+                            <i class="farp farp-trophy"></i>
                         </span>
                     </div>
                     <?php if ($reviewObject->isRatingGiven()): ?>
                         <div class="r_pw_r_m_review-details--review-icons">
                             <?php foreach (range(0, 4) as $index) { ?>
-                                <i class="review review-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                <i class="farp farp-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                             <?php } ?>
                         </div>
                     <?php endif ?>

@@ -42,32 +42,14 @@ class SettingsController
         Database::beginTransaction();
 
         try {
-            $data = (new DiscountSettings())->getFromRequest($request);
+            $discountSettings = (new DiscountSettings());
+            $data = $discountSettings->getFromRequest($request);
+            $discountSettings->save($data);
 
-            $data = Functions::jsonEncode($data);
-
-            $discount_settings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::DISCOUNT_SETTINGS])
-                ->first();
-
-            if (empty($discount_settings)) {
-                ReviewSetting::query()->create([
-                    'meta_key' => ReviewSetting::DISCOUNT_SETTINGS,
-                    'meta_value' => $data,
-                    'created_at' => Functions::currentUTCTime(),
-                    'updated_at' => Functions::currentUTCTime(),
-                ]);
-            } else {
-                ReviewSetting::query()->update([
-                    'meta_value' => $data,
-                    'updated_at' => Functions::currentUTCTime(),
-                ], [
-                    'meta_key' => ReviewSetting::DISCOUNT_SETTINGS,
-                ]);
-            }
             Database::commit();
 
             return Response::success([
-                'message' => __('Discount Settings Saved Successfully', 'flycart-review'),
+                'message' => __('Settings Saved Successfully', 'flycart-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
@@ -80,8 +62,7 @@ class SettingsController
     public static function getBrandSettings()
     {
         try {
-            $data = ReviewSetting::getBrandSetting();
-
+            $data = (new BrandSettings())->get();
             return BrandSettingsResponse::resource([$data]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
@@ -97,33 +78,14 @@ class SettingsController
         Database::beginTransaction();
 
         try {
-            $data = (new BrandSettings())->getFromRequest($request);
-
-            $data = Functions::jsonEncode($data);
-
-            $brand_setting = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::BRAND_SETTINGS])
-                ->first();
-
-            if (empty($brand_setting)) {
-                ReviewSetting::query()->create([
-                    'meta_key' => ReviewSetting::BRAND_SETTINGS,
-                    'meta_value' => $data,
-                    'created_at' => Functions::currentUTCTime(),
-                    'updated_at' => Functions::currentUTCTime(),
-                ]);
-            } else {
-                ReviewSetting::query()->update([
-                    'meta_value' => $data,
-                    'updated_at' => Functions::currentUTCTime(),
-                ], [
-                    'meta_key' => ReviewSetting::BRAND_SETTINGS,
-                ]);
-            }
+            $brandSettings = (new BrandSettings());
+            $data = $brandSettings->getFromRequest($request);
+            $brandSettings->save($data);
 
             Database::commit();
 
             return Response::success([
-                'message' => __('Brand Settings Saved Successfully', 'flycart-review'),
+                'message' => __('Settings Saved Successfully', 'flycart-review'),
             ]);
         } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
@@ -139,7 +101,11 @@ class SettingsController
 
             $type = $request->get('settings_type', 'general');
 
+
             $data = (new GeneralSettings())->get();
+
+            error_log('printing general settings data');
+            error_log(print_r($data, true));
 
             return GeneralSettingsResource::resource([$data, $type == 'email']);
         } catch (\Exception | \Error $exception) {
@@ -156,28 +122,10 @@ class SettingsController
         Database::beginTransaction();
 
         try {
-            $data = (new GeneralSettings())->getFromRequest($request);
-
-            $data = Functions::jsonEncode($data);
-
-            $general_settings = ReviewSetting::query()->where("meta_key = %s", [ReviewSetting::GENERAL_SETTINGS])
-                ->first();
-
-            if (empty($general_settings)) {
-                ReviewSetting::query()->create([
-                    'meta_key' => ReviewSetting::GENERAL_SETTINGS,
-                    'meta_value' => $data,
-                    'created_at' => Functions::currentUTCTime(),
-                    'updated_at' => Functions::currentUTCTime(),
-                ]);
-            } else {
-                ReviewSetting::query()->update([
-                    'meta_value' => $data,
-                    'updated_at' => Functions::currentUTCTime(),
-                ], [
-                    'meta_key' => ReviewSetting::GENERAL_SETTINGS,
-                ]);
-            }
+            $generalSettings = (new GeneralSettings());
+            $data = $generalSettings->getFromRequest($request);
+            error_log(print_r($data, true));
+            $generalSettings->save($data);
 
             Database::commit();
 

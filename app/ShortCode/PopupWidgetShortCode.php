@@ -12,6 +12,7 @@ use Flycart\Review\App\Route;
 use Flycart\Review\Core\Controllers\Helpers\Widget\PopupWidget;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Models\Widget;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -21,7 +22,7 @@ class PopupWidgetShortCode
     public static function register()
     {
         add_shortcode('review_popup_widget', function () {
-            $widgetFactory = new WidgetFactory(Widget::POPUP_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(SettingsModel::POPUP_WIDGET, get_locale(), null);
             $widget = $widgetFactory->widget;
 
             $is_cart_page = is_cart();
@@ -121,7 +122,7 @@ class PopupWidgetShortCode
 
             $review = $reviews[0];
 
-            $widgetFactory = new WidgetFactory(Widget::POPUP_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(SettingsModel::POPUP_WIDGET, get_locale(), null);
 
             $widget = $widgetFactory->widget;
 

@@ -2,9 +2,9 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
-defined('ABSPATH') || exit;
+use Flycart\Review\Core\Models\SettingsModel;
 
-use Flycart\Review\Core\Models\Widget as WidgetAlias;
+defined('ABSPATH') || exit;
 
 class FloatingProductWidget extends Widget implements WidgetInterface
 {
@@ -20,7 +20,7 @@ class FloatingProductWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return WidgetAlias::FLOATING_WIDGET;
+        return SettingsModel::FLOATING_WIDGET;
     }
 
     public function getRequestFromSettings()

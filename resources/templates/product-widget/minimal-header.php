@@ -6,7 +6,7 @@ defined('ABSPATH') || exit;
     <div class="r_pw_header_rating_container r_pw_mh_rating_container">
         <div class="r_pw_mh_rating_details">
             <?php foreach (range(0, 4) as $i) { ?>
-                <i class="review review-<?php echo $data['ratings']['overall_rating'] >= $i ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                <i class="farp farp-<?php echo $data['ratings']['overall_rating'] >= $i ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
             <?php } ?>
         </div>
         <div class="r_pw_mh_overall_reviews">
@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
                 class="r_pw_mh_overall_reviews_count">
                 <?php echo esc_attr__($data['total'] . " Reviews") ?></span>
             <span class="r_pw_mh_filter r_pw_mh_filter_icon_closed <?php echo !$widget->showRatingOptions() ? 'r_pw_hide' : '' ?>">
-                <i class="review review-caret-left"></i>
+                <i class="farp farp-caret-left"></i>
             </span>
             <div class="r_pw_ratings-row-progress-bar-details r_pw_mh_rd_container r_pw_hide">
                 <?php $rating = $data['ratings']; ?>
@@ -22,7 +22,7 @@ defined('ABSPATH') || exit;
                     <div class=" r_pw_h_rd_detail r_pw_mh_rd_detail" data-rating="<?php echo $index + 1 ?>">
                         <div class="r_pw_h_rd_detail_icon r_pw_mh_rd_detail_icon">
                             <?php foreach (range(0, 4) as $i) { ?>
-                                <i class="review review-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                <i class="farp farp-<?php echo $i <= $index ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                             <?php } ?>
                         </div>
                         <div class="r_pw_h_rd_detail_progress_bar r_pw_mh_rd_detail_progress_bar">
@@ -51,7 +51,7 @@ defined('ABSPATH') || exit;
                 <div class="r_pw_h_popover-trigger" aria-haspopup="true"
                     aria-expanded="false" aria-controls="popover-content">
                     <button type="button" class="r_pw_header_button r_pw_mh_actions_sorting_container_btn">
-                        <i class="review review-rocket"></i>
+                        <i class="farp farp-rocket"></i>
                     </button>
                 </div>
             </div>

@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\Core\Models\Widget as WidgetModel;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class SidebarWidget extends Widget implements WidgetInterface
 {
@@ -27,7 +27,7 @@ class SidebarWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return WidgetModel::SIDEBAR_WIDGET;
+        return SettingsModel::SIDEBAR_WIDGET;
     }
 
     public function getRequestFromSettings()
@@ -88,4 +88,3 @@ class SidebarWidget extends Widget implements WidgetInterface
         return $style;
     }
 }
-

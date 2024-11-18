@@ -30,7 +30,7 @@ defined('ABSPATH') || exit;
                                 <div><?php echo ("No name") ?></div>
                                 <div class="r_sw__review_details_icons">
                                     <?php foreach (range(0, 4) as $index) { ?>
-                                        <i class="review review-<?php echo ($index < $reviewObj->getRatting()) ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                        <i class="farp farp-<?php echo ($index < $reviewObj->getRatting()) ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -43,10 +43,10 @@ defined('ABSPATH') || exit;
                 <div class="r_sw__carousel-actions">
                     <button class="r_sw__carousel-button-prev">
 
-                        <i class="review review-caret-left"></i>
+                        <i class="farp farp-caret-left"></i>
                     </button>
                     <button class="r_sw__carousel-button-next">
-                        <i class="review review-caret-right"></i>
+                        <i class="farp farp-caret-right"></i>
                     </button>
                 </div>
             <?php } ?>

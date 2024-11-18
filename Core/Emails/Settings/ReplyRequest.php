@@ -8,30 +8,15 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Helpers\ReviewSettings\GeneralSettings;
 use Flycart\Review\Core\Models\EmailSetting;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class ReplyRequest extends Emails
 {
     public function __construct($language)
     {
         $this->locale = $language;
-
-        $replyRequest = EmailSetting::query()
-            ->where("language = %s", [$this->locale])
-            ->where("type = %s", [EmailSetting::REPLY_REQUEST_TYPE])
-            ->first();
-
-        if (empty($replyRequest)) {
-            $settings = $this->getDefault($this->locale);
-            $this->status = 'active';
-        } else {
-            $settings = $replyRequest->settings;
-            $settings = EmailSetting::getReviewSettingsAsArray($settings);
-
-            $this->status = $replyRequest->status;
-        }
-        $this->settings = $settings;
-
-        $this->placeholders = $this->getPlaceHolders();
+        $this->email_type = SettingsModel::EMAIL_REVIEW_REPLY_TYPE;
+        $this->init();
     }
 
     public function getBody()
@@ -43,7 +28,6 @@ class ReplyRequest extends Emails
     {
         return $this->getValue('subject');
     }
-
 
     public function getPlaceHolders()
     {

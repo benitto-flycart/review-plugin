@@ -8,7 +8,7 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -19,7 +19,7 @@ class ProductWidgetController
         try {
             $path = F_Review_PLUGIN_PATH . 'resources/templates/product-widget/';
 
-            $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+            $widgetFactory = new WidgetFactory(SettingsModel::PRODUCT_WIDGET, get_locale(), null);
             $widget = $widgetFactory->widget;
 
             $header = $widget->getHeaderLayout();

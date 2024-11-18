@@ -32,7 +32,7 @@ defined('ABSPATH') || exit;
             <div id="r_rfw_container_wrapper">
                 <div class="r_fpw-container" style="<?php echo $styles ?>">
                     <div class="r_fpw-close_icon wd_fp_header_container__close_icon">
-                        <i class="review review-cross-icon"></i>
+                        <i class="farp farp-cross-icon"></i>
                     </div>
                     <div class="r_fpw-text_content_wrapper">
                         <span class="r_fpw-text_content_text">Reviews</span>

@@ -8,7 +8,7 @@ use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
 use Flycart\Review\App\Services\Database;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Validation\Widgets\WidgetRequest;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
@@ -180,15 +180,19 @@ class WidgetController
     {
         try {
             $language = $request->get('language');
+            error_log('printing language');
+            error_log($language);
 
-            $widgets = Widget::query()
-                ->where("language = %s", [$language])->get();
+            $settings = SettingsModel::getPluginStatusSettings();
+            $settings = $settings['widgets'][$language] ?? [];
 
-            $statuses = Widget::getDefaultWidgetStatues();
+            $widget_statuses = SettingsModel::getDefaultWidgetStatues();
 
-            foreach ($widgets as $widget) {
-                $statuses[$widget->widget_type] = [
-                    'is_enabled' => $widget->status == Widget::ACTIVE
+            $statuses = [];
+
+            foreach ($widget_statuses  as $key => $value) {
+                $statuses[$key] = [
+                    'is_enabled' => isset($settings[$key]) ? ($settings[$key] == 'active') : $value['is_enabled']
                 ];
             }
 

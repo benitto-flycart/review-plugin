@@ -11,6 +11,8 @@ const EmailSetting = () => {
   const [currentTab, setCurrentTab] = useState<string>("branding");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const availableLanguages = localState.available_languages;
+
   const handleTabChange = (value: string) => {
     setLoading(true);
     setCurrentTab(value);
@@ -19,7 +21,11 @@ const EmailSetting = () => {
 
   return (
     <div className="frt-my-4 frt-px-4 frt-flex frt-flex-col frt-gap-3">
-      <Tabs defaultValue="branding" className="frt-gap-3"  onValueChange={handleTabChange}>
+      <Tabs
+        defaultValue="branding"
+        className="frt-gap-3"
+        onValueChange={handleTabChange}
+      >
         <TabsList className="frt-my-2">
           <TabsTrigger className="tabs-trigger frt-w-full" value="branding">
             Branding
@@ -32,7 +38,7 @@ const EmailSetting = () => {
           <Branding />
         </TabsContent>
         <TabsContent value="general" className="!frt-w-full">
-          <Setting/>
+          <Setting />
         </TabsContent>
       </Tabs>
     </div>

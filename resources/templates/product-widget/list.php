@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
                     <div class="r_pw_r_l_container--review_details--rating_details">
                         <div class="r_pw_r_l_container--review_details--rating_details_icons">
                             <?php foreach (range(0, 4) as $index) { ?>
-                                <i class="review review-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
+                                <i class="farp farp-<?php echo $index < $reviewObject->getRatting() ? $data['ratings']['rating_icon'] : $data['ratings']['rating_outline_icon']; ?>"></i>
                             <?php } ?>
                         </div>
                     </div>

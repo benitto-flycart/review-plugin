@@ -17,7 +17,8 @@ class GeneralSettingsResource extends Resource
                 'order_status' => $settings['order_status'],
                 'review_font_family' => $settings['review_font_family'],
                 'review_font_variant_value' => $settings['review_font_variant_value'],
-
+                'review_image_size_max_limit' => $settings['review_image_size_max_limit'] ?? '',
+                'review_image_upload_max_limit' => $settings['review_image_upload_max_limit'] ?? '',
             ],
         ];
 
