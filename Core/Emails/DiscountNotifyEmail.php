@@ -102,7 +102,7 @@ class DiscountNotifyEmail extends WC_Email
                 'model_type' => 'shop_order',
                 'order_id' => $this->woo_order->get_id(),
                 'status' =>  'pending',
-                'notify_type' => SettingsModel::EMAIL_DISCOUNT_REMINDER_TYPE,
+                'notify_type' => SettingsModel::email_DISCOUNT_REMINDER_TYPE,
                 'medium' => NotificationHistory::MEDIUM_EMAIL,
                 'created_at' => Functions::currentUTCTime(),
                 'updated_at' => Functions::currentUTCTime(),

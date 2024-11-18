@@ -16,7 +16,6 @@ use Flycart\Review\Core\Emails\Settings\ReviewReminderEmailSetting;
 use Flycart\Review\Core\Emails\Settings\ReviewRequest;
 use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountNotifySettingResource;
-use Flycart\Review\Core\Models\EmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewDiscountReminderEmailSetting;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewPhotoRequestResource;
 use Flycart\Review\Core\Resources\EmailSettings\ReviewRemainderResource;
@@ -427,11 +426,6 @@ class EmailSettingsController
             $language = $request->get('current_locale');
 
             $settings = SettingsModel::getPluginStatusSettings();
-
-            error_log('printing whole settings');
-
-            error_log(print_r($settings, true));
-
             $settings = $settings['emails'][$language] ?? [];
 
             $emails_statues = SettingsModel::getDefaultEmailSettingStatus();

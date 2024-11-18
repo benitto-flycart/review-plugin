@@ -11,7 +11,7 @@ use Flycart\Review\App\Helpers\ReviewSettings\DiscountSettings;
 use Flycart\Review\Core\Controllers\Helpers\Review\Comment;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\Review;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Package\Request\Request;
 use Flycart\Review\Package\Request\Response;
 
@@ -109,7 +109,7 @@ class ReviewFormController
             $widget = flycart_review_app()->get('review_form_widget_object');
 
             if (empty($widget)) {
-                $widgetFactory = new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null);
+                $widgetFactory = new WidgetFactory(SettingsModel::REVIEW_FORM_WIDGET, get_locale(), null);
                 $widget = $widgetFactory->widget;
                 flycart_review_app()->set('review_form_widget_object', $widget);
             }
@@ -294,7 +294,7 @@ class ReviewFormController
 
     protected static function generateDiscountContent($discount_code, $discount_expiry_date)
     {
-        $widget = flycart_review_app()->get('review_form_widget_object') ?? (new WidgetFactory(Widget::REVIEW_FORM_WIDGET, get_locale(), null))->widget;
+        $widget = flycart_review_app()->get('review_form_widget_object') ?? (new WidgetFactory(SettingsModel::REVIEW_FORM_WIDGET, get_locale(), null))->widget;
         flycart_review_app()->set('review_form_widget_object', $widget);
 
         $discount_settings = new DiscountSettings();

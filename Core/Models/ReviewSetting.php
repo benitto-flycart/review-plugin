@@ -4,7 +4,6 @@ namespace Flycart\Review\Core\Models;
 
 defined('ABSPATH') || exit;
 
-use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
 use Flycart\Review\App\Model;
 
@@ -12,9 +11,6 @@ class ReviewSetting extends Model
 {
     protected static $table = 'review_setting';
 
-    public const BRAND_SETTINGS = 'brand_settings';
-    public const GENERAL_SETTINGS = 'general_settings';
-    public const DISCOUNT_SETTINGS = 'discount_settings';
 
     public const SIDEBAR_WIDGET = 'sidebar_product_widget_settings';
     public const FLOATING_WIDGET = 'floating_product_review_widget';
@@ -41,4 +37,3 @@ class ReviewSetting extends Model
         return (new BrandSettings())->get();
     }
 }
-

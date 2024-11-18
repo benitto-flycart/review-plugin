@@ -8,7 +8,7 @@ use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class FloatingProductWidgetShortCode
 {
@@ -19,7 +19,7 @@ class FloatingProductWidgetShortCode
             $widget = flycart_review_app()->get('floating_widget_object');
 
             if (empty($widget)) {
-                $widgetFactory = new WidgetFactory(Widget::FLOATING_WIDGET, get_locale(), null);
+                $widgetFactory = new WidgetFactory(SettingsModel::FLOATING_WIDGET, get_locale(), null);
                 $widget = $widgetFactory->widget;
                 flycart_review_app()->set('floating_widget_object', $widget);
             }
@@ -63,7 +63,7 @@ class FloatingProductWidgetShortCode
 
     public static function getWidgetConfigValues()
     {
-        $widgetFactory = new WidgetFactory(Widget::PRODUCT_WIDGET, get_locale(), null);
+        $widgetFactory = new WidgetFactory(SettingsModel::PRODUCT_WIDGET, get_locale(), null);
         $widget = $widgetFactory->widget;
 
         $header = $widget->getHeaderLayout();

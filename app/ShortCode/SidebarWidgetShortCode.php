@@ -7,9 +7,8 @@ defined('ABSPATH') || exit;
 use Flycart\Review\App\Helpers\AssetHelper;
 use Flycart\Review\App\Helpers\WordpressHelper;
 use Flycart\Review\App\Route;
-use Flycart\Review\Core\Controllers\Helpers\Widget\RatingWidget;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
-use Flycart\Review\Core\Models\Widget;
+use Flycart\Review\Core\Models\SettingsModel;
 
 class SidebarWidgetShortCode
 {
@@ -21,7 +20,7 @@ class SidebarWidgetShortCode
             $widget = flycart_review_app()->get('sidebar_widget_object');
 
             if (empty($widget)) {
-                $widgetFactory = new WidgetFactory(Widget::SIDEBAR_WIDGET, get_locale(), null);
+                $widgetFactory = new WidgetFactory(SettingsModel::SIDEBAR_WIDGET, get_locale(), null);
                 $widget = $widgetFactory->widget;
                 flycart_review_app()->set('sidebar_widget_object', $widget);
             }
@@ -70,4 +69,3 @@ class SidebarWidgetShortCode
         ];
     }
 }
-

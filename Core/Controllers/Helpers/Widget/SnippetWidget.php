@@ -2,9 +2,10 @@
 
 namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 
+use Flycart\Review\Core\Models\SettingsModel;
+
 defined('ABSPATH') || exit;
 
-use Flycart\Review\Core\Models\Widget as WidgetModel;
 
 class SnippetWidget extends Widget implements WidgetInterface
 {
@@ -38,7 +39,7 @@ class SnippetWidget extends Widget implements WidgetInterface
 
     public function getWidgetType()
     {
-        return WidgetModel::SNIPPET_WIDGET;
+        return SettingsModel::SNIPPET_WIDGET;
     }
 
     public function getRequestFromSettings()

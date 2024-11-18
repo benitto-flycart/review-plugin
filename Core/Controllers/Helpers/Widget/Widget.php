@@ -5,7 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
-use Flycart\Review\Core\Models\Widget as WidgetModel;
+use Flycart\Review\Core\Models\SettingsModel;
 
 abstract class Widget
 {
@@ -34,8 +34,12 @@ abstract class Widget
         //phpcs:ignore
         $widgetType = $this->getWidgetType();
 
-        $widget = WidgetModel::query()
-            ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
+        $widget = SettingsModel::query()
+            ->where("language = %s AND type = %s AND sub_type = %s", [
+                $this->language,
+                'widget',
+                $widgetType
+            ])
             ->first();
 
         $settings = Functions::jsonDecode($widget->settings ?? null);
@@ -58,25 +62,31 @@ abstract class Widget
     public function save()
     {
         $widgetType = $this->getWidgetType();
-        $widget = WidgetModel::query()
-            ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
+
+        $widget = SettingsModel::query()
+            ->where("language = %s AND type = %s AND sub_type = %s", [
+                $this->language,
+                'widget',
+                $widgetType
+            ])
             ->first();
 
         $settings = $this->getRequestFromSettings();
 
         $settingsAsArray = $this->getSettings($settings);
+        $settingsAsArray['theme'] = 'default';
+
         $settings = Functions::jsonEncode($settingsAsArray);
 
         if (empty($widget)) {
-            WidgetModel::query()->create([
+            SettingsModel::query()->create([
                 'language' => $this->language,
-                'widget_type' => $widgetType,
-                'status' => WidgetModel::ACTIVE,
-                'theme' => 'default',
+                'type' => 'widget',
+                'sub_type' => $widgetType,
                 'settings' => $settings
             ]);
         } else {
-            WidgetModel::query()->update([
+            SettingsModel::query()->update([
                 'settings' => $settings
             ], [
                 'id' => $widget->id
@@ -93,32 +103,14 @@ abstract class Widget
 
     public function updateWidgetStatus()
     {
-        $widgetType = $this->getWidgetType();
+        $widget_type = $this->getWidgetType();
+        $is_enabled = Functions::getBoolValue($this->request->get('is_enabled')) ? SettingsModel::ACTIVE : SettingsModel::DRAFT;
+        $current_locale = $this->language;
 
-        $widget = WidgetModel::query()
-            ->where("language = %s AND widget_type = %s", [$this->language, $widgetType])
-            ->first();
+        $settings = SettingsModel::getPluginStatusSettings();
 
+        $settings['widgets'][$current_locale][$widget_type] = $is_enabled;
 
-        $status = Functions::getBoolValue($this->request->get('is_enabled')) ? WidgetModel::ACTIVE : WidgetModel::DRAFT;
-
-        if (empty($widget)) {
-            $settings = $this->getSettings([]);
-            $settings = Functions::jsonEncode($settings);
-
-            WidgetModel::query()->create([
-                'language' => $this->language,
-                'widget_type' => $widgetType,
-                'status' => $status,
-                'theme' => 'default',
-                'settings' => $settings
-            ]);
-        } else {
-            WidgetModel::query()->update([
-                'status' => $status
-            ], [
-                'id' => $widget->id
-            ]);
-        }
+        SettingsModel::updatePluginStatusSettings($settings);
     }
 }

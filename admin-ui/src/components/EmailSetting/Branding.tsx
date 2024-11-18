@@ -173,7 +173,6 @@ function Branding() {
       })
       .then((response: any) => {
         let data = response.data.data;
-        console.log(data);
         setEmailState(data);
       })
       .catch((error: any) => {

@@ -20,14 +20,29 @@ class SettingsModel extends Model
     public const STATUS_OPTION_KEY = 'flycart_review_app_status_settings';
 
     public const EMAIL_TYPE = 'email';
+    public const SETTINGS_TYPE = 'settings';
+
+    public const BRAND_SETTINGS = 'brand_settings';
+    public const GENERAL_SETTINGS = 'general_settings';
+    public const DISCOUNT_SETTINGS = 'discount_settings';
 
     public const EMAIL_REVIEW_REQUEST_TYPE = 'review_request';
     public const EMAIL_REVIEW_REMINDER_TYPE = 'review_reminder';
     public const EMAIL_PHOTO_REQUEST_TYPE = 'photo_request';
-
     public const EMAIL_DISCOUNT_REMINDER_TYPE = 'discount_reminder';
     public const EMAIL_DISCOUNT_NOTIFY_TYPE = 'discount_notify';
     public const EMAIL_REVIEW_REPLY_TYPE = 'review_reply';
+
+    public const PRODUCT_WIDGET = 'product_widget';
+    public const POPUP_WIDGET = 'popup_widget';
+    public const SIDEBAR_WIDGET = 'sidebar_widget';
+    public const FLOATING_WIDGET = 'floating_product_widget';
+    public const SNIPPET_WIDGET = 'snippet_widget';
+    public const RATING_WIDGET = 'rating_widget';
+    public const REVIEW_FORM_WIDGET = 'review_form_widget';
+    public const REVIEW_DETAIL_WIDGET = 'review_detail_widget';
+
+
 
     public const ACTIVE = 'active';
     public const DRAFT = 'draft';
@@ -73,6 +88,10 @@ class SettingsModel extends Model
 
     public static function updatePluginStatusSettings($settings)
     {
+        if (is_string($settings)) {
+            $settings = Functions::jsonDecode($settings);
+        }
+
         return update_option(static::STATUS_OPTION_KEY, $settings);
     }
 
@@ -92,5 +111,19 @@ class SettingsModel extends Model
             case static::EMAIL_REVIEW_REPLY_TYPE:
                 return ReplyRequest::make($language);
         }
+    }
+
+    public static function getDefaultWidgetStatues()
+    {
+        return [
+            'product_widget' => ['is_enabled' => true],
+            'popup_widget' => ['is_enabled' => true],
+            'sidebar_widget' => ['is_enabled' => true],
+            'floating_product_widget' => ['is_enabled' => true],
+            'snippet_widget' => ['is_enabled' => true],
+            'rating_widget' => ['is_enabled' => true],
+            'review_form_widget' => ['is_enabled' => true],
+            'review_detail_widget' => ['is_enabled' => true],
+        ];
     }
 }
