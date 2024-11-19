@@ -38,34 +38,7 @@ export const Pagination = ({
   };
 
   return (
-    <div className="frt-flex frt-flex-row frt-justify-end frt-gap-1 frt-items-center">
-      {hidePerPageSelect ? null : (
-        <div className="frt-flex frt-justify-center frt-items-center frt-gap-1">
-          <Select
-            styles={{
-              option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-                return {
-                  ...styles,
-                  backgroundColor: isFocused
-                    ? "hsl(var(--primary))"
-                    : "hsl(var(--secondary))",
-                  color: isFocused
-                    ? "hsl(var(--secondary))"
-                    : "hsl(var(--primary))",
-                };
-              },
-            }}
-            classNamePrefix="frt-"
-            onChange={(selectedOption: any) => {
-              updatePerPage ? updatePerPage(selectedOption.value) : null;
-            }}
-            options={pages}
-            defaultValue={getSelectedOption(
-              selectedLimit ?? paginationDefault.per_page,
-            )}
-          ></Select>
-        </div>
-      )}
+    <div className="frt-flex frt-flex-col frt-justify-center frt-gap-5 frt-items-end !frt-mr-20 frt-mt-4">
       <div>
         <ReactPaginate
           previousLabel={
@@ -100,6 +73,38 @@ export const Pagination = ({
           containerClassName={"frt-flex frt-items-center frt-justify-end"}
         />
       </div>
+      {hidePerPageSelect ? null : (
+        <div className="frt-flex frt-justify-end frt-items-center frt-gap-1 frt-mb-5">
+          <Select
+            styles={{
+              option: (styles, { data, isDisabled, isFocused, isSelected }) => ({
+                  ...styles,
+                  backgroundColor: isFocused
+                    ? "hsl(var(--primary))"
+                    : "hsl(var(--secondary))",
+                  color: isFocused
+                    ? "hsl(var(--secondary))"
+                    : "hsl(var(--primary))",
+              }),
+              menuPortal: (styles) => ({
+                ...styles,
+                zIndex: 9999,
+              }),
+            }}
+            menuPortalTarget={document.body} 
+            //menuPosition="fixed" 
+            classNamePrefix="frt-"
+            onChange={(selectedOption: any) => {
+              updatePerPage ? updatePerPage(selectedOption.value) : null;
+            }}
+            options={pages}
+            defaultValue={getSelectedOption(
+              selectedLimit ?? paginationDefault.per_page,
+            )}
+          ></Select>
+        </div>
+      )}
+      
     </div>
   );
 };
