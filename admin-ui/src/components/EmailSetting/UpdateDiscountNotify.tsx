@@ -183,14 +183,12 @@ const UpdateDiscountNotify = () => {
                   </div>
                   <div>
                     <span>Notes:</span>
-                    <span>
-                      {"Use {order_number} for the customer's order number"}
-                    </span>
-                    <span>
-                      {
-                        "Use {name} or {last_name} as a placeholder for the user's first or last name"
-                      }
-                    </span>
+                    <p>Use [client] for your store name</p>
+                    <p>Use [order_number] for the customer's order number</p>
+                    <p>
+                      Use [name] or [first_name] or [last_name] as a placeholder
+                      for the user's first or last name
+                    </p>
                   </div>
                 </div>
               </div>
@@ -211,8 +209,8 @@ const UpdateDiscountNotify = () => {
                     {showValidationError(errors, "body")}
                   </div>
                   <div>
-                    <span>{"Use {client} for your store name"}</span>
-                    <span>{"Use {discount} for the discount amount"}</span>
+                    <p>Use [client] for your store name</p>
+                    <p>Use [discount] for the discount amount</p>
                   </div>
                 </div>
               </div>

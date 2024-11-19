@@ -37,7 +37,7 @@ class ReplyRequest extends Emails
         return $data;
     }
 
-    public function getDefault()
+    public function getDefaults()
     {
         $data['body'] = "";
 
@@ -90,5 +90,18 @@ class ReplyRequest extends Emails
         static::$forPreview = false;
 
         return $html;
+    }
+
+    public function replaceCustomeEmailPlaceholders($content, $reply, \WC_Product $product)
+    {
+        return str_replace([
+            "[name]",
+            "[product]",
+            "[reply_content]",
+        ], [
+            $reply['comment_author'],
+            $product->get_name(),
+            $reply['comment_content'],
+        ], $content);
     }
 }

@@ -200,8 +200,8 @@ const UpdateReviewRequest = () => {
                   ></Textarea>
                   {showValidationError(errors, "body")}
                   <p>
-                    Use [full_name], [first_name], [last_name] as a placeholder
-                    for the user's name, first_name, last_name
+                    Use [name], [first_name], [last_name] as a placeholder for
+                    the user's name, first_name, last_name
                   </p>
                 </div>
               </div>

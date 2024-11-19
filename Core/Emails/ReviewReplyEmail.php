@@ -58,6 +58,11 @@ class ReviewReplyEmail extends WC_Email
             return false;
         }
 
+        $reply = [
+            'comment_author' => $reply_comment->comment_author,
+            'comment_content' => $reply_comment->comment_content,
+        ];
+
         $notification = NotificationHistory::query()->find($notification_id);
 
         if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
@@ -71,6 +76,8 @@ class ReviewReplyEmail extends WC_Email
         if (empty($notification) || NotificationHistory::isAlreadySent($notification->status)) {
             return;
         }
+
+        $this->subject = $this->replyRequest->replaceCustomeEmailPlaceholders($this->replyRequest->getSubject(), $reply, $this->product);
 
         $html = $this->get_content();
 

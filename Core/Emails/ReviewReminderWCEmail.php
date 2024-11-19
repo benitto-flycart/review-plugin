@@ -92,6 +92,7 @@ class ReviewReminderWCEmail extends WC_Email
 
         $this->reviewReminder =  new ReviewReminderEmailSetting(get_locale());
 
+        $this->subject = $this->reviewReminder->replaceCustomeEmailPlaceholders($this->reviewReminder->getSubject(), $this->woo_order);
 
         $html = $this->get_content();
 

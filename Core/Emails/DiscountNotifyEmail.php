@@ -69,6 +69,8 @@ class DiscountNotifyEmail extends WC_Email
         $this->generalSettings = new GeneralSettings();
         $this->discountNotify = new DiscountNotifySetting(get_locale());
 
+        $discount_code = $orderReview->photo_discount_code;
+        $this->subject = $this->discountNotify->replaceCustomeEmailPlaceholders($this->discountNotify->getSubject(), $this->woo_order, $discount_code);
         $html = $this->get_content();
 
         $shop_page_url = WC::getShopPageURL();
@@ -78,12 +80,12 @@ class DiscountNotifyEmail extends WC_Email
             '{logo_src}' => $this->brandSettings->getLogoSrc(),
             '{banner_src}' => $this->brandSettings->getEmailBanner(),
             '{customer_name}' => $this->discountNotify->getCustomerName($this->woo_order),
-            '{body}' => $this->discountNotify->getBody($this->woo_order),
+            '{body}' => $this->discountNotify->replaceCustomeEmailPlaceholders($this->discountNotify->getBody(), $this->woo_order, $discount_code),
             '{button_text}' => $this->discountNotify->getButtonText(),
             '{footer_text}' => $this->generalSettings->getFooterText(),
             '{unsubscribe_link}' => 'https://localhost:8004',
             '{shop_page_url}' => $shop_page_url,
-            '{discount_code}' => $orderReview->photo_discount_code,
+            '{discount_code}' => $discount_code,
         ];
 
         $short_codes = apply_filters(F_Review_PREFIX . 'review_discount_notify_email_short_codes', $short_codes);
@@ -102,7 +104,7 @@ class DiscountNotifyEmail extends WC_Email
                 'model_type' => 'shop_order',
                 'order_id' => $this->woo_order->get_id(),
                 'status' =>  'pending',
-                'notify_type' => SettingsModel::email_DISCOUNT_REMINDER_TYPE,
+                'notify_type' => SettingsModel::EMAIL_DISCOUNT_REMINDER_TYPE,
                 'medium' => NotificationHistory::MEDIUM_EMAIL,
                 'created_at' => Functions::currentUTCTime(),
                 'updated_at' => Functions::currentUTCTime(),

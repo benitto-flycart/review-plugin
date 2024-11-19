@@ -133,7 +133,7 @@ class ReviewFormWidget extends Widget implements WidgetInterface
 
         $title =  $this->settings['rating']['title'];
 
-        return nl2br(preg_replace('/\{product_name\??\}/', $content, $title));
+        return nl2br(preg_replace('/\[product_name\??\]/', $content, $title));
     }
 
     public function getPhotoTitle()
@@ -155,7 +155,7 @@ class ReviewFormWidget extends Widget implements WidgetInterface
     {
         $discount_value = $discountSettings->photoDiscountString();
 
-        return nl2br(str_replace("{discount_value}", $discount_value, $this->settings['photos']['discount_text']));
+        return nl2br(str_replace("[discount_value]", $discount_value, $this->settings['photos']['discount_text']));
     }
 
     public function getReviewContentPlaceholder()

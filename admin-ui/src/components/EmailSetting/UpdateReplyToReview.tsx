@@ -174,8 +174,8 @@ const UpdateReplyToReview = () => {
                     {showValidationError(errors, "subject")}
                   </div>
                   <div>
-                    Notes:
-                    <p>{"Use {product_name} for the product name"}</p>
+                    <span>Notes:</span>
+                    <p>Use [product] for the product name</p>
                   </div>
                 </div>
               </div>
@@ -196,7 +196,7 @@ const UpdateReplyToReview = () => {
                     {showValidationError(errors, "body")}
                   </div>
                   <div>
-                    <span>{"Use {reply_content} for your reply text"}</span>
+                    <span>Use [reply_content] for your reply text</span>
                   </div>
                 </div>
               </div>
@@ -238,4 +238,3 @@ const UpdateReplyToReview = () => {
 };
 
 export default UpdateReplyToReview;
-
