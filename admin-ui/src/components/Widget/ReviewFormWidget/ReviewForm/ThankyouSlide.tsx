@@ -101,10 +101,10 @@ const ThankyouSlide = ({ handleNextClick }: any) => {
         <span>{widget.thank_you.discount_info_description}</span>
       </div>
       <div className={"r_rfw_thank_you_proceed_next"}>
-        <button className={"r_rfw_btn"}>Continue</button>
         <button className={"r_rfw_btn"} onClick={handleNextClick}>
           Review another item
         </button>
+        <button className={"r_rfw_btn"}>Continue</button>
       </div>
     </div>
   );

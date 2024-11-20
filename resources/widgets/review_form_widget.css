@@ -604,6 +604,7 @@
   color: var(--r-rfw-title-color);
 }
 
+
 .r_rfw_thank_you_proceed_next,
 .r_rfw_thank_you_discount_detail_wrapper {
   display: flex;
@@ -613,7 +614,9 @@
   color: var(--r-rfw-description-color);
   font-size: var(--r-rfw-fs-description);
 }
-
+.r_rfw_thank_you_proceed_next{
+  flex-direction: row;
+}
 .r_rfw_hide {
   display: none;
 }
