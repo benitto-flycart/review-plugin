@@ -365,8 +365,44 @@
 
 .r_rfw_review_content_text {
   font-size: var(--r-rfw-fs-description, 2rem);
-  color: var(--r-rfw-description-color);
+  /* color: var(--r-rfw-description-color); */
   resize: none;
+  width: 50vw;
+  min-height: 24px;
+  padding: 0 0 8px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--r-rfw-description-color);;
+  background-color: transparent;
+  border: none;
+  resize: none;
+  overflow: hidden;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.r_rfw_review_content_text:focus {
+  outline: none;
+  border: 1px solid var(--r-rfw-input-border-color);
+}
+
+.r_rfw_review_content_text::placeholder {
+  color: var(--r-rfw-input-placeholder-color,#605f5f);
+}
+
+.r_rfw_review_textarea_wrapper{
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.r_rfw_review_textarea_wrapper::after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  /* background-color: var(--r-rfw-title-color); */
+  transition: background-color 0.15s ease-in-out;
 }
 
 .r_rfw_review_text_error {
@@ -407,11 +443,17 @@
 .r_rfw_input_field,
 .r_rfw_input_field:focus-visible,
 .r_rfw_input_field:focus {
-  padding: 1em;
+  /* padding: 1em; */
   border-style: solid;
   border-width: var(--r-rfw-input-border-style, 1px);
   outline: none;
   border-color: var(--r-rfw-input-border-color);
+  /* all: unset; */
+  border-bottom: 1px solid black;
+  margin-bottom: small;
+  transition: border-color 0.15s ease-in-out;
+  /* font-size: 1rem; */
+  background-color: var(--r-rfw-dialog-bg-color);
 }
 
 .r_rfw_reviewer_section_note {
@@ -533,6 +575,7 @@
 
 .r_rfw_review_content_container {
   justify-content: center;
+  align-items: start;
   max-width: 600px;
   text-align: center;
   gap: 1rem;
