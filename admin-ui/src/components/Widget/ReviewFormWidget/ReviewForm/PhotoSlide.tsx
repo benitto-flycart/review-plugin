@@ -99,7 +99,7 @@ const PhotoSlide = ({ images, setImages, handleNextClick,maxPhotos = 5 }: any) =
         className={"r_frw_file_input"}
       />
       <div className={"r_frw_photo_slide__text_container"}>
-        <span className={"r_frw_photo_title"}>{widget.photos.title}</span>
+        <p className="r_rfw_photo_upload_discount">{widget.photos.discount_text}</p>
         <span
           className={"r_frw_photo_description"}
           dangerouslySetInnerHTML={{
@@ -151,21 +151,22 @@ const PhotoSlide = ({ images, setImages, handleNextClick,maxPhotos = 5 }: any) =
           className={`r_rfw_photo_upload_dropzone ${
             images.length > 0 ? "r_rfw_with_photos" : ""
           }`}
+          onClick={() => fileInputRef.current?.click()}
         >
           <div className="r_rfw_photo_upload_icon">☁️</div>
           <div className="r_rfw_photo_upload_text">
-            <p className="r_rfw_photo_upload_discount">{widget.photos.discount_text}</p>
+            
             <p className="r_rfw_photo_upload_instruction">
-              Drag and drop your photos here or click to browse
+              Choose file or <span style={{fontWeight: "bold"}}>drag here</span>
             </p>
             <p className="r_rfw_photo_upload_limit">Maximum file size: 10MB</p>
           </div>
-          <button
+          {/* <button
             className="r_rfw_photo_upload_btn"
             onClick={() => fileInputRef.current?.click()}
           >
             {widget.photos.button_text}
-          </button>
+          </button> */}
         </div>
       </div>
       {/* <div className={"r_frw_add_photos_container"}>

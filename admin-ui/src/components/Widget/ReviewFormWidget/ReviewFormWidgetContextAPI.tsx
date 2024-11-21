@@ -37,17 +37,17 @@ function ReviewFormWidgetContextAPI({ children }: { children: any }) {
       discount_text: "Get {discount_value} off your next purchase!",
     },
     review_content: {
-      title: "Tell us more!",
-      placeholder: "Share your experience",
+      title: "Share your Experience on your new purchase!",
+      placeholder: "Type your answer here...",
     },
     reviewer: {
-      title: "About you",
+      title: "Know Us",
       label_color: "purple",
       description_color: "purple",
     },
     thank_you: {
       title: "Thank you",
-      description: "Your Review was submitted",
+      description: "Your Review was submitted successfully",
       discount_info_title:
         "Use the following discount code for {discount_value} off your next purchase",
       discount_info_description:

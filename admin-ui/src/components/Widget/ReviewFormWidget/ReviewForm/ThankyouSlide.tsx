@@ -92,13 +92,15 @@ const ThankyouSlide = ({ handleNextClick }: any) => {
       id="sparkle-wrapper"
     >
       <span className={"r_rfw_thank_you_title"}>{widget.thank_you.title}</span>
-      <span className={"r_rfw_thank_you_description"}>
-        {widget.thank_you.description}
-      </span>
-      <div className={"r_rfw_thank_you_discount_detail_wrapper"}>
-        <p>{widget.thank_you.discount_info_title}</p>
-        <span className={"r_rfw_thank_you_discount_code"}>[discount_code]</span>
-        <span>{widget.thank_you.discount_info_description}</span>
+      <div className="r_rfw_thank_you_content">
+        <span className={"r_rfw_thank_you_description"}>
+          {widget.thank_you.description}
+        </span>
+        <div className={"r_rfw_thank_you_discount_detail_wrapper"}>
+          <p>{widget.thank_you.discount_info_title}</p>
+          <span className={"r_rfw_thank_you_discount_code"}>[discount_code]</span>
+        </div>
+          <span>{widget.thank_you.discount_info_description}</span>
       </div>
       <div className={"r_rfw_thank_you_proceed_next"}>
         <button className={"r_rfw_btn"} onClick={handleNextClick}>

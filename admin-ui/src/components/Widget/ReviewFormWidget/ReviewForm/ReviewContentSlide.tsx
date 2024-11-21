@@ -23,13 +23,13 @@ const ReviewContentSlide = ({handleNextSlide, errors, reviews, setReviews}: any)
             <span className={"r_rfw_review_content_title"}
             >{widget.review_content.title}</span>
             <div className="r_rfw_review_textarea_wrapper">
-            <textarea className={"r_rfw_review_content_text r_rfw_input_field"}
-                      rows={1}
-                      ref={textareaRef}
-                      value={reviews.review_text}
-                      onChange={(e: any) => setReviews({...reviews, review_text: e.target.value})}
-                      placeholder={widget.review_content.placeholder}></textarea>
-                      </div>
+                <textarea className={"r_rfw_review_content_text r_rfw_input_field"}
+                        rows={1}
+                        ref={textareaRef}
+                        value={reviews.review_text}
+                        onChange={(e: any) => setReviews({...reviews, review_text: e.target.value})}
+                        placeholder={widget.review_content.placeholder}></textarea>
+            </div>
             {errors ?
                 <span className={"r_rfw_review_text_error"}>{errors.review_text && errors.review_text[0]}</span> : null}
         </div>
