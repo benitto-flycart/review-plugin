@@ -102,7 +102,7 @@ export const ReviewList = <T extends ReviewRatingsPropType>({
           </span>
         </div>
         <div className="frt-flex frt-justify-start frt-gap-x-3 frt-items-center frt-mb-4">
-          <div>
+          <div className="frt-ml-6">
             <Checkbox
               checked={bulkActionReviewIds.length == reviews.length}
               onCheckedChange={handleBulkCheckboxChange}

@@ -276,7 +276,7 @@ export const ReviewDetail = <T extends ReviewDetailPropTypes>({
                   <span className="frt-text-sm frt-text-gray-600">
                     {review.date}
                   </span>
-                  <span>{review.is_verified ? <BadgeCheck /> : null}</span>
+                  <span>{review.is_verified ? <i className="farp farp-trophy  frt-text-xl"></i> : null}</span>
                 </div>
               </div>
             </CardHeader>

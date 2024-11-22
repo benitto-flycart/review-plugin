@@ -214,22 +214,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   </Label>
                 </div>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="_svg_317bs_1"
-                  >
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M24 5H5V24H9V9H24V5Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
+                  <i className="farp farp-sharp frt-text-2xl !frt-font-bold"></i>
                 </div>
               </div>
               <div
@@ -255,22 +240,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   </Label>
                 </div>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="_svg_317bs_1"
-                  >
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M24 5H13C8.58173 5 5 8.58172 5 13V24H9V13C9 10.7909 10.7909 9 13 9H24V5Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
+                <i className="farp farp-slightly-rounded frt-text-2xl !frt-font-bold"></i>
                 </div>
               </div>
 
@@ -297,22 +267,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   </div>
                 </div>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="_svg_317bs_1"
-                  >
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M24 5H17C10.3726 5 5 10.3726 5 17V24H9V17C9 12.5817 12.5817 9 17 9H24V5Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
+                <i className="farp farp-rounded frt-text-2xl !frt-font-bold"></i>
                 </div>
               </div>
 
@@ -339,22 +294,7 @@ const ProductWidgetStyleSetting = ({ name }: { name: string }) => {
                   </Label>
                 </div>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="_svg_317bs_1"
-                  >
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M24 5H21C12.1635 5 5 12.1634 5 21V24H9V21C9 14.3726 14.3726 9 21 9H24V5Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
+                <i className="farp farp-extra-rounded frt-text-2xl !frt-font-bold"></i>
                 </div>
               </div>
               <div
