@@ -114,7 +114,7 @@
 
 .r_rfw_btn {
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 20px;
   padding: 0.5rem 0.5rem;
   cursor: pointer;
   letter-spacing: 3px;
@@ -431,7 +431,7 @@
 .r_rfw_reviewer_detail_container .r_rfw_input_field_wrapper label {
   color: var(--r-rfw-input-label-color);
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 20px;
   text-transform: capitalize;
 }
 .r_rfw_reviewer_detail_container {
@@ -441,7 +441,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .r_rfw_review_names_info_container > * {
@@ -463,12 +463,18 @@
   outline: none;
   border: none;
   /* all: unset; */
-  border-bottom: 1px solid var(--r-rfw-input-border-color) !important;
+  border-bottom: 1px solid var(--r-rfw-input-border-color);
   transition: border-color 0.15s ease-in-out;
   font-size: 1.5rem;
   margin-bottom: 3px;
   background-color: var(--r-rfw-dialog-bg-color);
 }
+
+.r_rfw_input_field:focus-visible{
+  border-bottom: 2px solid var(--r-rfw-input-border-color);
+  transition: border-bottom 0.15s ease-in-out;
+}
+
 
 .r_rfw_input_field::placeholder {
   color: var(--r-rfw-input-border-color);
@@ -482,7 +488,7 @@
 .r_rfw_reviewer_detail_title {
   text-align: left;
   font-size: 2rem;
-  /* margin-bottom: 2rem; */
+  margin-bottom: 2rem;
   color: var(--r-rfw-title-color);
 }
 .r_rfw_thank_you_discount_code {

@@ -11,12 +11,7 @@ const ReviewerInfoSlide = ({handleNextSlide, errors, reviews, setReviews}: any) 
         <span className={"r_rfw_reviewer_detail_title"}>
           {widget.reviewer.title}
         </span>
-        <div className={"r_rfw_reviewer_section_note"}>
-          <p>
-            By Submitting, I acknowledge the Terms of Service and Privacy Policy
-            and that my review will be publicly posted and shared online
-          </p>
-        </div>
+        
         <div className={"r_rfw_review_names_info_container"}>
           <div
             className={"r_rfw_input_field_wrapper r_rfw_reviewer_first_name"}
@@ -72,6 +67,12 @@ const ReviewerInfoSlide = ({handleNextSlide, errors, reviews, setReviews}: any) 
               </span>
             ) : null}
           </div>
+        </div>
+        <div className={"r_rfw_reviewer_section_note"}>
+          <p>
+            By Submitting, I acknowledge the Terms of Service and Privacy Policy
+            and that my review will be publicly posted and shared online
+          </p>
         </div>
       </div>
     );
