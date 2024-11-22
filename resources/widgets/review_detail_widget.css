@@ -14,8 +14,8 @@
 }
 
 .r_rdw-main_content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column;
     height: 100%;
     gap: 2rem;
     padding: .6rem;
@@ -35,14 +35,23 @@
 
 .r_rdw-image-container {
     display: flex;
-    flex-direction: column;
     overflow: hidden;
+    gap: 12px;
+    max-height: 174px;
 }
 
 .r_rdw_all_images {
     position: relative;
-    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
 
+.r_rdw_single_image_container{
+    width: 100%;
+}
+
+.r_rdw_multi_image_container{
+    width: 70%;
 }
 
 .r_rdw_all_images_wrapper {
@@ -64,28 +73,38 @@
     justify-content: space-between;
 }
 
-.r_rdw-i-verified-notification {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease-in-out;
-}
-
 /* Show the notification when button or its parent container is focused */
 .r_rdw-overview:focus-within,.r_rdw-overview:focus,.r_rdw-overview:hover .r_rdw-i-verified-notification {
     visibility: visible;
     opacity: 1;
 }
 
+.r_rdw-i-verified-notification span{
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    font-style: italic;
+}
 
 .r_rdw-slide-actions button {
     padding: .3rem;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
     color: var(--r-rdw-btn-text-color);
     background-color: var(--r-rdw-btn-bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.r_rdw-slide-actions .prev{
+    position: relative;
+    left: 10px;
+}
+
+.r_rdw-slide-actions .next{
+    position: relative;
+    right: 10px;
 }
 
 .r_rdw-slide-actions button.disabled {
@@ -107,36 +126,33 @@
     display: flex;
     justify-content: center;
     flex-shrink: 0;
-    max-height: 150px;
 }
 
 .mySlides.active {
     z-index: 1;
 }
 .row {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(3, 1fr);
-    margin: .5rem;
-    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 30%;
 }
 .r_rdw-image-options{
-    height: auto;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill;
 }
+
 .column {
     border-radius: 30%;
     flex: 1;
     cursor: pointer;
-    transition: scale ease-in-out 0.5s;
-    scale: 0.8;
-    width: 50px;
-    height: auto;
+    height: 50px;
+    max-height: 50px;
 }
 
-.column.active {
-    scale: 1.3;
-}
-.column.active img{
+.column img{
     border-radius: .375rem;
     overflow: hidden;
 }
@@ -144,15 +160,9 @@
 img {
     width: inherit;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
 }
-
-.column img {
-    object-fit: contain;
-}
-
-
 .r_rdw-detail-wrapper {
     display: flex;
     flex-direction: column;
@@ -198,19 +208,6 @@ img {
 }
 
 .r_rdw-i-verified-notification {
-    top: -2rem;
-    position: absolute;
-    text-wrap: nowrap;
-    transform: translateX(-90%);
-    display: flex;
-    flex-direction: column;
-    left: .5rem;
-    background: white;
-    border-radius: 5px;
-    padding: .5rem;
-    box-shadow: 10px 10px transparent;
-    transition: opacity .5s;
-    z-index: 10;
 }
 
 .r_rdw_verified-notification-info-toggle {
@@ -227,16 +224,20 @@ img {
 .r_rdw-overview {
     position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: end;
+    gap: 2px;
+    background: var(--r-rdw-secondary_bg-color,#f1f1f1);
+    border-radius: 30px;
+    padding: 4px 8px;
 }
 
 .r_rdw-review-content-wrapper {
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
 .r_rdw-review-content {
-    margin-bottom: 1rem;
     font-size: 14px;
     line-height: 16px;
 }
@@ -251,22 +252,42 @@ img {
 
 .r_rdw-item-reply-title {
     font-size: 14px;
-    font-weight: bold;
-    font-style: oblique;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.r_rdw-reply-date{
+  font-size: 13px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 20px;
 }
 
 .r_rdw-review-item-reply {
     display: flex;
     flex-direction: column;
     gap: .5rem;
+    padding: 20px;
+    background: var(--r-rdw-secondary_bg-color, #f1f1f1);
+    border-radius: 12px;
 }
-
+.r_rdw-review-posted-date{
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 500;
+    font-style: italic;
+}
 .r_rdw_close_icon {
     display: flex;
     align-items: center;
     width: max-content;
     z-index: 1;
     cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
 }
 
 .r_rdw_close_icon i {
@@ -284,5 +305,11 @@ img {
     .r_rdw-main_content{
         grid-auto-flow: row;
         grid-template-columns: none;
+    }
+    .r_rdw_all_images{
+        width: 100%;
+    }
+    .r_rdw_image_thumbnails{
+        display: none;
     }
 }
