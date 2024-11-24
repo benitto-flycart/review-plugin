@@ -15,7 +15,6 @@ class BrandSettingRequest implements FormRequest
     {
         $data = $request->all();
         $rules = [
-            'corner_radius' => ['required'],
             'enable_logo' => ['required'],
             'rating_icon' => ['required'],
             'enable_review_branding' => ['required'],

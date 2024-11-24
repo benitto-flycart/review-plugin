@@ -34,7 +34,6 @@ const BrandingSetting = () => {
   const { localState } = useLocalState();
   const [errors, setErrors] = useState<any>();
   const [settingsState, setSettingsState] = useState<any>({
-    corner_radius: "rounded",
     enable_logo: true,
     logo_url: "",
     rating_icon: "gem",
@@ -62,7 +61,6 @@ const BrandingSetting = () => {
   const schema = yup.object().shape({
     enable_logo: yup.boolean().required("Enable logo is required"),
     logo: yup.string().optional(),
-    corner_radius: yup.string().required("Corner Radius is required"),
     rating_icon: yup.string().required("Rating Icon required"),
     rating_rgb_color: yup.string().required("Rating color is required"),
     enable_email_banners: yup
@@ -100,8 +98,6 @@ const BrandingSetting = () => {
       .then((response: any) => {
         let data = response.data.data;
         let settings = data.settings;
-        // console.log("data: "+data);
-        // console.log(data.success);
         setSettingsState(settings);
         toastrSuccess("Settings fetched successfully");
       })
@@ -127,7 +123,6 @@ const BrandingSetting = () => {
           })
           .then((response: any) => {
             let [code, data] = ClientResponse.getResponseData(response);
-            console.log(data);
             toastrSuccess(data.message);
 
             setErrors({});
@@ -146,7 +141,6 @@ const BrandingSetting = () => {
           });
       })
       .catch((validationError: any) => {
-        console.log(validationError);
         setSaveChangesLoading(false);
         toastrError("Validation Failed");
         const validationErrors = {};
@@ -157,7 +151,6 @@ const BrandingSetting = () => {
         setErrors(validationErrors);
       });
   };
-  console.log(errors);
   useEffect(() => {
     setLoading(true);
     getBrandSettings();
@@ -240,6 +233,74 @@ const BrandingSetting = () => {
                     </div>
                   </div>
                   {showValidationError(errors, "logo_url")}
+                </SettingsColWrapper>
+              </SettingsRowWrapper>
+            ) : null}
+            <SettingsRowWrapper>
+              <SettingsColWrapper>
+                <Label>Enable Email Banners</Label>
+                <Label className={"frt-text-xs frt-text-grayprimary"}>
+                  Toggle the inclusion of banners in review-related emails. This
+                  feature helps highlight your brand and promotions in email
+                  communications with customers.
+                </Label>
+              </SettingsColWrapper>
+              <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                <Switch
+                  id="email-banners"
+                  checked={settingsState.enable_email_banners}
+                  onCheckedChange={(value: any) => {
+                    updateSettingFields((draftState: any) => {
+                      draftState.enable_email_banners = value;
+                    });
+                  }}
+                />
+                {showValidationError(errors, "enable_email_banners")}
+              </SettingsColWrapper>
+            </SettingsRowWrapper>
+            {settingsState.enable_email_banners ? (
+              <SettingsRowWrapper>
+                <SettingsColWrapper>
+                  <Label className="frt-w-full">Banner</Label>
+                  <Label className={"frt-text-xs frt-text-grayprimary"}>
+                    Customize the banner that appears in review emails. This
+                    banner will be included in future email notifications sent
+                    to customers.
+                  </Label>
+                </SettingsColWrapper>
+                <SettingsColWrapper customClassName={"!frt-gap-0"}>
+                  <div className="frt-w-full frt-flex frt-gap-3">
+                    {settingsState.banner_src ? (
+                      <div className={"frt-w-24 frt-relative"}>
+                        <img src={settingsState.banner_src} alt="banner" />
+                        <i
+                          onClick={() => {
+                            updateSettingFields((draftState: any) => {
+                              draftState.banner_src = "";
+                            });
+                          }}
+                          className={
+                            "review review-cross-icon frt-cursor-pointer frt-bg-primary frt-text-white frt-rounded-xl frt-p-1 review frt-absolute -frt-top-2 -frt-right-2"
+                          }
+                        ></i>
+                      </div>
+                    ) : null}
+                    <div className="frt-border frt-border-dashed frt-w-full frt-p-4 frt-grid frt-justify-center frt-items-center">
+                      <span
+                        className="frt-bg-primary frt-text-white frt-p-2 frt-w-max frt-rounded frt-cursor-pointer"
+                        onClick={(e: any) => {
+                          runUploader(e, (data: any) => {
+                            updateSettingFields((draftState: any) => {
+                              draftState.banner_src = data;
+                            });
+                          });
+                        }}
+                      >
+                        Upload File
+                      </span>
+                    </div>
+                  </div>
+                  {showValidationError(errors, "banner_src")}
                 </SettingsColWrapper>
               </SettingsRowWrapper>
             ) : null}
