@@ -6,7 +6,9 @@ defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\PluginHelper;
+use Flycart\Review\App\Helpers\Transient;
 use Flycart\Review\App\Services\Database;
+use Flycart\Review\Core\Controllers\Helpers\Widget\Widget;
 use Flycart\Review\Core\Controllers\Helpers\Widget\WidgetFactory;
 use Flycart\Review\Core\Models\SettingsModel;
 use Flycart\Review\Core\Validation\Widgets\WidgetRequest;
@@ -180,10 +182,9 @@ class WidgetController
     {
         try {
             $language = $request->get('language');
-            error_log('printing language');
-            error_log($language);
 
-            $settings = SettingsModel::getPluginStatusSettings();
+            $settings = Widget::getWidgetStatuses();
+
             $settings = $settings['widgets'][$language] ?? [];
 
             $widget_statuses = SettingsModel::getDefaultWidgetStatues();

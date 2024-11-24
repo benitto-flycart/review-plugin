@@ -5,6 +5,7 @@ namespace Flycart\Review\Core\Controllers\Helpers\Widget;
 defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
+use Flycart\Review\App\Helpers\Transient;
 use Flycart\Review\Core\Models\SettingsModel;
 
 abstract class Widget
@@ -34,6 +35,12 @@ abstract class Widget
         //phpcs:ignore
         $widgetType = $this->getWidgetType();
 
+        $transient_key = $this->getTransientKey($widgetType);
+
+        if (Transient::getTransient($transient_key)) {
+            return Transient::getTransient($transient_key);
+        }
+
         $widget = SettingsModel::query()
             ->where("language = %s AND type = %s AND sub_type = %s", [
                 $this->language,
@@ -45,12 +52,16 @@ abstract class Widget
         $settings = Functions::jsonDecode($widget->settings ?? null);
         $settings = $this->getSettings($settings);
 
+        Transient::setTransient($transient_key, $settings);
+
         return $settings;
     }
 
     public function get()
     {
         $settings = $this->retrieveSettings();
+
+
         $data = [
             'settings' => $settings,
             'message' => sprintf(__('%s Widget Fetched Successfully'), 'Product')
@@ -62,6 +73,8 @@ abstract class Widget
     public function save()
     {
         $widgetType = $this->getWidgetType();
+
+        $transient_key = $this->getTransientKey($widgetType);
 
         $widget = SettingsModel::query()
             ->where("language = %s AND type = %s AND sub_type = %s", [
@@ -98,6 +111,8 @@ abstract class Widget
             'settings' => $settingsAsArray
         ];
 
+        Transient::deleteTransient($transient_key);
+
         return $data;
     }
 
@@ -111,6 +126,33 @@ abstract class Widget
 
         $settings['widgets'][$current_locale][$widget_type] = $is_enabled;
 
+        Transient::deleteTransient(static::getWidgetStatusTransientKey());
+
         SettingsModel::updatePluginStatusSettings($settings);
+    }
+
+
+    public function getTransientKey($widgetType)
+    {
+        return 'flycart_widget_' . $widgetType . '_' . $this->language;
+    }
+
+    public static function getWidgetStatuses()
+    {
+        $status_transient_key = static::getWidgetStatusTransientKey();
+
+        if (Transient::getTransient($status_transient_key)) {
+            $settings =  Transient::getTransient($status_transient_key);
+        } else {
+            $settings = SettingsModel::getPluginStatusSettings();
+            Transient::setTransient($status_transient_key, $settings);
+        }
+
+        return $settings;
+    }
+
+    public static function getWidgetStatusTransientKey()
+    {
+        return SettingsModel::TRANSIENT_STATUS_KEY;
     }
 }
