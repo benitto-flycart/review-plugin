@@ -6,6 +6,7 @@ defined('ABSPATH') || exit;
 
 use Flycart\Review\App\Helpers\Functions;
 use Flycart\Review\App\Helpers\ReviewSettings\BrandSettings;
+use Flycart\Review\App\Helpers\Transient;
 use Flycart\Review\App\Helpers\WC;
 use Flycart\Review\Core\Models\SettingsModel;
 
@@ -24,8 +25,24 @@ abstract class Emails
 
     public $email_type;
 
+    abstract public function getPlaceHolders();
+
     public function init()
     {
+        $settings = $this->retrieveSettings();
+
+        $this->settings = $settings;
+        $this->placeholders = $this->getPlaceHolders();
+    }
+
+    public function retrieveSettings()
+    {
+        $transient_key = $this->getTransientKey();
+
+        if (Transient::getTransient($transient_key)) {
+            return Transient::getTransient($transient_key);
+        }
+
         $previous = SettingsModel::query()
             ->where("language = %s", [$this->locale])
             ->where("type = %s", [SettingsModel::EMAIL_TYPE])
@@ -39,34 +56,11 @@ abstract class Emails
             $settings = $this->settingsAsArray($settings);
         }
 
-        $this->settings = $settings;
-        $this->placeholders = $this->getPlaceHolders();
+        Transient::setTransient($transient_key, $settings);
 
-        # code...
+        return $settings;
     }
-    // public function __construct($language)
-    // {
-    //
-    //     $this->locale = $language;
-    //
-    //     $settings = get_option(SettingsModel::STATUS_OPTION_KEY, "[]");
-    //
-    //
-    //     if (is_string($settings)) {
-    //         $settings = Functions::jsonDecode($settings);
-    //     }
-    //
-    //     $email_settings = $this->getCurrentLocaleStatues($settings);
-    //
-    //     error_log('printing email settings');
-    //     error_log(print_r($email_settings, true));
-    //
-    //     $this->statuses = $email_settings;
-    //
-    //     error_log(print_r($this->statuses, true));
-    // }
 
-    abstract public function getPlaceHolders();
 
     public function getStatus()
     {
@@ -226,5 +220,10 @@ abstract class Emails
         }
 
         return $updated;
+    }
+
+    public function getTransientKey()
+    {
+        return 'flycart_review_email_settings_' . $this->email_type . '_' . $this->locale;
     }
 }

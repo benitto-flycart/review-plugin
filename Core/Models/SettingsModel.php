@@ -18,6 +18,7 @@ class SettingsModel extends Model
     protected static $table = 'settings';
 
     public const STATUS_OPTION_KEY = 'flycart_review_app_status_settings';
+    public const TRANSIENT_STATUS_KEY = 'flycart_settings_statuses';
 
     public const EMAIL_TYPE = 'email';
     public const SETTINGS_TYPE = 'settings';

@@ -276,7 +276,7 @@ class OrderApiController
                     'model_type' => 'shop_order',
                     'order_id' => $order_id,
                     'status' =>  $type == 'send_mail' ? 'processing' : 'cancelled',
-                    'notify_type' => SettingsModel::email_REVIEW_REQUEST_TYPE,
+                    'notify_type' => SettingsModel::EMAIL_REVIEW_REQUEST_TYPE,
                     'medium' => NotificationHistory::MEDIUM_EMAIL,
                     'created_at' => Functions::currentUTCTime(),
                     'updated_at' => Functions::currentUTCTime(),

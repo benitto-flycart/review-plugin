@@ -14,7 +14,6 @@ class SidebarWidgetShortCode
 {
     public static function register()
     {
-
         add_shortcode('review_sidebar_widget_shortcode', function () {
 
             $widget = flycart_review_app()->get('sidebar_widget_object');

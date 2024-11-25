@@ -3,6 +3,7 @@
 defined('ABSPATH') || exit;
 
 use Flycart\Review\Core\Controllers\EmailController;
+use Flycart\Review\Core\Controllers\Hooks\ShortCodeHandler;
 use Flycart\Review\Core\Emails\Hooks\EmailStatusUpdateHook;
 use Flycart\Review\Core\Models\CoreModel;
 
@@ -10,7 +11,9 @@ $store_front_hooks = [
     'actions' => [
         //        F_Review_PREFIX . 'send_emails' => ['callable' => [EmailHandler::class, 'sendEmail'], 'priority' => 10, 'accepted_args' => 1],
     ],
-    'filters' => []
+    'filters' => [
+        'frap_before_register_sidebar_widget_shortcode' => ['callable' => [ShortCodeHandler::class, 'allowRegisterShortcode'], 'priority' => 10, 'accepted_args' => 2],
+    ]
 ];
 
 $admin_hooks = [
