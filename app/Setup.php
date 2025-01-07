@@ -119,7 +119,7 @@ class Setup
     private static function runMigration()
     {
         $models = static::getModels();
-
+	    error_log('Models to migrate: ' . implode(', ', $models));
         foreach ($models as $model) {
             $object = (new $model);
 
