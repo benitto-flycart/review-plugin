@@ -803,7 +803,83 @@ class LocalDataController
                     'save' => __('Save', 'reviewPlugin'),
                     'changes_applied_to_english_language' => __('Changes applied to English Language', 'reviewPlugin'),
                 ]
-            ]
+            ],
+            'settings'=>[
+                'branding'=>[
+                    'title'=>__('Branding','reviewPlugin'),
+                    'enable_logo'=>[
+                        'title'=>__('Enable Logo','reviewPlugin'),
+                        'description'=>__('Enabling the logo helps recipients instantly identify your brand, enhancing trust and engagement with your review requests','reviewPlugin'),
+                    ],
+                    'icon'=>[
+                        'title'=>__('Icon','reviewPlugin'),
+                        'description'=>__('Choose an icon style for review elements, to enhance the visual appeal of all reviews. This selection will apply to both past and future reviews','reviewPlugin'),
+                        'btn_text'=>__('Choose','reviewPlugin'),
+                    ],
+                    'email_appearance'=>[
+                        'title'=>__('Email Appearance','reviewPlugin'),
+                        'description'=>__('Modify the appearance of review emails by adjusting themes, colors, and layout options to better align with your brand. Changes will only apply to emails sent for new reviews.','reviewPlugin'),
+                        'options'=>[
+                            'default'=>__('Default','reviewPlugin'),
+                            'custom'=>__('Custom','reviewPlugin'),
+                        ]
+                    ]
+                ],
+                'general'=>[
+                    'reviewers_name_format'=>[
+                        'title'=>__('Reviewers Name Format','reviewPlugin'),
+                        'description'=>__('Customize how the reviewer name is displayed on Review Widgets','reviewPlugin'),
+                        'options'=>[
+                            'first_name'=>__('First Name (John)','reviewPlugin'),
+                            'last_name'=>__('Last Name (Doe)','reviewPlugin'),
+                            'first_last_name'=>__('First Name Last Name (John Doe)','reviewPlugin'),
+                        ]
+                    ],
+                    'auto_publish'=>[
+                        'title'=>__('Auto Publish new Reviews','reviewPlugin'),
+                        'description'=>__('select which reviews you want to auto-publish, Any changes will only affect new reviews','reviewPlugin'),
+                    ],
+                    'review_font'=>[
+                        'title'=>__('Review Font','reviewPlugin'),
+                        'description'=>__('Select Review fonts for emails','reviewPlugin'),
+                        'placeholder'=>__('Select Review fonts','reviewPlugin'),
+                    ],
+                    'order_status'=>[
+                        'title'=>__('Order Status','reviewPlugin'),
+                        'description'=>__('Send Review Request Email based on Order Status','reviewPlugin'),
+                        'options'=>[
+                            'pending_payment'=>__('Pending Payment','reviewPlugin'),
+                            'processing'=>__('Processing','reviewPlugin'),
+                            'on_hold'=>__('On Hold','reviewPlugin'),
+                            'completed'=>__('Completed','reviewPlugin'),
+                            'cancelled'=>__('Cancelled','reviewPlugin'),
+                            'refunded'=>__('Refunded','reviewPlugin'),
+                            'failed'=>__('Failed','reviewPlugin'),
+                            'draft'=>__('Draft','reviewPlugin'),
+                        ]
+                    ],
+                    'review_image_size'=>[
+                        'title'=>__('Review Image Size Max Limit','reviewPlugin'),
+                        'description'=>__('Maximum allowable file size (in MB) for each review image uploaded','reviewPlugin'),
+                    ],
+                    'review_image_upload'=>[
+                        'title'=>__('Review Image Max Upload Limit','reviewPlugin'),
+                        'description'=>__('Maximum number of images that can be uploaded per review','reviewPlugin'),
+                    ]
+
+                ],
+                'discount'=>[
+                    'title'=>__('Discounts','reviewPlugin'),
+                    'enable_photo_discount'=>[
+                        'title'=>__('Enable Photo Discounts','reviewPlugin'),
+                        'description'=>__('Incentivize customers to leave a photo review by offering a discount for their next purchase','reviewPlugin'),
+                    ]
+                ],
+                'common'=>[
+                    'save_changes'=>__('Save changes','reviewPlugin'),
+                ]
+            ],
+
         ];
     }
 }
