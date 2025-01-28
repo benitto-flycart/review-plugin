@@ -55,6 +55,10 @@ const ReviewFormWidgetPreview = () => {
         }
     }
 
+    const getPreviousButtonName = () => {
+        return 'Back';
+    }
+
     const isNeedToShowNext = () => {
         if (activeSlide.name == 'rating' || activeSlide.name == 'thank_you' || activeSlide.name == 'next_products') {
             return false;
@@ -200,11 +204,13 @@ const ReviewFormWidgetPreview = () => {
                 <div className={"r_rfw_footer_wrapper r_rfw_footer_wrapper_down"}>
                     <button onClick={handlePrevClick}
                             className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_back_btn ${activeSlide.name != 'rating' ? '' : 'r_rfw_hide'}`}>
+                        {getPreviousButtonName()}
                         <span className={"farp farp-arrow-left"}></span>
                     </button>
                     <button onClick={handleNextClick}
                             className={`r_rfw_btn r_rfw_footer_btn r_rfw_footer_forward_btn ${isNeedToShowNext() ? '' : 'r_rfw_hide'}`}>
                         {getNextButtonName()}
+                        <span className={"farp farp-arrow-right"}></span>
                     </button>
                 </div>
             </div>
